@@ -10,6 +10,8 @@
     <script src="script.js"></script>
 </head>
 <body>
+<canvas id="screen">
 
+</canvas>
 </body>
 </html>
