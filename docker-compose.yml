@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.21.3
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+      - ./src:/var/www/html
+    ports:
+      - "8080:80"
+    links:
+      - mysql
+      - php
+    depends_on:
+      - mysql
+      - php
+  php:
+    container_name: php
+    image: php:8.0-fpm
+    volumes:
+      - ./src:/var/www/html
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    ports:
+     - "3307:3306"
+    volumes:
+     - ./dbdata:/var/lib/mysql
+    environment:
+     - MYSQL_ROOT_PASSWORD=Azerty123
+  myadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+        - "8000:80"
+    environment:
+        - PMA_ARBITRARY=0
+        - PMA_HOST=mysql
+    restart: always
+    depends_on:
+        - mysql
+volumes:
+  dbdata:
