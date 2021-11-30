@@ -10,8 +10,10 @@
     <script src="script.js"></script>
 </head>
 <body>
-<canvas id="screen">
+<div id="debug" hidden></div>
 
-</canvas>
+<main>
+    <canvas id="screen"></canvas>
+</main>
 </body>
 </html>
