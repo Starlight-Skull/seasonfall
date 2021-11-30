@@ -10,7 +10,9 @@
     <script src="script.js"></script>
 </head>
 <body>
-<div id="debug" hidden></div>
+<div id="debug" hidden>
+    <button id="refreshButton">Get Weather</button>
+</div>
 <main>
     <canvas id="screen"></canvas>
 </main>
