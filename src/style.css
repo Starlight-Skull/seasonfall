@@ -22,11 +22,12 @@ main {
     border-radius: 2em;
     background-color: skyblue;
 }
+
 #debug {
     position: absolute;
     left: 0;
     top: 0;
-    background-color: rgba(128, 128, 128, 0.4);
+    background-color: rgba(128, 128, 128, 0.7);
     min-width: 50vw;
     min-height: 50vh;
     z-index: 100;
