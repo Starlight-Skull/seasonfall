@@ -10,9 +10,13 @@
     <script src="script.js"></script>
 </head>
 <body>
-<div id="debug" hidden>
+<form action="#" id="debug">
+    <label for="apiKey">API Key <input type="text" id="apiKey"></label>
+    <label for="location">Location <input type="text" id="location"></label>
+
     <button id="refreshButton">Get Weather</button>
-</div>
+</form>
+
 <main>
     <canvas id="screen"></canvas>
 </main>
