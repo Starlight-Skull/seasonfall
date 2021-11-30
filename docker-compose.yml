@@ -24,21 +24,22 @@ services:
     image: mysql:8.0
     restart: always
     ports:
-     - "3307:3306"
+      - "3307:3306"
     volumes:
-     - ./dbdata:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
+#      - ./seasonfall.sql:docker-entrypoint-initdb.d/seasonfall.sql
     environment:
-     - MYSQL_ROOT_PASSWORD=Azerty123
+      - MYSQL_ROOT_PASSWORD=Azerty123
   myadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     ports:
-        - "8000:80"
+      - "8000:80"
     environment:
-        - PMA_ARBITRARY=0
-        - PMA_HOST=mysql
+      - PMA_ARBITRARY=0
+      - PMA_HOST=mysql
     restart: always
     depends_on:
-        - mysql
+      - mysql
 volumes:
-  dbdata:
+  mysql:
