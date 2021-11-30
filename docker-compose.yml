@@ -7,7 +7,7 @@ services:
       - ./nginx/:/etc/nginx/conf.d/
       - ./src:/var/www/html
     ports:
-      - "8080:80"
+      - "80:80"
     links:
       - mysql
       - php
@@ -41,5 +41,5 @@ services:
 #    restart: always
 #    depends_on:
 #      - mysql
-#volumes:
-#  mysql:
+#  volumes:
+#    mysql:
