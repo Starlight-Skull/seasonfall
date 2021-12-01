@@ -1,7 +1,8 @@
 ;(function () {
     'use strict';
 
-    let apiKey = '4042c10a2f6340a71458988530a305fd';
+    // todo add api key from users db
+    let apiKey = '';
     const units = 'metric';
     let location = 'Ghent,BE';
 
@@ -41,7 +42,6 @@
             console.log(`weather ${apiKey} ${location}`);
         });
 
-        // getWeather(location);
         console.log('weather');
         setInterval(() => {
             // getWeather(location);
