@@ -9,33 +9,32 @@
         } else {
             window.warn('This application is not supported by your browser.');
         }
+
         const entity = {
+            color: 'red',
             x: 0,
             y: 0,
-            w: 10,
-            h: 30,
-            color: 'red',
-            baseSpeed: 3,
+            width: 10,
+            height: 30,
             speed: 3,
-            jumpHeight: 35,
-            falling: false,
-            crouching: false
+            jumpHeight: 35
         }
+
         const controls = {
             up: false,
             down: false,
             left: false,
             right: false,
-            jump: false,
-            crouch: false,
-            sprint: false
+            jump: false
         }
 
+        let debug = '';
+
         window.addEventListener('keydown', ev => {
-            keyLogger(ev.key, false);
+            keyLogger(ev.key, true);
         });
         window.addEventListener('keyup', ev => {
-            keyLogger(ev.key, true);
+            keyLogger(ev.key, false);
         });
 
         function keyLogger(key, upDown) {
@@ -55,17 +54,17 @@
                 case ' ':
                     controls.jump = upDown;
                     break;
-                case 'Control':
-                    controls.crouch = upDown;
-                    break;
-                case 'Shift':
-                    controls.sprint = upDown;
-                    break;
+                // case 'Control':
+                //     controls.crouch = upDown;
+                //     break;
+                // case 'Shift':
+                //     controls.sprint = upDown;
+                //     break;
             }
             if (upDown) {
-                console.log(`⇱ '${key}' ⇱`);
+                debug = `⇱ '${key}' ⇱`;
             } else {
-                console.log(`⇲ '${key}' ⇲`);
+                debug = `⇲ '${key}' ⇲`;
             }
         }
 
@@ -76,21 +75,15 @@
             if (controls.left) {
                 entity.x -= entity.speed;
             }
-            if (controls.jump && (entity.y < entity.jumpHeight) && !entity.falling) {
+            if (controls.jump && (entity.y < entity.jumpHeight)) {
                 entity.y += entity.speed;
             }
-        }
-
-        function gravity() {
-            if ((entity.y > 0) && entity.falling) {
-                entity.y -= 1;
-            }
-            if ((entity.y >= entity.jumpHeight)) {
-                entity.falling = true;
-            }
-            if (entity.y <= 0 && entity.falling) {
-                entity.falling = false;
-                entity.y = 0;
+            if (!controls.jump) {
+                if (entity.y > 0) {
+                    entity.y -= 1;
+                } else if (entity.y <= 0) {
+                    entity.y = 0
+                }
             }
         }
 
@@ -98,17 +91,20 @@
 
         function reDraw() {
             movement();
-            gravity();
 
+            // background
             ctx.fillStyle = 'green';
             ctx.fillRect(0, 0, screen.width, screen.height);
 
+            // entity
             ctx.fillStyle = entity.color;
             ctx.moveTo(entity.x, entity.y);
-            ctx.fillRect(entity.x, screen.height - entity.y - entity.h, entity.w, entity.h);
+            ctx.fillRect(entity.x, screen.height - entity.y - entity.height, entity.width, entity.height);
 
+            // debug
             ctx.fillStyle = 'black';
-            ctx.fillText(`${controls.left}, ${controls.right}, ${controls.jump}`, 5, 10);
+            ctx.fillText(`${debug}`, 5, 10);
+
             requestAnimationFrame(reDraw);
         }
     });
