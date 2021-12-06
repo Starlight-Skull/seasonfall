@@ -8,17 +8,26 @@
     <title>Seasonfall</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script src="app/main.js"></script>
 </head>
 <body>
 <form action="#" id="debug">
     <label for="apiKey">API Key <input type="text" id="apiKey"></label>
     <label for="location">Location <input type="text" id="location"></label>
-
+<!--    <label for="units">-->
+<!--        Units-->
+<!--        <select name="units" id="units">-->
+<!--            <option value="metric">Celsius</option>-->
+<!--            <option value="imperial">Fahrenheit</option>-->
+<!--            <option value="default">Kelvin</option>-->
+<!--        </select>-->
+<!--    </label>-->
     <button id="refreshButton">Get Weather</button>
 </form>
 
 <main>
     <canvas id="screen"></canvas>
+    <div id="calling">Calling API</div>
 </main>
 </body>
 </html>

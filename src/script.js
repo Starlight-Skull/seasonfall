@@ -2,29 +2,33 @@
     'use strict';
 
     // todo add api key from users db
-    let apiKey = '';
-    const units = 'metric';
+    let apiKey = '463c0e168cf1a165454e8fb210552892';
     let location = 'Ghent,BE';
 
     // navigator.geolocation.getCurrentPosition((location) => {
     //     console.log(location)
     // });
 
-    function getWeather(location) {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${location}&units=${units}`)
-            .then(res => {
-                return res.json();
-            }).then(json => {
-                // todo error checking
-            console.log(json);
-        });
+    function getWeather() {
+        if (apiKey && location) {
+            document.getElementById('calling').style.visibility = 'visible';
+            fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${location}`)
+                .then(res => {
+                    return res.json();
+                })
+                .then(json => {
+                    console.log(json);
+                    setTimeout(() => {
+                        document.getElementById('calling').style.visibility = 'hidden';
+                    }, 1500);
+                });
+        }
     }
 
     window.addEventListener('load', function () {
         const debug = document.getElementById('debug');
-        const screen = document.getElementById('screen');
 
-        document.addEventListener('keypress', ev => {
+        window.addEventListener('keypress', ev => {
             if (ev.key === '`') {
                 debug.style.visibility = debug.style.visibility === 'visible' ? 'hidden' : 'visible';
             }
@@ -32,21 +36,19 @@
 
         document.getElementById('refreshButton').addEventListener('click', (e) => {
             e.preventDefault();
-            // getWeather(location);
             if (document.getElementById('apiKey').value !== '') {
                 apiKey = document.getElementById('apiKey').value;
             }
             if (document.getElementById('location').value !== '') {
                 location = document.getElementById('location').value;
             }
-            console.log(`weather ${apiKey} ${location}`);
+            // getWeather();
         });
 
-        console.log('weather');
+        // getWeather(location);
+        // reload weather every 10 minutes
         setInterval(() => {
-            // getWeather(location);
-            console.log('weather');
-            // todo add UI icon
+            // getWeather();
         }, 600000);
     });
 })();
