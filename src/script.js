@@ -2,7 +2,7 @@
     'use strict';
 
     // todo add api key from users db
-    let apiKey = '463c0e168cf1a165454e8fb210552892';
+    let apiKey = '';
     let location = 'Ghent,BE';
 
     // navigator.geolocation.getCurrentPosition((location) => {
