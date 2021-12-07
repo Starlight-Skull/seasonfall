@@ -1,5 +1,5 @@
 export class entity {
-    constructor(hasCollision, cooldown, speed, airMax, x, y, sprite, width, height, sX, sY, sWidth, sHeight, frames, currentFrame) {
+    constructor(hasCollision, cooldown, speed, maxHP, maxMP, maxAir, x, y, sprite, width, height, sX, sY, sWidth, sHeight, frames, currentFrame) {
         this.cooldown = cooldown || -1;
         this.frame = {
             x: x || 0,
@@ -15,9 +15,16 @@ export class entity {
             currentFrame: currentFrame,
             mirrored: false
         };
+        this.stats = {
+            hp: maxHP|| 100,
+            maxHP: maxHP || 100,
+            mp: maxMP || 0,
+            maxMP: maxMP || 0,
+            xp: 0
+        }
         this.speed = speed || 10;
         this.air = 0;
-        this.airMax = airMax || 25;
+        this.maxAir = maxAir || 25;
         this.controls = {
             up: false,
             down: false,

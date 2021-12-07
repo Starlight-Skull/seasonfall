@@ -1,12 +1,11 @@
 import {entity, tile} from "./classes.js";
 import {playerSprite} from "./sprites.js";
 
-export const player = new entity(true, -1, 10, 15, 0, 0, playerSprite, 110, 155, 36, 0, 36, 36, 12, 0);
-
+export const player = new entity(true, -1, 10, 100, 25, 15, 0, 0, playerSprite, 110, 155, 36, 0, 36, 36, 12, 0);
 
 export const npcList = [
-    new entity(true, 20, 1, 150, 0, 100, '', 50, 50),
-    new entity(true, 20, 7, 5, 0, 100, '', 150, 200)
+    new entity(true, 20, 6, 25, 15, 150, 0, 100, '', 50, 50),
+    new entity(true, 20, 2, 50, 0, 5, 0, 100, '', 150, 200)
 ];
 
 export const border = [
