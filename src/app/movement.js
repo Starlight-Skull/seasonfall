@@ -1,5 +1,5 @@
 import {collision} from "./helpers.js";
-import {border, npcList, tileList} from "./world.js";
+import {border, tileList} from "./world.js";
 
 export function entityMovement(entity) {
     entity.collision.up = false;
