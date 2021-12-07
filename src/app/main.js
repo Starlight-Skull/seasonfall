@@ -8,131 +8,65 @@
         }
         const ctx = screen.getContext('2d');
 
-        const player = {
-            color: 'red',
-            x: 0,
-            y: 0,
-            width: 10,
-            height: 30,
-            speed: 2.5,
-            air: 0,
-            airMax: 15,
-            momentum: 0,
-            controls: {
-                up: false,
-                down: false,
-                left: false,
-                right: false,
-                jump: false
-            },
-            collision: {
-                up: false,
-                down: false,
-                left: false,
-                right: false
-            },
-            cooldown: -1
+        class entity {
+            constructor(color, cooldown, width, height, speed, airMax, collides) {
+                this.color = color || 'white';
+                this.cooldown = cooldown || -1;
+                this.frame = {
+                    x: 0,
+                    y: 0,
+                    width: width || 15,
+                    height: height || 25,
+                };
+                this.speed = speed || 2;
+                this.air = 0;
+                this.airMax = airMax || 15;
+                this.controls = {
+                    up: false,
+                    down: false,
+                    left: false,
+                    right: false,
+                    jump: false
+                };
+                this.collision = {
+                    up: false,
+                    down: false,
+                    left: false,
+                    right: false
+                };
+                this.collides = collides || true;
+            }
         }
 
-        const npcList = [
-            {
-                color: 'blue',
-                x: 0,
-                y: 0,
-                width: 15,
-                height: 40,
-                speed: 2,
-                air: 0,
-                airMax: 20,
-                controls: {
-                    up: false,
-                    down: false,
-                    left: false,
-                    right: false,
-                    jump: false
-                },
-                collision: {
-                    up: false,
-                    down: false,
-                    left: false,
-                    right: false
-                },
-                cooldown: 20
-            }, {
-                color: 'purple',
-                x: 0,
-                y: 0,
-                width: 20,
-                height: 15,
-                speed: 5,
-                air: 0,
-                airMax: 7,
-                controls: {
-                    up: false,
-                    down: false,
-                    left: false,
-                    right: false,
-                    jump: false
-                },
-                collision: {
-                    up: false,
-                    down: false,
-                    left: false,
-                    right: false
-                },
-                cooldown: 25
+        class tile {
+            constructor(color, collides, x, y, width, height) {
+                this.frame = {
+                    x: x || 0,
+                    y: y || 0,
+                    width: width || 15,
+                    height: height || 15
+                }
+                this.color = color || 'black';
+                this.collides = collides || false;
             }
+        }
+
+        const player = new entity()
+
+        const npcList = [
+            new entity('blue', 20, 40, 2, 2, 20),
+            new entity('purple', 20, 15, 5, 7, 5, false)
         ];
 
         const tileList = [
-            {
-                color: 'black',
-                x: 100,
-                y: 0,
-                width: 30,
-                height: 30,
-                collision: true
-            },
-            {
-                color: 'black',
-                x: 200,
-                y: 20,
-                width: 30,
-                height: 30,
-                collision: true
-            },
-            {
-                color: 'green',
-                x: 0,
-                y: -4,
-                width: screen.width,
-                height: 5,
-                collision: true
-            },
-            {
-                color: 'green',
-                x: 0,
-                y: screen.height - 1,
-                width: screen.width,
-                height: 5,
-                collision: true
-            },
-            {
-                color: 'green',
-                x: -4,
-                y: 0,
-                width: 5,
-                height: screen.height,
-                collision: true
-            },
-            {
-                color: 'green',
-                x: screen.width - 1,
-                y: 0,
-                width: 5,
-                height: screen.height,
-                collision: true
-            }
+            new tile('black', true, 100, 0, 30, 30),
+            new tile('black', true, 200, 30, 30, 30),
+            new tile('green', true, 0, -4, screen.width, 5),
+            new tile('blue', true, 0, screen.height - 1, screen.width, 5),
+            new tile('brown', true, -4, 0, 5, screen.height),
+            new tile('brown', true, screen.width - 1, 0, 5, screen.height),
+            new tile('yellow', false, 20),
+            new tile('pink', 2, 100, 60, 30, 3)
         ];
 
         window.addEventListener('keydown', ev => {
@@ -170,6 +104,9 @@
             for (let i = 0; i < tileList.length; i++) {
                 collision(entity, tileList[i]);
             }
+            for (let i = 0; i < npcList.length; i++) {
+                collision(entity, npcList[i]);
+            }
 
             if (entity.cooldown > 0) {
                 entity.cooldown--;
@@ -177,78 +114,82 @@
                 entity.controls.right = Math.round(Math.random());
                 entity.controls.left = Math.round(Math.random());
                 entity.controls.jump = Math.round(Math.random());
-                entity.cooldown = 20;
+                entity.cooldown = 50 / entity.speed;
             }
 
             if (entity.controls.right && !entity.collision.right) {
-                entity.x += entity.speed;
+                entity.frame.x += entity.speed;
             }
             if (entity.controls.left && !entity.collision.left) {
-                entity.x -= entity.speed;
+                entity.frame.x -= entity.speed;
             }
 
             if (entity.collision.down && entity.air !== 0) {
                 entity.air = 0;
             }
             if (entity.controls.jump && (entity.air < entity.airMax) && (!entity.collision.up)) {
-                entity.y += (entity.speed * 1.5);
+                entity.frame.y += (entity.speed * 1.5);
                 entity.air++;
             } else if ((entity.air >= entity.airMax) || (!entity.controls.jump && entity.air > 0) || !entity.collision.down) {
-                entity.y -= 2;
+                entity.frame.y -= 2;
                 entity.air = entity.airMax;
             }
 
             ctx.fillStyle = entity.color;
-            ctx.moveTo(entity.x, entity.y);
-            ctx.fillRect(entity.x, screen.height - entity.y - entity.height, entity.width, entity.height);
+            ctx.moveTo(entity.frame.x, entity.frame.y);
+            ctx.fillRect(entity.frame.x, screen.height - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height);
         }
 
-        function drawTile(Tile) {
-            ctx.fillStyle = Tile.color;
-            ctx.moveTo(Tile.x, Tile.y);
-            ctx.fillRect(Tile.x, screen.height - Tile.y - Tile.height, Tile.width, Tile.height);
+        function drawTile(tile) {
+            ctx.fillStyle = tile.color;
+            ctx.moveTo(tile.frame.x, tile.frame.y);
+            ctx.fillRect(tile.frame.x, screen.height - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height);
         }
 
-        function collision(entity, tile) {
-            if (tile.collision) {
+        function collision(entity, object) {
+            if (entity.collides && object.collides) {
                 if (!entity.collision.up) {
                     entity.collision.up =
-                        entity.x < tile.x + tile.width &&
-                        entity.x + entity.width > tile.x &&
-                        entity.y < tile.y &&
-                        entity.y + entity.height >= tile.y;
-                    if (entity.collision.up && (entity.y + entity.height !== tile.y) && (entity.y + entity.height - tile.y <= 3)) {
-                        entity.y = tile.y - entity.height;
+                        entity.frame.x < object.frame.x + object.frame.width &&
+                        entity.frame.x + entity.frame.width > object.frame.x &&
+                        entity.frame.y < object.frame.y &&
+                        entity.frame.y + entity.frame.height >= object.frame.y &&
+                        object.collides !== 2;
+                    if (entity.collision.up && (entity.frame.y + entity.frame.height !== object.frame.y) && (entity.frame.y + entity.frame.height - object.frame.y <= 3)) {
+                        entity.frame.y = object.frame.y - entity.frame.height;
                     }
                 }
                 if (!entity.collision.down) {
                     entity.collision.down =
-                        entity.x < tile.x + tile.width &&
-                        entity.x + entity.width > tile.x &&
-                        entity.y <= tile.y + tile.height &&
-                        entity.y + entity.height > tile.y + tile.height;
-                    if (entity.collision.down && (entity.y !== tile.y + tile.height) && (tile.y + tile.height - entity.y <= 3)) {
-                        entity.y = tile.y + tile.height;
+                        entity.frame.x < object.frame.x + object.frame.width &&
+                        entity.frame.x + entity.frame.width > object.frame.x &&
+                        entity.frame.y <= object.frame.y + object.frame.height &&
+                        entity.frame.y > object.frame.y &&
+                        entity.frame.y + entity.frame.height > object.frame.y + object.frame.height;
+                    if (entity.collision.down && (entity.frame.y !== object.frame.y + object.frame.height) && (object.frame.y + object.frame.height - entity.frame.y <= 3)) {
+                        entity.frame.y = object.frame.y + object.frame.height;
                     }
                 }
                 if (!entity.collision.left) {
                     entity.collision.left =
-                        entity.x <= tile.x + tile.width &&
-                        entity.x + entity.width > tile.x + tile.width &&
-                        entity.y < tile.y + tile.height &&
-                        entity.y + entity.height > tile.y;
-                    if (entity.collision.left && (entity.x !== tile.x + tile.width) && (tile.x + tile.width - entity.x <= 2)) {
-                        entity.x = tile.x + tile.width;
+                        entity.frame.x <= object.frame.x + object.frame.width &&
+                        entity.frame.x + entity.frame.width > object.frame.x + object.frame.width &&
+                        entity.frame.y < object.frame.y + object.frame.height &&
+                        entity.frame.y + entity.frame.height > object.frame.y &&
+                        object.collides !== 2;
+                    if (entity.collision.left && (entity.frame.x !== object.frame.x + object.frame.width) && (object.frame.x + object.frame.width - entity.frame.x <= 2)) {
+                        entity.frame.x = object.frame.x + object.frame.width;
                     }
                 }
                 if (!entity.collision.right) {
                     entity.collision.right =
-                        entity.x < tile.x &&
-                        entity.x + entity.width >= tile.x &&
-                        entity.y < tile.y + tile.height &&
-                        entity.y + entity.height > tile.y;
-                    if (entity.collision.right && (entity.x + entity.width !== tile.x) && (entity.x + entity.width - tile.x <= 2)) {
-                        entity.x = tile.x - entity.width;
+                        entity.frame.x < object.frame.x &&
+                        entity.frame.x + entity.frame.width >= object.frame.x &&
+                        entity.frame.y < object.frame.y + object.frame.height &&
+                        entity.frame.y + entity.frame.height > object.frame.y &&
+                        object.collides !== 2;
+                    if (entity.collision.right && (entity.frame.x + entity.frame.width !== object.frame.x) && (entity.frame.x + entity.frame.width - object.frame.x <= 2)) {
+                        entity.frame.x = object.frame.x - entity.frame.width;
                     }
                 }
             }
