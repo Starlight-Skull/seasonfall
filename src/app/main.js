@@ -14,7 +14,7 @@
             y: 0,
             width: 10,
             height: 30,
-            speed: 3,
+            speed: 2.5,
             air: 0,
             airMax: 15,
             momentum: 0,
@@ -26,50 +26,62 @@
                 jump: false
             },
             collision: {
-                upLeft: false,
-                upRight: false,
-                downLeft: false,
-                downRight: false
+                up: false,
+                down: false,
+                left: false,
+                right: false
             },
             cooldown: -1
         }
 
         const npcList = [
-            // {
-            //     color: 'blue',
-            //     x: 0,
-            //     y: 0,
-            //     width: 15,
-            //     height: 40,
-            //     speed: 2,
-            //     air: 0,
-            //     airMax: 20,
-            //     controls: {
-            //         up: false,
-            //         down: false,
-            //         left: false,
-            //         right: false,
-            //         jump: false
-            //     },
-            //     cooldown: 20
-            // }, {
-            //     color: 'purple',
-            //     x: 0,
-            //     y: 0,
-            //     width: 20,
-            //     height: 15,
-            //     speed: 5,
-            //     air: 0,
-            //     airMax: 7,d
-            //     controls: {
-            //         up: false,
-            //         down: false,
-            //         left: false,
-            //         right: false,
-            //         jump: false
-            //     },
-            //     cooldown: 25
-            // }
+            {
+                color: 'blue',
+                x: 0,
+                y: 0,
+                width: 15,
+                height: 40,
+                speed: 2,
+                air: 0,
+                airMax: 20,
+                controls: {
+                    up: false,
+                    down: false,
+                    left: false,
+                    right: false,
+                    jump: false
+                },
+                collision: {
+                    up: false,
+                    down: false,
+                    left: false,
+                    right: false
+                },
+                cooldown: 20
+            }, {
+                color: 'purple',
+                x: 0,
+                y: 0,
+                width: 20,
+                height: 15,
+                speed: 5,
+                air: 0,
+                airMax: 7,
+                controls: {
+                    up: false,
+                    down: false,
+                    left: false,
+                    right: false,
+                    jump: false
+                },
+                collision: {
+                    up: false,
+                    down: false,
+                    left: false,
+                    right: false
+                },
+                cooldown: 25
+            }
         ];
 
         const tileList = [
@@ -87,6 +99,38 @@
                 y: 20,
                 width: 30,
                 height: 30,
+                collision: true
+            },
+            {
+                color: 'green',
+                x: 0,
+                y: -4,
+                width: screen.width,
+                height: 5,
+                collision: true
+            },
+            {
+                color: 'green',
+                x: 0,
+                y: screen.height - 1,
+                width: screen.width,
+                height: 5,
+                collision: true
+            },
+            {
+                color: 'green',
+                x: -4,
+                y: 0,
+                width: 5,
+                height: screen.height,
+                collision: true
+            },
+            {
+                color: 'green',
+                x: screen.width - 1,
+                y: 0,
+                width: 5,
+                height: screen.height,
                 collision: true
             }
         ];
@@ -119,12 +163,12 @@
         }
 
         function drawEntity(entity) {
-            entity.collision.upLeft = false;
-            entity.collision.upRight = false;
-            entity.collision.downLeft = false;
-            entity.collision.downRight = false;
+            entity.collision.up = false;
+            entity.collision.down = false;
+            entity.collision.left = false;
+            entity.collision.right = false;
             for (let i = 0; i < tileList.length; i++) {
-                collision(entity, tileList[i])
+                collision(entity, tileList[i]);
             }
 
             if (entity.cooldown > 0) {
@@ -136,54 +180,22 @@
                 entity.cooldown = 20;
             }
 
-            if (entity.controls.right && (entity.x < (screen.width - entity.width)) &&
-                (
-                    (entity.collision.downLeft && !entity.collision.downRight) ||
-                    (!entity.collision.downLeft && !entity.collision.downRight) ||
-                    (entity.collision.downLeft && entity.collision.downRight)
-                ) && (
-                    (entity.collision.upLeft && !entity.collision.upRight) ||
-                    (!entity.collision.upLeft && !entity.collision.upRight) ||
-                    (entity.collision.upLeft && entity.collision.upRight)
-                )
-            ) {
+            if (entity.controls.right && !entity.collision.right) {
                 entity.x += entity.speed;
             }
-            if (entity.controls.left && entity.x > 0 &&
-                (
-                    (!entity.collision.downLeft && entity.collision.downRight) ||
-                    (!entity.collision.downLeft && !entity.collision.downRight) ||
-                    (entity.collision.downLeft && entity.collision.downRight)
-                ) && (
-                    (!entity.collision.upLeft && entity.collision.upRight) ||
-                    (!entity.collision.upLeft && !entity.collision.upRight) ||
-                    (entity.collision.upLeft && entity.collision.upRight)
-                )
-            ) {
+            if (entity.controls.left && !entity.collision.left) {
                 entity.x -= entity.speed;
             }
 
-            if (entity.controls.jump && (entity.air < entity.airMax)) {
+            if (entity.collision.down && entity.air !== 0) {
+                entity.air = 0;
+            }
+            if (entity.controls.jump && (entity.air < entity.airMax) && (!entity.collision.up)) {
                 entity.y += (entity.speed * 1.5);
                 entity.air++;
-            } else if (((entity.air >= entity.airMax) || (!entity.controls.jump && entity.air > 0)) &&
-                (
-                    (entity.collision.downLeft && entity.collision.upLeft) ||
-                    (!entity.collision.downLeft && !entity.collision.upLeft) ||
-                    (entity.collision.downLeft && entity.collision.upLeft)
-                ) && (
-                    (!entity.collision.downRight && !entity.collision.upRight) ||
-                    (!entity.collision.downRight && !entity.collision.upRight) ||
-                    (entity.collision.downRight && entity.collision.upRight)
-                )
-            ) {
-                if (entity.y > 0) {
-                    entity.y -= 2;
-                    entity.air = entity.airMax;
-                } else if (entity.y <= 0) {
-                    entity.y = 0;
-                    entity.air = 0;
-                }
+            } else if ((entity.air >= entity.airMax) || (!entity.controls.jump && entity.air > 0) || !entity.collision.down) {
+                entity.y -= 2;
+                entity.air = entity.airMax;
             }
 
             ctx.fillStyle = entity.color;
@@ -198,26 +210,49 @@
         }
 
         function collision(entity, tile) {
-            entity.collision.upLeft = entity.collision.upLeft ? entity.collision.upLeft :
-                entity.x >= tile.x &&
-                entity.x <= tile.x + tile.width &&
-                entity.y + entity.height >= tile.y &&
-                entity.y + entity.height <= tile.y + tile.height;
-            entity.collision.upRight = entity.collision.upRight ? entity.collision.upRight :
-                entity.x + entity.width >= tile.x &&
-                entity.x + entity.width <= tile.x + tile.width &&
-                entity.y + entity.height >= tile.y &&
-                entity.y + entity.height <= tile.y + tile.height;
-            entity.collision.downLeft = entity.collision.downLeft ? entity.collision.downLeft :
-                entity.x >= tile.x &&
-                entity.x <= tile.x + tile.width &&
-                entity.y >= tile.y &&
-                entity.y <= tile.y + tile.height;
-            entity.collision.downRight = entity.collision.downRight ? entity.collision.downRight :
-                entity.x + entity.width >= tile.x &&
-                entity.x + entity.width <= tile.x + tile.width &&
-                entity.y >= tile.y &&
-                entity.y <= tile.y + tile.height;
+            if (tile.collision) {
+                if (!entity.collision.up) {
+                    entity.collision.up =
+                        entity.x < tile.x + tile.width &&
+                        entity.x + entity.width > tile.x &&
+                        entity.y < tile.y &&
+                        entity.y + entity.height >= tile.y;
+                    if (entity.collision.up && (entity.y + entity.height !== tile.y) && (entity.y + entity.height - tile.y <= 3)) {
+                        entity.y = tile.y - entity.height;
+                    }
+                }
+                if (!entity.collision.down) {
+                    entity.collision.down =
+                        entity.x < tile.x + tile.width &&
+                        entity.x + entity.width > tile.x &&
+                        entity.y <= tile.y + tile.height &&
+                        entity.y + entity.height > tile.y + tile.height;
+                    if (entity.collision.down && (entity.y !== tile.y + tile.height) && (tile.y + tile.height - entity.y <= 3)) {
+                        entity.y = tile.y + tile.height;
+                    }
+                }
+                if (!entity.collision.left) {
+                    entity.collision.left =
+                        entity.x <= tile.x + tile.width &&
+                        entity.x + entity.width > tile.x + tile.width &&
+                        entity.y < tile.y + tile.height &&
+                        entity.y + entity.height > tile.y;
+                    if (entity.collision.left && (entity.x !== tile.x + tile.width) && (tile.x + tile.width - entity.x <= 2)) {
+                        entity.x = tile.x + tile.width;
+                    }
+                }
+                if (!entity.collision.right) {
+                    entity.collision.right =
+                        entity.x < tile.x &&
+                        entity.x + entity.width >= tile.x &&
+                        entity.y < tile.y + tile.height &&
+                        entity.y + entity.height > tile.y;
+                    if (entity.collision.right && (entity.x + entity.width !== tile.x) && (entity.x + entity.width - tile.x <= 2)) {
+                        entity.x = tile.x - entity.width;
+                    }
+                }
+            }
+
         }
 
         function reDraw() {
@@ -233,11 +268,11 @@
             }
             drawEntity(player);
 
-
             // debug
             ctx.fillStyle = 'black';
-            ctx.fillText(`${player.collision.upLeft}, ${player.collision.upRight}`, 5, 10);
-            ctx.fillText(`${player.collision.downLeft}, ${player.collision.downRight}`, 5, 20);
+            ctx.fillText(`${player.collision.up}, ${player.collision.down}`, 5, 10);
+            ctx.fillText(`${player.collision.left}, ${player.collision.right}`, 5, 20);
+            ctx.fillText(`${player.air} /${player.airMax}`, 5, 30);
 
             requestAnimationFrame(reDraw);
         }
