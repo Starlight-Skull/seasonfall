@@ -1,14 +1,11 @@
 import {collision} from "./helpers.js";
-import {border, tileList} from "./world.js";
+import {tileList} from "./globals.js";
 
 export function entityMovement(entity) {
     entity.collision.up = false;
     entity.collision.down = false;
     entity.collision.left = false;
     entity.collision.right = false;
-    for (let i = 0; i < border.length; i++) {
-        collision(entity, border[i]);
-    }
     for (let i = 0; i < tileList.length; i++) {
         collision(entity, tileList[i]);
     }
@@ -24,24 +21,40 @@ export function entityMovement(entity) {
 
     if (entity.controls.right && !entity.collision.right) {
         entity.frame.x += entity.speed;
-        if (entity.frame.currentFrame < entity.frame.frames) {
+        entity.animation = entity.move;
+        if (entity.frame.currentFrame < entity.animation.frames - 1) {
             entity.frame.currentFrame += 0.3;
-            entity.frame.mirrored = false
+            entity.frame.mirrored = false;
         } else {
             entity.frame.currentFrame = 0;
         }
     }
     if (entity.controls.left && !entity.collision.left) {
         entity.frame.x -= entity.speed;
-        if (entity.frame.currentFrame < entity.frame.frames) {
+        entity.animation = entity.move;
+        if (entity.frame.currentFrame < entity.animation.frames - 1) {
             entity.frame.currentFrame += 0.3;
             entity.frame.mirrored = true;
         } else {
             entity.frame.currentFrame = 0;
         }
     }
-    if ((entity.controls.left && entity.controls.right) || (!entity.controls.left && !entity.controls.right)) {
-        entity.frame.currentFrame = 0;
+    if (entity.controls.up) {
+        entity.animation = entity.attack;
+        if (entity.frame.currentFrame < entity.animation.frames - 1) {
+            entity.frame.currentFrame += 0.15;
+        } else {
+            entity.frame.currentFrame = 0;
+        }
+    }
+    if ((entity.controls.left && entity.controls.right) || (!entity.controls.left && !entity.controls.right && !entity.controls.up)) {
+        entity.animation = entity.idle;
+        if (entity.frame.currentFrame < entity.animation.frames - 1) {
+            entity.frame.currentFrame += 0.3;
+            entity.frame.mirrored = false;
+        } else {
+            entity.frame.currentFrame = 0;
+        }
     }
 
     if (entity.collision.down && entity.air !== 0) {
