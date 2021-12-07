@@ -8,7 +8,7 @@
     <title>Seasonfall</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
-    <script src="app/main.js"></script>
+    <script type="module" src="app/main.js"></script>
 </head>
 <body>
 <form action="#" id="debug">
