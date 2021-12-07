@@ -47,11 +47,11 @@ export function entityMovement(entity) {
     if (entity.collision.down && entity.air !== 0) {
         entity.air = 0;
     }
-    if (entity.controls.jump && (entity.air < entity.airMax) && (!entity.collision.up)) {
+    if (entity.controls.jump && (entity.air < entity.maxAir) && (!entity.collision.up)) {
         entity.frame.y += (entity.speed * 2);
         entity.air++;
-    } else if ((entity.air >= entity.airMax) || (!entity.controls.jump && entity.air > 0) || !entity.collision.down) {
+    } else if ((entity.air >= entity.maxAir) || (!entity.controls.jump && entity.air > 0) || !entity.collision.down) {
         entity.frame.y -= 9.81 * 1.5;
-        entity.air = entity.airMax;
+        entity.air = entity.maxAir;
     }
 }
