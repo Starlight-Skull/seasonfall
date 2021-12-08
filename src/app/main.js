@@ -137,9 +137,9 @@ window.addEventListener('load', function () {
         // debug
         ctx.fillStyle = 'black';
         ctx.font = '30px Arial';
-        ctx.fillText(entityList[0].frame.currentFrame + ' ' + entityList[0].animation.frames, 5, 30);
-        ctx.fillText(entityList[0].controls.up, 5, 60);
-        ctx.fillText('', 5, 90);
+        ctx.fillText((Math.round(player.frame.currentFrame * 100) / 100 + 1) + '/' + player.animation.frames, 5, 30);
+        ctx.fillText(player.animation.name, 5, 60);
+        ctx.fillText((player.air / player.maxAir * player.animation.frames), 5, 90);
 
         requestAnimationFrame(reDraw);
     }

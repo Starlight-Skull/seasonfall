@@ -1,9 +1,9 @@
-export class entity {
+export class Entity {
     constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, x, y, width, height) {
         this.cooldown = cooldown || -1;
         let sprite = new Image();
         sprite.src = './img/missing.png';
-        this.missing = new spriteSet(sprite, 0, 0, 36, 36, 1, 'missing');
+        this.missing = new SpriteSet(sprite, 0, 0, 36, 36, 1, 'missing');
         this.frame = {
             x: x || 0,
             y: y || 0,
@@ -13,9 +13,11 @@ export class entity {
             mirrored: false,
         };
         this.animation = this.missing;
+        this.idle = this.missing;
         this.move = this.missing;
         this.attack = this.missing;
-        this.idle = this.missing;
+        this.jump = this.missing;
+        this.fall = this.missing;
         this.stats = {
             damage: damage || 0,
             invulnerable: 0,
@@ -45,20 +47,35 @@ export class entity {
     }
 }
 
-export class hero extends entity {
-    constructor(x, y) {
-        super(true, -1, 10, 5, 100, 25, 15, x, y, 110, 155);
+export class Hero extends Entity {
+    constructor(cooldown, x, y) {
+        super(true, cooldown, 10, 5, 100, 25, 15, x, y, 110, 155);
 
         let sprite = new Image();
         sprite.src = './img/kain_animations.png';
 
-        this.idle = new spriteSet(sprite, 36, 0, 36, 36, 1, 'idle');
-        this.move = new spriteSet(sprite, 36, 0, 36, 36, 13, 'move');
-        this.attack = new spriteSet(sprite, 36, 36, 36, 36, 3, 'attack');
+        this.idle = new SpriteSet(sprite, 36, 0, 36, 36, 1, 'idle');
+        this.move = new SpriteSet(sprite, 72, 0, 36, 36, 12, 'move');
+        this.attack = new SpriteSet(sprite, 36, 36, 36, 36, 3, 'attack');
     }
 }
 
-export class tile {
+export class Stick extends Entity {
+    constructor(cooldown, x, y) {
+        super(true, cooldown, 5, 5, 70, 0, 25, x, y, 90, 160);
+
+        let sprite = new Image();
+        sprite.src = './img/stick.png';
+
+        this.idle = new SpriteSet(sprite, 0, 0, 36, 36, 4, 'idle');
+        this.move = new SpriteSet(sprite, 0, 36, 36, 36, 4, 'move');
+        this.attack = new SpriteSet(sprite, 0, 72, 36, 36, 4, 'attack');
+        this.jump = new SpriteSet(sprite, 0, 108, 36, 36, 4, 'jump');
+        this.fall = new SpriteSet(sprite, 108, 108, 36, 36, 1, 'fall');
+    }
+}
+
+export class Tile {
     constructor(hasCollision, color, x, y, width, height) {
         this.frame = {
             x: x || 0,
@@ -71,7 +88,7 @@ export class tile {
     }
 }
 
-export class spriteSet {
+export class SpriteSet {
     constructor(sprite, x, y, width, height, frames, name) {
         this.sprite = sprite;
         this.x = x;
