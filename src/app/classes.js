@@ -1,5 +1,5 @@
 export class entity {
-    constructor(hasCollision, cooldown, speed, maxHP, maxMP, maxAir, x, y, width, height) {
+    constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, x, y, width, height) {
         this.cooldown = cooldown || -1;
         let sprite = new Image();
         sprite.src = './img/missing.png';
@@ -17,6 +17,8 @@ export class entity {
         this.attack = this.missing;
         this.idle = this.missing;
         this.stats = {
+            damage: damage || 0,
+            invulnerable: 0,
             hp: maxHP || 100,
             maxHP: maxHP || 100,
             mp: maxMP || 0,
@@ -45,7 +47,7 @@ export class entity {
 
 export class hero extends entity {
     constructor(x, y) {
-        super(true, -1, 10, 100, 25, 15, x, y, 110, 155);
+        super(true, -1, 10, 5, 100, 25, 15, x, y, 110, 155);
 
         let sprite = new Image();
         sprite.src = './img/kain_animations.png';

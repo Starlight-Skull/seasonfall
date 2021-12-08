@@ -7,8 +7,8 @@ export let debug = {
 export const player = new hero(0, 0);
 
 export const entityList = [
-    new entity(true, 20, 6, 25, 15, 150, 0, 100, 50, 50),
-    new entity(true, 20, 2, 50, 0, 5, 0, 100, 150, 200)
+    new entity(true, -1, 6, 10, 25, 15, 150, 200, 0, 50, 50),
+    new entity(true, -1, 2, 10, 50, 0, 5, 900, 0, 150, 200)
 ];
 
 export const tileList = [
