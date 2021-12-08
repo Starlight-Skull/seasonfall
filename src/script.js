@@ -26,7 +26,7 @@ window.addEventListener('load', function () {
     window.addEventListener('keypress', ev => {
         if (ev.key === '`') {
             debug.showBoxes = !debug.showBoxes;
-            debugMenu.style.visibility = debugMenu.style.visibility === 'visible' ? 'hidden' : 'visible';
+            // debugMenu.style.visibility = debugMenu.style.visibility === 'visible' ? 'hidden' : 'visible';
         }
     });
 
