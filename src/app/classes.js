@@ -12,7 +12,7 @@ export class Entity {
             currentFrame: 1,
             mirrored: false,
         };
-        this.animation = this.missing;
+        this.animation = '';
         this.idle = this.missing;
         this.move = this.missing;
         this.attack = this.missing;
