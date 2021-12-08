@@ -47,6 +47,8 @@ export class Entity {
     }
 }
 
+// todo add more sprites
+// todo add more classes
 export class Hero extends Entity {
     constructor(cooldown, x, y) {
         super(true, cooldown, 10, 5, 100, 25, 15, 1, x, y, 110, 155);
@@ -85,6 +87,27 @@ export class Tile {
         }
         this.color = color || 'black';
         this.hasCollision = hasCollision; // 2 = only top collision
+    }
+}
+
+export class TileEntity extends Tile {
+    constructor(hasCollision, color, x, y, width, height) {
+        super(hasCollision, color, x, y, width, height);
+    }
+    activate () {};
+}
+
+export class Door extends TileEntity {
+    constructor(color, x, y, width, openWidth, height) {
+        super(true, color, x, y, width, height);
+        this.openWidth = openWidth;
+        this.activate = function () {
+            console.log(this.hasCollision)
+            this.hasCollision = !this.hasCollision;
+            let w = this.frame.width;
+            this.frame.width = this.openWidth;
+            this.openWidth = w;
+        };
     }
 }
 

@@ -1,4 +1,4 @@
-import {entityList, player, tileList} from "./globals.js";
+import {entityList, player, tileEntityList, tileList} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
 
@@ -118,13 +118,13 @@ window.addEventListener('load', function () {
         ctx.font = '25px Roboto';
         ctx.fillText(`${entity.constructor.name}`, entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
 
-        // if (entity.stats.xp !== 0) {
-        //     ctx.fillStyle = 'black';
-        //     ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.stats.xp.toString().length * 16 + 10, 30);
-        //     ctx.fillStyle = 'yellow';
-        //     ctx.font = '25px Roboto';
-        //     ctx.fillText(entity.stats.xp, entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
-        // }
+        if (entity.stats.xp !== 0) {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 120, entity.stats.xp.toString().length * 16 + 10, 30);
+            ctx.fillStyle = 'yellow';
+            ctx.font = '25px Roboto';
+            ctx.fillText(entity.stats.xp, entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95);
+        }
     }
 
     function reDraw() {
@@ -138,15 +138,20 @@ window.addEventListener('load', function () {
         for (let i = 0; i < entityList.length; i++) {
             drawEntity(entityList[i]);
         }
+        for (let i = 0; i < tileEntityList.length; i++) {
+            drawTile(tileEntityList[i]);
+        }
         drawEntity(player);
 
         // debug
+        // todo scale everything to window size
+        let tracked = player;
         ctx.fillStyle = 'black';
         ctx.font = '30px Arial';
-        ctx.fillText(`${player.constructor.name} - ${player.animation.name} - ${Math.round(player.frame.currentFrame * 100) / 100 + 1}/${player.animation.frames}`, 5, 30);
-        ctx.fillText(`${player.air}`, 5, 60);
-        ctx.fillText(`↑${player.collision.up} ↓${player.collision.down} ←${player.collision.left} →${player.collision.right}`, 5, 90);
-        ctx.fillText(`↑${player.controls.up} ↓${player.controls.down} ←${player.controls.left} →${player.controls.right} ▲${player.controls.jump}`, 5, 120);
+        ctx.fillText(`${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
+        ctx.fillText(`[${tracked.frame.x}, ${tracked.frame.y}]`, 5, 60);
+        ctx.fillText(`↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
+        ctx.fillText(``, 5, 120);
 
         requestAnimationFrame(reDraw);
     }
