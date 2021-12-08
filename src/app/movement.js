@@ -2,6 +2,11 @@ import {collision} from "./helpers.js";
 import {entityList, tileList} from "./globals.js";
 
 export function entityMovement(entity) {
+    if (entity.frame.x > window.innerWidth || entity.frame.x < 0 || entity.frame.y > window.innerHeight * 1.5 || entity.frame.y < 0) {
+        entity.frame.x = 0;
+        entity.frame.y = 0;
+    }
+
     entity.collision.up = false;
     entity.collision.down = false;
     entity.collision.left = false;

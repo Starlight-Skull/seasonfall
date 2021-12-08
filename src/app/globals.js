@@ -4,20 +4,20 @@ export let debug = {
     showBoxes: false,
 };
 
-export const player = new Stick(-1, 0, 0);
+export const player = new Hero(-1, 0, 0);
 
 export const entityList = [
-    new Entity(true, -1, 6, 10, 25, 15, 150, 200, 0, 50, 150),
-    new Hero(true, -1, 2, 10, 50, 0, 5, 900, 0, 150, 200),
-    new Stick(-1, 100, 100)
+    new Entity(true, 20, 6, 10, 25, 15, 150, 200, 0, 50, 150),
+    new Entity(true, -1, 2, 10, 50, 0, 5, 900, 0, 150, 200),
+    new Stick(-1, 700, 500)
 ];
 
 export const tileList = [
     // border
-    new Tile(true, 'brown', -40, 0, 50, screen.height),
-    new Tile(true, 'brown', screen.width - 10, 0, 50, screen.height),
-    new Tile(true, 'green', 0, -40, screen.width, 50),
-    new Tile(true, 'cyan', 0, screen.height - 10, screen.width, 50),
+    new Tile(true, 'brown', -50, 0, 50, window.innerHeight * 1.5),
+    new Tile(true, 'brown', window.innerWidth, 0, 50, window.innerHeight * 1.5),
+    new Tile(true, 'green', 0, -30, window.innerWidth, 50),
+    new Tile(true, 'red', 0, window.innerHeight * 1.5, window.innerWidth, 50),
     // tiles
     // new Tile(true, 'black', 500, 0, 300, 100),
     new Tile(true, 'black', 1050, 500, 450, 150),
