@@ -7,8 +7,8 @@ export let debug = {
 export const player = new Hero(-1, 0, 0);
 
 export const entityList = [
-    new Entity(true, 20, 6, 10, 25, 15, 150, 200, 0, 50, 150),
-    new Entity(true, -1, 2, 10, 50, 0, 5, 900, 0, 150, 200),
+    new Entity(true, 20, 6, 10, 25, 15, 150, 10, 200, 0, 50, 150),
+    new Entity(true, -1, 2, 10, 50, 0, 5, 5, 900, 0, 150, 200),
     new Stick(-1, 700, 500)
 ];
 

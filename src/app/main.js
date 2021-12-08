@@ -49,7 +49,7 @@ window.addEventListener('load', function () {
     function keyLogger(key, down) {
         switch (key) {
             case 'w':
-                player.controls.up = down;
+                player.controls.up = (player.controls.up === 2) ? (down ? 2 : false) : down;
                 break;
             case 's':
                 player.controls.down = down;
@@ -94,34 +94,40 @@ window.addEventListener('load', function () {
     }
 
     function drawStats(entity) {
-        if (entity.stats.mp !== 0) {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
-            ctx.fillStyle = 'red';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
-        } else {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 45, entity.stats.maxHP * 1.5 + 10, 20);
-            ctx.fillStyle = 'red';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.hp * 1.5, 10);
-        }
+        // if (entity.stats.mp !== 0) {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
+        ctx.fillStyle = 'red';
+        ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
+        // } else {
+        //     ctx.fillStyle = 'black';
+        //     ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 45, entity.stats.maxHP * 1.5 + 10, 20);
+        //     ctx.fillStyle = 'red';
+        //     ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.hp * 1.5, 10);
+        // }
         if (entity.stats.mp !== 0) {
             ctx.fillStyle = 'black';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxMP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 45, entity.stats.maxMP * 1.5 + 10, 20);
             ctx.fillStyle = 'blue';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
         }
-        if (entity.stats.xp !== 0) {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.stats.xp.toString().length * 16 + 10, 30);
-            ctx.fillStyle = 'yellow';
-            ctx.font = '25px Roboto';
-            ctx.fillText(entity.stats.xp, entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
-        }
+
+        ctx.fillStyle = 'black';
+        ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.constructor.name.length * 16 + 10, 30);
+        ctx.fillStyle = 'white';
+        ctx.font = '25px Roboto';
+        ctx.fillText(`${entity.constructor.name}`, entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
+
+        // if (entity.stats.xp !== 0) {
+        //     ctx.fillStyle = 'black';
+        //     ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.stats.xp.toString().length * 16 + 10, 30);
+        //     ctx.fillStyle = 'yellow';
+        //     ctx.font = '25px Roboto';
+        //     ctx.fillText(entity.stats.xp, entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
+        // }
     }
 
     function reDraw() {
-        entityList[0].controls.up = true
         // background
         ctx.fillStyle = 'skyblue';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
@@ -137,9 +143,10 @@ window.addEventListener('load', function () {
         // debug
         ctx.fillStyle = 'black';
         ctx.font = '30px Arial';
-        ctx.fillText((Math.round(player.frame.currentFrame * 100) / 100 + 1) + '/' + player.animation.frames, 5, 30);
-        ctx.fillText(player.animation.name, 5, 60);
-        ctx.fillText((player.air / player.maxAir * player.animation.frames), 5, 90);
+        ctx.fillText(`${player.constructor.name} - ${player.animation.name} - ${Math.round(player.frame.currentFrame * 100) / 100 + 1}/${player.animation.frames}`, 5, 30);
+        ctx.fillText(`${player.air}`, 5, 60);
+        ctx.fillText(`↑${player.collision.up} ↓${player.collision.down} ←${player.collision.left} →${player.collision.right}`, 5, 90);
+        ctx.fillText(`↑${player.controls.up} ↓${player.controls.down} ←${player.controls.left} →${player.controls.right} ▲${player.controls.jump}`, 5, 120);
 
         requestAnimationFrame(reDraw);
     }

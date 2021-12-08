@@ -1,5 +1,5 @@
 export class Entity {
-    constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, x, y, width, height) {
+    constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
         this.cooldown = cooldown || -1;
         let sprite = new Image();
         sprite.src = './img/missing.png';
@@ -25,7 +25,7 @@ export class Entity {
             maxHP: maxHP || 100,
             mp: maxMP || 0,
             maxMP: maxMP || 0,
-            xp: 0
+            xp: xp || 0
         }
         this.speed = speed || 10;
         this.air = 0;
@@ -49,7 +49,7 @@ export class Entity {
 
 export class Hero extends Entity {
     constructor(cooldown, x, y) {
-        super(true, cooldown, 10, 5, 100, 25, 15, x, y, 110, 155);
+        super(true, cooldown, 10, 5, 100, 25, 15, 1, x, y, 110, 155);
 
         let sprite = new Image();
         sprite.src = './img/kain_animations.png';
@@ -62,7 +62,7 @@ export class Hero extends Entity {
 
 export class Stick extends Entity {
     constructor(cooldown, x, y) {
-        super(true, cooldown, 5, 5, 70, 0, 25, x, y, 90, 160);
+        super(true, cooldown, 5, 5, 70, 0, 25, 1, x, y, 90, 160);
 
         let sprite = new Image();
         sprite.src = './img/stick.png';
