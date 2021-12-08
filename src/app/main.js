@@ -121,6 +121,7 @@ window.addEventListener('load', function () {
     }
 
     function reDraw() {
+        entityList[0].controls.up = true
         // background
         ctx.fillStyle = 'skyblue';
         ctx.fillRect(0, 0, screen.width, screen.height);
@@ -136,9 +137,9 @@ window.addEventListener('load', function () {
         // debug
         ctx.fillStyle = 'black';
         ctx.font = '30px Arial';
-        ctx.fillText(entityList[0].animation ? entityList[1].animation.name : '??', 5, 30);
-        ctx.fillText(player.frame.currentFrame, 5, 60);
-        ctx.fillText(player.animation ? player.animation.frames : '??', 5, 90);
+        ctx.fillText(entityList[0].frame.currentFrame + ' ' + entityList[0].animation.frames, 5, 30);
+        ctx.fillText(entityList[0].controls.up, 5, 60);
+        ctx.fillText('', 5, 90);
 
         requestAnimationFrame(reDraw);
     }
