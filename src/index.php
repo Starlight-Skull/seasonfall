@@ -1,5 +1,13 @@
+<?php
+if (!isset($_SESSION)) {
+    session_start();
+}
 
-
+//if (!isset($_SESSION['user']) || !hash_equals('ewYh2eVPRaIWY', $_SESSION['user'])) {
+//    header('Location: ./login/index.php');
+//    exit();
+//}
+?>
 <!doctype html>
 <html lang="en">
 <head>
