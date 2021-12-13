@@ -19,27 +19,25 @@ services:
     image: php:8.0-fpm
     volumes:
       - ./src:/var/www/html
-#  mysql:
-#    container_name: mysql
-#    image: mysql:8.0
-#    restart: always
-#    ports:
-#      - "3307:3306"
-#    volumes:
-#      - ./mysql-data:/var/lib/mysql
-#      - ./mysql/Seasonfall.sql:/docker-entrypoint-initdb.d/dump.sql
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=Azerty123
-#  myadmin:
-#    image: phpmyadmin/phpmyadmin
-#    container_name: phpmyadmin
-#    ports:
-#      - "8000:80"
-#    environment:
-#      - PMA_ARBITRARY=0
-#      - PMA_HOST=mysql
-#    restart: always
-#    depends_on:
-#      - mysql
-#  volumes:
-#    mysql:
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./mysql/Seasonfall.sql:/docker-entrypoint-initdb.d/dump.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Azerty123
+  myadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8000:80"
+    environment:
+      - PMA_ARBITRARY=0
+      - PMA_HOST=mysql
+    restart: always
+    depends_on:
+      - mysql
