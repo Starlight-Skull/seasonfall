@@ -41,7 +41,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `password`, `first_date`) VALUES
-(1, 'root', 'root123', '2021-11-30');
+(1, 'root', 'b16520902b41fb903dba979964f07a4a489f38c228b41043b5d872c412239097', '2021-11-30');
 
 --
 -- Indexes for dumped tables
