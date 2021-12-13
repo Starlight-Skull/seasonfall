@@ -12,7 +12,8 @@ const DB_PASS = 'Azerty123';
 // Database Name
 const DB_NAME = 'Seasonfall';
 
-function getDatabase() {
+function getDatabase()
+{
     try {
         $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4', DB_USER, DB_PASS);
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -20,4 +21,5 @@ function getDatabase() {
     } catch (PDOException $e) {
         echo $e;
     }
+    return null;
 }
