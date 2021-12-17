@@ -23,7 +23,6 @@ if (trim($username) !== '' && trim($password) !== '') {
     $stmtSELECT->execute(array($username, $password));
     $rows = $stmtSELECT->fetchAll();
     if (count($rows) !== 1) {
-        $_SESSION['error'] = 'User not found in database.';
         header('Location: ./php/login.php');
         exit();
     }
