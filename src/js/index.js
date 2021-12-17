@@ -1,8 +1,8 @@
 import {debug} from "../app/globals.js"
 import {getWeather} from "../app/helpers.js";
 
-let apiKey = '';
-let location = 'Ghent,BE';
+const apiKey = document.getElementById('apiKey').value;
+const location = document.getElementById('location').value;
 
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
@@ -16,12 +16,8 @@ window.addEventListener('load', function () {
 
     document.getElementById('refreshButton').addEventListener('click', (e) => {
         e.preventDefault();
-        if (document.getElementById('apiKey').value !== '') {
-            apiKey = document.getElementById('apiKey').value;
-        }
-        if (document.getElementById('location').value !== '') {
-            location = document.getElementById('location').value;
-        }
+
+
     });
 
     // getWeather(apiKey, location);

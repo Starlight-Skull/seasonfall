@@ -18,7 +18,7 @@ require_once './config.php';
 
 try {
     $db = getDatabase();
-    $stmtSELECT = $db->prepare('SELECT `key` FROM `users` WHERE `name` = ? && `password` = ?;');
+    $stmtSELECT = $db->prepare('SELECT `id` FROM `users` WHERE `name` = ? && `password` = ?;');
     $stmtINSERT = $db->prepare('INSERT INTO `users` (`name`, `password`, `key`, `location`, `first_date`) VALUES (?, ?, ?, ?, NOW());');
 } catch (PDOException $e) {
     $formErrors[] = 'Database error: ' . $e->getMessage();
@@ -48,7 +48,6 @@ if (isset($db, $stmtSELECT, $stmtINSERT, $_POST['moduleAction'])) {
             } elseif ($allOK) {
                 $_SESSION['username'] = $usernameLogin;
                 $_SESSION['password'] = $passwordHashed;
-                $_SESSION['key'] = $rows[0]['key'];
                 header('Location: /');
                 exit();
             }
