@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Nov 30, 2021 at 01:24 PM
+-- Generation Time: Dec 16, 2021 at 11:00 PM
 -- Server version: 8.0.27
 -- PHP Version: 7.4.20
 
@@ -29,10 +29,13 @@ USE `Seasonfall`;
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int NOT NULL,
   `name` varchar(32) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `key` varchar(32) NOT NULL,
+  `location` varchar(32) NOT NULL,
   `first_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -40,8 +43,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `password`, `first_date`) VALUES
-(1, 'root', 'b16520902b41fb903dba979964f07a4a489f38c228b41043b5d872c412239097', '2021-11-30');
+INSERT INTO `users` (`id`, `name`, `password`, `key`, `location`, `first_date`) VALUES
+(1, 'root', 'b16520902b41fb903dba979964f07a4a489f38c228b41043b5d872c412239097', '3298c25e5de1ab02b9d7e83bb1284cbd', 'Ghent,BE', '2021-11-30');
 
 --
 -- Indexes for dumped tables

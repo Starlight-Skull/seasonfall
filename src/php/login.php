@@ -1,52 +1,87 @@
-<?php
-if (!isset($_SESSION)) {
+<?php if (!isset($_SESSION)) {
     session_start();
+}
+
+$usernameLogin = '';
+$passwordLogin = '';
+$usernameRegister = '';
+$passwordRegister = '';
+$apiKey = '';
+$location = '';
+
+$formErrors = array();
+if (isset($_SESSION['error'])) {
+    $formErrors[] = $_SESSION['error'];
 }
 
 require_once './config.php';
 
-$db = getDatabase();
-
-$stmtSELECT = $db->prepare('select id from users where name = ? && password = ?;');
-
-$username = $_POST['username'] ?? '';
-$password = $_POST['password'] ?? '';
-
-$usernameError = '';
-$passwordError = '';
-$formError = '';
-
-function h($s)
-{
-    echo htmlspecialchars($s, ENT_QUOTES, 'utf-8');
+try {
+    $db = getDatabase();
+    $stmtSELECT = $db->prepare('SELECT `key` FROM `users` WHERE `name` = ? && `password` = ?;');
+    $stmtINSERT = $db->prepare('INSERT INTO `users` (`name`, `password`, `key`, `location`, `first_date`) VALUES (?, ?, ?, ?, NOW());');
+} catch (PDOException $e) {
+    $formErrors[] = 'Database error: ' . $e->getMessage();
 }
 
-if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] === 'login')) {
-    $allOk = true;
+if (isset($db, $stmtSELECT, $stmtINSERT, $_POST['moduleAction'])) {
+    if ($_POST['moduleAction'] === 'login') {
+        $allOK = true;
+        $usernameLogin = $_POST['login-username'] ?? '';
+        $passwordLogin = $_POST['login-password'] ?? '';
 
-    if (trim($username) === '') {
-        $allOk = false;
-        $usernameError = 'Please enter your username';
-    }
-
-    if (trim($password) === '') {
-        $allOk = false;
-        $passwordError = 'Please enter your password';
-    }
-
-    if (trim($username) !== '' && trim($password) !== '') {
-        $password = hash_pbkdf2('sha256', $password, 'kjfdpoijqpowjp', 8);
-        $stmtSELECT->execute(array($username, $password));
-        $rows = $stmtSELECT->fetchAll();
-        if (count($rows) !== 1) {
-            $allOk = false;
-            $formError = 'Your username or password do not match.';
+        if (trim($usernameLogin) === '') {
+            $formErrors[] = 'Please enter your username';
+            $allOK = false;
         }
-    }
+        if (trim($passwordLogin) === '') {
+            $formErrors[] = 'Please enter your password';
+            $allOK = false;
+        }
+        if (trim($usernameLogin) !== '' && trim($passwordLogin) !== '') {
+            $passwordHashed = hash_pbkdf2('sha256', $passwordLogin, 'kjfdpoijqpowjp', 8);
+            $stmtSELECT->execute(array($usernameLogin, $passwordHashed));
+            $rows = $stmtSELECT->fetchAll();
+            if (count($rows) !== 1) {
+                $formErrors[] = 'Your username or password do not match.';
+                $allOK = false;
+            } elseif ($allOK) {
+                $_SESSION['username'] = $usernameLogin;
+                $_SESSION['password'] = $passwordHashed;
+                $_SESSION['key'] = $rows[0]['key'];
+                header('Location: /');
+                exit();
+            }
+        }
+    } elseif ($_POST['moduleAction'] === 'register') {
+        $allOK = true;
+        $usernameRegister = $_POST['register-username'] ?? '';
+        $passwordRegister = $_POST['register-password'] ?? '';
+        $apiKey = $_POST['register-key'] ?? '';
+        $location = $_POST['register-location'] ?? '';
 
-    if ($allOk) {
-        $_SESSION['user'] = array($rows[0], $username, $password);
-        header('Location: ../index.php');
+        if (trim($usernameRegister) === '') {
+            $formErrors[] = 'Please enter a username';
+            $allOK = false;
+        }
+        if (trim($passwordRegister) === '') {
+            $formErrors[] = 'Please enter a password';
+            $allOK = false;
+        }
+        if (trim($apiKey) === '') {
+            $formErrors[] = 'Please enter a valid API key';
+            $allOK = false;
+        }
+        if (trim($location) === '') {
+            $formErrors[] = 'Please enter a location';
+            $allOK = false;
+        }
+        if ($allOK) {
+            $passwordHashed = hash_pbkdf2('sha256', $passwordRegister, 'kjfdpoijqpowjp', 8);
+            $stmtINSERT->execute(array($usernameRegister, $passwordHashed, $apiKey, $location));
+            header('Location ./login.php');
+            exit();
+        }
     }
 } ?>
 
@@ -56,32 +91,67 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] === 'login')) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="shortcut icon" href="../favicon.ico">
     <title>Seasonfall | Login</title>
+    <script type="module" src="../js/login.js"></script>
 </head>
 <body>
-<form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
-    <?php
-    echo '<p class="error">' . h($formError) . '</p>' ?>
+<main>
+    <?php if (count($formErrors) !== 0) {
+        echo '<ul class="error">' . PHP_EOL;
+        foreach ($formErrors as $error) {
+            echo <<<EOT
+    <li>$error</li>
 
-    <div id="username-container">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" placeholder="Username" value="<?PHP h($username) ?>" autofocus>
-        <?PHP if (isset($usernameError)) {
-            echo '<p class="error">' . h($usernameError) . '</p>';
-        } ?>
-    </div>
+EOT;
+        }
+        echo '</ul>' . PHP_EOL;
 
-    <div id="password-container">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" placeholder="Password" value="<?PHP h($password) ?>">
-        <?PHP if (isset($passwordError)) {
-            echo '<p class="error">' . h($passwordError) . '</p>';
-        } ?>
-    </div>
-
-    <input type="hidden" name="moduleAction" value="login"/>
-    <button type="submit">Log In</button>
-</form>
+    } ?>
+    <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+        <h2>Log In</h2>
+        <div>
+            <label for="login-username">Username</label>
+            <input type="text" name="login-username" id="login-username" placeholder="Username"
+                   value="<?PHP h($usernameLogin) ?>"
+                   autofocus>
+        </div>
+        <div>
+            <label for="login-password">Password</label>
+            <input type="password" name="login-password" id="login-password" placeholder="Password"
+                   value="<?PHP h($passwordLogin) ?>">
+        </div>
+        <input type="hidden" name="moduleAction" value="login"/>
+        <button type="submit">Log In</button>
+    </form>
+    <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+        <h2>Register</h2>
+        <div>
+            <label for="register-username">Username</label>
+            <input type="text" name="register-username" id="register-username" placeholder="Username"
+                   value="<?PHP h($usernameRegister) ?>">
+        </div>
+        <div>
+            <label for="register-password">Password</label>
+            <input type="password" name="register-password" id="register-password" placeholder="Password"
+                   value="<?PHP h($passwordRegister) ?>">
+        </div>
+        <div>
+            <label for="register-key">API Key</label>
+            <input type="text" name="register-key" id="register-key" placeholder="OpenWeatherMap Key"
+                   value="<?PHP h($apiKey) ?>">
+        </div>
+        <div>
+            <label for="register-location">Location</label>
+            <input type="text" name="register-location" id="register-location" placeholder="ex. 'Ghent,BE'"
+                   value="<?PHP h($location) ?>">
+        </div>
+        <button type="button" id="test-key">Test API</button>
+        <input type="hidden" name="moduleAction" value="register"/>
+        <button type="submit" disabled id="register-button">Register</button>
+    </form>
+</main>
 </body>
 </html>
