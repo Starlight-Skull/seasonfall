@@ -7,7 +7,7 @@ require_once './php/config.php';
 
 try {
     $db = getDatabase();
-    $stmtSELECT = $db->prepare('SELECT `id` FROM `users` WHERE `name` = ? && `password` = ?;');
+    $stmtSELECT = $db->prepare('SELECT `key`, `location` FROM `users` WHERE `name` = ? && `password` = ?;');
 } catch (PDOException $e) {
     $_SESSION['error'] = $e->getMessage();
     header('Location: ./php/login.php');
@@ -16,7 +16,8 @@ try {
 
 $username = $_SESSION['username'] ?? '';
 $password = $_SESSION['password'] ?? '';
-$key = $_SESSION['key'] ?? '';
+$key = '';
+$location = '';
 
 if (trim($username) !== '' && trim($password) !== '') {
     $stmtSELECT->execute(array($username, $password));
@@ -26,6 +27,8 @@ if (trim($username) !== '' && trim($password) !== '') {
         header('Location: ./php/login.php');
         exit();
     }
+    $key = $rows[0]['key'];
+    $location = $rows[0]['location'];
 } else {
     header('Location: ./php/login.php');
     exit();
@@ -47,10 +50,10 @@ if (trim($username) !== '' && trim($password) !== '') {
 <body>
 <form action="#" id="debug">
     <label for="apiKey">API Key <input type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>"></label>
-    <label for="location">Location <input type="text" id="location" placeholder="Location"></label>
+    <label for="location">Location <input type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>"></label>
+<!-- todo fill with api response params -->
     <button id="refreshButton">Get Weather</button>
 </form>
-
 <main>
     <canvas id="screen"></canvas>
 </main>
