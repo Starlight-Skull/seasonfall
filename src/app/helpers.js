@@ -1,3 +1,12 @@
+export function getWeather(apiKey, location) {
+    if (apiKey && location) {
+        return fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${location}`)
+            .then(res => {
+                return res.json();
+            });
+    }
+}
+
 export function collision(entity, object, isAttack) {
     if (entity.hasCollision && (object.hasCollision || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
         let values = {
