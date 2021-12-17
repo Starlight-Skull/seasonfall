@@ -34,13 +34,3 @@ main {
     flex-direction: column;
     visibility: hidden;
 }
-
-#calling {
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    z-index: 50;
-    background-color: black;
-    color: white;
-    visibility: hidden;
-}

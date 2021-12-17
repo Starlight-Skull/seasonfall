@@ -118,7 +118,7 @@ if (isset($db, $stmtSELECT, $stmtSELECT_user, $stmtINSERT, $_POST['moduleAction'
 <body>
 <main>
     <?php if (count($formErrors) !== 0) {
-        echo '<ul class="error">' . PHP_EOL;
+        echo '<ul id="error">' . PHP_EOL;
         foreach ($formErrors as $error) {
             echo <<<EOT
     <li>$error</li>
@@ -128,48 +128,53 @@ EOT;
         echo '</ul>' . PHP_EOL;
 
     } ?>
-    <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
-        <h2>Log In</h2>
-        <div>
-            <label for="login-username">Username</label>
-            <input type="text" name="login-username" id="login-username" placeholder="Username"
-                   value="<?PHP h($usernameLogin) ?>"
-                   autofocus>
-        </div>
-        <div>
-            <label for="login-password">Password</label>
-            <input type="password" name="login-password" id="login-password" placeholder="Password"
-                   value="<?PHP h($passwordLogin) ?>">
-        </div>
-        <input type="hidden" name="moduleAction" value="login"/>
-        <button type="submit">Log In</button>
-    </form>
-    <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
-        <h2>Register</h2>
-        <div>
-            <label for="register-username">Username</label>
-            <input type="text" name="register-username" id="register-username" placeholder="Username"
-                   value="<?PHP h($usernameRegister) ?>">
-        </div>
-        <div>
-            <label for="register-password">Password</label>
-            <input type="password" name="register-password" id="register-password" placeholder="Password"
-                   value="<?PHP h($passwordRegister) ?>">
-        </div>
-        <div>
-            <label for="register-key">API Key</label>
-            <input type="text" name="register-key" id="register-key" placeholder="OpenWeatherMap Key"
-                   value="<?PHP h($apiKey) ?>">
-        </div>
-        <div>
-            <label for="register-location">Location</label>
-            <input type="text" name="register-location" id="register-location" placeholder="ex. 'Ghent,BE'"
-                   value="<?PHP h($location) ?>">
-        </div>
-        <button type="button" id="test-key">Test API</button>
-        <input type="hidden" name="moduleAction" value="register"/>
-        <button type="submit" id="register-button">Register</button>
-    </form>
+    <div id="forms">
+        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+            <h2>Log In</h2>
+            <div>
+                <label for="login-username">Username</label>
+                <input type="text" name="login-username" id="login-username" placeholder="Username"
+                       value="<?PHP h($usernameLogin) ?>">
+            </div>
+            <div>
+                <label for="login-password">Password</label>
+                <input type="password" name="login-password" id="login-password" placeholder="Password"
+                       value="<?PHP h($passwordLogin) ?>">
+            </div>
+            <p>
+                <input type="hidden" name="moduleAction" value="login"/>
+                <button type="submit">Log In</button>
+            </p>
+        </form>
+        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+            <h2>Register</h2>
+            <div>
+                <label for="register-username">Username</label>
+                <input type="text" name="register-username" id="register-username" placeholder="Username"
+                       value="<?PHP h($usernameRegister) ?>">
+            </div>
+            <div>
+                <label for="register-password">Password</label>
+                <input type="password" name="register-password" id="register-password" placeholder="Password"
+                       value="<?PHP h($passwordRegister) ?>">
+            </div>
+            <div>
+                <label for="register-key">API Key</label>
+                <input type="text" name="register-key" id="register-key" placeholder="OpenWeatherMap Key"
+                       value="<?PHP h($apiKey) ?>">
+            </div>
+            <div>
+                <label for="register-location">Location</label>
+                <input type="text" name="register-location" id="register-location" placeholder="ex. 'Ghent,BE'"
+                       value="<?PHP h($location) ?>">
+            </div>
+            <p>
+                <button type="button" id="test-key">Test API</button>
+                <input type="hidden" name="moduleAction" value="register"/>
+                <button type="submit" id="register-button">Register</button>
+            </p>
+        </form>
+    </div>
 </main>
 </body>
 </html>
