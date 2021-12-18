@@ -26,3 +26,4 @@ window.addEventListener('load', function () {
         // getWeather(apiKey, location);
     }, 600000);
 });
+``
