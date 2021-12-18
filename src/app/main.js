@@ -2,33 +2,6 @@ import {entityList, player, tileEntityList, tileList} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
 
-window.modPlayer = function (key, value) {
-    switch (key) {
-        case 'hp':
-            player.stats.hp = value;
-            break;
-        case 'mp':
-            player.stats.mp = value;
-            break;
-        case 'maxHP':
-            player.stats.maxHP = value;
-            break;
-        case 'maxMP':
-            player.stats.maxMP = value;
-            break;
-        case 'xp':
-            player.stats.xp = value;
-            break;
-    }
-}
-window.logInternal = function (object) {
-    switch (object) {
-        case 'player':
-            console.log(player);
-            break;
-    }
-}
-
 window.addEventListener('load', function () {
     const screen = document.getElementById('screen');
     if (!screen.getContext) {
@@ -39,33 +12,6 @@ window.addEventListener('load', function () {
     screen.height = window.innerHeight;
     ctx.imageSmoothingEnabled = false;
 
-    window.addEventListener('keydown', ev => {
-        keyLogger(ev.key, true);
-    });
-    window.addEventListener('keyup', ev => {
-        keyLogger(ev.key, false);
-    });
-
-    function keyLogger(key, down) {
-        switch (key) {
-            case 'w':
-                player.controls.up = (player.controls.up === 2) ? (down ? 2 : false) : down;
-                break;
-            case 's':
-                player.controls.down = down;
-                break;
-            case 'a':
-                player.controls.left = down;
-                break;
-            case 'd':
-                player.controls.right = down;
-                break;
-            case ' ':
-                player.controls.jump = down;
-                break;
-        }
-    }
-
     function drawTile(tile) {
         ctx.fillStyle = tile.color;
         ctx.moveTo(tile.frame.x, tile.frame.y);
@@ -74,7 +20,6 @@ window.addEventListener('load', function () {
 
     function drawEntity(entity) {
         entityMovement(entity);
-
         if (!entity.animation || debug.showBoxes) {
             ctx.fillStyle = 'rgba(250,0,250,0.5)';
             ctx.moveTo(entity.frame.x, entity.frame.y);
@@ -89,22 +34,14 @@ window.addEventListener('load', function () {
                 ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * 5 / 2), window.innerHeight - entity.frame.y - entity.animation.width * 5, entity.animation.width * 5, entity.animation.width * 5);
             }
         }
-
         drawStats(entity);
     }
 
     function drawStats(entity) {
-        // if (entity.stats.mp !== 0) {
         ctx.fillStyle = 'black';
         ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
         ctx.fillStyle = 'red';
         ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
-        // } else {
-        //     ctx.fillStyle = 'black';
-        //     ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 45, entity.stats.maxHP * 1.5 + 10, 20);
-        //     ctx.fillStyle = 'red';
-        //     ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.hp * 1.5, 10);
-        // }
         if (entity.stats.mp !== 0) {
             ctx.fillStyle = 'black';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxMP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 45, entity.stats.maxMP * 1.5 + 10, 20);
@@ -127,11 +64,12 @@ window.addEventListener('load', function () {
         }
     }
 
+    reDraw();
     function reDraw() {
-        // background
+        // todo scale everything to window size
+
         ctx.fillStyle = 'skyblue';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-
         for (let i = 0; i < tileList.length; i++) {
             drawTile(tileList[i]);
         }
@@ -144,17 +82,15 @@ window.addEventListener('load', function () {
         drawEntity(player);
 
         // debug
-        // todo scale everything to window size
-        let tracked = player;
-        ctx.fillStyle = 'black';
-        ctx.font = '30px Arial';
-        ctx.fillText(`${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
-        ctx.fillText(`[${tracked.frame.x}, ${tracked.frame.y}]`, 5, 60);
-        ctx.fillText(`↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
-        ctx.fillText(``, 5, 120);
-
+        if (debug.showTrackedEntity) {
+            let tracked = player;
+            ctx.fillStyle = 'black';
+            ctx.font = '30px Arial';
+            ctx.fillText(`${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
+            ctx.fillText(`[${tracked.frame.x}, ${tracked.frame.y}]`, 5, 60);
+            ctx.fillText(`↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
+            ctx.fillText(``, 5, 120);
+        }
         requestAnimationFrame(reDraw);
     }
-
-    reDraw();
 });

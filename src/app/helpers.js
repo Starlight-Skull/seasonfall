@@ -1,9 +1,22 @@
-export function getWeather(apiKey, location) {
-    if (apiKey && location) {
-        return fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${location}`)
-            .then(res => {
-                return res.json();
-            });
+import {player} from "./globals.js";
+
+export function keyLogger(key, down) {
+    switch (key) {
+        case 'w':
+            player.controls.up = (player.controls.up === 2) ? (down ? 2 : false) : down;
+            break;
+        case 's':
+            player.controls.down = down;
+            break;
+        case 'a':
+            player.controls.left = down;
+            break;
+        case 'd':
+            player.controls.right = down;
+            break;
+        case ' ':
+            player.controls.jump = down;
+            break;
     }
 }
 
