@@ -1,18 +1,14 @@
 import {Door, Entity, Hero, Stick, Tile, TileEntity} from "./classes.js";
 
-export let debug = {
-    showBoxes: false,
-};
+export let player = new Hero(-1, 0, 0);
 
-export const player = new Hero(-1, 0, 0);
-
-export const entityList = [
+export let entityList = [
     new Entity(true, -1, 6, 10, 25, 15, 150, 10, 200, 0, 50, 150),
     new Entity(true, -1, 2, 10, 50, 0, 5, 5, 900, 0, 150, 200),
     new Stick(-1, 700, 500)
 ];
 
-export const tileList = [
+export let tileList = [
     // tiles
     new Tile(false, 'black', 1200, 0, 600, 750),
     new Tile(true, 'grey', 1200, 250, 100, 500),
@@ -30,6 +26,18 @@ export const tileList = [
     new Tile(true, 'red', 0, window.innerHeight * 1.5, window.innerWidth, 50)
 ];
 
-export const tileEntityList = [
+export let tileEntityList = [
     new Door('brown', 1200, 20, 30, 100, 230)
 ];
+
+export let weather = {
+    json: ''
+}
+
+export let debug = {
+    apiKey: '',
+    location: '',
+    useAPI: true,
+    showBoxes: false,
+    showTrackedEntity: false,
+};

@@ -48,10 +48,34 @@ if (trim($username) !== '' && trim($password) !== '') {
 </head>
 <body>
 <form action="#" id="debug">
-    <label for="apiKey">API Key <input type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>"></label>
-    <label for="location">Location <input type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>"></label>
-<!-- todo fill with api response params -->
-    <button id="refreshButton">Get Weather</button>
+    <section>
+        <div>
+            <label for="apiKey">API Key</label>
+            <input type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>">
+        </div>
+        <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
+        </div>
+        <div>
+            <label for="useAPI">Use API data</label>
+            <input type="checkbox" id="useAPI" name="useAPI">
+        </div>
+        <div>
+            <label for="showBoxes">Show hit boxes</label>
+            <input type="checkbox" id="showBoxes" name="showBoxes">
+        </div>
+        <div>
+            <label for="showTrackedEntity">Show tracked entity</label>
+            <input type="checkbox" id="showTrackedEntity" name="showTrackedEntity">
+        </div>
+        <div>
+            <input type="button" id="update" value="Update">
+        </div>
+    </section>
+    <section>
+        <code id="json"></code>
+    </section>
 </form>
 <main>
     <canvas id="screen"></canvas>
