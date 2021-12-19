@@ -56,12 +56,29 @@ window.addEventListener('load', function () {
 
     function openDebug() {
         debugMenu.style.visibility = 'visible';
+        // api
         document.getElementById('apiKey').value = debug.apiKey;
         document.getElementById('location').value = debug.location;
         document.getElementById('useAPI').checked = debug.useAPI;
+        // general
         document.getElementById('showBoxes').checked = debug.showBoxes;
         document.getElementById('showTrackedEntity').checked = debug.showTrackedEntity;
-        document.getElementById('json').innerText = JSON.stringify(weather);
+        // weather
+        document.getElementById('code').value = weather.code;
+        document.getElementById('main').selected = weather.main;
+        document.getElementById('description').selected = weather.description
+        document.getElementById('temp').value = weather.temp;
+        document.getElementById('visibility').value = weather.visibility;
+        document.getElementById('windSpeed').value = weather.windSpeed;
+        document.getElementById('windDeg').value = weather.windDeg;
+        document.getElementById('windGust').value = weather.windGust;
+        document.getElementById('clouds').value = weather.clouds;
+        document.getElementById('rain').value = weather.rain;
+        document.getElementById('snow').value = weather.snow;
+        document.getElementById('time').value = weather.time;
+        document.getElementById('sunrise').value = weather.sunrise;
+        document.getElementById('sunset').value = weather.sunset;
+        document.getElementById('timezone').value = weather.timezone;
     }
 
     function callAPI() {
@@ -73,19 +90,18 @@ window.addEventListener('load', function () {
             })
             .then((json) => {
                 weather.json = json;
+                // todo fill json into globals
                 console.log(json);
             });
     }
 
     makeInterval();
     function makeInterval() {
-        console.log(debug.useAPI)
-        console.log(interval)
         if (debug.useAPI) {
-            callAPI();
+            // callAPI();
             // reload weather every 10 minutes
             interval = setInterval(() => {
-                callAPI();
+                // callAPI();
             }, 600000);
         } else {
             clearInterval(interval);

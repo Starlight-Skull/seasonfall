@@ -49,6 +49,7 @@ if (trim($username) !== '' && trim($password) !== '') {
 <body>
 <form action="#" id="debug">
     <section>
+        <h3>API</h3>
         <div>
             <label for="apiKey">API Key</label>
             <input type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>">
@@ -61,6 +62,7 @@ if (trim($username) !== '' && trim($password) !== '') {
             <label for="useAPI">Use API data</label>
             <input type="checkbox" id="useAPI" name="useAPI">
         </div>
+        <h3>General</h3>
         <div>
             <label for="showBoxes">Show hit boxes</label>
             <input type="checkbox" id="showBoxes" name="showBoxes">
@@ -74,7 +76,71 @@ if (trim($username) !== '' && trim($password) !== '') {
         </div>
     </section>
     <section>
-        <code id="json"></code>
+        <h3>Weather</h3>
+        <div>
+            <label for="code">Code</label>
+            <input type="number" id="code" disabled>
+        </div>
+        <div>
+            <label for="main">Name</label>
+            <select name="main" id="main">
+
+            </select>
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <select name="description" id="description">
+
+            </select>
+        </div>
+        <div>
+            <label for="temp">Temperature (&deg;C)</label>
+            <input type="number" id="temp">
+        </div>
+        <div>
+            <label for="visibility">Visibility</label>
+            <input type="number" id="visibility">
+        </div>
+        <div>
+            <label for="windSpeed">Wind Speed</label>
+            <input type="number" id="windSpeed">
+        </div>
+        <div>
+            <label for="windDeg">Wind Degrees</label>
+            <input type="number" id="windDeg">
+        </div>
+        <div>
+            <label for="windGust">Wind Gust</label>
+            <input type="number" id="windGust">
+        </div>
+        <div>
+            <label for="clouds">Clouds</label>
+            <input type="number" id="clouds">
+        </div>
+        <div>
+            <label for="rain">Rain</label>
+            <input type="number" id="rain">
+        </div>
+        <div>
+            <label for="snow">Snow</label>
+            <input type="number" id="snow">
+        </div>
+        <div>
+            <label for="time">Timestamp</label>
+            <input type="number" id="time">
+        </div>
+        <div>
+            <label for="sunrise">Sunrise</label>
+            <input type="number" id="sunrise">
+        </div>
+        <div>
+            <label for="sunset">Sunset</label>
+            <input type="number" id="sunset">
+        </div>
+        <div>
+            <label for="timezone">Timezone</label>
+            <input type="number" id="timezone">
+        </div>
     </section>
 </form>
 <main>

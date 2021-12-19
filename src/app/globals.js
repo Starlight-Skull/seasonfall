@@ -31,7 +31,21 @@ export let tileEntityList = [
 ];
 
 export let weather = {
-    json: ''
+    code: 0,
+    main: '',
+    description: '',
+    temp: 0,
+    visibility: 0,
+    windSpeed: 0,
+    windDeg: 0,
+    windGust: 0,
+    clouds: 0,
+    rain: 0,
+    snow: 0,
+    time: 0,
+    sunrise: 0,
+    sunset: 0,
+    timezone: 0
 }
 
 export let debug = {

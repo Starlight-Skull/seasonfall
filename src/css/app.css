@@ -17,8 +17,7 @@ main {
     position: absolute;
     left: 0;
     top: 0;
-    width: 50vw;
-    height: 50vh;
+    min-height: 50vh;
     z-index: 100;
     display: flex;
     flex-direction: row;
@@ -26,5 +25,24 @@ main {
 }
 
 #debug section {
-    width: 20vw;
+    padding: 0 .5rem .5rem;
+    width: 25vw;
+    border: 1px solid black;
+}
+
+#debug div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#debug h3 {
+    padding: .5rem 0;
+    margin: 0;
+}
+
+#debug input[type="button"] {
+    margin-top: 1rem;
+    width: 25vw;
+    height: 2rem;
 }
