@@ -43,6 +43,7 @@ form {
     border-radius: 1rem;
     padding: 1rem;
     background: skyblue;
+    box-shadow: 0 0 10px 0 deepskyblue;
 }
 
 form div {
@@ -57,7 +58,7 @@ form div label {
 }
 
 form:hover {
-    border: solid lime 5px;
+    box-shadow: 0 0 5px 5px deepskyblue;
 }
 
 /* media queries */
