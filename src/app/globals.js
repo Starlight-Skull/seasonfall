@@ -31,15 +31,14 @@ export let tileEntityList = [
 ];
 
 export let weather = {
-    code: 0,
-    main: '',
-    description: '',
-    temp: 0,
+    code: 800,
+    main: 'Clear',
+    temp: 20,
     visibility: 0,
     windSpeed: 0,
-    windDeg: 0,
+    windDeg: 'East',
     windGust: 0,
-    clouds: 0,
+    clouds: 50,
     rain: 0,
     snow: 0,
     time: 0,
