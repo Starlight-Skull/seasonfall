@@ -54,6 +54,10 @@ window.addEventListener('load', function () {
         debug.showTrackedEntity = document.getElementById('showTrackedEntity').checked;
     });
 
+    document.getElementById('callAPI').addEventListener('click', () => {
+        callAPI();
+    });
+
     function openDebug() {
         debugMenu.style.visibility = 'visible';
         // api
@@ -65,8 +69,7 @@ window.addEventListener('load', function () {
         document.getElementById('showTrackedEntity').checked = debug.showTrackedEntity;
         // weather
         document.getElementById('code').value = weather.code;
-        document.getElementById('main').selected = weather.main;
-        document.getElementById('description').selected = weather.description
+        document.getElementById('main').value = weather.main;
         document.getElementById('temp').value = weather.temp;
         document.getElementById('visibility').value = weather.visibility;
         document.getElementById('windSpeed').value = weather.windSpeed;
@@ -84,24 +87,48 @@ window.addEventListener('load', function () {
     function callAPI() {
         let apiKey = document.getElementById('apiKey').value;
         let location = document.getElementById('location').value;
-        fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${location}`)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${location}&units=metric`)
             .then(res => {
                 return res.json();
             })
             .then((json) => {
-                weather.json = json;
-                // todo fill json into globals
                 console.log(json);
+                if (json.cod === 200) {
+                    weather.code = json.weather[0].id || 0;
+                    weather.main = json.weather[0].main || '';
+                    weather.temp = json.main.temp || 0;
+                    weather.visibility = json.visibility || 0;
+                    weather.windSpeed = json.wind.speed || 0;
+                    if (json.wind.deg >= 0 && json.wind.deg <= 180) {
+                        weather.windDeg = 'East';
+                    } else if (json.wind.deg > 180 && json.wind.deg <= 360) {
+                        weather.windDeg = 'West';
+                    }
+                    weather.windGust = json.wind.gust || 0;
+                    weather.clouds = json.clouds.all || 0;
+                    if (json.rain) {
+                        weather.rain = json.rain["1h"] || 0;
+                    }
+                    if (json.snow) {
+                        weather.snow = json.snow["1h"] || 0;
+                    }
+                    weather.time = json.dt || 0;
+                    weather.sunrise = (json.sys.sunrise - json.dt) || 0;
+                    weather.sunset = (json.sys.sunset - json.dt) || 0;
+                    weather.timezone = json.timezone || 0;
+                } else {
+                    debug.useAPI = false;
+                }
             });
     }
 
     makeInterval();
     function makeInterval() {
         if (debug.useAPI) {
-            // callAPI();
+            callAPI();
             // reload weather every 10 minutes
             interval = setInterval(() => {
-                // callAPI();
+                callAPI();
             }, 600000);
         } else {
             clearInterval(interval);

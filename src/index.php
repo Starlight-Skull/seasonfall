@@ -72,74 +72,90 @@ if (trim($username) !== '' && trim($password) !== '') {
             <input type="checkbox" id="showTrackedEntity" name="showTrackedEntity">
         </div>
         <div>
+            <input type="button" id="callAPI" value="Call API">
+        </div>
+        <em>API is called every 10 minutes.</em>
+        <div>
             <input type="button" id="update" value="Update">
         </div>
+        <em>Re-open debug menu to reload values.</em>
     </section>
     <section>
         <h3>Weather</h3>
         <div>
             <label for="code">Code</label>
-            <input type="number" id="code" disabled>
+            <input type="text" id="code" disabled>
         </div>
         <div>
             <label for="main">Name</label>
             <select name="main" id="main">
-
-            </select>
-        </div>
-        <div>
-            <label for="description">Description</label>
-            <select name="description" id="description">
-
+                <option value="Thunderstorm">Thunderstorm</option>
+                <option value="Drizzle">Drizzle</option>
+                <option value="Rain">Rain</option>
+                <option value="Snow">Snow</option>
+                <option value="Mist">Mist</option>
+                <option value="Smoke">Smoke</option>
+                <option value="Haze">Haze</option>
+                <option value="Dust">Dust</option>
+                <option value="Fog">Fog</option>
+                <option value="Sand">Sand</option>
+                <option value="Ash">Ash</option>
+                <option value="Squall">Squall</option>
+                <option value="Tornado">Tornado</option>
+                <option value="Clear">Clear</option>
+                <option value="Clouds">Clouds</option>
             </select>
         </div>
         <div>
             <label for="temp">Temperature (&deg;C)</label>
-            <input type="number" id="temp">
+            <input type="text" id="temp">
         </div>
         <div>
             <label for="visibility">Visibility</label>
-            <input type="number" id="visibility">
+            <input type="text" id="visibility">
         </div>
         <div>
-            <label for="windSpeed">Wind Speed</label>
-            <input type="number" id="windSpeed">
+            <label for="windSpeed">Wind Speed (m/s)</label>
+            <input type="text" id="windSpeed">
         </div>
         <div>
             <label for="windDeg">Wind Degrees</label>
-            <input type="number" id="windDeg">
+            <select id="windDeg" name="windDeg">
+                <option value="East">East</option>
+                <option value="West">West</option>
+            </select>
         </div>
         <div>
-            <label for="windGust">Wind Gust</label>
-            <input type="number" id="windGust">
+            <label for="windGust">Wind Gust (m/s)</label>
+            <input type="text" id="windGust">
         </div>
         <div>
-            <label for="clouds">Clouds</label>
-            <input type="number" id="clouds">
+            <label for="clouds">Clouds (%)</label>
+            <input type="text" id="clouds">
         </div>
         <div>
-            <label for="rain">Rain</label>
-            <input type="number" id="rain">
+            <label for="rain">Rain (mm/1h)</label>
+            <input type="text" id="rain">
         </div>
         <div>
-            <label for="snow">Snow</label>
-            <input type="number" id="snow">
+            <label for="snow">Snow (mm/1h)</label>
+            <input type="text" id="snow">
         </div>
         <div>
-            <label for="time">Timestamp</label>
-            <input type="number" id="time">
+            <label for="time">Timestamp (Unix)</label>
+            <input type="text" id="time">
         </div>
         <div>
-            <label for="sunrise">Sunrise</label>
-            <input type="number" id="sunrise">
+            <label for="sunrise">Sunrise (Unix)</label>
+            <input type="text" id="sunrise">
         </div>
         <div>
-            <label for="sunset">Sunset</label>
-            <input type="number" id="sunset">
+            <label for="sunset">Sunset (Unix)</label>
+            <input type="text" id="sunset">
         </div>
         <div>
-            <label for="timezone">Timezone</label>
-            <input type="number" id="timezone">
+            <label for="timezone">Timezone (s)</label>
+            <input type="text" id="timezone">
         </div>
     </section>
 </form>

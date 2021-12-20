@@ -41,6 +41,11 @@ main {
     margin: 0;
 }
 
+#debug em {
+    padding-top: .5rem;
+    font-size: 75%;
+}
+
 #debug input[type="button"] {
     margin-top: 1rem;
     width: 25vw;
