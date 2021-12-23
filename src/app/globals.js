@@ -31,20 +31,22 @@ export let tileEntityList = [
 ];
 
 export let weather = {
-    code: 800,
     main: 'Clear',
+    // °C
     temp: 20,
-    visibility: 0,
+    // m/s
     windSpeed: 0,
+    // East - West
     windDeg: 'East',
-    windGust: 0,
+    // %
     clouds: 50,
+    // mm/h
     rain: 0,
     snow: 0,
-    time: 0,
-    sunrise: 0,
-    sunset: 0,
-    timezone: 0
+    // hmm
+    time: 1200,
+    sunrise: 700,
+    sunset: 1900,
 }
 
 export let debug = {
