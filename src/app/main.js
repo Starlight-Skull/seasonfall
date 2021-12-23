@@ -5,7 +5,7 @@ import {entityMovement} from "./movement.js";
 window.addEventListener('load', function () {
     const screen = document.getElementById('screen');
     if (!screen.getContext) {
-        window.warn('This application is not supported by your browser.');
+        window.alert('This application is not supported by your browser.');
     }
     const ctx = screen.getContext('2d');
     screen.width = window.innerWidth;
@@ -66,7 +66,9 @@ window.addEventListener('load', function () {
 
     reDraw();
     function reDraw() {
-        // todo scale everything to window size
+        screen.width = window.innerWidth;
+        screen.height = window.innerHeight;
+        ctx.imageSmoothingEnabled = false;
 
         ctx.fillStyle = 'skyblue';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
@@ -86,9 +88,9 @@ window.addEventListener('load', function () {
             let tracked = player;
             ctx.fillStyle = 'black';
             ctx.font = '30px Arial';
-            ctx.fillText(`${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
-            ctx.fillText(`[${tracked.frame.x}, ${tracked.frame.y}]`, 5, 60);
-            ctx.fillText(`↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
+            ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
+            ctx.fillText(`pos: [${tracked.frame.x}, ${tracked.frame.y}]`, 5, 60);
+            ctx.fillText(`move: ↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
             ctx.fillText(``, 5, 120);
         }
         requestAnimationFrame(reDraw);
