@@ -47,7 +47,7 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
     <link rel="stylesheet" href="css/app.css">
     <link rel="shortcut icon" href="./favicon.ico">
     <title>Seasonfall</title>
-    <script type="module" src="js/index.js"></script>
+    <script type="module" src="js/data.js"></script>
     <script type="module" src="app/main.js"></script>
 </head>
 <body>
