@@ -102,7 +102,6 @@ if (isset($db, $stmtSELECT, $stmtSELECT_user, $stmtINSERT, $_POST['moduleAction'
         }
     }
 } ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

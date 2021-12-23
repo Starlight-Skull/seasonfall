@@ -32,6 +32,10 @@ if (trim($username) !== '' && trim($password) !== '') {
     header('Location: ./php/login.php');
     exit();
 }
+
+if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
+    session_destroy();
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -47,7 +51,7 @@ if (trim($username) !== '' && trim($password) !== '') {
     <script type="module" src="app/main.js"></script>
 </head>
 <body>
-<form action="#" id="debug">
+<div id="debug">
     <section>
         <h3>API</h3>
         <div>
@@ -71,6 +75,10 @@ if (trim($username) !== '' && trim($password) !== '') {
             <label for="showTrackedEntity">Show tracked entity</label>
             <input type="checkbox" id="showTrackedEntity" name="showTrackedEntity">
         </div>
+        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+            <input type="hidden" name="moduleAction" value="logout"/>
+            <button type="submit">Log Out</button>
+        </form>
         <div>
             <input type="button" id="callAPI" value="Call API">
         </div>
@@ -82,10 +90,6 @@ if (trim($username) !== '' && trim($password) !== '') {
     </section>
     <section>
         <h3>Weather</h3>
-        <div>
-            <label for="code">Code</label>
-            <input type="text" id="code" disabled>
-        </div>
         <div>
             <label for="main">Name</label>
             <select name="main" id="main">
@@ -111,10 +115,6 @@ if (trim($username) !== '' && trim($password) !== '') {
             <input type="text" id="temp">
         </div>
         <div>
-            <label for="visibility">Visibility</label>
-            <input type="text" id="visibility">
-        </div>
-        <div>
             <label for="windSpeed">Wind Speed (m/s)</label>
             <input type="text" id="windSpeed">
         </div>
@@ -124,10 +124,6 @@ if (trim($username) !== '' && trim($password) !== '') {
                 <option value="East">East</option>
                 <option value="West">West</option>
             </select>
-        </div>
-        <div>
-            <label for="windGust">Wind Gust (m/s)</label>
-            <input type="text" id="windGust">
         </div>
         <div>
             <label for="clouds">Clouds (%)</label>
@@ -142,23 +138,19 @@ if (trim($username) !== '' && trim($password) !== '') {
             <input type="text" id="snow">
         </div>
         <div>
-            <label for="time">Timestamp (Unix)</label>
+            <label for="time">Timestamp (hmm)</label>
             <input type="text" id="time">
         </div>
         <div>
-            <label for="sunrise">Sunrise (Unix)</label>
+            <label for="sunrise">Sunrise (hmm)</label>
             <input type="text" id="sunrise">
         </div>
         <div>
-            <label for="sunset">Sunset (Unix)</label>
+            <label for="sunset">Sunset (hmm)</label>
             <input type="text" id="sunset">
         </div>
-        <div>
-            <label for="timezone">Timezone (s)</label>
-            <input type="text" id="timezone">
-        </div>
     </section>
-</form>
+</div>
 <main>
     <canvas id="screen"></canvas>
 </main>
