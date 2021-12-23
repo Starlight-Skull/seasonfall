@@ -62,7 +62,7 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <label for="location">Location</label>
             <input type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
         </div>
-        <div>
+        <div title="API is called every 10 minutes.">
             <label for="useAPI">Use API data</label>
             <input type="checkbox" id="useAPI" name="useAPI">
         </div>
@@ -83,7 +83,7 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <input type="button" title="API is called every 10 minutes." id="callAPI" value="Call API">
         </div>
         <div>
-            <input type="button" title="Re-open debug menu to reload values." id="update" value="Update">
+            <input type="button" id="update" value="Update">
         </div>
     </section>
     <section>
