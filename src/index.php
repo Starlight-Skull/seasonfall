@@ -80,13 +80,11 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <button type="submit">Log Out</button>
         </form>
         <div>
-            <input type="button" id="callAPI" value="Call API">
+            <input type="button" title="API is called every 10 minutes." id="callAPI" value="Call API">
         </div>
-        <em>API is called every 10 minutes.</em>
         <div>
-            <input type="button" id="update" value="Update">
+            <input type="button" title="Re-open debug menu to reload values." id="update" value="Update">
         </div>
-        <em>Re-open debug menu to reload values.</em>
     </section>
     <section>
         <h3>Weather</h3>
