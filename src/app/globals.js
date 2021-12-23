@@ -1,4 +1,4 @@
-import {Door, Entity, Hero, Stick, Tile, TileEntity} from "./classes.js";
+import {Door, Entity, Hero, Stick, Tile} from "./classes.js";
 
 export let player = new Hero(-1, 0, 0);
 
@@ -20,10 +20,9 @@ export let tileList = [
     new Tile(2, 'silver', 1650, 500, 150, 30),
     new Tile(2, 'silver', 1650, 625, 150, 30),
     // border
-    new Tile(true, 'red', -50, 0, 50, window.innerHeight * 1.5),
-    new Tile(true, 'red', window.innerWidth, 0, 50, window.innerHeight * 1.5),
-    new Tile(true, 'green', 0, -30, window.innerWidth, 50),
-    new Tile(true, 'red', 0, window.innerHeight * 1.5, window.innerWidth, 50)
+    new Tile(true, 'red', -50, 0, 50, 5000 * 1.5),
+    new Tile(true, 'red', 2000, 0, 50, 5000 * 1.5),
+    new Tile(true, 'green', 0, -30, 2000, 50)
 ];
 
 export let tileEntityList = [
