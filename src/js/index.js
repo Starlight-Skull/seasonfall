@@ -29,6 +29,12 @@ window.addEventListener('load', function () {
     debug.apiKey = document.getElementById('apiKey').value;
     debug.location = document.getElementById('location').value;
 
+    if (debug.apiKey !== '' || debug.location !== '') {
+        makeInterval();
+    } else {
+        debug.useAPI = false;
+    }
+
     window.addEventListener('keydown', ev => {
         keyLogger(ev.key, true);
     });
@@ -44,18 +50,32 @@ window.addEventListener('load', function () {
     });
 
     document.getElementById('update').addEventListener('click', () => {
+        // api
         debug.apiKey = document.getElementById('apiKey').value;
         debug.location = document.getElementById('location').value;
         if (debug.useAPI !== document.getElementById('useAPI').checked) {
             debug.useAPI = document.getElementById('useAPI').checked;
             makeInterval();
         }
+        // general
         debug.showBoxes = document.getElementById('showBoxes').checked;
         debug.showTrackedEntity = document.getElementById('showTrackedEntity').checked;
+        // weather
+        weather.main = document.getElementById('main').value;
+        weather.temp = document.getElementById('temp').value
+        weather.windSpeed = document.getElementById('windSpeed').value;
+        weather.windDeg = document.getElementById('windDeg').value;
+        weather.clouds = document.getElementById('clouds').value;
+        weather.rain = document.getElementById('rain').value;
+        weather.snow = document.getElementById('snow').value;
+        weather.time = document.getElementById('time').value;
+        weather.sunrise = document.getElementById('sunrise').value;
+        weather.sunset = document.getElementById('sunset').value;
     });
 
     document.getElementById('callAPI').addEventListener('click', () => {
         callAPI();
+        debugMenu.style.visibility = 'hidden';
     });
 
     function openDebug() {
@@ -108,9 +128,11 @@ window.addEventListener('load', function () {
                     weather.time = formatUnixTime(json.dt, json.timezone) || 0;
                     weather.sunrise = formatUnixTime(json.sys.sunrise, json.timezone) || 0;
                     weather.sunset = formatUnixTime(json.sys.sunset, json.timezone) || 0;
-                    debug.location = json.name + ',' + json.sys.country;
+                    debug.location = json.name + ',' + json.sys.country || '';
                 } else {
                     debug.useAPI = false;
+                    makeInterval();
+                    window.alert(json.message)
                 }
             });
     }
@@ -120,7 +142,6 @@ window.addEventListener('load', function () {
         return date.getUTCHours() * 100 + date.getUTCMinutes();
     }
 
-    makeInterval();
     function makeInterval() {
         if (debug.useAPI) {
             callAPI();
@@ -128,8 +149,10 @@ window.addEventListener('load', function () {
             interval = setInterval(() => {
                 callAPI();
             }, 600000);
+            document.getElementById('callAPI').disabled = false;
         } else {
             clearInterval(interval);
+            document.getElementById('callAPI').disabled = true;
         }
     }
 });
