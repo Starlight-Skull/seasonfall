@@ -1,4 +1,4 @@
-import {entityList, player, tileEntityList, tileList} from "./globals.js";
+import {entityList, player, tileEntityList, tileList, world} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
 
@@ -22,14 +22,13 @@ window.addEventListener('load', function () {
         entityMovement(entity);
         if (!entity.animation || debug.showBoxes) {
             ctx.fillStyle = 'rgba(250,0,250,0.5)';
-            ctx.moveTo(entity.frame.x, entity.frame.y);
             ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height);
         }
         if (entity.animation) {
             if (entity.frame.mirrored) {
-                ctx.setTransform(-1, 0, 0, 1, window.innerWidth, 0);
+                ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
                 ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * 5 + Math.abs(entity.frame.width / 2 - entity.animation.width * 5 / 2), window.innerHeight - entity.frame.y - entity.animation.height * 5, entity.animation.width * 5, entity.animation.height * 5);
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
             } else {
                 ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * 5 / 2), window.innerHeight - entity.frame.y - entity.animation.width * 5, entity.animation.width * 5, entity.animation.width * 5);
             }
@@ -70,8 +69,10 @@ window.addEventListener('load', function () {
         screen.height = window.innerHeight;
         ctx.imageSmoothingEnabled = false;
 
+        ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+
         ctx.fillStyle = 'skyblue';
-        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        ctx.fillRect(0, window.innerHeight, world.width, window.innerHeight - world.height);
         for (let i = 0; i < tileList.length; i++) {
             drawTile(tileList[i]);
         }
@@ -81,7 +82,11 @@ window.addEventListener('load', function () {
         for (let i = 0; i < tileEntityList.length; i++) {
             drawTile(tileEntityList[i]);
         }
+
         drawEntity(player);
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.translate(0, 0);
 
         // debug
         if (debug.showTrackedEntity) {

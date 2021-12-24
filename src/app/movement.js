@@ -1,10 +1,10 @@
 import {collision} from "./helpers.js";
-import {entityList, player, tileEntityList, tileList} from "./globals.js";
+import {entityList, player, tileEntityList, tileList, world} from "./globals.js";
 
 export function entityMovement(entity) {
-    if (entity.frame.x > window.innerWidth || entity.frame.x < 0 || entity.frame.y > window.innerHeight * 1.5 || entity.frame.y < 0) {
-        entity.frame.x = 0;
-        entity.frame.y = 0;
+    if (entity.frame.x > world.width || entity.frame.x < 0 || entity.frame.y > world.height * 1.5 || entity.frame.y < 0) {
+        entity.frame.x = world.originX;
+        entity.frame.y = world.originY;
     }
     if (entity.cooldown > 0) {
         entity.cooldown--;
@@ -134,9 +134,7 @@ export function entityMovement(entity) {
                     til = collision(entity, tileEntityList[i], true);
                 }
                 if (til) {
-                    console.log(til)
                     til.activate();
-                    console.log(til)
                 }
             }
             entity.controls.up = 2;
