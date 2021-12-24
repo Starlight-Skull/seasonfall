@@ -102,7 +102,6 @@ export class Door extends TileEntity {
         super(true, color, x, y, width, height);
         this.openWidth = openWidth;
         this.activate = function () {
-            console.log(this.hasCollision)
             this.hasCollision = !this.hasCollision;
             let w = this.frame.width;
             this.frame.width = this.openWidth;

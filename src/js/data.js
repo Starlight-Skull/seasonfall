@@ -71,6 +71,7 @@ window.addEventListener('load', function () {
         weather.time = document.getElementById('time').value;
         weather.sunrise = document.getElementById('sunrise').value;
         weather.sunset = document.getElementById('sunset').value;
+        debugMenu.style.visibility = 'hidden';
     });
 
     document.getElementById('callAPI').addEventListener('click', () => {
