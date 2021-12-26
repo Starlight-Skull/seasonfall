@@ -2,7 +2,7 @@ export class Entity {
     constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
         this.cooldown = cooldown || -1;
         let sprite = new Image();
-        sprite.src = './img/missingEntity.png';
+        sprite.src = './img/missing_entity.png';
         this.missing = new SpriteSet(sprite, 0, 0, 36, 36, 1, 1, 'missing');
         this.frame = {
             x: x || 0,
@@ -58,7 +58,7 @@ export class Tile {
         }
 
         let img = new Image();
-        img.src = `./img/${sprite || 'missingTile'}.png`;
+        img.src = `./img/${sprite || 'missing_tile'}.png`;
         this.sprite = img;
     }
 }
