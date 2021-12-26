@@ -35,6 +35,8 @@ if (trim($username) !== '' && trim($password) !== '') {
 
 if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
     session_destroy();
+    header('Location: ./php/login.php');
+    exit();
 }
 ?>
 <!doctype html>
