@@ -148,6 +148,53 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <input type="text" id="sunset">
         </div>
     </section>
+    <section>
+        <h3>Player</h3>
+        <div>
+            <label for="hp">HP</label>
+            <input type="text" id="hp">
+        </div>
+        <div>
+            <label for="maxHp">Max HP</label>
+            <input type="text" id="maxHp">
+        </div>
+        <div>
+            <label for="mp">MP</label>
+            <input type="text" id="mp">
+        </div>
+        <div>
+            <label for="maxMp">Max MP</label>
+            <input type="text" id="maxMp">
+        </div>
+        <div>
+            <label for="xp">XP</label>
+            <input type="text" id="xp">
+        </div>
+        <div>
+            <label for="damage">Damage</label>
+            <input type="text" id="damage">
+        </div>
+        <div>
+            <label for="speed">Speed</label>
+            <input type="text" id="speed">
+        </div>
+        <div>
+            <label for="maxAir">Max Air Time</label>
+            <input type="text" id="maxAir">
+        </div>
+        <div>
+            <label for="x">x</label>
+            <input type="text" id="x">
+        </div>
+        <div>
+            <label for="y">y</label>
+            <input type="text" id="y">
+        </div>
+        <div>
+            <label for="hasCollision">Collision</label>
+            <input type="checkbox" id="hasCollision">
+        </div>
+    </section>
 </div>
 <main>
     <canvas id="screen"></canvas>
