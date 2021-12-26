@@ -62,15 +62,15 @@ window.addEventListener('load', function () {
         debug.showTrackedEntity = document.getElementById('showTrackedEntity').checked;
         // weather
         weather.main = document.getElementById('main').value;
-        weather.temp = document.getElementById('temp').value
-        weather.windSpeed = document.getElementById('windSpeed').value;
+        weather.temp = parseFloat(document.getElementById('temp').value);
+        weather.windSpeed = parseFloat(document.getElementById('windSpeed').value);
         weather.windDeg = document.getElementById('windDeg').value;
-        weather.clouds = document.getElementById('clouds').value;
-        weather.rain = document.getElementById('rain').value;
-        weather.snow = document.getElementById('snow').value;
-        weather.time = document.getElementById('time').value;
-        weather.sunrise = document.getElementById('sunrise').value;
-        weather.sunset = document.getElementById('sunset').value;
+        weather.clouds = parseFloat(document.getElementById('clouds').value);
+        weather.rain = parseFloat(document.getElementById('rain').value);
+        weather.snow = parseFloat(document.getElementById('snow').value);
+        weather.time = parseInt(document.getElementById('time').value);
+        weather.sunrise = parseInt(document.getElementById('sunrise').value);
+        weather.sunset = parseInt(document.getElementById('sunset').value);
         debugMenu.style.visibility = 'hidden';
     });
 
