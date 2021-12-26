@@ -1,25 +1,5 @@
-import {debug, player, weather} from "../app/globals.js";
+import {debug, weather} from "../app/globals.js";
 import {keyLogger} from "../app/helpers.js";
-
-window.modPlayer = function (key, value) {
-    switch (key) {
-        case 'hp':
-            player.stats.hp = value;
-            break;
-        case 'mp':
-            player.stats.mp = value;
-            break;
-        case 'maxHP':
-            player.stats.maxHP = value;
-            break;
-        case 'maxMP':
-            player.stats.maxMP = value;
-            break;
-        case 'xp':
-            player.stats.xp = value;
-            break;
-    }
-}
 
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
@@ -28,7 +8,7 @@ window.addEventListener('load', function () {
     // load data placed by php
     debug.apiKey = document.getElementById('apiKey').value;
     debug.location = document.getElementById('location').value;
-
+    // don't make interval unless needed
     if (debug.apiKey !== '' || debug.location !== '') {
         makeInterval();
     } else {
@@ -102,14 +82,12 @@ window.addEventListener('load', function () {
     }
 
     function callAPI() {
-        let apiKey = document.getElementById('apiKey').value;
-        let location = document.getElementById('location').value;
-        fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&q=${location}&units=metric`)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${debug.apiKey}&q=${debug.location}&units=metric`)
             .then(res => {
                 return res.json();
             })
             .then((json) => {
-                console.log(json);
+                // process api response
                 if (json.cod === 200) {
                     weather.main = json.weather[0].main || '';
                     weather.temp = json.main.temp || 0;
@@ -131,6 +109,7 @@ window.addEventListener('load', function () {
                     weather.sunset = formatUnixTime(json.sys.sunset, json.timezone) || 0;
                     debug.location = json.name + ',' + json.sys.country || '';
                 } else {
+                    // if response has an error, disable api and tell user
                     debug.useAPI = false;
                     makeInterval();
                     window.alert(json.message)
@@ -139,6 +118,7 @@ window.addEventListener('load', function () {
     }
 
     function formatUnixTime(timestamp, timezone) {
+        // time is set to a simple format for easy use in calculations
         let date = new Date((timestamp + timezone) * 1000);
         return date.getUTCHours() * 100 + date.getUTCMinutes();
     }
