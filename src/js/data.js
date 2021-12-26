@@ -1,5 +1,5 @@
 import {debug, player, weather} from "../app/globals.js";
-import {keyLogger} from "../app/helpers.js";
+import {formatUnixTime, keyLogger} from "../app/helpers.js";
 
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
@@ -64,14 +64,11 @@ window.addEventListener('load', function () {
         player.frame.y = parseFloat(document.getElementById('y').value);
         player.hasCollision = document.getElementById('hasCollision').checked;
         debugMenu.style.visibility = 'hidden';
-        document.getElementById('update').selected = false;
     });
 
     document.getElementById('callAPI').addEventListener('click', () => {
         callAPI();
         debugMenu.style.visibility = 'hidden';
-        document.getElementById('update').disabled = true;
-        document.getElementById('callAPI').disabled = true;
     });
 
     function openDebug() {
@@ -144,12 +141,6 @@ window.addEventListener('load', function () {
                     window.alert(json.message)
                 }
             });
-    }
-
-    function formatUnixTime(timestamp, timezone) {
-        // time is set to a simple format for easy use in calculations
-        let date = new Date((timestamp + timezone) * 1000);
-        return date.getUTCHours() * 100 + date.getUTCMinutes();
     }
 
     function makeInterval() {

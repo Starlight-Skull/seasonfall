@@ -21,6 +21,12 @@ export function keyLogger(ev, down) {
     }
 }
 
+export function formatUnixTime(timestamp, timezone) {
+    // time is set to a simple format for easy use in calculations
+    let date = new Date((timestamp + timezone) * 1000);
+    return date.getUTCHours() * 100 + date.getUTCMinutes();
+}
+
 export function collision(entity, object, isAttack) {
     if (entity.hasCollision && (object.hasCollision || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
         let values = {
