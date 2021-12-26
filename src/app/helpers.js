@@ -1,7 +1,7 @@
 import {player} from "./globals.js";
 
-export function keyLogger(key, down) {
-    switch (key) {
+export function keyLogger(ev, down) {
+    switch (ev.key) {
         case 'w':
             player.controls.up = (player.controls.up === 2) ? (down ? 2 : false) : down;
             break;
@@ -15,6 +15,7 @@ export function keyLogger(key, down) {
             player.controls.right = down;
             break;
         case ' ':
+            ev.preventDefault();
             player.controls.jump = down;
             break;
     }
