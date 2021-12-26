@@ -13,11 +13,15 @@ window.addEventListener('load', function () {
     ctx.imageSmoothingEnabled = false;
 
     function drawTile(tile) {
+        for (let i = 0; i < tile.frame.height; i += tile.sprite.height * world.scale) {
+            for (let j = 0; j < tile.frame.width; j += tile.sprite.width * world.scale) {
+                ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
+            }
+        }
         if (debug.showBoxes) {
             ctx.fillStyle = 'rgba(65,250,0,0.5)';
             ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height);
         }
-        ctx.drawImage(tile.sprite, tile.frame.x, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
     }
 
     function drawEntity(entity) {
