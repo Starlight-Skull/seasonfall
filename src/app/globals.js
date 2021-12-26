@@ -2,9 +2,9 @@ import {Door, Entity, Hero, Stick, Tile} from "./classes.js";
 
 export const world = {
     originX: 800,
-    originY: 0,
-    width: 10000,
-    height: 5000,
+    originY: 160,
+    width: 5200,
+    height: 2400,
     scale: 5
 }
 
@@ -18,23 +18,23 @@ export let entityList = [
 
 export let tileList = [
     // tiles
-    new Tile(false, 1200, 80, 600, 750),
-    new Tile(true, 1200, 310, 100, 520),
-    new Tile(true, 1800, 310, 100, 520),
-    new Tile(2, 1300, 330, 500, 30),
-    new Tile(2, 1300, 800, 500, 30),
-    new Tile(2, 1650, 205, 150, 30),
-    new Tile(2, 1650, 455, 150, 30),
-    new Tile(2, 1650, 580, 150, 30),
-    new Tile(2, 1650, 705, 150, 30),
+    new Tile(false, 1200, 80, 640, 800, 'brick_dark'),
+    new Tile(true, 1200, 240, 80, 640, 'brick'),
+    new Tile(true, 1760, 240, 80, 640, 'brick'),
+    new Tile(2, 1600, 200, 160, 40, 'plank'),
+    new Tile(2, 1280, 360, 480, 40, 'plank'),
+    new Tile(2, 1600, 520, 160, 40, 'plank'),
+    new Tile(2, 1600, 680, 160, 40, 'plank'),
+    new Tile(2, 1280, 840, 480, 40, 'plank'),
     // border
-    new Tile(true, -80, 0, 80, world.height, 'dirt'),
-    new Tile(true, world.width, 0, 80, world.height, 'dirt'),
+    new Tile(true, -160, 0, 160, world.height, 'dirt'),
+    new Tile(true, world.width, 0, 160, world.height, 'dirt'),
+    new Tile(false, -160, -80, world.width + 320, 80, 'dirt'),
     new Tile(true, 0, 0, world.width, 80, 'grass')
 ];
 
 export let tileEntityList = [
-    new Door(1200, 80, 30, 100, 230)
+    new Door(1200, 80, 20, 80, 240)
 ];
 
 export let weather = {
