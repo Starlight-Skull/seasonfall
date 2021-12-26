@@ -1,4 +1,4 @@
-import {entityList, player, tileEntityList, tileList, world} from "./globals.js";
+import {entityList, player, tileEntityList, tileList, weather, world} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
 
@@ -13,9 +13,11 @@ window.addEventListener('load', function () {
     ctx.imageSmoothingEnabled = false;
 
     function drawTile(tile) {
-        ctx.fillStyle = tile.color;
-        ctx.moveTo(tile.frame.x, tile.frame.y);
-        ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height);
+        if (debug.showBoxes) {
+            ctx.fillStyle = 'rgba(65,250,0,0.5)';
+            ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height);
+        }
+        ctx.drawImage(tile.sprite, tile.frame.x, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
     }
 
     function drawEntity(entity) {
@@ -27,10 +29,10 @@ window.addEventListener('load', function () {
         if (entity.animation) {
             if (entity.frame.mirrored) {
                 ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
-                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * 5 + Math.abs(entity.frame.width / 2 - entity.animation.width * 5 / 2), window.innerHeight - entity.frame.y - entity.animation.height * 5, entity.animation.width * 5, entity.animation.height * 5);
+                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * world.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale);
                 ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
             } else {
-                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * 5 / 2), window.innerHeight - entity.frame.y - entity.animation.width * 5, entity.animation.width * 5, entity.animation.width * 5);
+                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.width * world.scale, entity.animation.width * world.scale, entity.animation.width * world.scale);
             }
         }
         drawStats(entity);
@@ -82,11 +84,15 @@ window.addEventListener('load', function () {
         for (let i = 0; i < tileEntityList.length; i++) {
             drawTile(tileEntityList[i]);
         }
-
         drawEntity(player);
 
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate(0, 0);
+
+        if (weather.time < weather.sunrise || weather.time > weather.sunset) {
+            ctx.fillStyle = 'rgba(0,0,0,0.9)';
+            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+        }
 
         // debug
         if (debug.showTrackedEntity) {
@@ -96,7 +102,7 @@ window.addEventListener('load', function () {
             ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
             ctx.fillText(`pos: [${tracked.frame.x}, ${tracked.frame.y}]`, 5, 60);
             ctx.fillText(`move: ↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
-            ctx.fillText(``, 5, 120);
+            ctx.fillText(`${weather.time < weather.sunrise} ${weather.time > weather.sunset}`, 5, 120);
         }
         requestAnimationFrame(reDraw);
     }

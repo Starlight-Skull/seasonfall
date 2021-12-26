@@ -2,8 +2,8 @@ export class Entity {
     constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
         this.cooldown = cooldown || -1;
         let sprite = new Image();
-        sprite.src = './img/missing.png';
-        this.missing = new SpriteSet(sprite, 0, 0, 36, 36, 1, 'missing');
+        sprite.src = './img/missingEntity.png';
+        this.missing = new SpriteSet(sprite, 0, 0, 36, 36, 1, 1, 'missing');
         this.frame = {
             x: x || 0,
             y: y || 0,
@@ -25,9 +25,9 @@ export class Entity {
             maxHP: maxHP || 100,
             mp: maxMP || 0,
             maxMP: maxMP || 0,
-            xp: xp || 0
+            xp: xp || 0,
+            speed: speed || 10
         }
-        this.speed = speed || 10;
         this.air = 0;
         this.maxAir = maxAir || 15;
         this.controls = {
@@ -47,6 +47,44 @@ export class Entity {
     }
 }
 
+export class Tile {
+    constructor(hasCollision, x, y, width, height, sprite) {
+        this.hasCollision = hasCollision; // 2 = only top collision
+        this.frame = {
+            x: x || 0,
+            y: y || 0,
+            width: width || 150,
+            height: height || 150
+        }
+
+        let img = new Image();
+        img.src = `./img/${sprite || 'missingTile'}.png`;
+        this.sprite = img;
+    }
+}
+
+export class TileEntity extends Tile {
+    constructor(hasCollision, x, y, width, height, color) {
+        super(hasCollision, x, y, width, height, color);
+    }
+
+    activate() {
+    };
+}
+
+export class SpriteSet {
+    constructor(sprite, x, y, width, height, frames, speed, name) {
+        this.sprite = sprite;
+        this.x = x;
+        this.y = y;
+        this.frames = frames;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+        this.name = name;
+    }
+}
+
 // todo add more sprites
 // todo add more classes
 export class Hero extends Entity {
@@ -56,9 +94,11 @@ export class Hero extends Entity {
         let sprite = new Image();
         sprite.src = './img/kain_animations.png';
 
-        this.idle = new SpriteSet(sprite, 36, 0, 36, 36, 1, 'idle');
-        this.move = new SpriteSet(sprite, 72, 0, 36, 36, 12, 'move');
-        this.attack = new SpriteSet(sprite, 36, 36, 36, 36, 3, 'attack');
+        this.idle = new SpriteSet(sprite, 36, 0, 36, 36, 1, 1, 'idle');
+        this.move = new SpriteSet(sprite, 72, 0, 36, 36, 12, 0.3, 'move');
+        this.attack = new SpriteSet(sprite, 36, 36, 36, 36, 3, 0.1, 'attack');
+        this.jump = new SpriteSet(sprite, 36, 0, 36, 36, 1, 1, 'jump');
+        this.fall = new SpriteSet(sprite, 36, 0, 36, 36, 1, 1, 'fall');
     }
 }
 
@@ -69,37 +109,17 @@ export class Stick extends Entity {
         let sprite = new Image();
         sprite.src = './img/stick.png';
 
-        this.idle = new SpriteSet(sprite, 0, 0, 36, 36, 4, 'idle');
-        this.move = new SpriteSet(sprite, 0, 36, 36, 36, 4, 'move');
-        this.attack = new SpriteSet(sprite, 0, 72, 36, 36, 4, 'attack');
-        this.jump = new SpriteSet(sprite, 0, 108, 36, 36, 4, 'jump');
-        this.fall = new SpriteSet(sprite, 108, 108, 36, 36, 1, 'fall');
+        this.idle = new SpriteSet(sprite, 0, 0, 36, 36, 4, 0.01, 'idle');
+        this.move = new SpriteSet(sprite, 0, 36, 36, 36, 4, 0.3, 'move');
+        this.attack = new SpriteSet(sprite, 0, 72, 36, 36, 4, 0.1, 'attack');
+        this.jump = new SpriteSet(sprite, 0, 108, 36, 36, 4, 1, 'jump');
+        this.fall = new SpriteSet(sprite, 108, 108, 36, 36, 1, 0.3, 'fall');
     }
-}
-
-export class Tile {
-    constructor(hasCollision, color, x, y, width, height) {
-        this.frame = {
-            x: x || 0,
-            y: y || 0,
-            width: width || 150,
-            height: height || 150
-        }
-        this.color = color || 'black';
-        this.hasCollision = hasCollision; // 2 = only top collision
-    }
-}
-
-export class TileEntity extends Tile {
-    constructor(hasCollision, color, x, y, width, height) {
-        super(hasCollision, color, x, y, width, height);
-    }
-    activate () {};
 }
 
 export class Door extends TileEntity {
-    constructor(color, x, y, width, openWidth, height) {
-        super(true, color, x, y, width, height);
+    constructor(x, y, width, openWidth, height, sprite) {
+        super(true, x, y, width, height, sprite);
         this.openWidth = openWidth;
         this.activate = function () {
             this.hasCollision = !this.hasCollision;
@@ -107,17 +127,5 @@ export class Door extends TileEntity {
             this.frame.width = this.openWidth;
             this.openWidth = w;
         };
-    }
-}
-
-export class SpriteSet {
-    constructor(sprite, x, y, width, height, frames, name) {
-        this.sprite = sprite;
-        this.x = x;
-        this.y = y;
-        this.frames = frames;
-        this.width = width;
-        this.height = height;
-        this.name = name;
     }
 }
