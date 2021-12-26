@@ -84,7 +84,6 @@ export function entityMovement(entity) {
             entity.frame.currentFrame = 0;
         }
     }
-
     if (entity.controls.jump && (entity.air < entity.maxAir) && (!entity.collision.up)) {
         entity.frame.y += (entity.stats.speed * 2);
         entity.air++;
@@ -96,9 +95,15 @@ export function entityMovement(entity) {
         if (entity.frame.currentFrame < entity.animation.frames - 1) {
             entity.frame.currentFrame += entity.animation.speed;
         }
-    } else if ((entity.air > entity.maxAir) || (!entity.controls.jump && entity.air > 0) || !entity.collision.down) {
+    } else if (((entity.air > entity.maxAir) || (!entity.controls.jump && entity.air > 0) || !entity.collision.down) && entity.hasCollision) {
         entity.frame.y -= 9.81 * 1.5;
         entity.air = entity.maxAir;
+    }
+    if (!entity.hasCollision) {
+        entity.air = 0;
+        if (entity.controls.down) {
+            entity.frame.y -= (entity.stats.speed * 2);
+        }
     }
     entity.collision.up = false;
     entity.collision.down = false;
