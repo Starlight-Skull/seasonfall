@@ -8,33 +8,33 @@ export const world = {
     scale: 5
 }
 
-export let player = new Hero(-1, 700, 0);
+export let player = new Hero(-1, 1400, 80);
 
 export let entityList = [
-    new Entity(true, -1, 6, 10, 25, 15, 150, 10, 200, 0, 50, 150),
-    new Entity(true, -1, 2, 10, 50, 0, 5, 5, 900, 0, 150, 200),
+    new Entity(true, -1, 6, 10, 25, 15, 150, 10, 200, 80, 50, 150),
+    new Entity(true, -1, 2, 10, 50, 0, 5, 5, 900, 80, 150, 200),
     new Stick(-1, 700, 500)
 ];
 
 export let tileList = [
     // tiles
-    new Tile(false, 'black', 1200, 0, 600, 750),
-    new Tile(true, 'grey', 1200, 250, 100, 500),
-    new Tile(true, 'grey', 1800, 0, 100, 750),
-    new Tile(2, 'brown', 1300, 250, 500, 30),
-    new Tile(2, 'brown', 1300, 720, 500, 30),
-    new Tile(2, 'silver', 1650, 125, 150, 30),
-    new Tile(2, 'silver', 1650, 375, 150, 30),
-    new Tile(2, 'silver', 1650, 500, 150, 30),
-    new Tile(2, 'silver', 1650, 625, 150, 30),
+    new Tile(false, 1200, 80, 600, 750),
+    new Tile(true, 1200, 310, 100, 520),
+    new Tile(true, 1800, 310, 100, 520),
+    new Tile(2, 1300, 330, 500, 30),
+    new Tile(2, 1300, 800, 500, 30),
+    new Tile(2, 1650, 205, 150, 30),
+    new Tile(2, 1650, 455, 150, 30),
+    new Tile(2, 1650, 580, 150, 30),
+    new Tile(2, 1650, 705, 150, 30),
     // border
-    new Tile(true, 'red', -50, 0, 50, world.height),
-    new Tile(true, 'red', world.width, 0, 50, world.height),
-    new Tile(true, 'green', 0, -30, world.width, 50)
+    new Tile(true, -80, 0, 80, world.height, 'dirt'),
+    new Tile(true, world.width, 0, 80, world.height, 'dirt'),
+    new Tile(true, 0, 0, world.width, 80, 'grass')
 ];
 
 export let tileEntityList = [
-    new Door('brown', 1200, 20, 30, 100, 230)
+    new Door(1200, 80, 30, 100, 230)
 ];
 
 export let weather = {
@@ -60,6 +60,6 @@ export let debug = {
     apiKey: '',
     location: '',
     useAPI: false,
-    showBoxes: true,
-    showTrackedEntity: true,
+    showBoxes: false,
+    showTrackedEntity: false,
 };
