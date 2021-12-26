@@ -1,4 +1,4 @@
-import {debug, weather} from "../app/globals.js";
+import {debug, player, weather} from "../app/globals.js";
 import {keyLogger} from "../app/helpers.js";
 
 window.addEventListener('load', function () {
@@ -16,7 +16,7 @@ window.addEventListener('load', function () {
     }
 
     window.addEventListener('keydown', ev => {
-        keyLogger(ev.key, true);
+        keyLogger(ev, true);
     });
     window.addEventListener('keyup', ev => {
         if (ev.key === '`') {
@@ -26,7 +26,7 @@ window.addEventListener('load', function () {
                 debugMenu.style.visibility = 'hidden';
             }
         }
-        keyLogger(ev.key, false);
+        keyLogger(ev, false);
     });
 
     document.getElementById('update').addEventListener('click', () => {
@@ -51,16 +51,33 @@ window.addEventListener('load', function () {
         weather.time = parseInt(document.getElementById('time').value);
         weather.sunrise = parseInt(document.getElementById('sunrise').value);
         weather.sunset = parseInt(document.getElementById('sunset').value);
+        // player
+        player.stats.hp = parseFloat(document.getElementById('hp').value);
+        player.stats.maxHP = parseFloat(document.getElementById('maxHp').value);
+        player.stats.mp = parseFloat(document.getElementById('mp').value);
+        player.stats.maxMP = parseFloat(document.getElementById('maxMp').value);
+        player.stats.xp = parseFloat(document.getElementById('xp').value);
+        player.stats.damage = parseFloat(document.getElementById('damage').value);
+        player.stats.speed = parseFloat(document.getElementById('speed').value);
+        player.maxAir = parseFloat(document.getElementById('maxAir').value);
+        player.frame.x = parseFloat(document.getElementById('x').value);
+        player.frame.y = parseFloat(document.getElementById('y').value);
+        player.hasCollision = document.getElementById('hasCollision').checked;
         debugMenu.style.visibility = 'hidden';
+        document.getElementById('update').selected = false;
     });
 
     document.getElementById('callAPI').addEventListener('click', () => {
         callAPI();
         debugMenu.style.visibility = 'hidden';
+        document.getElementById('update').disabled = true;
+        document.getElementById('callAPI').disabled = true;
     });
 
     function openDebug() {
         debugMenu.style.visibility = 'visible';
+        document.getElementById('callAPI').disabled = !debug.useAPI;
+        document.getElementById('update').disabled = false;
         // api
         document.getElementById('apiKey').value = debug.apiKey;
         document.getElementById('location').value = debug.location;
@@ -79,6 +96,18 @@ window.addEventListener('load', function () {
         document.getElementById('time').value = weather.time;
         document.getElementById('sunrise').value = weather.sunrise;
         document.getElementById('sunset').value = weather.sunset;
+        // player
+        document.getElementById('hp').value = player.stats.hp;
+        document.getElementById('maxHp').value = player.stats.maxHP;
+        document.getElementById('mp').value = player.stats.mp;
+        document.getElementById('maxMp').value = player.stats.maxMP;
+        document.getElementById('xp').value = player.stats.xp;
+        document.getElementById('damage').value = player.stats.damage;
+        document.getElementById('speed').value = player.stats.speed;
+        document.getElementById('maxAir').value = player.maxAir;
+        document.getElementById('x').value = player.frame.x;
+        document.getElementById('y').value = player.frame.y;
+        document.getElementById('hasCollision').checked = player.hasCollision;
     }
 
     function callAPI() {
@@ -130,10 +159,8 @@ window.addEventListener('load', function () {
             interval = setInterval(() => {
                 callAPI();
             }, 600000);
-            document.getElementById('callAPI').disabled = false;
         } else {
             clearInterval(interval);
-            document.getElementById('callAPI').disabled = true;
         }
     }
 });
