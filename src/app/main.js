@@ -3,6 +3,7 @@ import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
 
 window.addEventListener('load', function () {
+    // setup for drawing
     const screen = document.getElementById('screen');
     if (!screen.getContext) {
         window.alert('This application is not supported by your browser.');
@@ -10,14 +11,19 @@ window.addEventListener('load', function () {
     const ctx = screen.getContext('2d');
     screen.width = window.innerWidth;
     screen.height = window.innerHeight;
+    // has to be disabled so pixel art isn't blurry
     ctx.imageSmoothingEnabled = false;
+    // call recursive main function
+    reDraw();
 
     function drawTile(tile) {
+        // if frame is bigger, sprite is drawn multiple times to cover the whole size
         for (let i = 0; i < tile.frame.height; i += tile.sprite.height * world.scale) {
             for (let j = 0; j < tile.frame.width; j += tile.sprite.width * world.scale) {
                 ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
             }
         }
+        // draw a box to show the true hitbox
         if (debug.showBoxes) {
             ctx.fillStyle = 'rgba(65,250,0,0.5)';
             ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height);
@@ -26,11 +32,9 @@ window.addEventListener('load', function () {
 
     function drawEntity(entity) {
         entityMovement(entity);
-        if (!entity.animation || debug.showBoxes) {
-            ctx.fillStyle = 'rgba(250,0,250,0.5)';
-            ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height);
-        }
+        // draw current sprite
         if (entity.animation) {
+            // mirror if needed
             if (entity.frame.mirrored) {
                 ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
                 ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * world.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale);
@@ -39,27 +43,34 @@ window.addEventListener('load', function () {
                 ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.width * world.scale, entity.animation.width * world.scale, entity.animation.width * world.scale);
             }
         }
+        // draw a box to show the true hitbox
+        if (!entity.animation || debug.showBoxes) {
+            ctx.fillStyle = 'rgba(250,0,250,0.5)';
+            ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height);
+        }
         drawStats(entity);
     }
 
     function drawStats(entity) {
+        // hp
         ctx.fillStyle = 'black';
         ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
         ctx.fillStyle = 'red';
         ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
+        // mp
         if (entity.stats.mp !== 0) {
             ctx.fillStyle = 'black';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxMP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 45, entity.stats.maxMP * 1.5 + 10, 20);
             ctx.fillStyle = 'blue';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
         }
-
+        // name
         ctx.fillStyle = 'black';
         ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.constructor.name.length * 16 + 10, 30);
         ctx.fillStyle = 'white';
         ctx.font = '25px Roboto';
         ctx.fillText(`${entity.constructor.name}`, entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
-
+        // xp
         if (entity.stats.xp !== 0) {
             ctx.fillStyle = 'black';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 120, entity.stats.xp.toString().length * 16 + 10, 30);
@@ -69,8 +80,8 @@ window.addEventListener('load', function () {
         }
     }
 
-    reDraw();
     function reDraw() {
+        // update screen in case of window resize
         screen.width = window.innerWidth;
         screen.height = window.innerHeight;
         ctx.imageSmoothingEnabled = false;
@@ -92,7 +103,7 @@ window.addEventListener('load', function () {
         // reset context
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate(0, 0);
-
+        // light
         let light;
         if (weather.time >= 1130 && weather.time <= 1230) {
             light = 0;
@@ -105,8 +116,7 @@ window.addEventListener('load', function () {
         }
         ctx.fillStyle = 'rgba(0,0,0,' + light + ')';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-
-        // debug
+        // debug info
         if (debug.showTrackedEntity) {
             let tracked = player;
             ctx.fillStyle = 'black';
