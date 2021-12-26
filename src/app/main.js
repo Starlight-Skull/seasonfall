@@ -74,29 +74,37 @@ window.addEventListener('load', function () {
         screen.width = window.innerWidth;
         screen.height = window.innerHeight;
         ctx.imageSmoothingEnabled = false;
-
+        // move context to player
         ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
-
+        // draw world
         ctx.fillStyle = 'skyblue';
-        ctx.fillRect(0, window.innerHeight, world.width, window.innerHeight - world.height);
+        ctx.fillRect(0, window.innerHeight, world.width, -world.height);
         for (let i = 0; i < tileList.length; i++) {
             drawTile(tileList[i]);
-        }
-        for (let i = 0; i < entityList.length; i++) {
-            drawEntity(entityList[i]);
         }
         for (let i = 0; i < tileEntityList.length; i++) {
             drawTile(tileEntityList[i]);
         }
+        for (let i = 0; i < entityList.length; i++) {
+            drawEntity(entityList[i]);
+        }
         drawEntity(player);
-
+        // reset context
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate(0, 0);
 
-        if (weather.time < weather.sunrise || weather.time > weather.sunset) {
-            ctx.fillStyle = 'rgba(0,0,0,0.9)';
-            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+        let light;
+        if (weather.time >= 1130 && weather.time <= 1230) {
+            light = 0;
+        } else if (weather.time >= weather.sunrise && weather.time < 1130) {
+            light = ((1200 - weather.time) / (1200 - weather.sunrise)) - 0.15;
+        } else if (weather.time > 1230 && weather.time <= weather.sunset) {
+            light = ((weather.time - 1200) / (weather.sunset - 1200)) - 0.15;
+        } else {
+            light = 0.9;
         }
+        ctx.fillStyle = 'rgba(0,0,0,' + light + ')';
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
         // debug
         if (debug.showTrackedEntity) {
@@ -106,7 +114,7 @@ window.addEventListener('load', function () {
             ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
             ctx.fillText(`pos: [${tracked.frame.x}, ${tracked.frame.y}]`, 5, 60);
             ctx.fillText(`move: ↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
-            ctx.fillText(`${weather.time < weather.sunrise} ${weather.time > weather.sunset}`, 5, 120);
+            ctx.fillText(`light: ${weather.time} ${weather.time <= 1200 ? 'AM' : 'PM'}: ${light}`, 5, 120);
         }
         requestAnimationFrame(reDraw);
     }
