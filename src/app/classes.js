@@ -3,12 +3,12 @@ export class Entity {
         this.cooldown = cooldown || -1;
         let sprite = new Image();
         sprite.src = './img/missing_entity.png';
-        this.missing = new SpriteSet(sprite, 0, 0, 36, 36, 1, 1, 'missing');
+        this.missing = new Animation(sprite, 0, 0, 32, 32, 1, 1, 'missing');
         this.frame = {
             x: x || 0,
             y: y || 0,
-            width: width || 150,
-            height: height || 250,
+            width: width || 160,
+            height: height || 160,
             currentFrame: 1,
             mirrored: false,
         };
@@ -53,8 +53,8 @@ export class Tile {
         this.frame = {
             x: x || 0,
             y: y || 0,
-            width: width || 150,
-            height: height || 150
+            width: width || 80,
+            height: height || 80
         }
 
         let img = new Image();
@@ -64,15 +64,15 @@ export class Tile {
 }
 
 export class TileEntity extends Tile {
-    constructor(hasCollision, x, y, width, height, color) {
-        super(hasCollision, x, y, width, height, color);
+    constructor(hasCollision, x, y, width, height, sprite) {
+        super(hasCollision, x, y, width, height, sprite);
     }
 
     activate() {
     };
 }
 
-export class SpriteSet {
+export class Animation {
     constructor(sprite, x, y, width, height, frames, speed, name) {
         this.sprite = sprite;
         this.x = x;
@@ -94,11 +94,11 @@ export class Hero extends Entity {
         let sprite = new Image();
         sprite.src = './img/kain_animations.png';
 
-        this.idle = new SpriteSet(sprite, 36, 0, 36, 36, 1, 1, 'idle');
-        this.move = new SpriteSet(sprite, 72, 0, 36, 36, 12, 0.3, 'move');
-        this.attack = new SpriteSet(sprite, 36, 36, 36, 36, 3, 0.1, 'attack');
-        this.jump = new SpriteSet(sprite, 36, 0, 36, 36, 1, 1, 'jump');
-        this.fall = new SpriteSet(sprite, 36, 0, 36, 36, 1, 1, 'fall');
+        this.idle = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'idle');
+        this.move = new Animation(sprite, 72, 0, 36, 36, 12, 0.3, 'move');
+        this.attack = new Animation(sprite, 36, 36, 36, 36, 3, 0.1, 'attack');
+        this.jump = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'jump');
+        this.fall = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'fall');
     }
 }
 
@@ -109,11 +109,11 @@ export class Stick extends Entity {
         let sprite = new Image();
         sprite.src = './img/stick.png';
 
-        this.idle = new SpriteSet(sprite, 0, 0, 36, 36, 4, 0.01, 'idle');
-        this.move = new SpriteSet(sprite, 0, 36, 36, 36, 4, 0.3, 'move');
-        this.attack = new SpriteSet(sprite, 0, 72, 36, 36, 4, 0.1, 'attack');
-        this.jump = new SpriteSet(sprite, 0, 108, 36, 36, 4, 1, 'jump');
-        this.fall = new SpriteSet(sprite, 108, 108, 36, 36, 1, 0.3, 'fall');
+        this.idle = new Animation(sprite, 0, 0, 36, 36, 4, 0.01, 'idle');
+        this.move = new Animation(sprite, 0, 36, 36, 36, 4, 0.3, 'move');
+        this.attack = new Animation(sprite, 0, 72, 36, 36, 4, 0.1, 'attack');
+        this.jump = new Animation(sprite, 0, 108, 36, 36, 4, 1, 'jump');
+        this.fall = new Animation(sprite, 108, 108, 36, 36, 1, 0.3, 'fall');
     }
 }
 
