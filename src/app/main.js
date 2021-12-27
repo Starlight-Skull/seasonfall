@@ -36,7 +36,15 @@ window.addEventListener('load', function () {
         }
         // draw a box to show the true hitbox
         if (debug.showBoxes) {
-            ctx.fillStyle = 'rgba(65,250,0,0.5)';
+            if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
+                ctx.fillStyle = 'rgba(0,71,250,0.5)';
+            } else if (tile.hasCollision === 2) {
+                ctx.fillStyle = 'rgba(0,250,108,0.5)';
+            } else if (tile.hasCollision === false) {
+                ctx.fillStyle = 'rgba(250,200,0,0.5)';
+            } else {
+                ctx.fillStyle = 'rgba(65,250,0,0.5)';
+            }
             ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height);
         }
     }
@@ -51,7 +59,7 @@ window.addEventListener('load', function () {
                 ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * world.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale);
                 ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
             } else {
-                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.width * world.scale, entity.animation.width * world.scale, entity.animation.width * world.scale);
+                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale);
             }
         }
         // draw a box to show the true hitbox
