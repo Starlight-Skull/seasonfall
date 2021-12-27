@@ -34,7 +34,8 @@ export let tileList = [
 ];
 
 export let tileEntityList = [
-    new Door(1200, 80, 20, 80, 240)
+    new Door(1200, 80),
+    new Door(1760, 80, true)
 ];
 
 export let weather = {

@@ -1,3 +1,5 @@
+import {world} from "./globals.js";
+
 export class Entity {
     constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
         this.cooldown = cooldown || -1;
@@ -9,7 +11,7 @@ export class Entity {
             y: y || 0,
             width: width || 160,
             height: height || 160,
-            currentFrame: 1,
+            currentFrame: 0,
             mirrored: false,
         };
         this.animation = '';
@@ -64,8 +66,11 @@ export class Tile {
 }
 
 export class TileEntity extends Tile {
-    constructor(hasCollision, x, y, width, height, sprite) {
+    constructor(hasCollision, x, y, width, height, sprite, mirrored) {
         super(hasCollision, x, y, width, height, sprite);
+        this.frame.currentFrame = 0;
+        this.frame.mirrored = mirrored || false;
+        this.animation = new Animation(sprite, 0, 0, 16, 16, 1, 1, 'missing')
     }
 
     activate() {
@@ -118,14 +123,38 @@ export class Stick extends Entity {
 }
 
 export class Door extends TileEntity {
-    constructor(x, y, width, openWidth, height, sprite) {
-        super(true, x, y, width, height, sprite);
-        this.openWidth = openWidth;
+    constructor(x, y, mirrored) {
+        super(true, x, y, 20, 160, 'door', mirrored);
+        this.closedWidth = 20;
+        this.closed = new Animation(this.sprite, 0, 0, 16, 32, 1, 1, 'closed');
+        this.openWidth = 80;
+        this.open = new Animation(this.sprite, 16, 0, 16, 32, 1, 1, 'open');
+        this.animation = this.closed;
+
+        if (mirrored) {
+            this.frame.x += this.animation.width * world.scale - this.frame.width;
+        }
+
         this.activate = function () {
-            this.hasCollision = !this.hasCollision;
-            let w = this.frame.width;
-            this.frame.width = this.openWidth;
-            this.openWidth = w;
+            if (this.frame.width === this.closedWidth) {
+                if (mirrored) {
+                    console.log(this.frame.x)
+                    this.frame.x -= (this.openWidth - this.closedWidth);
+                    console.log(this.frame.x)
+                }
+                this.hasCollision = false;
+                this.frame.width = this.openWidth;
+                this.animation = this.open;
+            } else {
+                if (mirrored) {
+                    console.log(this.frame.x)
+                    this.frame.x += (this.openWidth - this.closedWidth);
+                    console.log(this.frame.x)
+                }
+                this.hasCollision = true;
+                this.frame.width = this.closedWidth;
+                this.animation = this.closed;
+            }
         };
     }
 }
