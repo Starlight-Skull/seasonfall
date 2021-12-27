@@ -58,7 +58,6 @@ export class Tile {
             width: width || 80,
             height: height || 80
         }
-
         let img = new Image();
         img.src = `./img/${sprite || 'missing_tile'}.png`;
         this.sprite = img;
@@ -90,15 +89,11 @@ export class Animation {
     }
 }
 
-// todo add more sprites
-// todo add more classes
 export class Hero extends Entity {
     constructor(cooldown, x, y) {
         super(true, cooldown, 10, 5, 100, 25, 15, 1, x, y, 110, 155);
-
         let sprite = new Image();
         sprite.src = './img/kain_animations.png';
-
         this.idle = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'idle');
         this.move = new Animation(sprite, 72, 0, 36, 36, 12, 0.3, 'move');
         this.attack = new Animation(sprite, 36, 36, 36, 36, 3, 0.1, 'attack');
@@ -110,10 +105,8 @@ export class Hero extends Entity {
 export class Stick extends Entity {
     constructor(cooldown, x, y) {
         super(true, cooldown, 5, 5, 70, 0, 25, 1, x, y, 90, 160);
-
         let sprite = new Image();
         sprite.src = './img/stick.png';
-
         this.idle = new Animation(sprite, 0, 0, 36, 36, 4, 0.01, 'idle');
         this.move = new Animation(sprite, 0, 36, 36, 36, 4, 0.3, 'move');
         this.attack = new Animation(sprite, 0, 72, 36, 36, 4, 0.1, 'attack');
@@ -130,26 +123,20 @@ export class Door extends TileEntity {
         this.openWidth = 80;
         this.open = new Animation(this.sprite, 16, 0, 16, 32, 1, 1, 'open');
         this.animation = this.closed;
-
         if (mirrored) {
             this.frame.x += this.animation.width * world.scale - this.frame.width;
         }
-
         this.activate = function () {
             if (this.frame.width === this.closedWidth) {
                 if (mirrored) {
-                    console.log(this.frame.x)
                     this.frame.x -= (this.openWidth - this.closedWidth);
-                    console.log(this.frame.x)
                 }
                 this.hasCollision = false;
                 this.frame.width = this.openWidth;
                 this.animation = this.open;
             } else {
                 if (mirrored) {
-                    console.log(this.frame.x)
                     this.frame.x += (this.openWidth - this.closedWidth);
-                    console.log(this.frame.x)
                 }
                 this.hasCollision = true;
                 this.frame.width = this.closedWidth;
