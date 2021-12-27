@@ -14,6 +14,8 @@ window.addEventListener('load', function () {
     // has to be disabled so pixel art isn't blurry
     ctx.imageSmoothingEnabled = false;
     // call recursive main function
+    let time = Date.now();
+    let frames = 0, fps = 0;
     reDraw();
 
     function drawTile(tile) {
@@ -100,6 +102,12 @@ window.addEventListener('load', function () {
     }
 
     function reDraw() {
+        frames++;
+        if (Date.now() - time > 1000) {
+            time = Date.now();
+            fps = frames;
+            frames = 0;
+        }
         // update screen in case of window resize
         screen.width = window.innerWidth;
         screen.height = window.innerHeight;
@@ -141,9 +149,9 @@ window.addEventListener('load', function () {
             ctx.fillStyle = 'black';
             ctx.font = '30px Arial';
             ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
-            ctx.fillText(`pos: [${tracked.frame.x}, ${tracked.frame.y}]`, 5, 60);
+            ctx.fillText(`pos: [${tracked.frame.x}, ${tracked.frame.y}]         fps: ${fps} ${frames}`, 5, 60);
             ctx.fillText(`move: ↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
-            ctx.fillText(`light: ${weather.time} ${weather.time <= 1200 ? 'AM' : 'PM'}: ${light}`, 5, 120);
+            ctx.fillText(`light: ${light}`, 5, 120);
         }
         requestAnimationFrame(reDraw);
     }
