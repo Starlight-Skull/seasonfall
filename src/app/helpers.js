@@ -81,7 +81,18 @@ export function collision(entity, object, isAttack) {
                 entity.frame.x = object.frame.x - entity.frame.width;
             }
         }
-        if (((!values.up && entity.collision.up) || (!values.down && entity.collision.down) || (!values.left && entity.collision.left) || (!values.right && entity.collision.right)) && ((entity.constructor.name !== 'Tile' && object.constructor.name === 'Hero') || (entity.constructor.name === 'Hero' && object.constructor.name !== 'Tile'))) {
+        if (
+            entity.collision.left && entity.collision.right &&
+            entity.frame.x <= object.frame.x &&
+            entity.frame.x + entity.frame.width >= object.frame.x + object.frame.width
+        ) {
+            entity.collision.left = false;
+            entity.collision.right = false;
+        }
+        if (
+            ((!values.up && entity.collision.up) || (!values.down && entity.collision.down) || (!values.left && entity.collision.left) || (!values.right && entity.collision.right)) &&
+            ((entity.constructor.name !== 'Tile' && object.constructor.name === 'Hero') || (entity.constructor.name === 'Hero' && object.constructor.name !== 'Tile'))
+        ) {
             return object;
         } else return false;
     } else return false;
