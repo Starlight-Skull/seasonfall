@@ -20,7 +20,18 @@ window.addEventListener('load', function () {
         // if frame is bigger, sprite is drawn multiple times to cover the whole size
         for (let i = 0; i < tile.frame.height; i += tile.sprite.height * world.scale) {
             for (let j = 0; j < tile.frame.width; j += tile.sprite.width * world.scale) {
-                ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
+                // tile entities have animation frame instead
+                if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
+                    if (tile.frame.mirrored) {
+                        ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+                        ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width, window.innerHeight - tile.frame.y - tile.animation.height * world.scale, tile.animation.width * world.scale, tile.animation.height * world.scale);
+                        ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+                    } else {
+                        ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x, window.innerHeight - tile.frame.y - tile.animation.height * world.scale, tile.animation.width * world.scale, tile.animation.height * world.scale);
+                    }
+                } else {
+                    ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
+                }
             }
         }
         // draw a box to show the true hitbox
