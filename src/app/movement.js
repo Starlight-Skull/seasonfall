@@ -2,9 +2,17 @@ import {collision} from "./helpers.js";
 import {entityList, player, tileEntityList, tileList, world} from "./globals.js";
 
 export function entityMovement(entity) {
-    if (entity.frame.x > world.width || entity.frame.x < 0 || entity.frame.y > world.height || entity.frame.y < 0) {
-        entity.frame.x = world.originX;
-        entity.frame.y = world.originY;
+    if (entity.frame.x > world.width) {
+        entity.frame.x = world.width;
+    }
+    if (entity.frame.x < 0) {
+        entity.frame.x = 0;
+    }
+    if (entity.frame.y > world.height) {
+        entity.frame.y = world.height;
+    }
+    if (entity.frame.y < 0) {
+        entity.frame.y = 0;
     }
     if (entity.cooldown > 0) {
         entity.cooldown--;
@@ -84,7 +92,7 @@ export function entityMovement(entity) {
             entity.frame.currentFrame = 0;
         }
     }
-    if (entity.controls.jump && (entity.air < entity.maxAir) && (!entity.collision.up)) {
+    if (entity.controls.jump && (entity.air < entity.maxAir) && (!entity.collision.up) && entity.hasCollision) {
         entity.frame.y += (entity.stats.speed * 2);
         entity.air++;
         if (entity.animation !== entity.jump) {
@@ -101,8 +109,11 @@ export function entityMovement(entity) {
     }
     if (!entity.hasCollision) {
         entity.air = 0;
+        if (entity.controls.jump) {
+            entity.frame.y += entity.stats.speed;
+        }
         if (entity.controls.down) {
-            entity.frame.y -= (entity.stats.speed * 2);
+            entity.frame.y -= entity.stats.speed;
         }
     }
     entity.collision.up = false;
