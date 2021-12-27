@@ -96,7 +96,7 @@ export function entityMovement(entity) {
             entity.frame.currentFrame += entity.animation.speed;
         }
     } else if (((entity.air > entity.maxAir) || (!entity.controls.jump && entity.air > 0) || !entity.collision.down) && entity.hasCollision) {
-        entity.frame.y -= 9.81 * 1.5;
+        entity.frame.y -= 9.81 * 2;
         entity.air = entity.maxAir;
     }
     if (!entity.hasCollision) {

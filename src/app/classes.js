@@ -91,12 +91,12 @@ export class Animation {
 
 export class Hero extends Entity {
     constructor(cooldown, x, y) {
-        super(true, cooldown, 10, 5, 100, 25, 15, 1, x, y, 110, 155);
+        super(true, cooldown, 15, 10, 100, 25, 15, 0, x, y, 110, 155);
         let sprite = new Image();
         sprite.src = './img/kain_animations.png';
         this.idle = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'idle');
         this.move = new Animation(sprite, 72, 0, 36, 36, 12, 0.3, 'move');
-        this.attack = new Animation(sprite, 36, 36, 36, 36, 3, 0.1, 'attack');
+        this.attack = new Animation(sprite, 36, 36, 36, 36, 3, 0.2, 'attack');
         this.jump = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'jump');
         this.fall = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'fall');
     }
