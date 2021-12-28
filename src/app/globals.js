@@ -1,8 +1,8 @@
 import {Door, Entity, Hero, Stick, Tile} from "./classes.js";
 
 export const world = {
-    originX: 320,
-    originY: 640,
+    originX: 2880, // 320
+    originY: 880, // 640
     width: 5200,
     height: 2400,
     scale: 5
@@ -10,14 +10,10 @@ export const world = {
 
 export let player = new Hero(-1, world.originX, world.originY);
 
-export let entityList = [
-    // new Entity(true, -1, 6, 10, 25, 15, 150, 10, 200, 80, 50, 150),
-    // new Entity(true, -1, 2, 10, 50, 0, 5, 5, 900, 80, 150, 200),
-    // new Stick(-1, 700, 500)
-];
+export let entityList = [];
 
 export let tileList = [
-    // ground
+    // surface
     new Tile(false, 0, 640, 160, 80, 'grass'),
     new Tile(true, 1040, 560, 1440, 80, 'grass'),
     new Tile(true, 2480, 640, 160, 80, 'grass'),
@@ -25,22 +21,39 @@ export let tileList = [
     new Tile(true, 3040, 720, 160, 80, 'grass'),
     new Tile(true, 3200, 800, 160, 80, 'grass'),
     new Tile(true, 3360, 880, 160, 80, 'grass'),
-    new Tile(true, 3520, 960, 1680, 80, 'grass'),
     // dirt
     new Tile(false, 0, 560, 160, 80, 'dirt'),
     new Tile(false, 0, 80, 2400, 480, 'dirt'),
     new Tile(true, -80, 0, 80, world.height, 'dirt'),
     new Tile(true, world.width, 0, 80, world.height, 'dirt'),
     new Tile(true, 0, 0, world.width, 80, 'dirt'),
-    // cave
-    new Tile(false, 2480, 80, 2660, 240, 'dirt_dark'),
-    new Tile(false, 2400, 320, 2740, 240, 'dirt_dark'),
+    // cave lower
+    new Tile(false, 2480, 160, 2560, 160, 'dirt_dark'),
+    new Tile(false, 2400, 320, 2720, 240, 'dirt_dark'),
+    new Tile(false, 2560, 80, 640, 80, 'dirt_dark'),
     new Tile(true, 2400, 80, 80, 480, 'dirt'),
-    new Tile(true, 2480, 480, 160, 80, 'dirt'),
-    new Tile(true, 2480, 560, 320, 80, 'dirt'),
-    new Tile(false, 2640, 640, 160, 80, 'dirt'),
+    new Tile(true, 2480, 480, 160, 160, 'dirt'),
+    new Tile(true, 2640, 560, 160, 160, 'dirt'),
     new Tile(true, 2480, 80, 80, 240, 'dirt'),
-    new Tile(false, 2560, 80, 640, 80),
+    new Tile(true, 3200, 80, 2000, 80, 'dirt'),
+    new Tile(true, 4960, 160, 80, 80, 'dirt'),
+    new Tile(true, 5040, 160, 80, 160, 'dirt'),
+    new Tile(true, 5120, 160, 80, 400, 'dirt'),
+    // cave upper
+    new Tile(false, 3600, 640, 1600, 320, 'dirt_dark'),
+    new Tile(false, 4960, 560, 240, 80, 'dirt_dark'),
+    new Tile(2, 4720, 960, 80, 80, 'dirt_dark'),
+    new Tile(true, 2960, 560, 2000, 80, 'dirt'),
+    new Tile(true, 3520, 880, 1200, 80, 'dirt'),
+    new Tile(false, 3040, 640, 160, 80, 'dirt'),
+    new Tile(false, 3200, 640, 160, 160, 'dirt'),
+    new Tile(false, 3360, 640, 640, 240, 'dirt'),
+    new Tile(true, 4000, 480, 80, 480, 'dirt'),
+    new Tile(true, 4080, 480, 400, 80, 'dirt'),
+    new Tile(true, 4080, 800, 80, 80, 'dirt'),
+    new Tile(2, 4720, 840, 80, 40, 'plank'),
+    new Tile(2, 4720, 920, 80, 40, 'plank'),
+    new Tile(2, 4720, 1000, 80, 40, 'plank'),
     // well
     new Tile(false, 2880, 480, 80, 400, 'brick_dark'),
     new Tile(true, 2800, 560, 80, 320, 'brick'),
@@ -52,6 +65,10 @@ export let tileList = [
     new Tile(true, 160, 640, 80, 400, 'brick'),
     new Tile(true, 960, 800, 80, 240, 'brick'),
     new Tile(true, 240, 960, 720, 40, 'plank'),
+    new Tile(false, 480, 720, 80, 160, 'painting'),
+    // tower
+    new Tile(true, 3520, 960, 1200, 80, 'brick'),
+    new Tile(true, 4800, 960, 400, 80, 'brick'),
 ];
 
 export let tileEntityList = [
@@ -82,5 +99,5 @@ export let debug = {
     location: '',
     useAPI: false,
     showBoxes: false,
-    showTrackedEntity: false,
+    showTrackedEntity: true,
 };
