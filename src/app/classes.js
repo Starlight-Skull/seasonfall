@@ -58,9 +58,10 @@ export class Tile {
             width: width || 80,
             height: height || 80
         }
-        let img = new Image();
-        img.src = `./img/${sprite || 'missing_tile'}.png`;
-        this.sprite = img;
+        // let img = new Image();
+        // img.src = `./img/${sprite || 'missing_tile'}.png`;
+        // this.sprite = img;
+        this.sprite = sprite;
     }
 }
 
@@ -69,7 +70,7 @@ export class TileEntity extends Tile {
         super(hasCollision, x, y, width, height, sprite);
         this.frame.currentFrame = 0;
         this.frame.mirrored = mirrored || false;
-        this.animation = new Animation(sprite, 0, 0, 16, 16, 1, 1, 'missing')
+        this.animation = new Animation(this.sprite, 0, 0, 16, 16, 1, 1, 'missing')
     }
 
     activate() {
@@ -116,8 +117,8 @@ export class Stick extends Entity {
 }
 
 export class Door extends TileEntity {
-    constructor(x, y, mirrored) {
-        super(true, x, y, 20, 160, 'door', mirrored);
+    constructor(x, y, sprite, mirrored) {
+        super(true, x, y, 20, 160, sprite, mirrored);
         this.closedWidth = 20;
         this.closed = new Animation(this.sprite, 0, 0, 16, 32, 1, 1, 'closed');
         this.openWidth = 80;
