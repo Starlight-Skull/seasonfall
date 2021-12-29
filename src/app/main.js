@@ -74,28 +74,28 @@ window.addEventListener('load', function () {
 
     function drawStats(entity) {
         // hp
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = 'rgba(255,0,0,0.7)';
         ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
         // mp
         if (entity.stats.mp !== 0) {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxMP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 45, entity.stats.maxMP * 1.5 + 10, 20);
-            ctx.fillStyle = 'blue';
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxMP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.maxMP * 1.5 + 10, 15);
+            ctx.fillStyle = 'rgba(0,0,255,0.7)';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
         }
         // name
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.constructor.name.length * 16 + 10, 30);
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'rgba(255,255,255,1)';
         ctx.font = '25px Roboto';
         ctx.fillText(`${entity.constructor.name}`, entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
         // xp
         if (entity.stats.xp !== 0) {
-            ctx.fillStyle = 'black';
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 120, entity.stats.xp.toString().length * 16 + 10, 30);
-            ctx.fillStyle = 'yellow';
+            ctx.fillStyle = 'rgba(0,255,0,1)';
             ctx.font = '25px Roboto';
             ctx.fillText(entity.stats.xp, entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95);
         }
