@@ -74,7 +74,7 @@ export let tileList = [
     new Tile(false, 2880, 480, 80, 400, brick_dark),
     new Tile(true, 2800, 560, 80, 320, brick),
     new Tile(true, 2960, 560, 80, 320, brick),
-    new Tile(2, 2880, 800, 80, 40, plank),
+    new Tile(2, 2880, 840, 80, 40, plank),
     new Tile(false, 2800, 880, 80, 240, beam),
     new Tile(false, 2960, 880, 80, 240, beam),
     new Tile(2, 2800, 1080, 240, 40, plank),
@@ -100,6 +100,7 @@ export let tileList = [
     new Tile(2, 4720, 840, 80, 40, plank),
     new Tile(2, 4720, 920, 80, 40, plank),
     new Tile(2, 4720, 1000, 80, 40, plank),
+    new Door(3760, 1040, door),
     new Tile(true, 3760, 1200, 80, 160, brick),
     new Tile(true, 4160, 1200, 80, 880, brick),
     new Tile(true, 5200, 960, 80, 1120, brick),
@@ -123,7 +124,6 @@ export let tileList = [
 
 export let tileEntityList = [
     new Door(960, 640, door, true),
-    new Door(3760, 1040, door),
     new Door(4160, 1040, door, true)
 ];
 
