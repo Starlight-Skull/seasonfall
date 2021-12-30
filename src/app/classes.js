@@ -91,15 +91,21 @@ export class Animation {
 }
 
 export class Hero extends Entity {
-    constructor(cooldown, x, y) {
-        super(true, cooldown, 15, 10, 100, 25, 10, 0, x, y, 75, 155);
+    constructor(x, y) {
+        super(true, -1, 10, 10, 100, 25, 12, 0, x, y, 60, 155);
         let sprite = new Image();
-        sprite.src = './img/kain_animations.png';
-        this.idle = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'idle');
-        this.move = new Animation(sprite, 72, 0, 36, 36, 12, 0.3, 'move');
-        this.attack = new Animation(sprite, 36, 36, 36, 36, 3, 0.2, 'attack');
-        this.jump = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'jump');
-        this.fall = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'fall');
+        sprite.src = './img/hero.png';
+        this.idle = new Animation(sprite, 0, 32, 16, 32, 1, 1, 'idle');
+        this.move = new Animation(sprite, 0, 32, 16, 32, 6, 0.6, 'move');
+        this.attack = new Animation(sprite, 0, 0, 19, 32, 5, 0.4, 'attack');
+        this.jump = new Animation(sprite, 80, 32, 16, 32, 1, 1, 'jump');
+        this.fall = new Animation(sprite, 48, 32, 16, 32, 1, 1, 'fall');
+        // sprite.src = './img/kain_animations.png';
+        // this.idle = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'idle');
+        // this.move = new Animation(sprite, 72, 0, 36, 36, 12, 0.3, 'move');
+        // this.attack = new Animation(sprite, 36, 36, 36, 36, 3, 0.2, 'attack');
+        // this.jump = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'jump');
+        // this.fall = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'fall');
     }
 }
 
