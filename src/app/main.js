@@ -14,8 +14,8 @@ window.addEventListener('load', function () {
     // has to be disabled so pixel art isn't blurry
     ctx.imageSmoothingEnabled = false;
     // call recursive main function
-    let time = Date.now();
-    let frames = 0, fps = 0;
+    let time = Date.now(), frames = 0, fps = 0;
+    let light = 0;
     reDraw();
 
     function drawTile(tile) {
@@ -154,7 +154,7 @@ window.addEventListener('load', function () {
         // debug info
         if (debug.showTrackedEntity) {
             let tracked = player;
-            ctx.fillStyle = 'black';
+            ctx.fillStyle = 'yellow';
             ctx.font = '30px Arial';
             ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
             ctx.fillText(`pos: [${tracked.frame.x}, ${tracked.frame.y}]         fps: ${fps} ${frames}`, 5, 60);
