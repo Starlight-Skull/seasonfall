@@ -29,7 +29,7 @@ export const world = {
     scale: 5
 }
 
-export let player = new Hero(-1, world.originX, world.originY);
+export let player = new Hero(world.originX, world.originY);
 
 export let entityList = [];
 
@@ -147,6 +147,7 @@ export let weather = {
 }
 
 export let debug = {
+    username: '',
     apiKey: '',
     location: '',
     useAPI: false,

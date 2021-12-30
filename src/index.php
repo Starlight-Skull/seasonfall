@@ -70,6 +70,10 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
         </div>
         <h3>General</h3>
         <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Username" value="<?PHP h($username) ?>">
+        </div>
+        <div>
             <label for="showBoxes">Show hit boxes</label>
             <input type="checkbox" id="showBoxes" name="showBoxes">
         </div>

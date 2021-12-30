@@ -6,6 +6,7 @@ window.addEventListener('load', function () {
     let interval;
     debugMenu.style.visibility = 'hidden';
     // load data placed by php
+    debug.username = document.getElementById('username').value;
     debug.apiKey = document.getElementById('apiKey').value;
     debug.location = document.getElementById('location').value;
     // don't make interval unless needed
@@ -38,6 +39,11 @@ window.addEventListener('load', function () {
             makeInterval();
         }
         // general
+        if (document.getElementById('username').value !== '') {
+            debug.username = document.getElementById('username').value;
+        } else {
+            debug.username = 'Hero';
+        }
         debug.showBoxes = document.getElementById('showBoxes').checked;
         debug.showTrackedEntity = document.getElementById('showTrackedEntity').checked;
         // weather

@@ -58,10 +58,10 @@ window.addEventListener('load', function () {
             // mirror if needed
             if (entity.frame.mirrored) {
                 ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
-                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * world.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale);
+                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * world.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale);
                 ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
             } else {
-                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.round(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale);
+                ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale);
             }
         }
         // draw a box to show the true hitbox
@@ -86,11 +86,19 @@ window.addEventListener('load', function () {
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
         }
         // name
-        ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.constructor.name.length * 16 + 10, 30);
-        ctx.fillStyle = 'rgba(255,255,255,1)';
-        ctx.font = '25px Roboto';
-        ctx.fillText(`${entity.constructor.name}`, entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
+        if (entity.constructor.name !== 'Hero') {
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.constructor.name.length * 16 + 10, 30);
+            ctx.fillStyle = 'rgba(255,255,255,1)';
+            ctx.font = '25px Roboto';
+            ctx.fillText(entity.constructor.name, entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
+        } else {
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (debug.username.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, debug.username.length * 16 + 10, 30);
+            ctx.fillStyle = 'rgba(255,255,255,1)';
+            ctx.font = '25px Roboto';
+            ctx.fillText(debug.username, entity.frame.x + entity.frame.width / 2 - (debug.username.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
+        }
         // xp
         if (entity.stats.xp !== 0) {
             ctx.fillStyle = 'rgba(0,0,0,0.5)';
