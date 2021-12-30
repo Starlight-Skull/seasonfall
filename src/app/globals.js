@@ -1,4 +1,4 @@
-import {Door, Hero, Stick, Tile} from "./classes.js";
+import {Door, Hero, Skeleton, Tile} from "./classes.js";
 
 let beam = new Image();
 beam.src = './img/beam.png';
@@ -32,16 +32,16 @@ export const world = {
 export let player = new Hero(world.originX, world.originY);
 
 export let entityList = [
-    new Stick(-1, 1680, 640),
-    new Stick(-1, 2160, 640),
-    new Stick(-1, 3600, 1040),
-    new Stick(-1, 4000, 1040),
-    new Stick(-1, 4480, 1040),
-    new Stick(-1, 4400, 640),
-    new Stick(-1, 3440, 160),
-    new Stick(-1, 4000, 160),
-    new Stick(-1, 4640, 160),
-    new Stick(-1, 4640, 1920),
+    new Skeleton(-1, 1680, 640),
+    new Skeleton(-1, 2160, 640),
+    new Skeleton(-1, 3600, 1040),
+    new Skeleton(-1, 4000, 1040),
+    new Skeleton(-1, 4480, 1040),
+    new Skeleton(-1, 4400, 640),
+    new Skeleton(-1, 3440, 160),
+    new Skeleton(-1, 4000, 160),
+    new Skeleton(-1, 4640, 160),
+    new Skeleton(-1, 4640, 1920),
 ];
 
 export let tileList = [

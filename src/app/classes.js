@@ -4,8 +4,8 @@ let hero = new Image();
 hero.src = './img/hero.png';
 let missing_entity = new Image();
 missing_entity.src= './img/missing_entity.png';
-let stick = new Image();
-stick.src = './img/stick.png';
+let skeleton = new Image();
+skeleton.src = './img/skeleton.png';
 
 export class Entity {
     constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
@@ -96,7 +96,7 @@ export class Animation {
 
 export class Hero extends Entity {
     constructor(x, y) {
-        super(true, -1, 10, 10, 100, 25, 12, 0, x, y, 60, 155);
+        super(true, -1, 10, 15, 100, 0, 12, 0, x, y, 60, 155);
         this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle');
         this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.6, 'move');
         this.attack = new Animation(hero, 0, 0, 19, 32, 5, 0.4, 'attack');
@@ -105,14 +105,15 @@ export class Hero extends Entity {
     }
 }
 
-export class Stick extends Entity {
+export class Skeleton extends Entity {
     constructor(cooldown, x, y) {
-        super(true, cooldown, 5, 5, 70, 0, 25, 1, x, y, 90, 160);
-        this.idle = new Animation(stick, 0, 0, 36, 36, 4, 0.01, 'idle');
-        this.move = new Animation(stick, 0, 36, 36, 36, 4, 0.3, 'move');
-        this.attack = new Animation(stick, 0, 72, 36, 36, 4, 0.1, 'attack');
-        this.jump = new Animation(stick, 0, 108, 36, 36, 4, 1, 'jump');
-        this.fall = new Animation(stick, 108, 108, 36, 36, 1, 0.3, 'fall');
+        super(true, cooldown, 7, 5, 55, 0, 15, 1, x, y, 65, 155);
+        this.idle = new Animation(skeleton, 0, 32, 16, 32, 1, 1, 'idle');
+        this.move = new Animation(skeleton, 0, 32, 16, 32, 4, 0.4, 'move');
+        this.attack = new Animation(skeleton, 0, 0, 16, 32, 2, 0.1, 'attack');
+        this.jump = new Animation(skeleton, 16, 32, 16, 32, 1, 1, 'jump');
+        this.fall = new Animation(skeleton, 48, 32, 16, 32, 1, 1, 'fall');
+        this.death = new Animation(skeleton, 32, 0, 16, 32, 2, 2, 'death');
     }
 }
 
