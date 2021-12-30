@@ -75,39 +75,43 @@ window.addEventListener('load', function () {
     }
 
     function drawStats(entity) {
-        // hp
-        ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
-        ctx.fillStyle = 'rgba(255,0,0,0.7)';
-        ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
-        // mp
-        if (entity.stats.mp !== 0) {
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxMP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.maxMP * 1.5 + 10, 15);
-            ctx.fillStyle = 'rgba(0,0,255,0.7)';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
-        }
-        // name
-        if (entity.constructor.name !== 'Hero') {
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, entity.constructor.name.length * 16 + 10, 30);
-            ctx.fillStyle = 'rgba(255,255,255,1)';
-            ctx.font = '25px Roboto';
-            ctx.fillText(entity.constructor.name, entity.frame.x + entity.frame.width / 2 - (entity.constructor.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
-        } else {
+        if (entity.constructor.name === 'Hero') {
+            // name
             ctx.fillStyle = 'rgba(0,0,0,0.5)';
             ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (debug.username.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, debug.username.length * 16 + 10, 30);
             ctx.fillStyle = 'rgba(255,255,255,1)';
             ctx.font = '25px Roboto';
             ctx.fillText(debug.username, entity.frame.x + entity.frame.width / 2 - (debug.username.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
-        }
-        // xp
-        if (entity.stats.xp !== 0) {
+            // xp
+            if (entity.stats.xp !== 0) {
+                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 120, entity.stats.xp.toString().length * 16 + 10, 30);
+                ctx.fillStyle = 'rgba(0,255,0,1)';
+                ctx.font = '25px Roboto';
+                ctx.fillText(entity.stats.xp, entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95);
+            }
+        } else {
+            // hp
             ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 120, entity.stats.xp.toString().length * 16 + 10, 30);
-            ctx.fillStyle = 'rgba(0,255,0,1)';
-            ctx.font = '25px Roboto';
-            ctx.fillText(entity.stats.xp, entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95);
+            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
+            ctx.fillStyle = 'rgba(255,0,0,0.7)';
+            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
+            // mp
+            if (entity.stats.mp !== 0) {
+                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxMP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.maxMP * 1.5 + 10, 15);
+                ctx.fillStyle = 'rgba(0,0,255,0.7)';
+                ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
+            }
+            // debug
+            if (debug.showTrackedEntity) {
+                let val = `${entity.controls.up ? '↑' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.left ? '←' : ''}${entity.controls.right ? '→' : ''}${entity.controls.jump ? '▲' : ''}`;
+                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (val.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, val.length * 16 + 10, 30);
+                ctx.fillStyle = 'rgba(255,255,255,1)';
+                ctx.font = '25px Roboto';
+                ctx.fillText(val, entity.frame.x + entity.frame.width / 2 - (val.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
+            }
         }
     }
 
@@ -141,7 +145,6 @@ window.addEventListener('load', function () {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate(0, 0);
         // light
-        let light;
         if (weather.time >= 1130 && weather.time <= 1230) {
             light = 0;
         } else if (weather.time >= weather.sunrise && weather.time < 1130) {
@@ -153,6 +156,18 @@ window.addEventListener('load', function () {
         }
         ctx.fillStyle = 'rgba(0,0,0,' + light + ')';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        // player hp
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30);
+        ctx.fillStyle = 'rgba(255,0,0,0.7)';
+        ctx.fillRect(25, 25, player.stats.hp * 5, 20);
+        // player mp
+        if (player.stats.mp !== 0) {
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(20, 50, player.stats.maxMP * 5 + 10, 15);
+            ctx.fillStyle = 'rgba(0,0,255,0.7)';
+            ctx.fillRect(25, 50, player.stats.mp * 5, 10);
+        }
         // debug info
         if (debug.showTrackedEntity) {
             let tracked = player;
@@ -160,7 +175,7 @@ window.addEventListener('load', function () {
             ctx.font = '30px Arial';
             ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
             ctx.fillText(`pos: [${tracked.frame.x}, ${tracked.frame.y}]         fps: ${fps} ${frames}`, 5, 60);
-            ctx.fillText(`move: ↑${tracked.controls.up} ↓${tracked.controls.down} ←${tracked.controls.left} →${tracked.controls.right} ▲${tracked.controls.jump}`, 5, 90);
+            ctx.fillText(`movement: ${tracked.controls.up ? '↑ ' : ''}${tracked.controls.down ? '↓ ' : ''}${tracked.controls.left ? '← ' : ''}${tracked.controls.right ? '→ ' : ''}${tracked.controls.jump ? '▲ ' : ''}`, 5, 90);
             ctx.fillText(`light: ${light}`, 5, 120);
         }
         requestAnimationFrame(reDraw);
