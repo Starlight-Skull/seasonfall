@@ -19,35 +19,37 @@ window.addEventListener('load', function () {
     reDraw();
 
     function drawTile(tile) {
-        // if frame is bigger, sprite is drawn multiple times to cover the whole size
-        for (let i = 0; i < tile.frame.height; i += tile.sprite.height * world.scale) {
-            for (let j = 0; j < tile.frame.width; j += tile.sprite.width * world.scale) {
-                // tile entities have animation frame instead
-                if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
-                    if (tile.frame.mirrored) {
-                        ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
-                        ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width, window.innerHeight - tile.frame.y - tile.animation.height * world.scale, tile.animation.width * world.scale, tile.animation.height * world.scale);
-                        ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+        if ((player.frame.x - (tile.frame.x + tile.frame.width) <= 1500) && (tile.frame.x - (player.frame.x + player.frame.width) <= 1500)) {
+            // if frame is bigger, sprite is drawn multiple times to cover the whole size
+            for (let i = 0; i < tile.frame.height; i += tile.sprite.height * world.scale) {
+                for (let j = 0; j < tile.frame.width; j += tile.sprite.width * world.scale) {
+                    // tile entities have animation frame instead
+                    if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
+                        if (tile.frame.mirrored) {
+                            ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+                            ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width, window.innerHeight - tile.frame.y - tile.animation.height * world.scale, tile.animation.width * world.scale, tile.animation.height * world.scale);
+                            ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+                        } else {
+                            ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x, window.innerHeight - tile.frame.y - tile.animation.height * world.scale, tile.animation.width * world.scale, tile.animation.height * world.scale);
+                        }
                     } else {
-                        ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x, window.innerHeight - tile.frame.y - tile.animation.height * world.scale, tile.animation.width * world.scale, tile.animation.height * world.scale);
+                        ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
                     }
-                } else {
-                    ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
                 }
             }
-        }
-        // draw a box to show the true hitbox
-        if (debug.showBoxes) {
-            if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
-                ctx.fillStyle = 'rgba(0,71,250,0.5)';
-            } else if (tile.hasCollision === 2) {
-                ctx.fillStyle = 'rgba(0,250,108,0.5)';
-            } else if (tile.hasCollision === false) {
-                ctx.fillStyle = 'rgba(250,200,0,0.5)';
-            } else {
-                ctx.fillStyle = 'rgba(65,250,0,0.5)';
+            // draw a box to show the true hitbox
+            if (debug.showBoxes) {
+                if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
+                    ctx.fillStyle = 'rgba(0,71,250,0.5)';
+                } else if (tile.hasCollision === 2) {
+                    ctx.fillStyle = 'rgba(0,250,108,0.5)';
+                } else if (tile.hasCollision === false) {
+                    ctx.fillStyle = 'rgba(250,200,0,0.5)';
+                } else {
+                    ctx.fillStyle = 'rgba(65,250,0,0.5)';
+                }
+                ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height);
             }
-            ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height);
         }
     }
 
