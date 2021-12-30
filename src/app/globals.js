@@ -84,7 +84,6 @@ export let tileList = [
     new Tile(true, 160, 640, 80, 400, brick),
     new Tile(true, 960, 800, 80, 240, brick),
     new Tile(true, 240, 960, 720, 40, plank),
-    new Tile(false, 480, 720, 80, 160, painting),
     // tower
     new Tile(false, 3760, 1040, 480, 240, brick_dark),
     new Tile(false, 4240, 1040, 960, 960, brick_dark),
@@ -119,6 +118,7 @@ export let tileList = [
     new Tile(2, 5040, 1720, 160, 40, plank),
     new Tile(2, 5040, 1800, 160, 40, plank),
     new Tile(2, 5040, 1880, 160, 40, plank),
+    new Tile(false, 4560, 1520, 80, 160, painting),
 ];
 
 export let tileEntityList = [
