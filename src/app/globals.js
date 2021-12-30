@@ -32,16 +32,16 @@ export const world = {
 export let player = new Hero(world.originX, world.originY);
 
 export let entityList = [
-    new Skeleton(-1, 1680, 640),
-    new Skeleton(-1, 2160, 640),
-    new Skeleton(-1, 3600, 1040),
-    new Skeleton(-1, 4000, 1040),
-    new Skeleton(-1, 4480, 1040),
-    new Skeleton(-1, 4400, 640),
-    new Skeleton(-1, 3440, 160),
-    new Skeleton(-1, 4000, 160),
-    new Skeleton(-1, 4640, 160),
-    new Skeleton(-1, 4640, 1920),
+    new Skeleton(1, 1680, 640),
+    new Skeleton(1, 2160, 640),
+    new Skeleton(1, 3600, 1040),
+    new Skeleton(1, 4000, 1040),
+    new Skeleton(1, 4480, 1040),
+    new Skeleton(1, 4400, 640),
+    new Skeleton(1, 3440, 160),
+    new Skeleton(1, 4000, 160),
+    new Skeleton(1, 4640, 160),
+    new Skeleton(1, 4640, 1920),
 ];
 
 export let tileList = [
