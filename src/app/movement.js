@@ -14,14 +14,34 @@ export function entityMovement(entity) {
     if (entity.frame.y < 0) {
         entity.frame.y = 0;
     }
-    if (entity.cooldown > 0) {
-        entity.cooldown--;
-    } else if (entity.cooldown !== -1) {
-        entity.controls.up = Math.round(Math.random());
-        entity.controls.right = Math.round(Math.random());
-        entity.controls.left = Math.round(Math.random());
-        entity.controls.jump = Math.round(Math.random());
-        entity.cooldown = 100 / entity.stats.speed;
+    if (entity !== player) {
+        if (entity.cooldown > 0) {
+            entity.cooldown--;
+        } else if (entity.cooldown !== -1) {
+            if (Math.abs(entity.frame.x - player.frame.x) < 500) {
+                if (player.frame.y - entity.frame.y > 0 && entity.air !== entity.maxAir) {
+                    entity.controls.jump = true;
+                    entity.controls.down = false;
+                } else if (entity.frame.y - player.frame.y > 0) {
+                    entity.controls.jump = false;
+                    entity.controls.down = true;
+                } else {
+                    entity.controls.jump = false;
+                    entity.controls.down = false;
+                }
+                if (entity.frame.x - (player.frame.x + player.frame.width) > 0 && (entity.frame.x - (player.frame.x + player.frame.width) < 500)) {
+                    entity.controls.left = true;
+                    entity.controls.right = false;
+                } else if (player.frame.x - (entity.frame.x + entity.frame.width) > 0 && (player.frame.x - (entity.frame.x + entity.frame.width) < 500)) {
+                    entity.controls.left = false;
+                    entity.controls.right = true;
+                } else {
+                    entity.controls.left = false;
+                    entity.controls.right = false;
+                }
+                entity.cooldown = 20;
+            }
+        }
     }
     entity.collision.up = false;
     entity.collision.down = false;
@@ -136,6 +156,7 @@ export function entityMovement(entity) {
                     ent = collision(entity, player, true);
                 }
                 if (ent && entity.frame.mirrored ? entity.collision.left : entity.collision.right) {
+                    // console.log(ent)
                     if (ent.stats.hp > 0) {
                         ent.stats.hp -= entity.stats.damage;
                     } else if (ent.stats.hp <= 0) {
