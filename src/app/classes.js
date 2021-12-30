@@ -1,5 +1,12 @@
 import {world} from "./globals.js";
 
+let hero = new Image();
+hero.src = './img/hero.png';
+let missing_entity = new Image();
+missing_entity.src= './img/missing_entity.png';
+let stick = new Image();
+stick.src = './img/stick.png';
+
 export class Entity {
     constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
         this.cooldown = cooldown || -1;
@@ -58,9 +65,6 @@ export class Tile {
             width: width || 80,
             height: height || 80
         }
-        // let img = new Image();
-        // img.src = `./img/${sprite || 'missing_tile'}.png`;
-        // this.sprite = img;
         this.sprite = sprite;
     }
 }
@@ -93,32 +97,22 @@ export class Animation {
 export class Hero extends Entity {
     constructor(x, y) {
         super(true, -1, 10, 10, 100, 25, 12, 0, x, y, 60, 155);
-        let sprite = new Image();
-        sprite.src = './img/hero.png';
-        this.idle = new Animation(sprite, 0, 32, 16, 32, 1, 1, 'idle');
-        this.move = new Animation(sprite, 0, 32, 16, 32, 6, 0.6, 'move');
-        this.attack = new Animation(sprite, 0, 0, 19, 32, 5, 0.4, 'attack');
-        this.jump = new Animation(sprite, 80, 32, 16, 32, 1, 1, 'jump');
-        this.fall = new Animation(sprite, 48, 32, 16, 32, 1, 1, 'fall');
-        // sprite.src = './img/kain_animations.png';
-        // this.idle = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'idle');
-        // this.move = new Animation(sprite, 72, 0, 36, 36, 12, 0.3, 'move');
-        // this.attack = new Animation(sprite, 36, 36, 36, 36, 3, 0.2, 'attack');
-        // this.jump = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'jump');
-        // this.fall = new Animation(sprite, 36, 0, 36, 36, 1, 1, 'fall');
+        this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle');
+        this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.6, 'move');
+        this.attack = new Animation(hero, 0, 0, 19, 32, 5, 0.4, 'attack');
+        this.jump = new Animation(hero, 80, 32, 16, 32, 1, 1, 'jump');
+        this.fall = new Animation(hero, 48, 32, 16, 32, 1, 1, 'fall');
     }
 }
 
 export class Stick extends Entity {
     constructor(cooldown, x, y) {
         super(true, cooldown, 5, 5, 70, 0, 25, 1, x, y, 90, 160);
-        let sprite = new Image();
-        sprite.src = './img/stick.png';
-        this.idle = new Animation(sprite, 0, 0, 36, 36, 4, 0.01, 'idle');
-        this.move = new Animation(sprite, 0, 36, 36, 36, 4, 0.3, 'move');
-        this.attack = new Animation(sprite, 0, 72, 36, 36, 4, 0.1, 'attack');
-        this.jump = new Animation(sprite, 0, 108, 36, 36, 4, 1, 'jump');
-        this.fall = new Animation(sprite, 108, 108, 36, 36, 1, 0.3, 'fall');
+        this.idle = new Animation(stick, 0, 0, 36, 36, 4, 0.01, 'idle');
+        this.move = new Animation(stick, 0, 36, 36, 36, 4, 0.3, 'move');
+        this.attack = new Animation(stick, 0, 72, 36, 36, 4, 0.1, 'attack');
+        this.jump = new Animation(stick, 0, 108, 36, 36, 4, 1, 'jump');
+        this.fall = new Animation(stick, 108, 108, 36, 36, 1, 0.3, 'fall');
     }
 }
 
