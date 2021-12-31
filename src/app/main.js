@@ -106,8 +106,8 @@ window.addEventListener('load', function () {
                 ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
             }
             // debug
-            if (debug.showTrackedEntity) {
-                let val = `${entity.controls.up ? '↑' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.left ? '←' : ''}${entity.controls.right ? '→' : ''}${entity.controls.jump ? '▲' : ''}`;
+            if (debug.showLiveDebug) {
+                let val = `${entity.controls.attack ? '#' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.left ? '←' : ''}${entity.controls.right ? '→' : ''}${entity.controls.jump ? '▲' : ''}`;
                 ctx.fillStyle = 'rgba(0,0,0,0.5)';
                 ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (val.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, val.length * 16 + 10, 30);
                 ctx.fillStyle = 'rgba(255,255,255,1)';
@@ -171,14 +171,14 @@ window.addEventListener('load', function () {
             ctx.fillRect(25, 50, player.stats.mp * 5, 10);
         }
         // debug info
-        if (debug.showTrackedEntity) {
+        if (debug.showLiveDebug) {
             let tracked = player;
             ctx.fillStyle = 'yellow';
-            ctx.font = '30px Arial';
-            ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 30);
-            ctx.fillText(`pos: [${tracked.frame.x}, ${tracked.frame.y}]         fps: ${fps} ${frames}`, 5, 60);
-            ctx.fillText(`movement: ${tracked.controls.up ? '↑ ' : ''}${tracked.controls.down ? '↓ ' : ''}${tracked.controls.left ? '← ' : ''}${tracked.controls.right ? '→ ' : ''}${tracked.controls.jump ? '▲ ' : ''}`, 5, 90);
-            ctx.fillText(`light: ${light}`, 5, 120);
+            ctx.font = '30px Roboto';
+            ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100);
+            ctx.fillText(`pos: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]         fps: ${fps} (${frames})`, 5, 130);
+            ctx.fillText(`light: ${Math.round(light * 100) / 100}       movement: ${tracked.controls.attack ? '# ' : ''}${tracked.controls.down ? '↓ ' : ''}${tracked.controls.left ? '← ' : ''}${tracked.controls.right ? '→ ' : ''}${tracked.controls.jump ? '▲ ' : ''}`, 5, 160);
+            ctx.fillText(`a`, 5, 190);
         }
         requestAnimationFrame(reDraw);
     }

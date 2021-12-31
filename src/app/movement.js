@@ -18,7 +18,7 @@ export function entityMovement(entity) {
         if (entity.frame.currentFrame < entity.animation.frames - 1) {
             entity.frame.currentFrame += entity.animation.speed;
         }
-        entity.controls.up = false;
+        entity.controls.attack = false;
         entity.controls.jump = false;
         entity.controls.down = false;
         entity.controls.left = false;
@@ -30,7 +30,7 @@ export function entityMovement(entity) {
             entity.frame.y -= 9.81 * 2;
         }
     } else {
-        if (!entity.controls.up && entity.frame.width !== entity.defaultWidth) {
+        if (!entity.controls.attack && entity.frame.width !== entity.defaultWidth) {
             entity.frame.width = entity.defaultWidth;
             entity.frame.x += (entity.attackWidth - entity.defaultWidth) / 2;
         }
@@ -39,7 +39,7 @@ export function entityMovement(entity) {
                 entity.cooldown--;
             } else if (entity.cooldown !== -1) {
                 if (Math.abs(entity.frame.x - player.frame.x) < 500) {
-                    entity.controls.up = Math.abs(entity.frame.x - (player.frame.x + player.frame.width)) < 15 || Math.abs(player.frame.x - (entity.frame.x + entity.frame.width)) < 15;
+                    entity.controls.attack = Math.abs(entity.frame.x - (player.frame.x + player.frame.width)) < 15 || Math.abs(player.frame.x - (entity.frame.x + entity.frame.width)) < 15;
                     if (player.frame.y - entity.frame.y > 0 && entity.air !== entity.maxAir) {
                         entity.controls.jump = true;
                         entity.controls.down = false;
@@ -83,7 +83,7 @@ export function entityMovement(entity) {
                 entity.air = 0;
             }
         }
-        if (entity.controls.right && !entity.collision.right && !(entity.controls.up && (entity.air === 0 || entity.air === entity.maxAir))) {
+        if (entity.controls.right && !entity.collision.right && !(entity.controls.attack && (entity.air === 0 || entity.air === entity.maxAir))) {
             entity.frame.x += entity.stats.speed;
             if (entity.animation !== entity.move) {
                 entity.frame.currentFrame = 0;
@@ -96,7 +96,7 @@ export function entityMovement(entity) {
                 entity.frame.currentFrame = 0;
             }
         }
-        if (entity.controls.left && !entity.collision.left && !(entity.controls.up && (entity.air === 0 || entity.air === entity.maxAir))) {
+        if (entity.controls.left && !entity.collision.left && !(entity.controls.attack && (entity.air === 0 || entity.air === entity.maxAir))) {
             entity.frame.x -= entity.stats.speed;
             if (entity.animation !== entity.move) {
                 entity.frame.currentFrame = 0;
@@ -109,7 +109,7 @@ export function entityMovement(entity) {
                 entity.frame.currentFrame = 0;
             }
         }
-        if (((entity.controls.left && entity.controls.right) || (!entity.controls.left && !entity.controls.right)) && !entity.controls.up && entity.animation !== entity.fall && !entity.controls.jump) {
+        if (((entity.controls.left && entity.controls.right) || (!entity.controls.left && !entity.controls.right)) && !entity.controls.attack && entity.animation !== entity.fall && !entity.controls.jump) {
             if (entity.animation !== entity.idle) {
                 entity.frame.currentFrame = 0;
                 entity.animation = entity.idle;
@@ -157,7 +157,7 @@ export function entityMovement(entity) {
         entity.collision.down = false;
         entity.collision.left = false;
         entity.collision.right = false;
-        if (entity.controls.up === true) {
+        if (entity.controls.attack === true) {
             if (entity.animation !== entity.attack && !entity.controls.jump) {
                 entity.frame.currentFrame = 0;
                 entity.animation = entity.attack;
@@ -194,7 +194,7 @@ export function entityMovement(entity) {
                         tile.activate();
                     }
                 }
-                entity.controls.up = 2;
+                entity.controls.attack = 2;
             }
         }
     }
