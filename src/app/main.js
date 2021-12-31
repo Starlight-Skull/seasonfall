@@ -92,12 +92,14 @@ window.addEventListener('load', function () {
             }
         } else {
             // hp
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
-            ctx.fillStyle = 'rgba(255,0,0,0.7)';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
+            if (entity.stats.hp > 0) {
+                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxHP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 60, entity.stats.maxHP * 1.5 + 10, 20);
+                ctx.fillStyle = 'rgba(255,0,0,0.7)';
+                ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.hp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 55, entity.stats.hp * 1.5, 10);
+            }
             // mp
-            if (entity.stats.mp !== 0) {
+            if (entity.stats.mp > 0) {
                 ctx.fillStyle = 'rgba(0,0,0,0.5)';
                 ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.maxMP * 1.5 / 2 - 5, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.maxMP * 1.5 + 10, 15);
                 ctx.fillStyle = 'rgba(0,0,255,0.7)';
