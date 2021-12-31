@@ -18,12 +18,12 @@ window.addEventListener('load', function () {
 
     window.addEventListener('mousedown', () => {
         if (debugMenu.style.visibility === 'hidden') {
-            player.controls.up = (player.controls.up === 2) ? 2 : true;
+            player.controls.attack = (player.controls.attack === 2) ? 2 : true;
         }
     });
     window.addEventListener('mouseup', () => {
         if (debugMenu.style.visibility === 'hidden') {
-            player.controls.up = false;
+            player.controls.attack = false;
         }
     });
     window.addEventListener('keydown', ev => {
@@ -59,7 +59,7 @@ window.addEventListener('load', function () {
             debug.username = 'Hero';
         }
         debug.showBoxes = document.getElementById('showBoxes').checked;
-        debug.showTrackedEntity = document.getElementById('showTrackedEntity').checked;
+        debug.showLiveDebug = document.getElementById('showLiveDebug').checked;
         // weather
         weather.main = document.getElementById('main').value;
         weather.temp = parseFloat(document.getElementById('temp').value);
@@ -87,6 +87,9 @@ window.addEventListener('load', function () {
     });
 
     document.getElementById('callAPI').addEventListener('click', () => {
+        // api
+        debug.apiKey = document.getElementById('apiKey').value;
+        debug.location = document.getElementById('location').value;
         callAPI();
         debugMenu.style.visibility = 'hidden';
     });
@@ -101,7 +104,7 @@ window.addEventListener('load', function () {
         document.getElementById('useAPI').checked = debug.useAPI;
         // general
         document.getElementById('showBoxes').checked = debug.showBoxes;
-        document.getElementById('showTrackedEntity').checked = debug.showTrackedEntity;
+        document.getElementById('showLiveDebug').checked = debug.showLiveDebug;
         // weather
         document.getElementById('main').value = weather.main;
         document.getElementById('temp').value = weather.temp;

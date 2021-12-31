@@ -78,8 +78,8 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <input type="checkbox" id="showBoxes" name="showBoxes">
         </div>
         <div>
-            <label for="showTrackedEntity">Show tracked entity</label>
-            <input type="checkbox" id="showTrackedEntity" name="showTrackedEntity">
+            <label for="showLiveDebug">Show live data</label>
+            <input type="checkbox" id="showLiveDebug" name="showTrackedEntity">
         </div>
         <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
             <input type="hidden" name="moduleAction" value="logout"/>
@@ -96,7 +96,7 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
         <h3>Weather</h3>
         <div>
             <label for="main">Name</label>
-            <select name="main" id="main">
+            <select name="main" id="main" disabled>
                 <option value="Thunderstorm">Thunderstorm</option>
                 <option value="Drizzle">Drizzle</option>
                 <option value="Rain">Rain</option>

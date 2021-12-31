@@ -162,7 +162,7 @@ export let debug = {
     username: '',
     apiKey: '',
     location: '',
-    useAPI: false,
+    useAPI: true,
     showBoxes: false,
-    showTrackedEntity: false,
+    showLiveDebug: false,
 };

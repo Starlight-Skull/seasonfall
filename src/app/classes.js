@@ -43,7 +43,7 @@ export class Entity {
         this.air = 0;
         this.maxAir = maxAir || 15;
         this.controls = {
-            up: false,
+            attack: false,
             down: false,
             left: false,
             right: false,
@@ -99,7 +99,7 @@ export class Animation {
 
 export class Hero extends Entity {
     constructor(x, y) {
-        super(true, -1, 10, 15, 100, 0, 12, 0, x, y, 60, 155);
+        super(true, -1, 10, 15, 100, 25, 12, 0, x, y, 60, 155);
         this.attackWidth = 95;
         this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle');
         this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.4, 'move');

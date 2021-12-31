@@ -5,7 +5,7 @@ export function keyLogger(ev, down) {
         case 'w':
         case 'z':
         case 'ArrowUp':
-            player.controls.up = (player.controls.up === 2) ? (down ? 2 : false) : down;
+            player.controls.attack = (player.controls.attack === 2) ? (down ? 2 : false) : down;
             break;
         case 's':
         case 'ArrowDown':
