@@ -27,6 +27,7 @@ export class Entity {
         this.attack = this.missing;
         this.jump = this.missing;
         this.fall = this.missing;
+        this.death = this.missing;
         this.stats = {
             damage: damage || 0,
             invulnerable: 0,
@@ -98,8 +99,8 @@ export class Hero extends Entity {
     constructor(x, y) {
         super(true, -1, 10, 15, 100, 0, 12, 0, x, y, 60, 155);
         this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle');
-        this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.6, 'move');
-        this.attack = new Animation(hero, 0, 0, 19, 32, 5, 0.4, 'attack');
+        this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.4, 'move');
+        this.attack = new Animation(hero, 0, 0, 19, 32, 4, 0.4, 'attack');
         this.jump = new Animation(hero, 80, 32, 16, 32, 1, 1, 'jump');
         this.fall = new Animation(hero, 48, 32, 16, 32, 1, 1, 'fall');
     }
@@ -113,7 +114,7 @@ export class Skeleton extends Entity {
         this.attack = new Animation(skeleton, 0, 0, 16, 32, 2, 0.1, 'attack');
         this.jump = new Animation(skeleton, 16, 32, 16, 32, 1, 1, 'jump');
         this.fall = new Animation(skeleton, 48, 32, 16, 32, 1, 1, 'fall');
-        this.death = new Animation(skeleton, 32, 0, 16, 32, 2, 2, 'death');
+        this.death = new Animation(skeleton, 32, 0, 16, 32, 2, 0.1, 'death');
     }
 }
 
