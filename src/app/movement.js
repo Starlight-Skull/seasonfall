@@ -30,6 +30,9 @@ export function entityMovement(entity) {
             entity.frame.y -= 9.81 * 2;
         }
     } else {
+        if (!entity.controls.up && entity.frame.width !== entity.defaultWidth) {
+            entity.frame.width = entity.defaultWidth;
+        }
         if (entity !== player) {
             if (entity.cooldown > 0) {
                 entity.cooldown--;
@@ -156,37 +159,36 @@ export function entityMovement(entity) {
             if (entity.animation !== entity.attack) {
                 entity.frame.currentFrame = 0;
                 entity.animation = entity.attack;
+                entity.frame.width = entity.attackWidth;
             }
             if (entity.frame.currentFrame < entity.animation.frames - 1) {
                 entity.frame.currentFrame += entity.animation.speed;
             } else {
                 for (let i = 0; i < entityList.length; i++) {
-                    let ent;
+                    let entity2;
                     if (entity.constructor.name === 'Hero') {
-                        ent = collision(entity, entityList[i], true);
+                        entity2 = collision(entity, entityList[i], true);
                     } else {
-                        ent = collision(entity, player, true);
+                        entity2 = collision(entity, player, true);
                     }
-                    if (ent && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
-                        console.log(ent.stats.hp)
-                        if (ent.stats.hp > 0) {
-                            ent.stats.hp -= entity.stats.damage;
+                    if (entity2 && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
+                        if (entity2.stats.hp > 0) {
+                            entity2.stats.hp -= entity.stats.damage;
                         }
-                        if (ent.stats.hp <= 0 && ent.animation !== ent.death) {
-                            // entityList.splice(entityList.indexOf(ent), 1);
-                            ent.animation = ent.death;
-                            ent.frame.currentFrame = 0;
-                            entity.stats.xp += ent.stats.xp;
+                        if (entity2.stats.hp <= 0 && entity2.animation !== entity2.death) {
+                            entity2.animation = entity2.death;
+                            entity2.frame.currentFrame = 0;
+                            entity.stats.xp += entity2.stats.xp;
                         }
                     }
                 }
                 for (let i = 0; i < tileEntityList.length; i++) {
-                    let til;
+                    let tile;
                     if (entity.constructor.name === 'Hero') {
-                        til = collision(entity, tileEntityList[i], true);
+                        tile = collision(entity, tileEntityList[i], true);
                     }
-                    if (til) {
-                        til.activate();
+                    if (tile) {
+                        tile.activate();
                     }
                 }
                 entity.controls.up = 2;

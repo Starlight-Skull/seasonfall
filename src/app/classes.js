@@ -21,6 +21,8 @@ export class Entity {
             currentFrame: 0,
             mirrored: false,
         };
+        this.defaultWidth = width;
+        this.attackWidth = width;
         this.animation = '';
         this.idle = this.missing;
         this.move = this.missing;
@@ -98,6 +100,7 @@ export class Animation {
 export class Hero extends Entity {
     constructor(x, y) {
         super(true, -1, 10, 15, 100, 0, 12, 0, x, y, 60, 155);
+        this.attackWidth = 95;
         this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle');
         this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.4, 'move');
         this.attack = new Animation(hero, 0, 0, 19, 32, 4, 0.4, 'attack');
@@ -108,7 +111,7 @@ export class Hero extends Entity {
 
 export class Skeleton extends Entity {
     constructor(cooldown, x, y) {
-        super(true, cooldown, 7, 5, 55, 0, 15, 1, x, y, 65, 155);
+        super(true, cooldown, 7, 5, 55, 0, 8, 1, x, y, 65, 155);
         this.idle = new Animation(skeleton, 0, 32, 16, 32, 1, 1, 'idle');
         this.move = new Animation(skeleton, 0, 32, 16, 32, 4, 0.4, 'move');
         this.attack = new Animation(skeleton, 0, 0, 16, 32, 2, 0.1, 'attack');
