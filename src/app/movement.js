@@ -32,12 +32,14 @@ export function entityMovement(entity) {
     } else {
         if (!entity.controls.up && entity.frame.width !== entity.defaultWidth) {
             entity.frame.width = entity.defaultWidth;
+            entity.frame.x += (entity.attackWidth - entity.defaultWidth) / 2;
         }
         if (entity !== player) {
             if (entity.cooldown > 0) {
                 entity.cooldown--;
             } else if (entity.cooldown !== -1) {
                 if (Math.abs(entity.frame.x - player.frame.x) < 500) {
+                    entity.controls.up = Math.abs(entity.frame.x - (player.frame.x + player.frame.width)) < 15 || Math.abs(player.frame.x - (entity.frame.x + entity.frame.width)) < 15;
                     if (player.frame.y - entity.frame.y > 0 && entity.air !== entity.maxAir) {
                         entity.controls.jump = true;
                         entity.controls.down = false;
@@ -48,17 +50,17 @@ export function entityMovement(entity) {
                         entity.controls.jump = false;
                         entity.controls.down = false;
                     }
-                    if (entity.frame.x - (player.frame.x + player.frame.width) > 0 && (entity.frame.x - (player.frame.x + player.frame.width) < 500)) {
+                    if (entity.frame.x - (player.frame.x + player.frame.width) > 5 && (entity.frame.x - (player.frame.x + player.frame.width) < 500)) {
                         entity.controls.left = true;
                         entity.controls.right = false;
-                    } else if (player.frame.x - (entity.frame.x + entity.frame.width) > 0 && (player.frame.x - (entity.frame.x + entity.frame.width) < 500)) {
+                    } else if (player.frame.x - (entity.frame.x + entity.frame.width) > 5 && (player.frame.x - (entity.frame.x + entity.frame.width) < 500)) {
                         entity.controls.left = false;
                         entity.controls.right = true;
-                    } else {
-                        entity.controls.left = false;
-                        entity.controls.right = false;
                     }
                     entity.cooldown = 20;
+                } else {
+                    entity.controls.left = false;
+                    entity.controls.right = false;
                 }
             }
         }
@@ -160,6 +162,7 @@ export function entityMovement(entity) {
                 entity.frame.currentFrame = 0;
                 entity.animation = entity.attack;
                 entity.frame.width = entity.attackWidth;
+                entity.frame.x -= (entity.attackWidth - entity.defaultWidth) / 2;
             }
             if (entity.frame.currentFrame < entity.animation.frames - 1) {
                 entity.frame.currentFrame += entity.animation.speed;
