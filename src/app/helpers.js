@@ -84,7 +84,8 @@ export function collision(entity, object, isAttack) {
         if (
             entity.collision.left && entity.collision.right &&
             entity.frame.x <= object.frame.x &&
-            entity.frame.x + entity.frame.width >= object.frame.x + object.frame.width
+            entity.frame.x + entity.frame.width >= object.frame.x + object.frame.width &&
+            !isAttack
         ) {
             entity.collision.left = false;
             entity.collision.right = false;
