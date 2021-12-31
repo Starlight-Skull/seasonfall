@@ -16,8 +16,20 @@ window.addEventListener('load', function () {
         debug.useAPI = false;
     }
 
+    window.addEventListener('mousedown', () => {
+        if (debugMenu.style.visibility === 'hidden') {
+            player.controls.up = (player.controls.up === 2) ? 2 : true;
+        }
+    });
+    window.addEventListener('mouseup', () => {
+        if (debugMenu.style.visibility === 'hidden') {
+            player.controls.up = false;
+        }
+    });
     window.addEventListener('keydown', ev => {
-        keyLogger(ev, true);
+        if (debugMenu.style.visibility === 'hidden') {
+            keyLogger(ev, true);
+        }
     });
     window.addEventListener('keyup', ev => {
         if (ev.key === '`') {
@@ -27,7 +39,9 @@ window.addEventListener('load', function () {
                 debugMenu.style.visibility = 'hidden';
             }
         }
-        keyLogger(ev, false);
+        if (debugMenu.style.visibility === 'hidden') {
+            keyLogger(ev, false);
+        }
     });
 
     document.getElementById('update').addEventListener('click', () => {
