@@ -158,7 +158,7 @@ export function entityMovement(entity) {
         entity.collision.left = false;
         entity.collision.right = false;
         if (entity.controls.up === true) {
-            if (entity.animation !== entity.attack) {
+            if (entity.animation !== entity.attack && !entity.controls.jump) {
                 entity.frame.currentFrame = 0;
                 entity.animation = entity.attack;
                 entity.frame.width = entity.attackWidth;
