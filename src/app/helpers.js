@@ -3,15 +3,21 @@ import {player} from "./globals.js";
 export function keyLogger(ev, down) {
     switch (ev.key) {
         case 'w':
+        case 'z':
+        case 'ArrowUp':
             player.controls.up = (player.controls.up === 2) ? (down ? 2 : false) : down;
             break;
         case 's':
+        case 'ArrowDown':
             player.controls.down = down;
             break;
         case 'a':
+        case 'q':
+        case 'ArrowLeft':
             player.controls.left = down;
             break;
         case 'd':
+        case 'ArrowRight':
             player.controls.right = down;
             break;
         case ' ':
