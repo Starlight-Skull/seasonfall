@@ -14,8 +14,12 @@ window.addEventListener('load', function () {
     // has to be disabled so pixel art isn't blurry
     ctx.imageSmoothingEnabled = false;
     // call recursive main function
-    let time = Date.now(), frames = 0, fps = 0;
+    let startTime = Date.now();
+    let time = Date.now();
+    let frames = 0;
+    let fps = 0;
     let light = 0;
+    let exit = false;
     reDraw();
 
     function drawTile(tile) {
@@ -118,8 +122,9 @@ window.addEventListener('load', function () {
     }
 
     function reDraw() {
+        let now = Date.now();
         frames++;
-        if (Date.now() - time > 1000) {
+        if (now - time > 1000) {
             time = Date.now();
             fps = frames;
             frames = 0;
@@ -171,15 +176,20 @@ window.addEventListener('load', function () {
             ctx.fillRect(25, 50, player.stats.mp * 5, 10);
         }
         // debug info
+        ctx.fillStyle = 'yellow';
+        ctx.font = '30px Roboto';
         if (debug.showLiveDebug) {
             let tracked = player;
-            ctx.fillStyle = 'yellow';
-            ctx.font = '30px Roboto';
             ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100);
             ctx.fillText(`pos: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]         fps: ${fps} (${frames})`, 5, 130);
             ctx.fillText(`light: ${Math.round(light * 100) / 100}       movement: ${tracked.controls.attack ? '# ' : ''}${tracked.controls.down ? '↓ ' : ''}${tracked.controls.left ? '← ' : ''}${tracked.controls.right ? '→ ' : ''}${tracked.controls.jump ? '▲ ' : ''}`, 5, 160);
-            ctx.fillText(`a`, 5, 190);
         }
-        requestAnimationFrame(reDraw);
+        ctx.fillText(`${(now - startTime) / 1000}`, 5, 190);
+        if (!exit) {
+            requestAnimationFrame(reDraw);
+            if (player.stats.xp === 10 || player.stats.hp === 0) {
+                exit = true;
+            }
+        }
     }
 });
