@@ -102,7 +102,7 @@ export class Hero extends Entity {
         super(true, -1, 10, 15, 100, 25, 12, 0, x, y, 60, 155);
         this.attackWidth = 95;
         this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle');
-        this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.4, 'move');
+        this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.3, 'move');
         this.attack = new Animation(hero, 0, 0, 19, 32, 4, 0.3, 'attack');
         this.jump = new Animation(hero, 80, 32, 16, 32, 1, 1, 'jump');
         this.fall = new Animation(hero, 48, 32, 16, 32, 1, 1, 'fall');
