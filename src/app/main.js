@@ -162,8 +162,6 @@ window.addEventListener('load', function () {
         }
         ctx.fillRect(-world.width / 2, window.innerHeight * 1.5, world.width * 2, -world.height * 2);
         // draw world
-        ctx.fillStyle = 'skyblue';
-        ctx.fillRect(0, window.innerHeight, world.width, -world.height);
         for (let i = 0; i < tileList.length; i++) {
             drawTile(tileList[i]);
         }
