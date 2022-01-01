@@ -23,7 +23,7 @@ window.addEventListener('load', function () {
     reDraw();
 
     function drawTile(tile) {
-        if ((player.frame.x - (tile.frame.x + tile.frame.width) <= 1500) && (tile.frame.x - (player.frame.x + player.frame.width) <= 1500)) {
+        if ((player.frame.x - (tile.frame.x + tile.frame.width) <= (window.innerWidth / 2)) && (tile.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2))) {
             // if frame is bigger, sprite is drawn multiple times to cover the whole size
             for (let i = 0; i < tile.frame.height; i += tile.sprite.height * world.scale) {
                 for (let j = 0; j < tile.frame.width; j += tile.sprite.width * world.scale) {
@@ -75,7 +75,6 @@ window.addEventListener('load', function () {
             ctx.fillStyle = 'rgba(250,0,250,0.5)';
             ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height);
         }
-        drawStats(entity);
     }
 
     function drawStats(entity) {
@@ -135,6 +134,33 @@ window.addEventListener('load', function () {
         ctx.imageSmoothingEnabled = false;
         // move context to player
         ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+        // light
+        if (weather.time >= weather.sunrise - 50 && weather.time <= weather.sunrise + 50) {
+            // morning
+            light = 0.2;
+            ctx.fillStyle = 'rgb(207,113,175)';
+        } else if (weather.time > weather.sunrise + 50 && weather.time < 1150) {
+            // before noon
+            light = 0.1;
+            ctx.fillStyle = 'rgb(135,206,235)';
+        } else if (weather.time >= 1150 && weather.time <= 1250) {
+            // noon
+            light = 0;
+            ctx.fillStyle = 'rgb(178,255,255)';
+        } else if (weather.time > 1250 && weather.time < weather.sunset - 50) {
+            // afternoon
+            light = 0.1;
+            ctx.fillStyle = 'rgb(140,190,214)';
+        } else if (weather.time >= weather.sunset - 50 && weather.time <= weather.sunset + 100) {
+            // evening
+            light = 0.5;
+            ctx.fillStyle = 'rgb(0,73,83)';
+        } else {
+            // night
+            light = 0.7;
+            ctx.fillStyle = 'rgb(25,25,112)';
+        }
+        ctx.fillRect(-world.width / 2, window.innerHeight * 1.5, world.width * 2, -world.height * 2);
         // draw world
         ctx.fillStyle = 'skyblue';
         ctx.fillRect(0, window.innerHeight, world.width, -world.height);
@@ -148,21 +174,14 @@ window.addEventListener('load', function () {
             drawEntity(entityList[i]);
         }
         drawEntity(player);
+        ctx.fillStyle = 'rgba(0,0,0,' + light + ')';
+        ctx.fillRect(-world.width / 2, window.innerHeight * 1.5, world.width * 2, -world.height * 2);
+        for (let i = 0; i < entityList.length; i++) {
+            drawStats(entityList[i]);
+        }
         // reset context
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate(0, 0);
-        // light
-        if (weather.time >= 1130 && weather.time <= 1230) {
-            light = 0;
-        } else if (weather.time >= weather.sunrise && weather.time < 1130) {
-            light = ((1200 - weather.time) / (1200 - weather.sunrise)) - 0.15;
-        } else if (weather.time > 1230 && weather.time <= weather.sunset) {
-            light = ((weather.time - 1200) / (weather.sunset - 1200)) - 0.15;
-        } else {
-            light = 0.9;
-        }
-        ctx.fillStyle = 'rgba(0,0,0,' + light + ')';
-        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
         // player hp
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30);
