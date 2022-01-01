@@ -111,8 +111,6 @@ export let tileList = [
     new Tile(2, 4720, 840, 80, 40, plank),
     new Tile(2, 4720, 920, 80, 40, plank),
     new Tile(2, 4720, 1000, 80, 40, plank),
-    new Door(3740, 1040, door, true),
-    new Door(3820, 1040, door),
     new Tile(true, 3760, 1200, 80, 160, brick),
     new Tile(true, 4160, 1200, 80, 880, brick),
     new Tile(true, 5200, 960, 80, 1120, brick),
@@ -136,7 +134,8 @@ export let tileList = [
 
 export let tileEntityList = [
     new Door(960, 640, door, true),
-    new Door(4160, 1040, door, true)
+    new Door(4160, 1040, door, true),
+    new Door(3760, 1040, door),
 ];
 
 export let weather = {
