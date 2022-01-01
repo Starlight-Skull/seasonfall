@@ -37,7 +37,7 @@ export function entityMovement(entity) {
         if (entity !== player) {
             if (entity.cooldown > 0) {
                 entity.cooldown--;
-            } else if (entity.cooldown !== -1) {
+            } else if (entity.cooldown < 20) {
                 if (Math.abs(entity.frame.x - player.frame.x) < 500) {
                     entity.controls.attack = Math.abs(entity.frame.x - (player.frame.x + player.frame.width)) < 15 || Math.abs(player.frame.x - (entity.frame.x + entity.frame.width)) < 15;
                     if (player.frame.y - entity.frame.y > 0 && entity.air !== entity.maxAir) {
@@ -167,6 +167,15 @@ export function entityMovement(entity) {
             if (entity.frame.currentFrame < entity.animation.frames - 1) {
                 entity.frame.currentFrame += entity.animation.speed;
             } else {
+                for (let i = 0; i < tileEntityList.length; i++) {
+                    let tile;
+                    if (entity.constructor.name === 'Hero') {
+                        tile = collision(entity, tileEntityList[i], true);
+                    }
+                    if (tile && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
+                        tile.activate();
+                    }
+                }
                 for (let i = 0; i < entityList.length; i++) {
                     let entity2;
                     if (entity.constructor.name === 'Hero') {
@@ -177,21 +186,16 @@ export function entityMovement(entity) {
                     if (entity2 && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
                         if (entity2.stats.hp > 0) {
                             entity2.stats.hp -= entity.stats.damage;
+                            entity2.frame.x += (entity.frame.mirrored ? -50 : 50);
+                            entity2.cooldown = 8;
+                            entity2.controls.left = false;
+                            entity2.controls.right = false;
                         }
                         if (entity2.stats.hp <= 0 && entity2.animation !== entity2.death) {
                             entity2.animation = entity2.death;
                             entity2.frame.currentFrame = 0;
                             entity.stats.xp += entity2.stats.xp;
                         }
-                    }
-                }
-                for (let i = 0; i < tileEntityList.length; i++) {
-                    let tile;
-                    if (entity.constructor.name === 'Hero') {
-                        tile = collision(entity, tileEntityList[i], true);
-                    }
-                    if (tile) {
-                        tile.activate();
                     }
                 }
                 entity.controls.attack = 2;
