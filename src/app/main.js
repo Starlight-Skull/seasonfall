@@ -224,7 +224,6 @@ window.addEventListener('load', function () {
         }
         if (debug.showPlayerStats) {
             ctx.fillStyle = 'magenta';
-            ctx.fillText(`Doors Used: ${playerStats.doorsUsed}`, 5, 190);
             ctx.fillText(`Attacks: ${playerStats.attacks}`, 5, 220);
             ctx.fillText(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250);
             ctx.fillText(`Damage Taken: ${playerStats.damageTaken}`, 5, 280);

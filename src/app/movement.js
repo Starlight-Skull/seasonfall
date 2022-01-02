@@ -183,7 +183,6 @@ export function entityMovement(entity) {
                     }
                     if (tile && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
                         tile.activate();
-                        playerStats.doorsUsed++;
                     }
                 }
                 for (let i = 0; i < entityList.length; i++) {
