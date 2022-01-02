@@ -44,7 +44,7 @@ export function entityMovement(entity) {
             if (entity.cooldown > 0) {
                 entity.cooldown--;
             } else if (entity.cooldown < 20) {
-                if (Math.abs(entity.frame.x - player.frame.x) < 500) {
+                if (Math.abs(entity.frame.x - player.frame.x) < window.innerWidth / 2) {
                     entity.controls.attack = Math.abs(entity.frame.x - (player.frame.x + player.frame.width)) < 15 || Math.abs(player.frame.x - (entity.frame.x + entity.frame.width)) < 15;
                     if (player.frame.y - entity.frame.y > 0 && entity.air !== entity.maxAir) {
                         entity.controls.jump = true;
@@ -56,10 +56,10 @@ export function entityMovement(entity) {
                         entity.controls.jump = false;
                         entity.controls.down = false;
                     }
-                    if (entity.frame.x - (player.frame.x + player.frame.width) > 5 && (entity.frame.x - (player.frame.x + player.frame.width) < 500)) {
+                    if (entity.frame.x - (player.frame.x + player.frame.width) > 5 && (entity.frame.x - (player.frame.x + player.frame.width) < 600)) {
                         entity.controls.left = true;
                         entity.controls.right = false;
-                    } else if (player.frame.x - (entity.frame.x + entity.frame.width) > 5 && (player.frame.x - (entity.frame.x + entity.frame.width) < 500)) {
+                    } else if (player.frame.x - (entity.frame.x + entity.frame.width) > 5 && (player.frame.x - (entity.frame.x + entity.frame.width) < 600)) {
                         entity.controls.left = false;
                         entity.controls.right = true;
                     }
