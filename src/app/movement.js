@@ -30,6 +30,12 @@ export function entityMovement(entity) {
             entity.frame.y -= 9.81 * 2;
         }
     } else {
+        if (entity.stats.hp < entity.stats.maxHP && entity.stats.mp > 0 && entity.stats.mp > entity.stats.maxMP / 3) {
+            entity.stats.hp += 0.02;
+            entity.stats.mp -= 0.02;
+        } else if (entity.stats.mp < entity.stats.maxMP) {
+            entity.stats.mp += entity.stats.xp / 10;
+        }
         if (!entity.controls.attack && entity.frame.width !== entity.defaultWidth) {
             entity.frame.width = entity.defaultWidth;
             entity.frame.x += (entity.attackWidth - entity.defaultWidth) / 2;
@@ -195,6 +201,8 @@ export function entityMovement(entity) {
                             entity2.animation = entity2.death;
                             entity2.frame.currentFrame = 0;
                             entity.stats.xp += entity2.stats.xp;
+                            entity.stats.maxMP += entity2.stats.mp;
+                            entity2.stats.mp = 0;
                         }
                     }
                 }
