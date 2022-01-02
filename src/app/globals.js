@@ -1,4 +1,4 @@
-import {Door, Hero, Skeleton, Tile} from "./classes.js";
+import {Door, Hero, Rain, Skeleton, Tile} from "./classes.js";
 
 let beam = new Image();
 beam.src = './img/beam.png';
@@ -22,14 +22,22 @@ let plank = new Image();
 plank.src = './img/plank.png';
 
 export const world = {
-    originX: 320,
-    originY: 640,
     width: 5200,
     height: 2400,
     scale: 5
 }
 
-export let player = new Hero(world.originX, world.originY);
+export let player = new Hero(320, 640);
+
+export let animTileList = [
+    new Rain(-1040, 640, 1040, world.height, false),
+    new Rain(0, 640, 1040, world.height, false),
+    new Rain(1040, 640, 1040, world.height, false),
+    new Rain(2080, 640, 1040, world.height, false),
+    new Rain(3120, 640, 1040, world.height, false),
+    new Rain(4160, 640, 1040, world.height, false),
+    new Rain(5200, 640, 1040, world.height, false),
+];
 
 export let entityList = [
     new Skeleton(1, 1680, 640),
