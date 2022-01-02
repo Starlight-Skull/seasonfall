@@ -4,6 +4,10 @@ let hero = new Image();
 hero.src = './img/hero.png';
 let missing_entity = new Image();
 missing_entity.src= './img/missing_entity.png';
+let rain = new Image();
+rain.src = './img/rain.png';
+let snow = new Image();
+snow.src = './img/snow.png';
 let skeleton = new Image();
 skeleton.src = './img/skeleton.png';
 
@@ -151,5 +155,26 @@ export class Door extends TileEntity {
                 this.animation = this.closed;
             }
         };
+    }
+}
+
+export class Rain extends TileEntity {
+    constructor(x, y, width, height, mirrored) {
+        super(false, x, y, width, height, rain, mirrored);
+        this.rain = new Animation(this.sprite, 0, 0, 16, 16, 16, .5, 'rain');
+        this.animation = this.rain;
+        this.isSnow = false;
+        this.activate = function () {
+            if (this.isSnow) {
+                this.animation.sprite = snow;
+            } else {
+                this.animation.sprite = rain;
+            }
+            if (this.frame.currentFrame < this.animation.frames - 1) {
+                this.frame.currentFrame += this.animation.speed;
+            } else {
+                this.frame.currentFrame = 0;
+            }
+        }
     }
 }
