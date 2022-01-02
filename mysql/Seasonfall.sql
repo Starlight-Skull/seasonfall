@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Dec 16, 2021 at 11:00 PM
+-- Generation Time: Jan 02, 2022 at 04:55 PM
 -- Server version: 8.0.27
 -- PHP Version: 7.4.20
 
@@ -22,6 +22,24 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `Seasonfall` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `Seasonfall`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scores`
+--
+
+DROP TABLE IF EXISTS `scores`;
+CREATE TABLE `scores` (
+  `id` int NOT NULL,
+  `user` int NOT NULL,
+  `timeTaken` int DEFAULT NULL,
+  `kills` int DEFAULT NULL,
+  `attacks` int DEFAULT NULL,
+  `attacksHit` int DEFAULT NULL,
+  `damageTaken` int DEFAULT NULL,
+  `damageDealt` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -51,6 +69,12 @@ INSERT INTO `users` (`id`, `name`, `password`, `key`, `location`, `first_date`) 
 --
 
 --
+-- Indexes for table `scores`
+--
+ALTER TABLE `scores`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -61,10 +85,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `scores`
+--
+ALTER TABLE `scores`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
