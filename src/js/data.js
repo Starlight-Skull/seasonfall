@@ -6,6 +6,7 @@ window.addEventListener('load', function () {
     let interval;
     debugMenu.style.visibility = 'hidden';
     // load data placed by php
+    debug.userId = document.getElementById('userId').value;
     debug.username = document.getElementById('username').value;
     debug.apiKey = document.getElementById('apiKey').value;
     debug.location = document.getElementById('location').value;
