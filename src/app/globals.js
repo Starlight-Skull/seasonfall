@@ -172,6 +172,7 @@ export let weather = {
 }
 
 export let debug = {
+    userId: 0,
     username: '',
     apiKey: '',
     location: '',
