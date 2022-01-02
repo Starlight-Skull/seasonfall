@@ -33,6 +33,40 @@ export function formatUnixTime(timestamp, timezone) {
     return date.getUTCHours() * 100 + date.getUTCMinutes();
 }
 
+export function getStats() {
+    fetch('http://localhost:3307/stats/')
+        .then((response) => {
+            return response.json();
+        })
+        .then((stats) => {
+            console.log(stats);
+            // todo something
+        });
+}
+
+export function postStats() {
+    fetch('http://localhost:3307/stats/', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+            timeTaken: playerStats.timeTaken,
+            kills: playerStats.kills,
+            attacks: playerStats.attacks,
+            attacksHit: playerStats.attacksHit,
+            damageTaken: playerStats.damageTaken,
+            damageDealt: playerStats.damageDealt,
+        })
+    })
+        .then((response) => {
+            console.log(response.message);
+            if (response.status === 201) {
+                // todo something
+            }
+        });
+}
+
 export function collision(entity, object, isAttack) {
     if (entity.hasCollision && (object.hasCollision || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
         let values = {
