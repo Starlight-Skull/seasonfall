@@ -1,4 +1,4 @@
-import {player, playerStats} from "./globals.js";
+import {debug, player, playerStats} from "./globals.js";
 
 export function keyLogger(ev, down) {
     switch (ev.key) {
@@ -34,7 +34,7 @@ export function formatUnixTime(timestamp, timezone) {
 }
 
 export function getStats() {
-    fetch('http://localhost:3307/stats/')
+    fetch('http://localhost:3000/stats')
         .then((response) => {
             return response.json();
         })
@@ -45,12 +45,13 @@ export function getStats() {
 }
 
 export function postStats() {
-    fetch('http://localhost:3307/stats/', {
+    fetch('http://localhost:3000/stats', {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
         },
         body: JSON.stringify({
+            user: debug.userId,
             timeTaken: playerStats.timeTaken,
             kills: playerStats.kills,
             attacks: playerStats.attacks,
@@ -60,7 +61,7 @@ export function postStats() {
         })
     })
         .then((response) => {
-            console.log(response.message);
+            console.log(response);
             if (response.status === 201) {
                 // todo something
             }
