@@ -60,6 +60,8 @@ window.addEventListener('load', function () {
         }
         debug.showBoxes = document.getElementById('showBoxes').checked;
         debug.showLiveDebug = document.getElementById('showLiveDebug').checked;
+        debug.showFPS = document.getElementById('showFPS').checked;
+        debug.showPlayerStats = document.getElementById('showPlayerStats').checked;
         // weather
         weather.main = document.getElementById('main').value;
         weather.temp = parseFloat(document.getElementById('temp').value);
@@ -105,6 +107,8 @@ window.addEventListener('load', function () {
         // general
         document.getElementById('showBoxes').checked = debug.showBoxes;
         document.getElementById('showLiveDebug').checked = debug.showLiveDebug;
+        document.getElementById('showFPS').checked = debug.showFPS;
+        document.getElementById('showPlayerStats').checked = debug.showPlayerStats;
         // weather
         document.getElementById('main').value = weather.main;
         document.getElementById('temp').value = weather.temp;

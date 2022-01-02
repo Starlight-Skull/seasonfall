@@ -213,7 +213,7 @@ export function entityMovement(entity) {
                                 entity2.animation = entity2.death;
                                 entity2.frame.currentFrame = 0;
                                 entity.stats.xp += entity2.stats.xp;
-                                if (entity.stats.mp < entity.stats.maxMP) {
+                                if (entity.stats.mp < entity.stats.maxMP - entity2.stats.mp) {
                                     entity.stats.mp += entity2.stats.mp;
                                 }
                                 entity2.stats.mp = 0;
