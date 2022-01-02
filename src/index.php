@@ -7,7 +7,7 @@ require_once './php/config.php';
 
 try {
     $db = getDatabase();
-    $stmtSELECT = $db->prepare('SELECT `key`, `location` FROM `users` WHERE `name` = ? && `password` = ?;');
+    $stmtSELECT = $db->prepare('SELECT `id`, `key`, `location` FROM `users` WHERE `name` = ? && `password` = ?;');
 } catch (PDOException $e) {
     $_SESSION['error'] = $e->getMessage();
     header('Location: ./php/login.php');
@@ -16,6 +16,7 @@ try {
 
 $username = $_SESSION['username'] ?? '';
 $password = $_SESSION['password'] ?? '';
+$id = '';
 $key = '';
 $location = '';
 
@@ -26,6 +27,7 @@ if (trim($username) !== '' && trim($password) !== '') {
         header('Location: ./php/login.php');
         exit();
     }
+    $id = $rows[0]['id'];
     $key = $rows[0]['key'];
     $location = $rows[0]['location'];
 } else {
@@ -69,6 +71,10 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <input type="checkbox" id="useAPI" name="useAPI">
         </div>
         <h3>General</h3>
+        <div>
+            <label for="userId">User ID</label>
+            <input type="number" id="userId" placeholder="0" disabled value="<?PHP h($id) ?>">
+        </div>
         <div>
             <label for="username">Username</label>
             <input type="text" id="username" placeholder="Username" value="<?PHP h($username) ?>">
