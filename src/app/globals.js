@@ -177,9 +177,9 @@ export let debug = {
     location: '',
     useAPI: true,
     showBoxes: false,
-    showLiveDebug: true,
+    showLiveDebug: false,
     showFPS: true,
-    showPlayerStats: true,
+    showPlayerStats: false,
 };
 
 export let playerStats = {
