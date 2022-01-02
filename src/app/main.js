@@ -1,4 +1,4 @@
-import {entityList, player, tileEntityList, tileList, weather, world} from "./globals.js";
+import {animTileList, entityList, player, tileEntityList, tileList, weather, world} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
 
@@ -25,16 +25,18 @@ window.addEventListener('load', function () {
     function drawTile(tile) {
         if ((player.frame.x - (tile.frame.x + tile.frame.width) <= (window.innerWidth / 2)) && (tile.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2))) {
             // if frame is bigger, sprite is drawn multiple times to cover the whole size
-            for (let i = 0; i < tile.frame.height; i += tile.sprite.height * world.scale) {
-                for (let j = 0; j < tile.frame.width; j += tile.sprite.width * world.scale) {
+            let height = (tile.animation ? tile.animation.height : tile.sprite.height) * world.scale;
+            let width = (tile.animation ? tile.animation.width : tile.sprite.width) * world.scale;
+            for (let i = 0; i < tile.frame.height; i += height) {
+                for (let j = 0; j < tile.frame.width; j += width) {
                     // tile entities have animation frame instead
                     if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
                         if (tile.frame.mirrored) {
                             ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
-                            ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width, window.innerHeight - tile.frame.y - tile.animation.height * world.scale, tile.animation.width * world.scale, tile.animation.height * world.scale);
+                            ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width + j, window.innerHeight - tile.frame.y - tile.animation.height * world.scale - i, tile.animation.width * world.scale, tile.animation.height * world.scale);
                             ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
                         } else {
-                            ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x, window.innerHeight - tile.frame.y - tile.animation.height * world.scale, tile.animation.width * world.scale, tile.animation.height * world.scale);
+                            ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.animation.height * world.scale - i, tile.animation.width * world.scale, tile.animation.height * world.scale);
                         }
                     } else {
                         ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
@@ -162,6 +164,15 @@ window.addEventListener('load', function () {
         }
         ctx.fillRect(-world.width / 2, window.innerHeight * 1.5, world.width * 2, -world.height * 2);
         // draw world
+        if (weather.rain > 0 || weather.snow > 0) {
+            for (let i = 0; i < animTileList.length; i++) {
+                animTileList[i].activate();
+                animTileList[i].frame.mirrored = (weather.windDeg === 'East');
+                animTileList[i].animation.speed = weather.windSpeed / 10;
+                animTileList[i].isSnow = (weather.snow > 0);
+                drawTile(animTileList[i]);
+            }
+        }
         for (let i = 0; i < tileList.length; i++) {
             drawTile(tileList[i]);
         }
