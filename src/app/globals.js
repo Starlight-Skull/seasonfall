@@ -46,7 +46,9 @@ export let entityList = [
 
 export let tileList = [
     // surface
+    new Tile(false, -1040, 640, 1040, 80, grass),
     new Tile(false, 0, 640, 160, 80, grass),
+    new Tile(false, 5280, 960, 960, 80, grass),
     new Tile(true, 1040, 560, 1440, 80, grass),
     new Tile(true, 2480, 640, 160, 80, grass),
     new Tile(true, 2640, 720, 160, 80, grass),
@@ -54,10 +56,14 @@ export let tileList = [
     new Tile(true, 3200, 800, 160, 80, grass),
     new Tile(true, 3360, 880, 160, 80, grass),
     // dirt
+    new Tile(false, -1040, 80, 1040, 560, dirt),
+    new Tile(false, -1040, -240, 1040, 320, dirt),
+    new Tile(false, 5280, 0, 960, 960, dirt),
     new Tile(false, 0, 560, 160, 80, dirt),
     new Tile(false, 0, 80, 2400, 480, dirt),
     new Tile(true, 5200, 0, 80, 960, dirt),
-    new Tile(true, 0, 0, 5200, 80, dirt),
+    new Tile(true, 0, -240, 2560, 320, dirt),
+    new Tile(true, 2560, -240, 2640, 320, dirt),
     // cave lower
     new Tile(false, 2480, 160, 2560, 160, dirt_dark),
     new Tile(false, 2400, 320, 2720, 240, dirt_dark),
