@@ -1,7 +1,7 @@
 import {animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
-import {postStats} from "./helpers.js";
+import {getStats, postStats} from "./helpers.js";
 
 window.addEventListener('load', function () {
     // setup for drawing
@@ -233,10 +233,12 @@ window.addEventListener('load', function () {
             ctx.fillText(`Time Taken: ${playerStats.timeTaken}`, 5, 370);
         }
         if (!exit) {
-            requestAnimationFrame(reDraw);
             if (playerStats.kills === 10 || player.stats.hp <= 0) {
                 exit = true;
+                postStats();
+                // getStats();
             }
+            requestAnimationFrame(reDraw);
         }
     }
 });
