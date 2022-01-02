@@ -34,7 +34,7 @@ export function entityMovement(entity) {
             entity.stats.hp += 0.02;
             entity.stats.mp -= 0.02;
         } else if (entity.stats.mp < entity.stats.maxMP) {
-            entity.stats.mp += entity.stats.xp / 10;
+            entity.stats.mp += Math.abs(weather.temp / 1000);
         }
         if (!entity.controls.attack && entity.frame.width !== entity.defaultWidth) {
             entity.frame.width = entity.defaultWidth;
@@ -178,7 +178,7 @@ export function entityMovement(entity) {
                 }
                 for (let i = 0; i < tileEntityList.length; i++) {
                     let tile;
-                    if (entity.constructor.name === 'Hero') {
+                    if (entity === player) {
                         tile = collision(entity, tileEntityList[i], true);
                     }
                     if (tile && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
@@ -213,7 +213,9 @@ export function entityMovement(entity) {
                                 entity2.animation = entity2.death;
                                 entity2.frame.currentFrame = 0;
                                 entity.stats.xp += entity2.stats.xp;
-                                entity.stats.mp += entity2.stats.mp;
+                                if (entity.stats.mp < entity.stats.maxMP) {
+                                    entity.stats.mp += entity2.stats.mp;
+                                }
                                 entity2.stats.mp = 0;
                                 if (entity === player) {
                                     playerStats.kills++;
