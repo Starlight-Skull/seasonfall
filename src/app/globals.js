@@ -177,5 +177,17 @@ export let debug = {
     location: '',
     useAPI: true,
     showBoxes: false,
-    showLiveDebug: false,
+    showLiveDebug: true,
+    showFPS: true,
+    showPlayerStats: true,
 };
+
+export let playerStats = {
+    doorsUsed: 0,
+    attacks: 0,
+    attacksHit: 0,
+    damageTaken: 0,
+    damageDealt: 0,
+    kills: 0,
+    timeTaken: 0,
+}
