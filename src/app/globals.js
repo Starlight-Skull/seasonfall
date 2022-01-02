@@ -183,10 +183,10 @@ export let debug = {
 };
 
 export let playerStats = {
+    timeTaken: 0,
+    kills: 0,
     attacks: 0,
     attacksHit: 0,
     damageTaken: 0,
     damageDealt: 0,
-    kills: 0,
-    timeTaken: 0,
 }
