@@ -177,6 +177,7 @@ window.addEventListener('load', function () {
         for (let i = 0; i < entityList.length; i++) {
             drawStats(entityList[i]);
         }
+        drawStats(player);
         // reset context
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate(0, 0);
