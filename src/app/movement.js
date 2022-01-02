@@ -1,5 +1,5 @@
 import {collision} from "./helpers.js";
-import {entityList, player, tileEntityList, tileList, world} from "./globals.js";
+import {entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
 
 export function entityMovement(entity) {
     if (entity.frame.x > world.width) {
@@ -173,6 +173,9 @@ export function entityMovement(entity) {
             if (entity.frame.currentFrame < entity.animation.frames - 1) {
                 entity.frame.currentFrame += entity.animation.speed;
             } else {
+                if (entity === player) {
+                    playerStats.attacks++;
+                }
                 for (let i = 0; i < tileEntityList.length; i++) {
                     let tile;
                     if (entity.constructor.name === 'Hero') {
@@ -180,29 +183,42 @@ export function entityMovement(entity) {
                     }
                     if (tile && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
                         tile.activate();
+                        playerStats.doorsUsed++;
                     }
                 }
                 for (let i = 0; i < entityList.length; i++) {
                     let entity2;
-                    if (entity.constructor.name === 'Hero') {
+                    if (entity === player) {
                         entity2 = collision(entity, entityList[i], true);
                     } else {
                         entity2 = collision(entity, player, true);
                     }
-                    if (entity2 && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
-                        if (entity2.stats.hp > 0) {
-                            entity2.stats.hp -= entity.stats.damage;
-                            entity2.frame.x += (entity.frame.mirrored ? -50 : 50);
-                            entity2.cooldown = 8;
-                            entity2.controls.left = false;
-                            entity2.controls.right = false;
-                        }
-                        if (entity2.stats.hp <= 0 && entity2.animation !== entity2.death) {
-                            entity2.animation = entity2.death;
-                            entity2.frame.currentFrame = 0;
-                            entity.stats.xp += entity2.stats.xp;
-                            entity.stats.maxMP += entity2.stats.mp;
-                            entity2.stats.mp = 0;
+                    if (entity2) {
+                        if (entity.frame.mirrored ? entity.collision.left : entity.collision.right) {
+                            if (entity2.stats.hp > 0) {
+                                entity2.stats.hp -= entity.stats.damage;
+                                entity2.frame.x += (entity.frame.mirrored ? -50 : 50);
+                                entity2.cooldown = 8;
+                                entity2.controls.left = false;
+                                entity2.controls.right = false;
+                                if (entity === player) {
+                                    playerStats.damageDealt += entity.stats.damage;
+                                    playerStats.attacksHit++;
+                                }
+                                if (entity2 === player) {
+                                    playerStats.damageTaken += entity.stats.damage;
+                                }
+                            }
+                            if (entity2.stats.hp <= 0 && entity2.animation !== entity2.death) {
+                                entity2.animation = entity2.death;
+                                entity2.frame.currentFrame = 0;
+                                entity.stats.xp += entity2.stats.xp;
+                                entity.stats.mp += entity2.stats.mp;
+                                entity2.stats.mp = 0;
+                                if (entity === player) {
+                                    playerStats.kills++;
+                                }
+                            }
                         }
                     }
                 }
