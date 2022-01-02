@@ -103,7 +103,7 @@ export class Animation {
 
 export class Hero extends Entity {
     constructor(x, y) {
-        super(true, -1, 10, 15, 100, 25, 12, 0, x, y, 60, 155);
+        super(true, -1, 10, 15, 100, 50, 12, 0, x, y, 60, 155);
         this.attackWidth = 95;
         this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle');
         this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.3, 'move');
@@ -116,7 +116,7 @@ export class Hero extends Entity {
 
 export class Skeleton extends Entity {
     constructor(cooldown, x, y) {
-        super(true, cooldown, 7, 10, 55, 10, 8, 1, x, y, 65, 155);
+        super(true, cooldown, 7, 10, 55, 25, 8, 1, x, y, 65, 155);
         this.attackWidth = 100
         this.idle = new Animation(skeleton, 0, 32, 16, 32, 1, 1, 'idle');
         this.move = new Animation(skeleton, 0, 32, 16, 32, 4, 0.4, 'move');
