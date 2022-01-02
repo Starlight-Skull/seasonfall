@@ -48,6 +48,8 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self' 'unsafe-inline' https://api.openweathermap.org/data/2.5/weather http://localhost:3000/stats">
     <link rel="stylesheet" href="css/app.css">
     <link rel="shortcut icon" href="./favicon.ico">
     <title>Seasonfall</title>
