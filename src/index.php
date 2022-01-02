@@ -65,7 +65,7 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <input type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
         </div>
         <div title="API is called every 10 minutes.">
-            <label for="useAPI">Use API data</label>
+            <label for="useAPI">Use API Data</label>
             <input type="checkbox" id="useAPI" name="useAPI">
         </div>
         <h3>General</h3>
@@ -74,12 +74,20 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <input type="text" id="username" placeholder="Username" value="<?PHP h($username) ?>">
         </div>
         <div>
-            <label for="showBoxes">Show hit boxes</label>
+            <label for="showBoxes">Show Hit Boxes</label>
             <input type="checkbox" id="showBoxes" name="showBoxes">
         </div>
         <div>
-            <label for="showLiveDebug">Show live data</label>
+            <label for="showLiveDebug">Show Live Data</label>
             <input type="checkbox" id="showLiveDebug" name="showTrackedEntity">
+        </div>
+        <div>
+            <label for="showFPS">Show FPS</label>
+            <input type="checkbox" id="showFPS" name="showFPS">
+        </div>
+        <div>
+            <label for="showPlayerStats">Show Player Stats</label>
+            <input type="checkbox" id="showPlayerStats" name="showPlayerStats">
         </div>
         <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
             <input type="hidden" name="moduleAction" value="logout"/>
