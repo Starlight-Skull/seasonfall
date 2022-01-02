@@ -1,4 +1,4 @@
-import {player} from "./globals.js";
+import {player, playerStats} from "./globals.js";
 
 export function keyLogger(ev, down) {
     switch (ev.key) {

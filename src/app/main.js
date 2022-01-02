@@ -1,6 +1,7 @@
 import {animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
+import {postStats} from "./helpers.js";
 
 window.addEventListener('load', function () {
     // setup for drawing
@@ -130,7 +131,7 @@ window.addEventListener('load', function () {
             fps = frames;
             frames = 0;
         }
-        playerStats.timeTaken = (now - startTime) / 1000;
+        playerStats.timeTaken = Math.round((now - startTime) / 1000);
         // update screen in case of window resize
         screen.width = window.innerWidth;
         screen.height = window.innerHeight;
