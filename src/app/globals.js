@@ -183,7 +183,6 @@ export let debug = {
 };
 
 export let playerStats = {
-    doorsUsed: 0,
     attacks: 0,
     attacksHit: 0,
     damageTaken: 0,
