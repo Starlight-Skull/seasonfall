@@ -1,10 +1,12 @@
-import {debug, player, weather} from "../app/globals.js";
+import {debug, player, weather, world} from "../app/globals.js";
 import {formatUnixTime, keyLogger} from "../app/helpers.js";
 
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
+    const pauseMenu = document.getElementById('pauseMenu');
     let interval;
     debugMenu.style.visibility = 'hidden';
+    pauseMenu.style.visibility = 'hidden';
     // load data placed by php
     debug.userId = document.getElementById('userId').value;
     debug.username = document.getElementById('username').value;
@@ -16,7 +18,7 @@ window.addEventListener('load', function () {
     } else {
         debug.useAPI = false;
     }
-
+    // event listeners
     window.addEventListener('mousedown', () => {
         if (debugMenu.style.visibility === 'hidden') {
             player.controls.attack = (player.controls.attack === 2) ? 2 : true;
@@ -33,12 +35,18 @@ window.addEventListener('load', function () {
         }
     });
     window.addEventListener('keyup', ev => {
-        if (ev.key === '`') {
-            if (debugMenu.style.visibility === 'hidden') {
-                openDebug();
-            } else {
-                debugMenu.style.visibility = 'hidden';
-            }
+        switch (ev.key) {
+            case '`':
+                if (debugMenu.style.visibility === 'hidden') {
+                    openDebug();
+                } else {
+                    debugMenu.style.visibility = 'hidden';
+                }
+                break;
+            case 'Escape':
+                world.paused = !world.paused;
+                pauseMenu.style.visibility = pauseMenu.style.visibility === 'hidden' ? 'visible' : 'hidden';
+                break;
         }
         if (debugMenu.style.visibility === 'hidden') {
             keyLogger(ev, false);

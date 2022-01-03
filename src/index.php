@@ -101,12 +101,6 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <input type="hidden" name="moduleAction" value="logout"/>
             <button type="submit">Log Out</button>
         </form>
-        <div>
-            <input type="button" title="API is called every 10 minutes." id="callAPI" value="Call API">
-        </div>
-        <div>
-            <input type="button" id="update" value="Update">
-        </div>
     </section>
     <section>
         <h3>Weather</h3>
@@ -169,6 +163,9 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <label for="sunset">Sunset (hmm)</label>
             <input type="text" id="sunset">
         </div>
+        <div>
+            <input type="button" title="API is called every 10 minutes." id="callAPI" value="Call API">
+        </div>
     </section>
     <section>
         <h3>Player</h3>
@@ -216,6 +213,20 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <label for="hasCollision">Collision</label>
             <input type="checkbox" id="hasCollision">
         </div>
+        <div>
+            <input type="button" id="update" value="Update">
+        </div>
+    </section>
+</div>
+<div id="pauseMenu">
+    <section id="globalStats">
+        <h3>Global Stats</h3>
+    </section>
+    <section id="modal">
+        <h3>Paused</h3>
+    </section>
+    <section id="localStats">
+        <h3><?PHP h($username) ?>'s Stats</h3>
     </section>
 </div>
 <main>

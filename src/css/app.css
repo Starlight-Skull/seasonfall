@@ -14,7 +14,7 @@ main {
 }
 
 #debug {
-    background-color: rgba(128, 128, 128, 0.7);
+    background-color: rgba(105, 105, 105, 0.8);
     position: absolute;
     left: 0;
     top: 0;
@@ -25,6 +25,10 @@ main {
 }
 
 #debug section {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 0 .5rem .5rem;
     min-width: 20vw;
     border: 1px solid black;
@@ -46,7 +50,7 @@ main {
     font-size: 75%;
 }
 
-input[type="text"], select {
+input[type="text"], select, input[type="number"]{
     width: 7rem;
     margin-left: 2rem;
 }
@@ -55,4 +59,33 @@ input[type="text"], select {
     margin-top: .5rem;
     min-width: 20vw;
     height: 1.5rem;
+}
+
+#pauseMenu {
+    background-color: rgba(5, 5, 5, 0.5);
+    color: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 200;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    visibility: hidden;
+}
+
+#pauseMenu section {
+    border: 2px solid white;
+    width: 30vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pauseMenu #modal {
+    height: 50vh;
 }

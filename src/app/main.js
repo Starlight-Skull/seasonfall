@@ -233,23 +233,24 @@ window.addEventListener('load', function () {
     }
 
     function reDraw() {
-        let now = Date.now();
-        playerStats.timeTaken = Math.round((now - startTime) / 1000);
-        frames++;
-        if (now - time > 1000) {
-            time = Date.now();
-            fps = frames;
-            frames = 0;
+        if (!world.paused) {
+            let now = Date.now();
+            playerStats.timeTaken = Math.round((now - startTime) / 1000);
+            frames++;
+            if (now - time > 1000) {
+                time = Date.now();
+                fps = frames;
+                frames = 0;
+            }
+            // update screen in case of window resize
+            screen.width = window.innerWidth;
+            screen.height = window.innerHeight;
+            ctx.imageSmoothingEnabled = false;
+
+            drawMain();
+            drawPlayerStats();
+            drawDebug();
         }
-        // update screen in case of window resize
-        screen.width = window.innerWidth;
-        screen.height = window.innerHeight;
-        ctx.imageSmoothingEnabled = false;
-
-        drawMain();
-        drawPlayerStats();
-        drawDebug();
-
         if (!exit) {
             if (playerStats.kills === 10 || player.stats.hp <= 0) {
                 exit = true;
