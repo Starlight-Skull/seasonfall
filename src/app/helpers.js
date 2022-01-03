@@ -1,4 +1,4 @@
-import {debug, player, playerStats} from "./globals.js";
+import {charts, debug, player, playerStats} from "./globals.js";
 
 export function keyLogger(ev, down) {
     switch (ev.key) {
@@ -33,13 +33,13 @@ export function formatUnixTime(timestamp, timezone) {
     return date.getUTCHours() * 100 + date.getUTCMinutes();
 }
 
-export function formatData(data, stats, graphs, table, showId) {
+export function formatData(data, stats, charts, table, showId) {
     stats.innerHTML = '';
     table.innerHTML = '';
     let values = {
-        fastestWin: 0,
-        fastestDeath: 0,
-        fastestNoHit: 0,
+        fastestWin: '-',
+        fastestDeath: '-',
+        fastestNoHit: '-',
         totalDamageTaken: 0,
         totalDamageDealt: 0,
         totalWins: 0,
@@ -66,15 +66,15 @@ export function formatData(data, stats, graphs, table, showId) {
         values.totalHits += row.attacksHit;
         if (row.kills === 10) {
             values.totalWins++;
-            if (values.fastestWin === 0 || values.fastestWin > row.timeTaken) {
+            if (values.fastestWin === '-' || values.fastestWin > row.timeTaken) {
                 values.fastestWin = row.timeTaken;
             }
-            if (row.damageTaken === 0 && (values.fastestNoHit === 0 || values.fastestNoHit > row.timeTaken)) {
+            if (row.damageTaken === '-' && (values.fastestNoHit === 0 || values.fastestNoHit > row.timeTaken)) {
                 values.fastestNoHit = row.timeTaken;
             }
         } else {
             values.totalDeaths++;
-            if (values.fastestDeath === 0 || values.fastestDeath > row.timeTaken) {
+            if (values.fastestDeath === '-' || values.fastestDeath > row.timeTaken) {
                 values.fastestDeath = row.timeTaken;
             }
             switch (row.kills) {
@@ -110,20 +110,26 @@ export function formatData(data, stats, graphs, table, showId) {
                     break;
             }
         }
-        stats.innerHTML = `
+        writeData(stats, table, row, values, showId)
+    });
+    updateCharts(charts, values);
+}
+
+function writeData(stats, table, row, values, showId) {
+    stats.innerHTML = `
             <div>
-                <p>Fastest Win: ${values.fastestWin}s</p>
+                <p>Fastest Win: ${values.fastestWin} s</p>
                 <p>Total Damage</p>
             </div>
             <div>
-                <p>Fastest Death: ${values.fastestDeath}s</p>
+                <p>Fastest Death: ${values.fastestDeath} s</p>
                 <p>Taken: ${values.totalDamageTaken}</p>
             </div>
             <div>
-                <p>Fastest No Hit: ${values.fastestNoHit}s</p>
+                <p>Fastest No Hit: ${values.fastestNoHit} s</p>
                 <p>Dealt: ${values.totalDamageDealt}</p>
             </div>`;
-        table.innerHTML += `
+    table.innerHTML += `
                 <tr>
                     ${showId ? `<td>${row.user}</td>` : ``}
                     <td>${row.timeTaken}</td>
@@ -133,54 +139,15 @@ export function formatData(data, stats, graphs, table, showId) {
                     <td>${row.damageTaken}</td>
                     <td>${row.damageDealt}</td>
                 </tr>`;
-    });
-    new Chart(graphs.score, {
-        type: "pie",
-        data: {
-            labels: ['Win', 'Lose'],
-            datasets: [{
-                label: 'Score',
-                data: [values.totalWins, values.totalDeaths],
-                borderColor: ['lime', 'magenta']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true
-        }
-    });
-    new Chart(graphs.attacks, {
-        type: "pie",
-        data: {
-            labels: ['Hits', 'Misses'],
-            datasets: [{
-                label: 'Attacks',
-                data: [values.totalHits, values.totalAttacks - values.totalHits],
-                borderColor: ['blue', 'red']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true
-        }
-    });
-    new Chart(graphs.kills, {
-        type: "bar",
-        data: {
-            labels: ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0'],
-            datasets: [{
-                label: 'Kills before death',
-                data: [values.kills._9, values.kills._8, values.kills._7, values.kills._6, values.kills._5, values.kills._4, values.kills._3, values.kills._2, values.kills._1, values.kills._0],
-                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'black', 'grey', 'white'],
-                borderWidth: 2,
-                minBarLength: 5,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true
-        }
-    });
+}
+
+function updateCharts(charts, values) {
+    charts.score.data.datasets[0].data = [values.totalWins, values.totalDeaths];
+    charts.score.update();
+    charts.attacks.data.datasets[0].data = [values.totalHits, values.totalAttacks - values.totalHits];
+    charts.attacks.update();
+    charts.kills.data.datasets[0].data = [values.kills._9, values.kills._8, values.kills._7, values.kills._6, values.kills._5, values.kills._4, values.kills._3, values.kills._2, values.kills._1, values.kills._0]
+    charts.kills.update();
 }
 
 export function getStats() {
@@ -190,15 +157,15 @@ export function getStats() {
         })
         .then((stats) => {
             formatData(stats, document.getElementById('localStats'), {
-                    score: document.getElementById('chartLocalScore'),
-                    attacks: document.getElementById('chartLocalAttacks'),
-                    kills: document.getElementById('chartLocalKills')
+                    score: charts.chartLocalScore,
+                    attacks: charts.chartLocalAttacks,
+                    kills: charts.chartLocalKills
                 }, document.getElementById('localTableData'), false
             );
             formatData(stats, document.getElementById('globalStats'), {
-                    score: document.getElementById('chartGlobalScore'),
-                    attacks: document.getElementById('chartGlobalAttacks'),
-                    kills: document.getElementById('chartGlobalKills')
+                    score: charts.chartGlobalScore,
+                    attacks: charts.chartGlobalAttacks,
+                    kills: charts.chartGlobalKills,
                 }, document.getElementById('globalTableData'), true
             );
         });
@@ -221,9 +188,8 @@ export function postStats() {
         })
     })
         .then((response) => {
-            console.log(response);
             if (response.status === 201) {
-                // todo something
+                getStats();
             }
         });
 }
