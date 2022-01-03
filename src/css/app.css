@@ -91,26 +91,26 @@ input[type="text"], select, input[type="number"]{
     height: 50vh;
 }
 
-#tableData {
+#localTableData, #globalTableData {
     overflow-y: scroll;
     height: 20vh;
     display: block;
 }
 
-#localStats tr {
+tr {
     display: block;
 }
 
-#localStats th, #localStats td {
+th, td {
     padding: 0.2rem;
     text-align: center;
     width: 5vw;
 }
 
-#localStats th {
+th {
     border: 2px solid greenyellow;
 }
 
-#localStats td {
+td {
     border: 1px solid lime;
 }

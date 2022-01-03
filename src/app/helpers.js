@@ -34,11 +34,13 @@ export function formatUnixTime(timestamp, timezone) {
 }
 
 export function formatTable(data) {
-    let table = document.getElementById('tableData');
-    table.innerHTML = '';
+    let localTable = document.getElementById('localTableData');
+    let globalTable = document.getElementById('globalTableData');
+    localTable.innerHTML = '';
+    globalTable.innerHTML = '';
     data.forEach(row => {
         if (row.user === debug.userId) {
-            table.innerHTML += `
+            localTable.innerHTML += `
 <tr>
     <td>${row.timeTaken}</td>
     <td>${row.kills}</td>
@@ -48,6 +50,16 @@ export function formatTable(data) {
     <td>${row.damageDealt}</td>
 </tr>`;
         }
+        globalTable.innerHTML += `
+<tr>
+    <td>${row.user}</td>
+    <td>${row.timeTaken}</td>
+    <td>${row.kills}</td>
+    <td>${row.attacks}</td>
+    <td>${row.attacksHit}</td>
+    <td>${row.damageTaken}</td>
+    <td>${row.damageDealt}</td>
+</tr>`;
     });
 }
 
