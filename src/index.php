@@ -62,6 +62,7 @@ if (isset($_POST['moduleAction'])) {
     <title>Seasonfall</title>
     <script type="module" src="js/data.js"></script>
     <script type="module" src="app/main.js"></script>
+    <script type="text/javascript" src="./node_modules/chart.js/dist/chart.js"></script>
 </head>
 <body>
 <div id="debug">
@@ -208,14 +209,14 @@ if (isset($_POST['moduleAction'])) {
         <div id="globalGraphs">
             <div class="chartsRow">
                 <div class="chartSmall">
-                    <canvas id="chartGlobalScore"></canvas>
+                    <canvas id="chartGlobalScore" width="220" height="220"></canvas>
                 </div>
                 <div class="chartSmall">
-                    <canvas id="chartGlobalAttacks"></canvas>
+                    <canvas id="chartGlobalAttacks" width="220" height="220"></canvas>
                 </div>
             </div>
             <div class="chartLarge">
-                <canvas id="chartGlobalKills"></canvas>
+                <canvas id="chartGlobalKills" width="520" height="220"></canvas>
             </div>
         </div>
         <table>
@@ -268,14 +269,14 @@ if (isset($_POST['moduleAction'])) {
         <div id="localGraphs">
             <div class="chartsRow">
                 <div class="chartSmall">
-                    <canvas id="chartLocalScore"></canvas>
+                    <canvas id="chartLocalScore" width="220" height="220"></canvas>
                 </div>
                 <div class="chartSmall">
-                    <canvas id="chartLocalAttacks"></canvas>
+                    <canvas id="chartLocalAttacks" width="220" height="220"></canvas>
                 </div>
             </div>
             <div class="chartLarge">
-                <canvas id="chartLocalKills"></canvas>
+                <canvas id="chartLocalKills" width="520" height="220"></canvas>
             </div>
         </div>
         <table>

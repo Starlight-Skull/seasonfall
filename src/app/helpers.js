@@ -123,11 +123,9 @@ export function formatData(data, stats, graphs, table, showId) {
                 <p>Fastest No Hit: ${values.fastestNoHit}s</p>
                 <p>Dealt: ${values.totalDamageDealt}</p>
             </div>`;
-        if (showId) {
-            // global
-            table.innerHTML += `
+        table.innerHTML += `
                 <tr>
-                    <td>${row.user}</td>
+                    ${showId ? `<td>${row.user}</td>` : ``}
                     <td>${row.timeTaken}</td>
                     <td>${row.kills}</td>
                     <td>${row.attacks}</td>
@@ -135,19 +133,53 @@ export function formatData(data, stats, graphs, table, showId) {
                     <td>${row.damageTaken}</td>
                     <td>${row.damageDealt}</td>
                 </tr>`;
-        } else {
-            // local
-            table.innerHTML += `
-                <tr>
-                    <td>${row.timeTaken}</td>
-                    <td>${row.kills}</td>
-                    <td>${row.attacks}</td>
-                    <td>${row.attacksHit}</td>
-                    <td>${row.damageTaken}</td>
-                    <td>${row.damageDealt}</td>
-                </tr>`;
+    });
+    new Chart(graphs.score, {
+        type: "pie",
+        data: {
+            labels: ['Win', 'Lose'],
+            datasets: [{
+                label: 'Score',
+                data: [values.totalWins, values.totalDeaths],
+                borderColor: ['lime', 'magenta']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
         }
-
+    });
+    new Chart(graphs.attacks, {
+        type: "pie",
+        data: {
+            labels: ['Hits', 'Misses'],
+            datasets: [{
+                label: 'Attacks',
+                data: [values.totalHits, values.totalAttacks - values.totalHits],
+                borderColor: ['blue', 'red']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    });
+    new Chart(graphs.kills, {
+        type: "bar",
+        data: {
+            labels: ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0'],
+            datasets: [{
+                label: 'Kills before death',
+                data: [values.kills._9, values.kills._8, values.kills._7, values.kills._6, values.kills._5, values.kills._4, values.kills._3, values.kills._2, values.kills._1, values.kills._0],
+                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'black', 'grey', 'white'],
+                borderWidth: 2,
+                minBarLength: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
     });
 }
 
@@ -157,8 +189,18 @@ export function getStats() {
             return response.json();
         })
         .then((stats) => {
-            formatData(stats, document.getElementById('localStats'), document.getElementById('localGraphs'), document.getElementById('localTableData'), false);
-            formatData(stats, document.getElementById('globalStats'), document.getElementById('globalGraphs'), document.getElementById('globalTableData'), true);
+            formatData(stats, document.getElementById('localStats'), {
+                    score: document.getElementById('chartLocalScore'),
+                    attacks: document.getElementById('chartLocalAttacks'),
+                    kills: document.getElementById('chartLocalKills')
+                }, document.getElementById('localTableData'), false
+            );
+            formatData(stats, document.getElementById('globalStats'), {
+                    score: document.getElementById('chartGlobalScore'),
+                    attacks: document.getElementById('chartGlobalAttacks'),
+                    kills: document.getElementById('chartGlobalKills')
+                }, document.getElementById('globalTableData'), true
+            );
         });
 }
 
