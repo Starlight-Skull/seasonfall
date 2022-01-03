@@ -82,10 +82,35 @@ input[type="text"], select, input[type="number"]{
     width: 30vw;
     height: 90vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
 
 #pauseMenu #modal {
     height: 50vh;
+}
+
+#tableData {
+    overflow-y: scroll;
+    height: 20vh;
+    display: block;
+}
+
+#localStats tr {
+    display: block;
+}
+
+#localStats th, #localStats td {
+    padding: 0.2rem;
+    text-align: center;
+    width: 5vw;
+}
+
+#localStats th {
+    border: 2px solid greenyellow;
+}
+
+#localStats td {
+    border: 1px solid lime;
 }

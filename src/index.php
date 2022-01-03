@@ -219,14 +219,30 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
     </section>
 </div>
 <div id="pauseMenu">
-    <section id="globalStats">
+    <section>
         <h3>Global Stats</h3>
+        <div id="globalStats"></div>
     </section>
     <section id="modal">
         <h3>Paused</h3>
     </section>
     <section id="localStats">
         <h3><?PHP h($username) ?>'s Stats</h3>
+        <div id="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time Taken</th>
+                        <th>Kills</th>
+                        <th>Attacks</th>
+                        <th>Attacks Hit</th>
+                        <th>Damage Taken</th>
+                        <th>Damage Dealt</th>
+                    </tr>
+                </thead>
+                <tbody id="tableData"></tbody>
+            </table>
+        </div>
     </section>
 </div>
 <main>

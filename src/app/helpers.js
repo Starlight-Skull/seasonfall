@@ -33,14 +33,31 @@ export function formatUnixTime(timestamp, timezone) {
     return date.getUTCHours() * 100 + date.getUTCMinutes();
 }
 
+export function formatTable(data) {
+    let table = document.getElementById('tableData');
+    table.innerHTML = '';
+    data.forEach(row => {
+        if (row.user === debug.userId) {
+            table.innerHTML += `
+<tr>
+    <td>${row.timeTaken}</td>
+    <td>${row.kills}</td>
+    <td>${row.attacks}</td>
+    <td>${row.attacksHit}</td>
+    <td>${row.damageTaken}</td>
+    <td>${row.damageDealt}</td>
+</tr>`;
+        }
+    });
+}
+
 export function getStats() {
     fetch('http://localhost:3000/stats')
         .then((response) => {
             return response.json();
         })
         .then((stats) => {
-            console.log(stats);
-            // todo something
+            formatTable(stats);
         });
 }
 
