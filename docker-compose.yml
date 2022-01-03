@@ -28,7 +28,7 @@ services:
       - ./api:/app
     working_dir: '/app'
     entrypoint: [ 'npm' ]
-    command: [ 'start' ]
+    command: [ 'run', 'start' ]
     ports:
       - "3000:3000"
   mysql:
