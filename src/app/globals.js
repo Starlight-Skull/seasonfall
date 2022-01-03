@@ -21,6 +21,103 @@ painting.src = './img/painting.png';
 let plank = new Image();
 plank.src = './img/plank.png';
 
+export let charts = {
+    chartLocalScore: new Chart(document.getElementById('chartLocalScore'), {
+        type: "pie",
+        data: {
+            labels: ['Win', 'Lose'],
+            datasets: [{
+                label: 'Score',
+                data: [],
+                borderColor: ['lime', 'magenta']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    }),
+    chartLocalAttacks: new Chart(document.getElementById('chartLocalAttacks'), {
+        type: "pie",
+        data: {
+            labels: ['Hits', 'Misses'],
+            datasets: [{
+                label: 'Attacks',
+                data: [],
+                borderColor: ['blue', 'red']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    }),
+    chartLocalKills: new Chart(document.getElementById('chartLocalKills'), {
+        type: "bar",
+        data: {
+            labels: ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0'],
+            datasets: [{
+                label: 'Kills before death',
+                data: [],
+                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'black', 'grey', 'white'],
+                borderWidth: 2,
+                minBarLength: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    }),
+    chartGlobalScore: new Chart(document.getElementById('chartGlobalScore'), {
+        type: "pie",
+        data: {
+            labels: ['Win', 'Lose'],
+            datasets: [{
+                label: 'Score',
+                data: [],
+                borderColor: ['lime', 'magenta']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    }),
+    chartGlobalAttacks: new Chart(document.getElementById('chartGlobalAttacks'), {
+        type: "pie",
+        data: {
+            labels: ['Hits', 'Misses'],
+            datasets: [{
+                label: 'Attacks',
+                data: [],
+                borderColor: ['blue', 'red']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    }),
+    chartGlobalKills: new Chart(document.getElementById('chartGlobalKills'), {
+        type: "bar",
+        data: {
+            labels: ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0'],
+            datasets: [{
+                label: 'Kills before death',
+                data: [],
+                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'black', 'grey', 'white'],
+                borderWidth: 2,
+                minBarLength: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    }),
+}
+
 export const world = {
     width: 5200,
     height: 2400,
