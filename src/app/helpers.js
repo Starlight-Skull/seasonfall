@@ -33,7 +33,7 @@ export function formatUnixTime(timestamp, timezone) {
     return date.getUTCHours() * 100 + date.getUTCMinutes();
 }
 
-export function formatData(data, stats, charts, table, showId) {
+export function formatData(data, stats, charts, table, global) {
     stats.innerHTML = '';
     table.innerHTML = '';
     let values = {
@@ -60,62 +60,65 @@ export function formatData(data, stats, charts, table, showId) {
         }
     }
     data.forEach(row => {
-        values.totalDamageTaken += row.damageTaken;
-        values.totalDamageDealt += row.damageDealt;
-        values.totalAttacks += row.attacks;
-        values.totalHits += row.attacksHit;
-        if (row.kills === 10) {
-            values.totalWins++;
-            if (values.fastestWin === '-' || values.fastestWin > row.timeTaken) {
-                values.fastestWin = row.timeTaken;
+        if (row.user === debug.userId || global) {
+            values.totalDamageTaken += row.damageTaken;
+            values.totalDamageDealt += row.damageDealt;
+            values.totalAttacks += row.attacks;
+            values.totalHits += row.attacksHit;
+            if (row.kills === 10) {
+                values.totalWins++;
+                if (values.fastestWin === '-' || values.fastestWin > row.timeTaken) {
+                    values.fastestWin = row.timeTaken;
+                }
+                if (row.damageTaken === '-' && (values.fastestNoHit === 0 || values.fastestNoHit > row.timeTaken)) {
+                    values.fastestNoHit = row.timeTaken;
+                }
+            } else {
+                values.totalDeaths++;
+                if (values.fastestDeath === '-' || values.fastestDeath > row.timeTaken) {
+                    values.fastestDeath = row.timeTaken;
+                }
+                switch (row.kills) {
+                    case 9:
+                        values.kills._9++;
+                        break;
+                    case 8:
+                        values.kills._8++;
+                        break;
+                    case 7:
+                        values.kills._7++;
+                        break;
+                    case 6:
+                        values.kills._6++;
+                        break;
+                    case 5:
+                        values.kills._5++;
+                        break;
+                    case 4:
+                        values.kills._4++;
+                        break;
+                    case 3:
+                        values.kills._3++;
+                        break;
+                    case 2:
+                        values.kills._2++;
+                        break;
+                    case 1:
+                        values.kills._1++;
+                        break;
+                    case 0:
+                        values.kills._0++;
+                        break;
+                }
             }
-            if (row.damageTaken === '-' && (values.fastestNoHit === 0 || values.fastestNoHit > row.timeTaken)) {
-                values.fastestNoHit = row.timeTaken;
-            }
-        } else {
-            values.totalDeaths++;
-            if (values.fastestDeath === '-' || values.fastestDeath > row.timeTaken) {
-                values.fastestDeath = row.timeTaken;
-            }
-            switch (row.kills) {
-                case 9:
-                    values.kills._9++;
-                    break;
-                case 8:
-                    values.kills._8++;
-                    break;
-                case 7:
-                    values.kills._7++;
-                    break;
-                case 6:
-                    values.kills._6++;
-                    break;
-                case 5:
-                    values.kills._5++;
-                    break;
-                case 4:
-                    values.kills._4++;
-                    break;
-                case 3:
-                    values.kills._3++;
-                    break;
-                case 2:
-                    values.kills._2++;
-                    break;
-                case 1:
-                    values.kills._1++;
-                    break;
-                case 0:
-                    values.kills._0++;
-                    break;
-            }
+            writeTable(table, row, global);
         }
-        writeData(stats, table, row, values, showId)
     });
+    writeData(stats, values);
     updateCharts(charts, values);
 }
 
-function writeData(stats, table, row, values, showId) {
+function writeData(stats, values) {
     stats.innerHTML = `
             <div>
                 <p>Fastest Win: ${values.fastestWin} s</p>
@@ -129,6 +132,10 @@ function writeData(stats, table, row, values, showId) {
                 <p>Fastest No Hit: ${values.fastestNoHit} s</p>
                 <p>Dealt: ${values.totalDamageDealt}</p>
             </div>`;
+
+}
+
+function writeTable(table, row, showId) {
     table.innerHTML += `
                 <tr>
                     ${showId ? `<td>${row.user}</td>` : ``}
@@ -187,10 +194,8 @@ export function postStats() {
             damageDealt: playerStats.damageDealt,
         })
     })
-        .then((response) => {
-            if (response.status === 201) {
-                getStats();
-            }
+        .then(() => {
+            getStats();
         });
 }
 
