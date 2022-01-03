@@ -235,7 +235,7 @@ if (isset($_POST['moduleAction'])) {
         </table>
     </section>
     <section id="modal">
-        <h3>Paused</h3>
+        <h3 id="modalTitle">Paused</h3>
         <button id="continueButton">Continue</button>
         <button title="API is called every 10 minutes." id="callAPI">Call API</button>
         <div>

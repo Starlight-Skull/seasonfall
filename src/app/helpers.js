@@ -196,6 +196,11 @@ export function postStats() {
     })
         .then(() => {
             getStats();
+            if (playerStats.kills === 10) {
+                document.getElementById('modalTitle').innerText = 'Victory!';
+            } else {
+                document.getElementById('modalTitle').innerText = 'Failure!';
+            }
         });
 }
 
