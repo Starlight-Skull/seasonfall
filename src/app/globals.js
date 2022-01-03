@@ -24,7 +24,8 @@ plank.src = './img/plank.png';
 export const world = {
     width: 5200,
     height: 2400,
-    scale: 5
+    scale: 5,
+    paused: false
 }
 
 export let player = new Hero(320, 640);
