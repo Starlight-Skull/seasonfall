@@ -78,7 +78,8 @@ input[type="text"], select, input[type="number"]{
 }
 
 #pauseMenu section {
-    border: 2px solid white;
+    border: 2px solid grey;
+    border-radius: 1rem;
     width: 30vw;
     height: 90vh;
     display: flex;
@@ -89,6 +90,25 @@ input[type="text"], select, input[type="number"]{
 
 #pauseMenu #modal {
     height: 50vh;
+    justify-content: space-evenly;
+}
+
+#modal h3 {
+    margin: 0;
+}
+
+#modal button, #modal input {
+    margin: 0;
+    color: white;
+    background-color: black;
+    border-color: black;
+}
+
+#modal div {
+    width: 20vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #localTableData, #globalTableData {

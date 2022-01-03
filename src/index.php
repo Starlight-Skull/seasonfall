@@ -35,10 +35,17 @@ if (trim($username) !== '' && trim($password) !== '') {
     exit();
 }
 
-if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
-    session_destroy();
-    header('Location: ./php/login.php');
-    exit();
+if (isset($_POST['moduleAction'])) {
+    if ($_POST['moduleAction'] === 'logout') {
+        session_destroy();
+        header('Location: ./php/login.php');
+        exit();
+    }
+    if ($_POST['moduleAction'] === 'restart') {
+        header('Location: ./');
+        exit();
+    }
+
 }
 ?>
 <!doctype html>
@@ -59,19 +66,6 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
 <body>
 <div id="debug">
     <section>
-        <h3>API</h3>
-        <div>
-            <label for="apiKey">API Key</label>
-            <input type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>">
-        </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
-        </div>
-        <div title="API is called every 10 minutes.">
-            <label for="useAPI">Use API Data</label>
-            <input type="checkbox" id="useAPI" name="useAPI">
-        </div>
         <h3>General</h3>
         <div>
             <label for="userId">User ID</label>
@@ -90,17 +84,12 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <input type="checkbox" id="showLiveDebug" name="showTrackedEntity">
         </div>
         <div>
-            <label for="showFPS">Show FPS</label>
-            <input type="checkbox" id="showFPS" name="showFPS">
-        </div>
-        <div>
             <label for="showPlayerStats">Show Player Stats</label>
             <input type="checkbox" id="showPlayerStats" name="showPlayerStats">
         </div>
-        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
-            <input type="hidden" name="moduleAction" value="logout"/>
-            <button type="submit">Log Out</button>
-        </form>
+        <div>
+            <input type="button" id="update" value="Update">
+        </div>
     </section>
     <section>
         <h3>Weather</h3>
@@ -163,9 +152,6 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <label for="sunset">Sunset (hmm)</label>
             <input type="text" id="sunset">
         </div>
-        <div>
-            <input type="button" title="API is called every 10 minutes." id="callAPI" value="Call API">
-        </div>
     </section>
     <section>
         <h3>Player</h3>
@@ -213,9 +199,6 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
             <label for="hasCollision">Collision</label>
             <input type="checkbox" id="hasCollision">
         </div>
-        <div>
-            <input type="button" id="update" value="Update">
-        </div>
     </section>
 </div>
 <div id="pauseMenu">
@@ -241,6 +224,32 @@ if (isset($_POST['moduleAction']) && $_POST['moduleAction'] === 'logout') {
     </section>
     <section id="modal">
         <h3>Paused</h3>
+        <button id="continueButton">Continue</button>
+        <button title="API is called every 10 minutes." id="callAPI">Call API</button>
+        <div>
+            <label for="apiKey">API Key</label>
+            <input type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>">
+        </div>
+        <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
+        </div>
+        <div title="API is called every 10 minutes.">
+            <label for="useAPI">Use API Data</label>
+            <input type="checkbox" id="useAPI" name="useAPI">
+        </div>
+        <div>
+            <label for="showFPS">Show FPS</label>
+            <input type="checkbox" id="showFPS" name="showFPS">
+        </div>
+        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+            <input type="hidden" name="moduleAction" value="Restart"/>
+            <button type="submit">Restart</button>
+        </form>
+        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+            <input type="hidden" name="moduleAction" value="logout"/>
+            <button type="submit">Log Out</button>
+        </form>
     </section>
     <section id="localStats">
         <h3><?PHP h($username) ?>'s Stats</h3>
