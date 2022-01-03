@@ -250,6 +250,9 @@ window.addEventListener('load', function () {
             drawMain();
             drawPlayerStats();
             drawDebug();
+
+            ctx.fillStyle = 'red';
+            ctx.fillText(`Objective: Defeat all skeletons`, window.innerWidth * .4, 50);
         }
         if (!exit) {
             if (playerStats.kills === 10 || player.stats.hp <= 0) {
