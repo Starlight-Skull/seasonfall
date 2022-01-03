@@ -81,7 +81,7 @@ input[type="text"], select, input[type="number"]{
     border: 2px solid grey;
     border-radius: 1rem;
     width: 30vw;
-    height: 90vh;
+    height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -117,25 +117,34 @@ input[type="text"], select, input[type="number"]{
 
 #localStats div, #globalStats div {
     width: 25vw;
-    height: 2rem;
+    height: 3vh;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.chartsRow {
-    height: 20vh;
-    display: flex;
-    flex-direction: row;
+#localGraphs, #globalGraphs {
+    height: 50vh;
 }
 
-.chartSmall, .chartLarge {
-    height: 20vh;
+.chartsRow {
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.chartSmall {
+    height: 30vh;
+}
+
+.chartLarge {
+    height: 10vh;
 }
 
 #localTableData, #globalTableData {
     overflow-y: scroll;
-    height: 20vh;
+    height: 15vh;
     display: block;
 }
 
