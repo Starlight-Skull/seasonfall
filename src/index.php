@@ -204,8 +204,19 @@ if (isset($_POST['moduleAction'])) {
 <div id="pauseMenu">
     <section>
         <h3>Global Stats</h3>
+        <div id="globalStats"></div>
         <div id="globalGraphs">
-
+            <div class="chartsRow">
+                <div class="chartSmall">
+                    <canvas id="chartGlobalScore"></canvas>
+                </div>
+                <div class="chartSmall">
+                    <canvas id="chartGlobalAttacks"></canvas>
+                </div>
+            </div>
+            <div class="chartLarge">
+                <canvas id="chartGlobalKills"></canvas>
+            </div>
         </div>
         <table>
             <thead>
@@ -251,10 +262,21 @@ if (isset($_POST['moduleAction'])) {
             <button type="submit">Log Out</button>
         </form>
     </section>
-    <section id="localStats">
+    <section>
         <h3><?PHP h($username) ?>'s Stats</h3>
+        <div id="localStats"></div>
         <div id="localGraphs">
-
+            <div class="chartsRow">
+                <div class="chartSmall">
+                    <canvas id="chartLocalScore"></canvas>
+                </div>
+                <div class="chartSmall">
+                    <canvas id="chartLocalAttacks"></canvas>
+                </div>
+            </div>
+            <div class="chartLarge">
+                <canvas id="chartLocalKills"></canvas>
+            </div>
         </div>
         <table>
             <thead>
