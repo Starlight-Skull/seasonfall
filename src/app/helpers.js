@@ -33,33 +33,121 @@ export function formatUnixTime(timestamp, timezone) {
     return date.getUTCHours() * 100 + date.getUTCMinutes();
 }
 
-export function formatTable(data) {
-    let localTable = document.getElementById('localTableData');
-    let globalTable = document.getElementById('globalTableData');
-    localTable.innerHTML = '';
-    globalTable.innerHTML = '';
-    data.forEach(row => {
-        if (row.user === debug.userId) {
-            localTable.innerHTML += `
-<tr>
-    <td>${row.timeTaken}</td>
-    <td>${row.kills}</td>
-    <td>${row.attacks}</td>
-    <td>${row.attacksHit}</td>
-    <td>${row.damageTaken}</td>
-    <td>${row.damageDealt}</td>
-</tr>`;
+export function formatData(data, stats, graphs, table, showId) {
+    stats.innerHTML = '';
+    table.innerHTML = '';
+    let values = {
+        fastestWin: 0,
+        fastestDeath: 0,
+        fastestNoHit: 0,
+        totalDamageTaken: 0,
+        totalDamageDealt: 0,
+        totalWins: 0,
+        totalDeaths: 0,
+        totalHits: 0,
+        totalAttacks: 0,
+        kills: {
+            _9: 0,
+            _8: 0,
+            _7: 0,
+            _6: 0,
+            _5: 0,
+            _4: 0,
+            _3: 0,
+            _2: 0,
+            _1: 0,
+            _0: 0
         }
-        globalTable.innerHTML += `
-<tr>
-    <td>${row.user}</td>
-    <td>${row.timeTaken}</td>
-    <td>${row.kills}</td>
-    <td>${row.attacks}</td>
-    <td>${row.attacksHit}</td>
-    <td>${row.damageTaken}</td>
-    <td>${row.damageDealt}</td>
-</tr>`;
+    }
+    data.forEach(row => {
+        values.totalDamageTaken += row.damageTaken;
+        values.totalDamageDealt += row.damageDealt;
+        values.totalAttacks += row.attacks;
+        values.totalHits += row.attacksHit;
+        if (row.kills === 10) {
+            values.totalWins++;
+            if (values.fastestWin === 0 || values.fastestWin > row.timeTaken) {
+                values.fastestWin = row.timeTaken;
+            }
+            if (row.damageTaken === 0 && (values.fastestNoHit === 0 || values.fastestNoHit > row.timeTaken)) {
+                values.fastestNoHit = row.timeTaken;
+            }
+        } else {
+            values.totalDeaths++;
+            if (values.fastestDeath === 0 || values.fastestDeath > row.timeTaken) {
+                values.fastestDeath = row.timeTaken;
+            }
+            switch (row.kills) {
+                case 9:
+                    values.kills._9++;
+                    break;
+                case 8:
+                    values.kills._8++;
+                    break;
+                case 7:
+                    values.kills._7++;
+                    break;
+                case 6:
+                    values.kills._6++;
+                    break;
+                case 5:
+                    values.kills._5++;
+                    break;
+                case 4:
+                    values.kills._4++;
+                    break;
+                case 3:
+                    values.kills._3++;
+                    break;
+                case 2:
+                    values.kills._2++;
+                    break;
+                case 1:
+                    values.kills._1++;
+                    break;
+                case 0:
+                    values.kills._0++;
+                    break;
+            }
+        }
+        stats.innerHTML = `
+            <div>
+                <p>Fastest Win: ${values.fastestWin}s</p>
+                <p>Total Damage</p>
+            </div>
+            <div>
+                <p>Fastest Death: ${values.fastestDeath}s</p>
+                <p>Taken: ${values.totalDamageTaken}</p>
+            </div>
+            <div>
+                <p>Fastest No Hit: ${values.fastestNoHit}s</p>
+                <p>Dealt: ${values.totalDamageDealt}</p>
+            </div>`;
+        if (showId) {
+            // global
+            table.innerHTML += `
+                <tr>
+                    <td>${row.user}</td>
+                    <td>${row.timeTaken}</td>
+                    <td>${row.kills}</td>
+                    <td>${row.attacks}</td>
+                    <td>${row.attacksHit}</td>
+                    <td>${row.damageTaken}</td>
+                    <td>${row.damageDealt}</td>
+                </tr>`;
+        } else {
+            // local
+            table.innerHTML += `
+                <tr>
+                    <td>${row.timeTaken}</td>
+                    <td>${row.kills}</td>
+                    <td>${row.attacks}</td>
+                    <td>${row.attacksHit}</td>
+                    <td>${row.damageTaken}</td>
+                    <td>${row.damageDealt}</td>
+                </tr>`;
+        }
+
     });
 }
 
@@ -69,7 +157,8 @@ export function getStats() {
             return response.json();
         })
         .then((stats) => {
-            formatTable(stats);
+            formatData(stats, document.getElementById('localStats'), document.getElementById('localGraphs'), document.getElementById('localTableData'), false);
+            formatData(stats, document.getElementById('globalStats'), document.getElementById('globalGraphs'), document.getElementById('globalTableData'), true);
         });
 }
 

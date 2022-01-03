@@ -97,6 +97,10 @@ input[type="text"], select, input[type="number"]{
     margin: 0;
 }
 
+#pauseMenu h3 {
+    margin: 1rem 0 0;
+}
+
 #modal button, #modal input {
     margin: 0;
     color: white;
@@ -109,6 +113,24 @@ input[type="text"], select, input[type="number"]{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+#localStats div, #globalStats div {
+    width: 25vw;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.chartsRow {
+    height: 20vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.chartSmall, .chartLarge {
+    height: 20vh;
 }
 
 #localTableData, #globalTableData {
