@@ -44,14 +44,7 @@ window.addEventListener('load', function () {
                 }
                 break;
             case 'Escape':
-                if (pauseMenu.style.visibility === 'hidden') {
-                    world.paused = true;
-                    pauseMenu.style.visibility = 'visible';
-                    getStats();
-                } else {
-                    world.paused = false;
-                    pauseMenu.style.visibility = 'hidden';
-                }
+                escapeMenu();
                 break;
         }
         if (debugMenu.style.visibility === 'hidden') {
@@ -59,14 +52,34 @@ window.addEventListener('load', function () {
         }
     });
 
-    document.getElementById('update').addEventListener('click', () => {
-        // api
-        debug.apiKey = document.getElementById('apiKey').value;
-        debug.location = document.getElementById('location').value;
-        if (debug.useAPI !== document.getElementById('useAPI').checked) {
-            debug.useAPI = document.getElementById('useAPI').checked;
-            makeInterval();
+    document.getElementById('continueButton').addEventListener('click', escapeMenu);
+
+    function escapeMenu() {
+        if (pauseMenu.style.visibility === 'hidden') {
+            world.paused = true;
+            pauseMenu.style.visibility = 'visible';
+            // api
+            document.getElementById('apiKey').value = debug.apiKey;
+            document.getElementById('location').value = debug.location;
+            document.getElementById('useAPI').checked = debug.useAPI;
+            document.getElementById('showFPS').checked = debug.showFPS;
+            // stats
+            getStats();
+        } else {
+            world.paused = false;
+            pauseMenu.style.visibility = 'hidden';
+            // api
+            debug.apiKey = document.getElementById('apiKey').value;
+            debug.location = document.getElementById('location').value;
+            if (debug.useAPI !== document.getElementById('useAPI').checked) {
+                debug.useAPI = document.getElementById('useAPI').checked;
+                makeInterval();
+            }
+            debug.showFPS = document.getElementById('showFPS').checked;
         }
+    }
+
+    document.getElementById('update').addEventListener('click', () => {
         // general
         if (document.getElementById('username').value !== '') {
             debug.username = document.getElementById('username').value;
@@ -75,7 +88,6 @@ window.addEventListener('load', function () {
         }
         debug.showBoxes = document.getElementById('showBoxes').checked;
         debug.showLiveDebug = document.getElementById('showLiveDebug').checked;
-        debug.showFPS = document.getElementById('showFPS').checked;
         debug.showPlayerStats = document.getElementById('showPlayerStats').checked;
         // weather
         weather.main = document.getElementById('main').value;
@@ -108,21 +120,16 @@ window.addEventListener('load', function () {
         debug.apiKey = document.getElementById('apiKey').value;
         debug.location = document.getElementById('location').value;
         callAPI();
-        debugMenu.style.visibility = 'hidden';
+        pauseMenu.style.visibility = 'hidden';
     });
 
     function openDebug() {
         debugMenu.style.visibility = 'visible';
         document.getElementById('callAPI').disabled = !debug.useAPI;
         document.getElementById('update').disabled = false;
-        // api
-        document.getElementById('apiKey').value = debug.apiKey;
-        document.getElementById('location').value = debug.location;
-        document.getElementById('useAPI').checked = debug.useAPI;
         // general
         document.getElementById('showBoxes').checked = debug.showBoxes;
         document.getElementById('showLiveDebug').checked = debug.showLiveDebug;
-        document.getElementById('showFPS').checked = debug.showFPS;
         document.getElementById('showPlayerStats').checked = debug.showPlayerStats;
         // weather
         document.getElementById('main').value = weather.main;
