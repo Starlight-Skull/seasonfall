@@ -59,7 +59,7 @@ export let charts = {
             datasets: [{
                 label: 'Kills before death',
                 data: [],
-                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'black', 'grey', 'white'],
+                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'orange', 'grey', 'white'],
                 borderWidth: 2,
                 minBarLength: 5,
             }]
@@ -106,7 +106,7 @@ export let charts = {
             datasets: [{
                 label: 'Kills before death',
                 data: [],
-                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'black', 'grey', 'white'],
+                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'orange', 'grey', 'white'],
                 borderWidth: 2,
                 minBarLength: 5,
             }]
