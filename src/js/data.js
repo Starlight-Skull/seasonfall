@@ -1,5 +1,5 @@
 import {debug, player, weather, world} from "../app/globals.js";
-import {formatUnixTime, keyLogger} from "../app/helpers.js";
+import {formatUnixTime, getStats, keyLogger} from "../app/helpers.js";
 
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
@@ -8,7 +8,7 @@ window.addEventListener('load', function () {
     debugMenu.style.visibility = 'hidden';
     pauseMenu.style.visibility = 'hidden';
     // load data placed by php
-    debug.userId = document.getElementById('userId').value;
+    debug.userId = parseInt(document.getElementById('userId').value);
     debug.username = document.getElementById('username').value;
     debug.apiKey = document.getElementById('apiKey').value;
     debug.location = document.getElementById('location').value;
@@ -44,8 +44,14 @@ window.addEventListener('load', function () {
                 }
                 break;
             case 'Escape':
-                world.paused = !world.paused;
-                pauseMenu.style.visibility = pauseMenu.style.visibility === 'hidden' ? 'visible' : 'hidden';
+                if (pauseMenu.style.visibility === 'hidden') {
+                    world.paused = true;
+                    pauseMenu.style.visibility = 'visible';
+                    getStats();
+                } else {
+                    world.paused = false;
+                    pauseMenu.style.visibility = 'hidden';
+                }
                 break;
         }
         if (debugMenu.style.visibility === 'hidden') {

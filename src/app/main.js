@@ -1,7 +1,7 @@
 import {animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
-import {getStats, postStats} from "./helpers.js";
+import {postStats} from "./helpers.js";
 
 window.addEventListener('load', function () {
     // setup for drawing
