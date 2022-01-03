@@ -1,7 +1,7 @@
 import {animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
-import {getStats, postStats} from "./helpers.js";
+import {postStats} from "./helpers.js";
 
 window.addEventListener('load', function () {
     // setup for drawing
@@ -258,6 +258,7 @@ window.addEventListener('load', function () {
                 // pause menu
                 document.getElementById('pauseMenu').style.visibility = 'visible';
                 document.getElementById('continueButton').disabled = true;
+                document.getElementById('callAPI').disabled = true;
                 document.getElementById('apiKey').disabled = true;
                 document.getElementById('location').disabled = true;
                 document.getElementById('useAPI').disabled = true;
