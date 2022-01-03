@@ -123,21 +123,32 @@ window.addEventListener('load', function () {
         }
     }
 
-    function reDraw() {
-        let now = Date.now();
-        frames++;
-        if (now - time > 1000) {
-            time = Date.now();
-            fps = frames;
-            frames = 0;
+    function drawDebug() {
+        // debug info
+        ctx.font = '25px Roboto';
+        if (debug.showLiveDebug) {
+            ctx.fillStyle = 'white';
+            let tracked = player;
+            ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100);
+            ctx.fillText(`pos: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130);
+            ctx.fillText(`light: ${Math.round(light * 100) / 100}       movement: ${tracked.controls.attack ? '# ' : ''}${tracked.controls.down ? '↓ ' : ''}${tracked.controls.left ? '← ' : ''}${tracked.controls.right ? '→ ' : ''}${tracked.controls.jump ? '▲ ' : ''}`, 5, 160);
         }
-        playerStats.timeTaken = Math.round((now - startTime) / 1000);
-        // update screen in case of window resize
-        screen.width = window.innerWidth;
-        screen.height = window.innerHeight;
-        ctx.imageSmoothingEnabled = false;
-        // move context to player
-        ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+        if (debug.showFPS) {
+            ctx.fillStyle = 'lime';
+            ctx.fillText(`fps: ${fps} (${frames})`, window.innerWidth - 250, 50);
+        }
+        if (debug.showPlayerStats) {
+            ctx.fillStyle = 'magenta';
+            ctx.fillText(`Attacks: ${playerStats.attacks}`, 5, 220);
+            ctx.fillText(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250);
+            ctx.fillText(`Damage Taken: ${playerStats.damageTaken}`, 5, 280);
+            ctx.fillText(`Damage Dealt: ${playerStats.damageDealt}`, 5, 310);
+            ctx.fillText(`Kills: ${playerStats.kills}`, 5, 340);
+            ctx.fillText(`Time Taken: ${playerStats.timeTaken}`, 5, 370);
+        }
+    }
+
+    function drawSky() {
         // light
         if (weather.time >= weather.sunrise - 50 && weather.time <= weather.sunrise + 50) {
             // morning
@@ -165,6 +176,31 @@ window.addEventListener('load', function () {
             ctx.fillStyle = 'rgb(25,25,112)';
         }
         ctx.fillRect(-world.width / 2, window.innerHeight * 1.5, world.width * 2, -world.height * 2);
+    }
+
+    function drawPlayerStats() {
+        // player hp
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30);
+        ctx.fillStyle = 'rgba(255,0,0,0.7)';
+        if (player.stats.hp > 0) {
+            ctx.fillRect(25, 25, player.stats.hp * 5, 20);
+        }
+        // player mp
+        if (player.stats.mp !== 0) {
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(20, 50, player.stats.maxMP * 5 + 10, 15);
+            ctx.fillStyle = 'rgba(0,0,255,0.7)';
+            if (player.stats.mp > 0) {
+                ctx.fillRect(25, 50, player.stats.mp * 5, 10);
+            }
+        }
+    }
+
+    function drawMain() {
+        // move context to player
+        ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
+        drawSky();
         // draw world
         if (weather.rain > 0 || weather.snow > 0) {
             for (let i = 0; i < animTileList.length; i++) {
@@ -194,49 +230,30 @@ window.addEventListener('load', function () {
         // reset context
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.translate(0, 0);
-        // player hp
-        ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30);
-        ctx.fillStyle = 'rgba(255,0,0,0.7)';
-        if (player.stats.hp > 0) {
-            ctx.fillRect(25, 25, player.stats.hp * 5, 20);
+    }
+
+    function reDraw() {
+        let now = Date.now();
+        playerStats.timeTaken = Math.round((now - startTime) / 1000);
+        frames++;
+        if (now - time > 1000) {
+            time = Date.now();
+            fps = frames;
+            frames = 0;
         }
-        // player mp
-        if (player.stats.mp !== 0) {
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            ctx.fillRect(20, 50, player.stats.maxMP * 5 + 10, 15);
-            ctx.fillStyle = 'rgba(0,0,255,0.7)';
-            if (player.stats.mp > 0) {
-                ctx.fillRect(25, 50, player.stats.mp * 5, 10);
-            }
-        }
-        // debug info
-        ctx.font = '25px Roboto';
-        if (debug.showLiveDebug) {
-            ctx.fillStyle = 'white';
-            let tracked = player;
-            ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100);
-            ctx.fillText(`pos: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130);
-            ctx.fillText(`light: ${Math.round(light * 100) / 100}       movement: ${tracked.controls.attack ? '# ' : ''}${tracked.controls.down ? '↓ ' : ''}${tracked.controls.left ? '← ' : ''}${tracked.controls.right ? '→ ' : ''}${tracked.controls.jump ? '▲ ' : ''}`, 5, 160);
-        }
-        if (debug.showFPS) {
-            ctx.fillStyle = 'lime';
-            ctx.fillText(`fps: ${fps} (${frames})`, window.innerWidth - 250, 50);
-        }
-        if (debug.showPlayerStats) {
-            ctx.fillStyle = 'magenta';
-            ctx.fillText(`Attacks: ${playerStats.attacks}`, 5, 220);
-            ctx.fillText(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250);
-            ctx.fillText(`Damage Taken: ${playerStats.damageTaken}`, 5, 280);
-            ctx.fillText(`Damage Dealt: ${playerStats.damageDealt}`, 5, 310);
-            ctx.fillText(`Kills: ${playerStats.kills}`, 5, 340);
-            ctx.fillText(`Time Taken: ${playerStats.timeTaken}`, 5, 370);
-        }
+        // update screen in case of window resize
+        screen.width = window.innerWidth;
+        screen.height = window.innerHeight;
+        ctx.imageSmoothingEnabled = false;
+
+        drawMain();
+        drawPlayerStats();
+        drawDebug();
+
         if (!exit) {
             if (playerStats.kills === 10 || player.stats.hp <= 0) {
                 exit = true;
                 postStats();
-                // getStats();
             }
             requestAnimationFrame(reDraw);
         }
