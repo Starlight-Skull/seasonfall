@@ -104,8 +104,12 @@ input[type="text"], select, input[type="number"]{
 #modal button, #modal input {
     margin: 0;
     color: white;
-    background-color: black;
+    background-color: grey;
     border-color: black;
+}
+
+#modal button:disabled, #modal input:disabled {
+    background-color: black;
 }
 
 #modal div {
