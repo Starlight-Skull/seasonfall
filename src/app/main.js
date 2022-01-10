@@ -255,10 +255,8 @@ window.addEventListener('load', function () {
                 // pause menu
                 document.getElementById('pauseMenu').style.visibility = 'visible';
                 document.getElementById('continueButton').disabled = true;
-                document.getElementById('callAPI').disabled = true;
                 document.getElementById('apiKey').disabled = true;
                 document.getElementById('location').disabled = true;
-                document.getElementById('useAPI').disabled = true;
                 document.getElementById('showFPS').disabled = true;
             }
             requestAnimationFrame(reDraw);

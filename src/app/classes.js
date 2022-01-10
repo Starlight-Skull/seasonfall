@@ -16,9 +16,7 @@ skeleton.src = './img/skeleton.png';
 export class Entity {
     constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
         this.cooldown = cooldown || -1;
-        let sprite = new Image();
-        sprite.src = './img/missing_entity.png';
-        this.missing = new Animation(sprite, 0, 0, 32, 32, 1, 1, 'missing');
+        this.missing = new Animation(missing_entity, 0, 0, 32, 32, 1, 1, 'missing');
         this.frame = {
             x: x || 0,
             y: y || 0,
