@@ -15,17 +15,17 @@ window.addEventListener('load', function () {
     makeInterval();
     // event listeners
     window.addEventListener('mousedown', () => {
-        if (debugMenu.style.visibility === 'hidden') {
+        if (debugMenu.style.visibility === 'hidden' && !world.paused) {
             player.controls.attack = (player.controls.attack === 2) ? 2 : true;
         }
     });
     window.addEventListener('mouseup', () => {
-        if (debugMenu.style.visibility === 'hidden') {
+        if (debugMenu.style.visibility === 'hidden' && !world.paused) {
             player.controls.attack = false;
         }
     });
     window.addEventListener('keydown', ev => {
-        if (debugMenu.style.visibility === 'hidden') {
+        if (debugMenu.style.visibility === 'hidden' && !world.paused) {
             keyLogger(ev, true);
         }
     });
@@ -42,7 +42,7 @@ window.addEventListener('load', function () {
                 escapeMenu();
                 break;
         }
-        if (debugMenu.style.visibility === 'hidden') {
+        if (debugMenu.style.visibility === 'hidden' && !world.paused) {
             keyLogger(ev, false);
         }
     });
