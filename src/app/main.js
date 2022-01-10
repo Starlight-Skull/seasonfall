@@ -89,18 +89,10 @@ window.addEventListener('load', function () {
     function drawStats(entity) {
         if (entity.constructor.name === 'Hero') {
             // name
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (debug.username.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, debug.username.length * 16 + 10, 30);
-            ctx.fillStyle = 'rgba(255,255,255,1)';
-            ctx.font = '25px Roboto';
-            ctx.fillText(debug.username, entity.frame.x + entity.frame.width / 2 - (debug.username.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
+            drawTextWithBackground(debug.username, entity.frame.x + entity.frame.width / 2 - (debug.username.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)');
             // xp
             if (entity.stats.xp !== 0) {
-                ctx.fillStyle = 'rgba(0,0,0,0.5)';
-                ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 120, entity.stats.xp.toString().length * 16 + 10, 30);
-                ctx.fillStyle = 'rgba(0,255,0,1)';
-                ctx.font = '25px Roboto';
-                ctx.fillText(entity.stats.xp, entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95);
+                drawTextWithBackground(entity.stats.xp.toString(), entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95, 'rgb(0,255,0)');
             }
         } else {
             // hp
@@ -119,38 +111,38 @@ window.addEventListener('load', function () {
             }
             // debug
             if (debug.showLiveDebug) {
-                let val = `${entity.controls.attack ? '#' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.left ? '←' : ''}${entity.controls.right ? '→' : ''}${entity.controls.jump ? '▲' : ''}`;
-                ctx.fillStyle = 'rgba(0,0,0,0.5)';
-                ctx.fillRect(entity.frame.x + entity.frame.width / 2 - (val.length * 8) - 5, window.innerHeight - entity.frame.y - entity.frame.height - 90, val.length * 16 + 10, 30);
-                ctx.fillStyle = 'rgba(255,255,255,1)';
-                ctx.font = '25px Roboto';
-                ctx.fillText(val, entity.frame.x + entity.frame.width / 2 - (val.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65);
+                let val = `${entity.controls.left ? '←' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.attack ? '#' : ''}${entity.controls.jump ? '▲' : ''}${entity.controls.right ? '→' : ''}`;
+                drawTextWithBackground(val, entity.frame.x + entity.frame.width / 2 - (val.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)');
             }
         }
     }
 
+    function drawTextWithBackground(text, x, y, color, font) {
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(x - 5, y - 25, text.length * 16 + 5, 30);
+        ctx.fillStyle = color || 'rgb(255,255,255)';
+        ctx.font = font || '25px CourierNew';
+        ctx.fillText(text, x, y);
+    }
+
     function drawDebug() {
         // debug info
-        ctx.font = '25px Roboto';
         if (debug.showLiveDebug) {
-            ctx.fillStyle = 'white';
             let tracked = player;
-            ctx.fillText(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100);
-            ctx.fillText(`pos: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130);
-            ctx.fillText(`light: ${Math.round(light * 100) / 100}       movement: ${tracked.controls.attack ? '# ' : ''}${tracked.controls.down ? '↓ ' : ''}${tracked.controls.left ? '← ' : ''}${tracked.controls.right ? '→ ' : ''}${tracked.controls.jump ? '▲ ' : ''}`, 5, 160);
+            drawTextWithBackground(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, 'cyan');
+            drawTextWithBackground(`pos: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, 'cyan');
+            drawTextWithBackground(`light: ${Math.round(light * 100) / 100}       movement:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? ' #' : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan');
         }
         if (debug.showFPS) {
-            ctx.fillStyle = 'lime';
-            ctx.fillText(`fps: ${fps} (${frames})`, window.innerWidth - 250, 50);
+            drawTextWithBackground(`fps: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime');
         }
         if (debug.showPlayerStats) {
-            ctx.fillStyle = 'magenta';
-            ctx.fillText(`Attacks: ${playerStats.attacks}`, 5, 220);
-            ctx.fillText(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250);
-            ctx.fillText(`Damage Taken: ${playerStats.damageTaken}`, 5, 280);
-            ctx.fillText(`Damage Dealt: ${playerStats.damageDealt}`, 5, 310);
-            ctx.fillText(`Kills: ${playerStats.kills}`, 5, 340);
-            ctx.fillText(`Time Taken: ${playerStats.timeTaken}`, 5, 370);
+            drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220);
+            drawTextWithBackground(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250);
+            drawTextWithBackground(`Damage Taken: ${playerStats.damageTaken}`, 5, 280);
+            drawTextWithBackground(`Damage Dealt: ${playerStats.damageDealt}`, 5, 310);
+            drawTextWithBackground(`Kills: ${playerStats.kills}`, 5, 340);
+            drawTextWithBackground(`Time Taken: ${playerStats.timeTaken}`, 5, 370);
         }
     }
 
@@ -188,7 +180,7 @@ window.addEventListener('load', function () {
         // player hp
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30);
-        ctx.fillStyle = 'rgba(255,0,0,0.7)';
+        ctx.fillStyle = 'rgba(255,26,26,0.7)';
         if (player.stats.hp > 0) {
             ctx.fillRect(25, 25, player.stats.hp * 5, 20);
         }
@@ -196,7 +188,7 @@ window.addEventListener('load', function () {
         if (player.stats.mp !== 0) {
             ctx.fillStyle = 'rgba(0,0,0,0.5)';
             ctx.fillRect(20, 50, player.stats.maxMP * 5 + 10, 15);
-            ctx.fillStyle = 'rgba(0,0,255,0.7)';
+            ctx.fillStyle = 'rgba(55,55,246,0.7)';
             if (player.stats.mp > 0) {
                 ctx.fillRect(25, 50, player.stats.mp * 5, 10);
             }
@@ -239,6 +231,11 @@ window.addEventListener('load', function () {
     }
 
     function reDraw() {
+        // update screen in case of window resize
+        screen.width = window.innerWidth;
+        screen.height = window.innerHeight;
+        ctx.imageSmoothingEnabled = false;
+
         if (!world.paused) {
             let now = Date.now();
             playerStats.timeTaken = Math.round((now - startTime) / 1000);
@@ -248,17 +245,12 @@ window.addEventListener('load', function () {
                 fps = frames;
                 frames = 0;
             }
-            // update screen in case of window resize
-            screen.width = window.innerWidth;
-            screen.height = window.innerHeight;
-            ctx.imageSmoothingEnabled = false;
 
             drawMain();
             drawPlayerStats();
             drawDebug();
 
-            ctx.fillStyle = 'red';
-            ctx.fillText(`Objective: Defeat all skeletons`, window.innerWidth * .4, 50);
+            drawTextWithBackground(`Objective: Defeat all skeletons`, window.innerWidth * .4, 50, 'red');
         }
         if (!exit) {
             if (playerStats.kills === 10 || player.stats.hp <= 0) {
