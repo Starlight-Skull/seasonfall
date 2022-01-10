@@ -117,7 +117,7 @@ window.addEventListener('load', function () {
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(x - 5, y - 25, text.length * 16 + 5, 30);
         ctx.fillStyle = color || 'rgb(255,255,255)';
-        ctx.font = font || '25px CourierNew';
+        ctx.font = font || '25px Pixeloid';
         ctx.fillText(text, x, y);
     }
 
@@ -127,7 +127,7 @@ window.addEventListener('load', function () {
             let tracked = player;
             drawTextWithBackground(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, 'cyan');
             drawTextWithBackground(`pos: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, 'cyan');
-            drawTextWithBackground(`light: ${Math.round(light * 100) / 100}       movement:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? ' #' : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan');
+            drawTextWithBackground(`light: ${Math.round(light * 100) / 100}       movement:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' #') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan');
         }
         if (debug.showFPS) {
             drawTextWithBackground(`fps: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime');
