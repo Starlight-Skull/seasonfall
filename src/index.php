@@ -233,18 +233,13 @@ if (isset($_POST['moduleAction'])) {
     <section id="modal">
         <h3 id="modalTitle">Paused</h3>
         <button id="continueButton">Continue</button>
-        <button title="API is called every 10 minutes." id="callAPI">Call API</button>
         <div>
             <label for="apiKey">API Key</label>
-            <input type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>">
+            <input title="API is called every 10 minutes." type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>">
         </div>
         <div>
             <label for="location">Location</label>
-            <input type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
-        </div>
-        <div title="API is called every 10 minutes.">
-            <label for="useAPI">Use API Data</label>
-            <input type="checkbox" id="useAPI" name="useAPI">
+            <input title="API is called every 10 minutes." type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
         </div>
         <div>
             <label for="showFPS">Show FPS</label>
