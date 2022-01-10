@@ -34,7 +34,16 @@ export let charts = {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: 'white'
+                    }
+
+                }
+            }
         }
     }),
     chartLocalAttacks: new Chart(document.getElementById('chartLocalAttacks'), {
@@ -49,7 +58,16 @@ export let charts = {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: 'white'
+                    }
+
+                }
+            }
         }
     }),
     chartLocalKills: new Chart(document.getElementById('chartLocalKills'), {
@@ -59,14 +77,23 @@ export let charts = {
             datasets: [{
                 label: 'Kills before death',
                 data: [],
-                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'orange', 'grey', 'white'],
+                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'steelblue', 'gold', 'coral', 'white'],
                 borderWidth: 2,
                 minBarLength: 5,
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: 'white'
+                    }
+
+                }
+            }
         }
     }),
     chartGlobalScore: new Chart(document.getElementById('chartGlobalScore'), {
@@ -81,7 +108,16 @@ export let charts = {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: 'white'
+                    }
+
+                }
+            }
         }
     }),
     chartGlobalAttacks: new Chart(document.getElementById('chartGlobalAttacks'), {
@@ -96,7 +132,16 @@ export let charts = {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: 'white'
+                    }
+
+                }
+            }
         }
     }),
     chartGlobalKills: new Chart(document.getElementById('chartGlobalKills'), {
@@ -106,14 +151,23 @@ export let charts = {
             datasets: [{
                 label: 'Kills before death',
                 data: [],
-                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'green', 'orange', 'grey', 'white'],
+                borderColor: ['pink', 'red', 'yellow', 'blue', 'cyan', 'lime', 'steelblue', 'gold', 'coral', 'white'],
                 borderWidth: 2,
                 minBarLength: 5,
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: 'white'
+                    }
+
+                }
+            }
         }
     }),
 }
