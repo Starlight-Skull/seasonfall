@@ -4,6 +4,8 @@ let hero = new Image();
 hero.src = './img/hero.png';
 let missing_entity = new Image();
 missing_entity.src= './img/missing_entity.png';
+let missing_tile = new Image();
+missing_tile.src = './img/missing_tile.png';
 let rain = new Image();
 rain.src = './img/rain.png';
 let snow = new Image();
@@ -72,7 +74,8 @@ export class Tile {
             width: width || 80,
             height: height || 80
         }
-        this.sprite = sprite;
+        this.sprite = sprite || missing_tile;
+        this.animation = new Animation(sprite, 0, 0, 16, 16, 1, 1, 'default');
     }
 }
 
@@ -81,7 +84,7 @@ export class TileEntity extends Tile {
         super(hasCollision, x, y, width, height, sprite);
         this.frame.currentFrame = 0;
         this.frame.mirrored = mirrored || false;
-        this.animation = new Animation(this.sprite, 0, 0, 16, 16, 1, 1, 'missing');
+        this.animation = new Animation(this.sprite, 0, 0, 16, 16, 1, 1, 'default');
     }
 
     activate() {
