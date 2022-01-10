@@ -293,7 +293,7 @@ export let tileList = [
     new Tile(2, 5040, 1720, 160, 40, plank),
     new Tile(2, 5040, 1800, 160, 40, plank),
     new Tile(2, 5040, 1880, 160, 40, plank),
-    new Tile(false, 4560, 1520, 80, 160, painting),
+    new Tile(false, 4560, 1520, 80, 80, painting),
 ];
 
 export let tileEntityList = [
