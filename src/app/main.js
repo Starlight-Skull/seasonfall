@@ -129,12 +129,12 @@ window.addEventListener('load', function () {
         // debug info
         if (debug.showLiveDebug) {
             let tracked = player;
-            drawTextWithBackground(`anim: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, 'cyan');
-            drawTextWithBackground(`pos: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, 'cyan');
-            drawTextWithBackground(`light: ${Math.round(light * 100) / 100}       movement:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' #') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan');
+            drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, 'cyan');
+            drawTextWithBackground(`POS: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, 'cyan');
+            drawTextWithBackground(`LIGHT: ${Math.round(light * 100) / 100}       MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' #') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan');
         }
         if (debug.showFPS) {
-            drawTextWithBackground(`fps: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime');
+            drawTextWithBackground(`FPS: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime');
         }
         if (debug.showPlayerStats) {
             drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220, 'magenta');
@@ -180,7 +180,10 @@ window.addEventListener('load', function () {
         // player hp
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30);
-        ctx.fillStyle = 'rgba(255,26,26,0.7)';
+        let hpGradient = ctx.createLinearGradient(25, 25, player.stats.maxHP * 5, 20);
+        hpGradient.addColorStop(0,"red");
+        hpGradient.addColorStop(1,"magenta");
+        ctx.fillStyle = hpGradient;
         if (player.stats.hp > 0) {
             ctx.fillRect(25, 25, player.stats.hp * 5, 20);
         }
@@ -188,7 +191,10 @@ window.addEventListener('load', function () {
         if (player.stats.mp !== 0) {
             ctx.fillStyle = 'rgba(0,0,0,0.5)';
             ctx.fillRect(20, 50, player.stats.maxMP * 5 + 10, 15);
-            ctx.fillStyle = 'rgba(55,55,246,0.7)';
+            let mpGradient = ctx.createLinearGradient(25, 50, player.stats.maxMP * 5, 10);
+            mpGradient.addColorStop(0,"blue");
+            mpGradient.addColorStop(1,"cyan");
+            ctx.fillStyle = mpGradient;
             if (player.stats.mp > 0) {
                 ctx.fillRect(25, 50, player.stats.mp * 5, 10);
             }
@@ -250,7 +256,7 @@ window.addEventListener('load', function () {
             drawPlayerStats();
             drawDebug();
 
-            drawTextWithBackground(`Objective: Defeat all skeletons`, window.innerWidth * .4, 50, 'red');
+            drawTextWithBackground(`OBJECTIVE: Defeat all skeletons`, window.innerWidth * .4, 50, 'red');
         }
         if (!exit) {
             if (playerStats.kills === 10 || player.stats.hp <= 0) {
