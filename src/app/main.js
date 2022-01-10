@@ -115,9 +115,9 @@ window.addEventListener('load', function () {
 
     function drawTextWithBackground(text, x, y, color, font) {
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
-        ctx.fillRect(x - 5, y - 25, text.length * 16 + 5, 30);
+        ctx.fillRect(x - 5, y - 25, text.length * 17 + 5, 30);
         ctx.fillStyle = color || 'rgb(255,255,255)';
-        ctx.font = font || '25px Pixeloid';
+        ctx.font = font || '25px PixeloidMono';
         ctx.fillText(text, x, y);
     }
 
@@ -133,12 +133,12 @@ window.addEventListener('load', function () {
             drawTextWithBackground(`fps: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime');
         }
         if (debug.showPlayerStats) {
-            drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220);
-            drawTextWithBackground(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250);
-            drawTextWithBackground(`Damage Taken: ${playerStats.damageTaken}`, 5, 280);
-            drawTextWithBackground(`Damage Dealt: ${playerStats.damageDealt}`, 5, 310);
-            drawTextWithBackground(`Kills: ${playerStats.kills}`, 5, 340);
-            drawTextWithBackground(`Time Taken: ${playerStats.timeTaken}`, 5, 370);
+            drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220, 'magenta');
+            drawTextWithBackground(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250, 'magenta');
+            drawTextWithBackground(`Damage Taken: ${playerStats.damageTaken}`, 5, 280, 'magenta');
+            drawTextWithBackground(`Damage Dealt: ${playerStats.damageDealt}`, 5, 310, 'magenta');
+            drawTextWithBackground(`Kills: ${playerStats.kills}`, 5, 340, 'magenta');
+            drawTextWithBackground(`Time Taken: ${playerStats.timeTaken}`, 5, 370, 'magenta');
         }
     }
 
