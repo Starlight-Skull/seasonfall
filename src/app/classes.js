@@ -72,19 +72,20 @@ export class Tile {
             x: x || 0,
             y: y || 0,
             width: width || 80,
-            height: height || 80
+            height: height || 80,
+            currentFrame: 0,
+            mirrored: false
         }
         this.sprite = sprite || missing_tile;
-        this.animation = new Animation(sprite, 0, 0, 16, 16, 1, 1, 'default');
+        this.animation = new Animation(sprite, 0, 0, sprite.width, sprite.height, 1, 1, 'default');
     }
 }
 
 export class TileEntity extends Tile {
     constructor(hasCollision, x, y, width, height, sprite, mirrored) {
         super(hasCollision, x, y, width, height, sprite);
-        this.frame.currentFrame = 0;
         this.frame.mirrored = mirrored || false;
-        this.animation = new Animation(this.sprite, 0, 0, 16, 16, 1, 1, 'default');
+        this.animation = new Animation(sprite, 0, 0, sprite.width, sprite.height, 1, 1, 'default');
     }
 
     activate() {
