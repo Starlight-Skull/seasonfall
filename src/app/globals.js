@@ -274,7 +274,6 @@ export let debug = {
     username: '',
     apiKey: '',
     location: '',
-    useAPI: true,
     showBoxes: false,
     showLiveDebug: false,
     showFPS: true,

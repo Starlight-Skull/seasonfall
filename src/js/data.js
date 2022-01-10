@@ -12,12 +12,7 @@ window.addEventListener('load', function () {
     debug.username = document.getElementById('username').value;
     debug.apiKey = document.getElementById('apiKey').value;
     debug.location = document.getElementById('location').value;
-    // don't make interval unless needed
-    if (debug.apiKey !== '' || debug.location !== '') {
-        makeInterval();
-    } else {
-        debug.useAPI = false;
-    }
+    makeInterval();
     // event listeners
     window.addEventListener('mousedown', () => {
         if (debugMenu.style.visibility === 'hidden') {
@@ -61,7 +56,6 @@ window.addEventListener('load', function () {
             // api
             document.getElementById('apiKey').value = debug.apiKey;
             document.getElementById('location').value = debug.location;
-            document.getElementById('useAPI').checked = debug.useAPI;
             document.getElementById('showFPS').checked = debug.showFPS;
             // stats
             getStats();
@@ -69,11 +63,10 @@ window.addEventListener('load', function () {
             world.paused = false;
             pauseMenu.style.visibility = 'hidden';
             // api
-            debug.apiKey = document.getElementById('apiKey').value;
-            debug.location = document.getElementById('location').value;
-            if (debug.useAPI !== document.getElementById('useAPI').checked) {
-                debug.useAPI = document.getElementById('useAPI').checked;
-                makeInterval();
+            if (debug.apiKey !== document.getElementById('apiKey').value || debug.location !== document.getElementById('location').value) {
+                debug.apiKey = document.getElementById('apiKey').value;
+                debug.location = document.getElementById('location').value;
+                callAPI();
             }
             debug.showFPS = document.getElementById('showFPS').checked;
         }
@@ -115,17 +108,8 @@ window.addEventListener('load', function () {
         debugMenu.style.visibility = 'hidden';
     });
 
-    document.getElementById('callAPI').addEventListener('click', () => {
-        // api
-        debug.apiKey = document.getElementById('apiKey').value;
-        debug.location = document.getElementById('location').value;
-        callAPI();
-        pauseMenu.style.visibility = 'hidden';
-    });
-
     function openDebug() {
         debugMenu.style.visibility = 'visible';
-        document.getElementById('callAPI').disabled = !debug.useAPI;
         document.getElementById('update').disabled = false;
         // general
         document.getElementById('showBoxes').checked = debug.showBoxes;
@@ -184,23 +168,17 @@ window.addEventListener('load', function () {
                     weather.sunset = formatUnixTime(json.sys.sunset, json.timezone) || 0;
                     debug.location = json.name + ',' + json.sys.country || '';
                 } else {
-                    // if response has an error, disable api and tell user
-                    debug.useAPI = false;
-                    makeInterval();
-                    window.alert(json.message)
+                    // if response has an error, tell user
+                    window.alert(json.message);
                 }
             });
     }
 
     function makeInterval() {
-        if (debug.useAPI) {
+        callAPI();
+        // reload weather every 10 minutes
+        interval = setInterval(() => {
             callAPI();
-            // reload weather every 10 minutes
-            interval = setInterval(() => {
-                callAPI();
-            }, 600000);
-        } else {
-            clearInterval(interval);
-        }
+        }, 600000);
     }
 });
