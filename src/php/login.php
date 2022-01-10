@@ -170,7 +170,7 @@ EOT;
             <p>
                 <button type="button" id="test-key">Test API</button>
                 <input type="hidden" name="moduleAction" value="register"/>
-                <button type="submit" id="register-button">Register</button>
+                <button type="submit" id="register-button" disabled>Register</button>
             </p>
         </form>
     </div>
