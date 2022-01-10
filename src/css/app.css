@@ -1,4 +1,18 @@
+@font-face {
+    font-family: PixeloidMono;
+    src: url(../font/PixeloidMono.ttf);
+}
+@font-face {
+    font-family: Pixeloid;
+    src: url(../font/PixeloidSans.ttf);
+}
+@font-face {
+    font-family: PixeloidBold;
+    src: url(../font/PixeloidSansBold.ttf);
+}
+
 html, body, main, #screen {
+    font-family: Pixeloid, serif;
     margin: 0;
     padding: 0;
     width: 100vw;
@@ -40,6 +54,10 @@ main {
     justify-content: space-between;
 }
 
+h3 {
+    font-family: PixeloidBold, serif;
+}
+
 #debug h3 {
     padding: .5rem 0;
     margin: 0;
@@ -48,6 +66,10 @@ main {
 #debug em {
     padding-top: .5rem;
     font-size: 75%;
+}
+
+input, button {
+    font-family: Pixeloid, serif;
 }
 
 input[type="text"], select, input[type="number"]{

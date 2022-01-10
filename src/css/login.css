@@ -1,11 +1,30 @@
+@font-face {
+    font-family: PixeloidMono;
+    src: url(../font/PixeloidMono.ttf);
+}
+@font-face {
+    font-family: Pixeloid;
+    src: url(../font/PixeloidSans.ttf);
+}
+@font-face {
+    font-family: PixeloidBold;
+    src: url(../font/PixeloidSansBold.ttf);
+}
+
 html {
+    font-family: Pixeloid, serif;
     margin: 0;
     padding: 0;
     background-color: black;
     background-image: url("../img/background.png");
 }
 
-h2, p {
+h2 {
+    font-family: PixeloidBold, serif;
+    margin: 0;
+}
+
+p {
     margin: 0;
 }
 
@@ -26,6 +45,10 @@ main {
     align-items: center;
     flex-direction: column;
     height: 95vh;
+}
+
+input, button {
+    font-family: PixeloidMono, serif;
 }
 
 #forms {
