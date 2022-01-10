@@ -32,7 +32,8 @@ window.addEventListener('load', function () {
                 if (((tile.frame.y + i) - (player.frame.y + player.frame.height)) <= (window.innerHeight) && (player.frame.y - (tile.frame.y + tile.animation.height * world.scale + i)) <= (window.innerHeight / 3)) {
                     for (let j = 0; j < tile.frame.width; j += width) {
                         if (((tile.frame.x + j) - (player.frame.x + player.frame.width)) <= (window.innerWidth / 2) && (player.frame.x - (tile.frame.x + tile.animation.width * world.scale + j)) <= (window.innerWidth / 2)) {
-                            // tile entities have animation frame instead
+                        // tile entities have animation frame instead
+                            if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
                                 if (tile.frame.mirrored) {
                                     ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
                                     ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width + j, window.innerHeight - tile.frame.y - tile.animation.height * world.scale - i, tile.animation.width * world.scale, tile.animation.height * world.scale);
@@ -40,6 +41,9 @@ window.addEventListener('load', function () {
                                 } else {
                                     ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.animation.height * world.scale - i, tile.animation.width * world.scale, tile.animation.height * world.scale);
                                 }
+                            } else {
+                                ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale);
+                            }
                         }
                     }
                 }
