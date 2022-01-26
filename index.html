@@ -1,64 +1,13 @@
-<?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-require_once './php/config.php';
-
-try {
-    $db = getDatabase();
-    $stmtSELECT = $db->prepare('SELECT `id`, `key`, `location` FROM `users` WHERE `name` = ? && `password` = ?;');
-} catch (PDOException $e) {
-    $_SESSION['error'] = $e->getMessage();
-    header('Location: ./php/login.php');
-    exit();
-}
-
-$username = $_SESSION['username'] ?? '';
-$password = $_SESSION['password'] ?? '';
-$id = '';
-$key = '';
-$location = '';
-
-if (trim($username) !== '' && trim($password) !== '') {
-    $stmtSELECT->execute(array($username, $password));
-    $rows = $stmtSELECT->fetchAll();
-    if (count($rows) !== 1) {
-        header('Location: ./php/login.php');
-        exit();
-    }
-    $id = $rows[0]['id'];
-    $key = $rows[0]['key'];
-    $location = $rows[0]['location'];
-} else {
-    header('Location: ./php/login.php');
-    exit();
-}
-
-if (isset($_POST['moduleAction'])) {
-    if ($_POST['moduleAction'] === 'logout') {
-        session_destroy();
-        header('Location: ./php/login.php');
-        exit();
-    }
-    if ($_POST['moduleAction'] === 'restart') {
-        header('Location: ./');
-        exit();
-    }
-
-}
-?>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="stylesheet" href="index.css">
+    <link rel="shortcut icon" href="favicon.ico">
     <title>Seasonfall</title>
-    <script type="module" src="js/data.js"></script>
+    <script type="module" src="app/data.js"></script>
     <script type="module" src="app/main.js"></script>
-    <script src="./node_modules/chart.js/dist/chart.js"></script>
 </head>
 <body>
 <div id="debug">
@@ -66,11 +15,11 @@ if (isset($_POST['moduleAction'])) {
         <h3>General</h3>
         <div>
             <label for="userId">User ID</label>
-            <input type="number" id="userId" placeholder="0" disabled value="<?PHP h($id) ?>">
+            <input type="number" id="userId" placeholder="0" disabled>
         </div>
         <div>
             <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Username" value="<?PHP h($username) ?>">
+            <input type="text" id="username" placeholder="Username">
         </div>
         <div>
             <label for="showBoxes">Show Hit Boxes</label>
@@ -199,90 +148,25 @@ if (isset($_POST['moduleAction'])) {
     </section>
 </div>
 <div id="pauseMenu">
-    <section>
-        <h3>Global Stats</h3>
-        <div id="globalStats"></div>
-        <div id="globalGraphs">
-            <div class="chartsRow">
-                <div class="chartSmall">
-                    <canvas id="chartGlobalScore" width="220" height="220"></canvas>
-                </div>
-                <div class="chartSmall">
-                    <canvas id="chartGlobalAttacks" width="220" height="220"></canvas>
-                </div>
-            </div>
-            <div class="chartLarge">
-                <canvas id="chartGlobalKills" width="520" height="220"></canvas>
-            </div>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Time (s)</th>
-                <th>Kills</th>
-                <th>Attacks</th>
-                <th>Attacks Hit</th>
-                <th>Damage Taken</th>
-                <th>Damage Dealt</th>
-            </tr>
-            </thead>
-            <tbody id="globalTableData"></tbody>
-        </table>
-    </section>
     <section id="modal">
         <h3 id="modalTitle">Paused</h3>
         <button id="continueButton">Continue</button>
         <div>
             <label for="apiKey">API Key</label>
-            <input title="API is called every 10 minutes." type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>">
+            <input title="API is called every 10 minutes." type="text" id="apiKey" placeholder="API Key">
         </div>
         <div>
             <label for="location">Location</label>
-            <input title="API is called every 10 minutes." type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
+            <input title="API is called every 10 minutes." type="text" id="location" placeholder="Location">
         </div>
         <div>
             <label for="showFPS">Show FPS</label>
             <input type="checkbox" id="showFPS" name="showFPS">
         </div>
-        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+        <form action="#" method="POST">
             <input type="hidden" name="moduleAction" value="Restart"/>
             <button type="submit">Restart</button>
         </form>
-        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
-            <input type="hidden" name="moduleAction" value="logout"/>
-            <button type="submit">Log Out</button>
-        </form>
-    </section>
-    <section>
-        <h3><?PHP h($username) ?>'s Stats</h3>
-        <div id="localStats"></div>
-        <div id="localGraphs">
-            <div class="chartsRow">
-                <div class="chartSmall">
-                    <canvas id="chartLocalScore" width="220" height="220"></canvas>
-                </div>
-                <div class="chartSmall">
-                    <canvas id="chartLocalAttacks" width="220" height="220"></canvas>
-                </div>
-            </div>
-            <div class="chartLarge">
-                <canvas id="chartLocalKills" width="520" height="220"></canvas>
-            </div>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <th>Time (s)</th>
-                <th>Kills</th>
-                <th>Attacks</th>
-                <th>Attacks Hit</th>
-                <th>Damage Taken</th>
-                <th>Damage Dealt</th>
-            </tr>
-            </thead>
-            <tbody id="localTableData"></tbody>
-        </table>
     </section>
 </div>
 <main>
