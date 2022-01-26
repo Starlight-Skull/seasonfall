@@ -1,5 +1,5 @@
-import {debug, player, weather, world} from "../app/globals.js";
-import {formatUnixTime, keyLogger} from "../app/helpers.js";
+import {debug, player, weather, world} from "./globals.js";
+import {formatUnixTime, keyLogger} from "./helpers.js";
 
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
