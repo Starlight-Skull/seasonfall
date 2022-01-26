@@ -8,7 +8,6 @@
     <title>Seasonfall</title>
     <script type="module" src="js/data.js"></script>
     <script type="module" src="app/main.js"></script>
-    <script src="./node_modules/chart.js/dist/chart.js"></script>
 </head>
 <body>
 <div id="debug">
@@ -149,37 +148,6 @@
     </section>
 </div>
 <div id="pauseMenu">
-    <section>
-        <h3>Global Stats</h3>
-        <div id="globalStats"></div>
-        <div id="globalGraphs">
-            <div class="chartsRow">
-                <div class="chartSmall">
-                    <canvas id="chartGlobalScore" width="220" height="220"></canvas>
-                </div>
-                <div class="chartSmall">
-                    <canvas id="chartGlobalAttacks" width="220" height="220"></canvas>
-                </div>
-            </div>
-            <div class="chartLarge">
-                <canvas id="chartGlobalKills" width="520" height="220"></canvas>
-            </div>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Time (s)</th>
-                <th>Kills</th>
-                <th>Attacks</th>
-                <th>Attacks Hit</th>
-                <th>Damage Taken</th>
-                <th>Damage Dealt</th>
-            </tr>
-            </thead>
-            <tbody id="globalTableData"></tbody>
-        </table>
-    </section>
     <section id="modal">
         <h3 id="modalTitle">Paused</h3>
         <button id="continueButton">Continue</button>
@@ -203,36 +171,6 @@
             <input type="hidden" name="moduleAction" value="logout"/>
             <button type="submit">Log Out</button>
         </form>
-    </section>
-    <section>
-        <h3>'s Stats</h3>
-        <div id="localStats"></div>
-        <div id="localGraphs">
-            <div class="chartsRow">
-                <div class="chartSmall">
-                    <canvas id="chartLocalScore" width="220" height="220"></canvas>
-                </div>
-                <div class="chartSmall">
-                    <canvas id="chartLocalAttacks" width="220" height="220"></canvas>
-                </div>
-            </div>
-            <div class="chartLarge">
-                <canvas id="chartLocalKills" width="520" height="220"></canvas>
-            </div>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <th>Time (s)</th>
-                <th>Kills</th>
-                <th>Attacks</th>
-                <th>Attacks Hit</th>
-                <th>Damage Taken</th>
-                <th>Damage Dealt</th>
-            </tr>
-            </thead>
-            <tbody id="localTableData"></tbody>
-        </table>
     </section>
 </div>
 <main>
