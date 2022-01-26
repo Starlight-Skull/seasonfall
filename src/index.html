@@ -1,53 +1,3 @@
-<?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-require_once './php/config.php';
-
-try {
-    $db = getDatabase();
-    $stmtSELECT = $db->prepare('SELECT `id`, `key`, `location` FROM `users` WHERE `name` = ? && `password` = ?;');
-} catch (PDOException $e) {
-    $_SESSION['error'] = $e->getMessage();
-    header('Location: ./php/login.php');
-    exit();
-}
-
-$username = $_SESSION['username'] ?? '';
-$password = $_SESSION['password'] ?? '';
-$id = '';
-$key = '';
-$location = '';
-
-if (trim($username) !== '' && trim($password) !== '') {
-    $stmtSELECT->execute(array($username, $password));
-    $rows = $stmtSELECT->fetchAll();
-    if (count($rows) !== 1) {
-        header('Location: ./php/login.php');
-        exit();
-    }
-    $id = $rows[0]['id'];
-    $key = $rows[0]['key'];
-    $location = $rows[0]['location'];
-} else {
-    header('Location: ./php/login.php');
-    exit();
-}
-
-if (isset($_POST['moduleAction'])) {
-    if ($_POST['moduleAction'] === 'logout') {
-        session_destroy();
-        header('Location: ./php/login.php');
-        exit();
-    }
-    if ($_POST['moduleAction'] === 'restart') {
-        header('Location: ./');
-        exit();
-    }
-
-}
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -66,11 +16,11 @@ if (isset($_POST['moduleAction'])) {
         <h3>General</h3>
         <div>
             <label for="userId">User ID</label>
-            <input type="number" id="userId" placeholder="0" disabled value="<?PHP h($id) ?>">
+            <input type="number" id="userId" placeholder="0" disabled>
         </div>
         <div>
             <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Username" value="<?PHP h($username) ?>">
+            <input type="text" id="username" placeholder="Username">
         </div>
         <div>
             <label for="showBoxes">Show Hit Boxes</label>
@@ -235,27 +185,27 @@ if (isset($_POST['moduleAction'])) {
         <button id="continueButton">Continue</button>
         <div>
             <label for="apiKey">API Key</label>
-            <input title="API is called every 10 minutes." type="text" id="apiKey" placeholder="API Key" value="<?PHP h($key) ?>">
+            <input title="API is called every 10 minutes." type="text" id="apiKey" placeholder="API Key">
         </div>
         <div>
             <label for="location">Location</label>
-            <input title="API is called every 10 minutes." type="text" id="location" placeholder="Location" value="<?PHP h($location) ?>">
+            <input title="API is called every 10 minutes." type="text" id="location" placeholder="Location">
         </div>
         <div>
             <label for="showFPS">Show FPS</label>
             <input type="checkbox" id="showFPS" name="showFPS">
         </div>
-        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+        <form action="" method="POST">
             <input type="hidden" name="moduleAction" value="Restart"/>
             <button type="submit">Restart</button>
         </form>
-        <form action="<?php h($_SERVER['PHP_SELF']); ?>" method="POST">
+        <form action="" method="POST">
             <input type="hidden" name="moduleAction" value="logout"/>
             <button type="submit">Log Out</button>
         </form>
     </section>
     <section>
-        <h3><?PHP h($username) ?>'s Stats</h3>
+        <h3>'s Stats</h3>
         <div id="localStats"></div>
         <div id="localGraphs">
             <div class="chartsRow">
