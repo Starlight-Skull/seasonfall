@@ -1,7 +1,6 @@
 import {animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
 import {debug} from "./globals.js";
 import {entityMovement} from "./movement.js";
-import {postStats} from "./helpers.js";
 
 window.addEventListener('load', function () {
     // setup for drawing
@@ -261,8 +260,12 @@ window.addEventListener('load', function () {
         if (!exit) {
             if (playerStats.kills === 10 || player.stats.hp <= 0) {
                 exit = true;
-                postStats();
                 // pause menu
+                if (playerStats.kills === 10) {
+                    document.getElementById('modalTitle').innerText = 'Victory!';
+                } else {
+                    document.getElementById('modalTitle').innerText = 'Failure!';
+                }
                 document.getElementById('pauseMenu').style.visibility = 'visible';
                 document.getElementById('continueButton').disabled = true;
                 document.getElementById('apiKey').disabled = true;
