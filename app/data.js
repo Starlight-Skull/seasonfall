@@ -1,5 +1,5 @@
-import {debug, player, weather, world} from "../app/globals.js";
-import {formatUnixTime, getStats, keyLogger} from "../app/helpers.js";
+import {debug, player, weather, world} from "./globals.js";
+import {formatUnixTime, keyLogger} from "./helpers.js";
 
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
@@ -7,11 +7,6 @@ window.addEventListener('load', function () {
     let interval;
     debugMenu.style.visibility = 'hidden';
     pauseMenu.style.visibility = 'hidden';
-    // load data placed by php
-    debug.userId = parseInt(document.getElementById('userId').value);
-    debug.username = document.getElementById('username').value;
-    debug.apiKey = document.getElementById('apiKey').value;
-    debug.location = document.getElementById('location').value;
     makeInterval();
     // event listeners
     window.addEventListener('mousedown', () => {
@@ -57,8 +52,6 @@ window.addEventListener('load', function () {
             document.getElementById('apiKey').value = debug.apiKey;
             document.getElementById('location').value = debug.location;
             document.getElementById('showFPS').checked = debug.showFPS;
-            // stats
-            getStats();
         } else {
             world.paused = false;
             pauseMenu.style.visibility = 'hidden';
