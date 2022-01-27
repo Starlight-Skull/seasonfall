@@ -172,13 +172,13 @@ export let weather = {
 
 export let debug = {
     userId: 0,
-    username: '',
+    username: 'Hero',
     apiKey: '',
     location: '',
     showBoxes: false,
     showLiveDebug: false,
     showFPS: true,
-    showPlayerStats: false,
+    showPlayerStats: true,
 };
 
 export let playerStats = {
