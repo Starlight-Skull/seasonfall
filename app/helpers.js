@@ -27,8 +27,13 @@ export function keyLogger(ev, down) {
     }
 }
 
+/**
+ * Converts a Unix timestamp with a given timezone into a simple h:mm number format.
+ * @param timestamp - Unix timestamp in seconds.
+ * @param timezone - Timezone difference from UTC in seconds.
+ * @returns {number} - The given time as h:mm. (Example: 1300 for 1 PM)
+ */
 export function formatUnixTime(timestamp, timezone) {
-    // time is set to a simple format for easy use in calculations
     let date = new Date((timestamp + timezone) * 1000);
     return date.getUTCHours() * 100 + date.getUTCMinutes();
 }
