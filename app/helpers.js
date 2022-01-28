@@ -1,7 +1,12 @@
 import {player, world} from "./globals.js";
 
-export function keyLogger(ev, down) {
-    switch (ev.key) {
+/**
+ * Receives a key event and sets the player's controls tag accordingly.
+ * @param event - The received event.
+ */
+export function keyLogger(event) {
+    let down = event.type === 'keydown';
+    switch (event.key) {
         case 'w':
         case 'z':
         case 'ArrowUp':
@@ -21,7 +26,7 @@ export function keyLogger(ev, down) {
             player.controls.right = down;
             break;
         case ' ':
-            ev.preventDefault();
+            event.preventDefault();
             player.controls.jump = down;
             break;
     }

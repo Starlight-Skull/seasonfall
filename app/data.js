@@ -21,7 +21,7 @@ window.addEventListener('load', function () {
     });
     window.addEventListener('keydown', ev => {
         if (debugMenu.style.visibility === 'hidden' && !world.paused) {
-            keyLogger(ev, true);
+            keyLogger(ev);
         }
     });
     window.addEventListener('keyup', ev => {
@@ -38,7 +38,7 @@ window.addEventListener('load', function () {
                 break;
         }
         if (debugMenu.style.visibility === 'hidden' && !world.paused) {
-            keyLogger(ev, false);
+            keyLogger(ev);
         }
     });
 
