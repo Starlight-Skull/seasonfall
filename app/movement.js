@@ -1,19 +1,9 @@
-import {collision} from "./helpers.js";
-import {entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
+import {collision, borderControl} from "./helpers.js";
+import {entityList, player, playerStats, tileEntityList, tileList, weather} from "./globals.js";
 
 export function entityMovement(entity) {
-    if (entity.frame.x > world.width) {
-        entity.frame.x = world.width;
-    }
-    if (entity.frame.x < 0) {
-        entity.frame.x = 0;
-    }
-    if (entity.frame.y > world.height) {
-        entity.frame.y = world.height;
-    }
-    if (entity.frame.y < 0) {
-        entity.frame.y = 0;
-    }
+    borderControl(entity);
+
     if (entity.animation === entity.death && entity.stats.hp <= 0) {
         if (entity.frame.currentFrame < entity.animation.frames - 1) {
             entity.frame.currentFrame += entity.animation.speed;

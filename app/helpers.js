@@ -1,4 +1,4 @@
-import {player} from "./globals.js";
+import {player, world} from "./globals.js";
 
 export function keyLogger(ev, down) {
     switch (ev.key) {
@@ -31,6 +31,25 @@ export function formatUnixTime(timestamp, timezone) {
     // time is set to a simple format for easy use in calculations
     let date = new Date((timestamp + timezone) * 1000);
     return date.getUTCHours() * 100 + date.getUTCMinutes();
+}
+
+/**
+ * Checks if the given entity is within the world border and moves it back if needed.
+ * @param entity - The entity to check.
+ */
+export function borderControl(entity) {
+    if (entity.frame.x > world.width) {
+        entity.frame.x = world.width;
+    }
+    if (entity.frame.x < 0) {
+        entity.frame.x = 0;
+    }
+    if (entity.frame.y > world.height) {
+        entity.frame.y = world.height;
+    }
+    if (entity.frame.y < 0) {
+        entity.frame.y = 0;
+    }
 }
 
 export function collision(entity, object, isAttack) {
