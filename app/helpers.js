@@ -10,22 +10,27 @@ export function keyLogger(event) {
         case 'w':
         case 'z':
         case 'ArrowUp':
+            // Attack
             player.controls.attack = (player.controls.attack === 2) ? (down ? 2 : false) : down;
             break;
         case 's':
         case 'ArrowDown':
+            // Down
             player.controls.down = down;
             break;
         case 'a':
         case 'q':
         case 'ArrowLeft':
+            // Left
             player.controls.left = down;
             break;
         case 'd':
         case 'ArrowRight':
+            // Right
             player.controls.right = down;
             break;
         case ' ':
+            // Jump
             event.preventDefault();
             player.controls.jump = down;
             break;
