@@ -1,0 +1,23 @@
+{
+  "name": "seasonfall",
+  "version": "1.0.0",
+  "description": "Simple JS Game using the OpenWeatherMap API.",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Starlight-Skull/Seasonfall.git"
+  },
+  "keywords": [
+    "JS",
+    "2D",
+    "Weather",
+    "Platformer",
+    "HTML5"
+  ],
+  "author": "Starlight-Skull",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Starlight-Skull/Seasonfall/issues"
+  },
+  "homepage": "https://github.com/Starlight-Skull/Seasonfall#readme"
+}
