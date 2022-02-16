@@ -1,16 +1,16 @@
 import {world} from "./globals.js";
 
-let hero = new Image();
+const hero = new Image();
 hero.src = './img/entity/hero.png';
-let missing_entity = new Image();
-missing_entity.src= './img/entity/missing_entity.png';
-let missing_tile = new Image();
+const missing_entity = new Image();
+missing_entity.src = './img/entity/missing_entity.png';
+const missing_tile = new Image();
 missing_tile.src = './img/tile/missing_tile.png';
-let rain = new Image();
+const rain = new Image();
 rain.src = './img/environment/rain.png';
-let snow = new Image();
+const snow = new Image();
 snow.src = './img/environment/snow.png';
-let skeleton = new Image();
+const skeleton = new Image();
 skeleton.src = './img/entity/skeleton.png';
 
 export class Entity {
@@ -87,7 +87,7 @@ export class TileEntity extends Tile {
     }
 
     activate() {
-    };
+    }
 }
 
 export class Animation {
