@@ -1,22 +1,22 @@
 import {Door, Hero, Rain, Skeleton, Tile} from "./classes.js";
 
-let beam = new Image();
+const beam = new Image();
 beam.src = './img/tile/beam.png';
-let brick = new Image();
+const brick = new Image();
 brick.src = './img/tile/brick.png';
-let brick_dark = new Image();
+const brick_dark = new Image();
 brick_dark.src = './img/tile/brick_dark.png';
-let dirt = new Image();
+const dirt = new Image();
 dirt.src = './img/tile/dirt.png';
-let dirt_dark = new Image();
+const dirt_dark = new Image();
 dirt_dark.src = './img/tile/dirt_dark.png';
-let door = new Image();
+const door = new Image();
 door.src = './img/tile/door.png';
-let grass = new Image();
+const grass = new Image();
 grass.src = './img/tile/grass.png';
-let painting = new Image();
+const painting = new Image();
 painting.src = './img/tile/painting.png';
-let plank = new Image();
+const plank = new Image();
 plank.src = './img/tile/plank.png';
 
 export const world = {
