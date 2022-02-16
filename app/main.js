@@ -31,7 +31,7 @@ window.addEventListener('load', function () {
                 if (((tile.frame.y + i) - (player.frame.y + player.frame.height)) <= (window.innerHeight) && (player.frame.y - (tile.frame.y + tile.animation.height * world.scale + i)) <= (window.innerHeight / 3)) {
                     for (let j = 0; j < tile.frame.width; j += width) {
                         if (((tile.frame.x + j) - (player.frame.x + player.frame.width)) <= (window.innerWidth / 2) && (player.frame.x - (tile.frame.x + tile.animation.width * world.scale + j)) <= (window.innerWidth / 2)) {
-                        // tile entities have animation frame instead
+                            // tile entities have animation frame instead
                             if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
                                 if (tile.frame.mirrored) {
                                     ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10);
@@ -180,8 +180,8 @@ window.addEventListener('load', function () {
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30);
         let hpGradient = ctx.createLinearGradient(25, 25, player.stats.maxHP * 5, 20);
-        hpGradient.addColorStop(0,"red");
-        hpGradient.addColorStop(1,"magenta");
+        hpGradient.addColorStop(0, "red");
+        hpGradient.addColorStop(1, "magenta");
         ctx.fillStyle = hpGradient;
         if (player.stats.hp > 0) {
             ctx.fillRect(25, 25, player.stats.hp * 5, 20);
@@ -191,8 +191,8 @@ window.addEventListener('load', function () {
             ctx.fillStyle = 'rgba(0,0,0,0.5)';
             ctx.fillRect(20, 50, player.stats.maxMP * 5 + 10, 15);
             let mpGradient = ctx.createLinearGradient(25, 50, player.stats.maxMP * 5, 10);
-            mpGradient.addColorStop(0,"blue");
-            mpGradient.addColorStop(1,"cyan");
+            mpGradient.addColorStop(0, "blue");
+            mpGradient.addColorStop(1, "cyan");
             ctx.fillStyle = mpGradient;
             if (player.stats.mp > 0) {
                 ctx.fillRect(25, 50, player.stats.mp * 5, 10);
