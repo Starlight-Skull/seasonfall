@@ -4,7 +4,6 @@ import {formatUnixTime, keyLogger} from "./helpers.js";
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
     const pauseMenu = document.getElementById('pauseMenu');
-    let interval;
     debugMenu.style.visibility = 'hidden';
     pauseMenu.style.visibility = 'hidden';
     makeInterval();
@@ -135,44 +134,44 @@ window.addEventListener('load', function () {
 
     function callAPI() {
         if (debug.apiKey !== '' && debug.location !== '') {
-                fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${debug.apiKey}&q=${debug.location}&units=metric`)
-                    .then(res => {
-                        return res.json();
-                    })
-                    .then((json) => {
-                        // process api response
-                        if (json.cod === 200) {
-                            weather.main = json.weather[0].main || '';
-                            weather.temp = json.main.temp || 0;
-                            weather.windSpeed = json.wind.speed || 0;
-                            if (json.wind.deg >= 0 && json.wind.deg <= 180) {
-                                weather.windDeg = 'East';
-                            } else if (json.wind.deg > 180 && json.wind.deg <= 360) {
-                                weather.windDeg = 'West';
-                            }
-                            weather.clouds = json.clouds.all || 0;
-                            if (json.rain) {
-                                weather.rain = json.rain["1h"] || 0;
-                            }
-                            if (json.snow) {
-                                weather.snow = json.snow["1h"] || 0;
-                            }
-                            weather.time = formatUnixTime(json.dt, json.timezone) || 0;
-                            weather.sunrise = formatUnixTime(json.sys.sunrise, json.timezone) || 0;
-                            weather.sunset = formatUnixTime(json.sys.sunset, json.timezone) || 0;
-                            debug.location = json.name + ',' + json.sys.country || '';
-                        } else {
-                            // if response has an error, tell user
-                            window.alert(json.message);
+            fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${debug.apiKey}&q=${debug.location}&units=metric`)
+                .then(res => {
+                    return res.json();
+                })
+                .then((json) => {
+                    // process api response
+                    if (json.cod === 200) {
+                        weather.main = json.weather[0].main || '';
+                        weather.temp = json.main.temp || 0;
+                        weather.windSpeed = json.wind.speed || 0;
+                        if (json.wind.deg >= 0 && json.wind.deg <= 180) {
+                            weather.windDeg = 'East';
+                        } else if (json.wind.deg > 180 && json.wind.deg <= 360) {
+                            weather.windDeg = 'West';
                         }
-                    })
+                        weather.clouds = json.clouds.all || 0;
+                        if (json.rain) {
+                            weather.rain = json.rain["1h"] || 0;
+                        }
+                        if (json.snow) {
+                            weather.snow = json.snow["1h"] || 0;
+                        }
+                        weather.time = formatUnixTime(json.dt, json.timezone) || 0;
+                        weather.sunrise = formatUnixTime(json.sys.sunrise, json.timezone) || 0;
+                        weather.sunset = formatUnixTime(json.sys.sunset, json.timezone) || 0;
+                        debug.location = json.name + ',' + json.sys.country || '';
+                    } else {
+                        // if response has an error, tell user
+                        window.alert(json.message);
+                    }
+                });
         }
     }
 
     function makeInterval() {
         callAPI();
         // reload weather every 10 minutes
-        interval = setInterval(() => {
+        setInterval(() => {
             callAPI();
         }, 600000);
     }
