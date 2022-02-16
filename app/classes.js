@@ -1,17 +1,17 @@
 import {world} from "./globals.js";
 
 let hero = new Image();
-hero.src = './img/hero.png';
+hero.src = './img/entity/hero.png';
 let missing_entity = new Image();
-missing_entity.src= './img/missing_entity.png';
+missing_entity.src= './img/entity/missing_entity.png';
 let missing_tile = new Image();
-missing_tile.src = './img/missing_tile.png';
+missing_tile.src = './img/tile/missing_tile.png';
 let rain = new Image();
-rain.src = './img/rain.png';
+rain.src = './img/environment/rain.png';
 let snow = new Image();
-snow.src = './img/snow.png';
+snow.src = './img/environment/snow.png';
 let skeleton = new Image();
-skeleton.src = './img/skeleton.png';
+skeleton.src = './img/entity/skeleton.png';
 
 export class Entity {
     constructor(hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
