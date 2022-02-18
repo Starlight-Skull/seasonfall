@@ -1,8 +1,7 @@
 {
   "name": "seasonfall",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple JS Game using the OpenWeatherMap API.",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Starlight-Skull/Seasonfall.git"
@@ -19,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Starlight-Skull/Seasonfall/issues"
   },
-  "homepage": "https://github.com/Starlight-Skull/Seasonfall#readme"
+  "homepage": "https://github.com/Starlight-Skull/Seasonfall#readme",
+  "dependencies": {
+    "@neutralinojs/neu": "^9.1.2"
+  }
 }
