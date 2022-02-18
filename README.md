@@ -11,10 +11,31 @@ The original idea was "What if I take data from a weather API and build a game a
 
 > Major rewrites to make code more accessible, reusable and efficient.
 
-## Installing
+## Getting Started
+
+Download a release or clone the source and build your own.
+
+### Installing
 
 In your preferred shell and location.
 
 ```shell
 git clone https://github.com/Starlight-Skull/Seasonfall.git
+cd Seasonfall
+npm ci
+npx neu update
+```
+
+### Starting the app
+
+```shell
+npx neu run
+```
+
+### Making a build
+
+The executables will be in /dist
+
+```shell
+npx neu build
 ```
