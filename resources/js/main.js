@@ -12,7 +12,7 @@ function showInfo() {
 }
 
 function setTray() {
-    if(NL_MODE != "window") {
+    if(NL_MODE !== "window") {
         console.log("INFO: Tray menu is only available in the window mode.");
         return;
     }
@@ -48,6 +48,6 @@ Neutralino.init();
 Neutralino.events.on("trayMenuItemClicked", onTrayMenuItemClicked);
 Neutralino.events.on("windowClose", onWindowClose);
 
-if(NL_OS != "Darwin") { // TODO: Fix https://github.com/neutralinojs/neutralinojs/issues/615
+if(NL_OS !== "Darwin") { // TODO: Fix https://github.com/neutralinojs/neutralinojs/issues/615
     setTray();
 }

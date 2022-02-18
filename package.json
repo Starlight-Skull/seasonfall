@@ -2,11 +2,6 @@
   "name": "seasonfall",
   "version": "1.0.0",
   "description": "Simple JS Game using the OpenWeatherMap API.",
-  "scripts": {
-    "neu": "cd seasonfall && npx @neutralinojs/neu run",
-    "build": "cd seasonfall && npx @neutralinojs/neu build",
-    "update": "cd seasonfall && npx #neutralinojs/neu update"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Starlight-Skull/Seasonfall.git"
