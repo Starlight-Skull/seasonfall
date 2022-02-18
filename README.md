@@ -22,14 +22,14 @@ In your preferred shell and location.
 ```shell
 git clone https://github.com/Starlight-Skull/Seasonfall.git
 cd seasonfall
-npm install
-npm run update
+npm ci
+npx neu update
 ```
 
 ### Starting the app
 
 ```shell
-npm run neu
+npx neu run
 ```
 
 ### Making a build
@@ -37,5 +37,5 @@ npm run neu
 The executables will be in /seasonfall/dist/
 
 ```shell
-npm run build
+npx neu build
 ```
