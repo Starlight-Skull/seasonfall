@@ -21,7 +21,7 @@ In your preferred shell and location.
 
 ```shell
 git clone https://github.com/Starlight-Skull/Seasonfall.git
-cd seasonfall
+cd Seasonfall
 npm ci
 npx neu update
 ```
@@ -34,7 +34,7 @@ npx neu run
 
 ### Making a build
 
-The executables will be in /seasonfall/dist/
+The executables will be in /dist
 
 ```shell
 npx neu build
