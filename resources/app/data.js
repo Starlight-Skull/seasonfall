@@ -6,7 +6,7 @@ window.addEventListener('load', function () {
     const pauseMenu = document.getElementById('pauseMenu');
     debugMenu.style.visibility = 'hidden';
     pauseMenu.style.visibility = 'hidden';
-    makeInterval();
+    fromStorage('debug');
     // event listeners
     window.addEventListener('mousedown', () => {
         if (debugMenu.style.visibility === 'hidden' && !world.paused) {
@@ -54,6 +54,7 @@ window.addEventListener('load', function () {
         } else {
             world.paused = false;
             pauseMenu.style.visibility = 'hidden';
+            toStorage('debug', debug);
             // api
             if (debug.apiKey !== document.getElementById('apiKey').value || debug.location !== document.getElementById('location').value) {
                 debug.apiKey = document.getElementById('apiKey').value;
@@ -64,13 +65,52 @@ window.addEventListener('load', function () {
         }
     }
 
+    function fromStorage(key) {
+        console.log('fromStorage')
+        Neutralino.storage.getData(key)
+            .then(res => {
+                console.log('resolve')
+                res = JSON.parse(res);
+                console.log(res);
+                debug.userId = res.userId;
+                debug.username = res.username;
+                debug.apiKey = res.apiKey;
+                debug.location = res.location;
+                debug.showBoxes = res.showBoxes;
+                debug.showLiveDebug = res.showLiveDebug;
+                debug.showFPS = res.showFPS;
+                debug.showPlayerStats = res.showPlayerStats;
+            }, rej => {
+                console.log('reject')
+                console.log(rej)
+            })
+            .then(makeInterval)
+            .catch(err => {
+                console.log('error')
+                console.log(err);
+            });
+    }
+
+    function toStorage(key, value) {
+        console.log('toStorage')
+        Neutralino.storage.setData(key, JSON.stringify(value))
+            .then(res => {
+                console.log('resolve')
+                console.log(res)
+            }, rej => {
+                console.log('reject')
+                console.log(rej)
+            })
+            .catch(err => {
+                console.log('error')
+                console.log(err);
+            });
+    }
+
     document.getElementById('update').addEventListener('click', () => {
         // general
-        if (document.getElementById('username').value !== '') {
-            debug.username = document.getElementById('username').value;
-        } else {
-            debug.username = 'Hero';
-        }
+        debug.userId = document.getElementById('userId').value;
+        debug.username = document.getElementById('username').value;
         debug.showBoxes = document.getElementById('showBoxes').checked;
         debug.showLiveDebug = document.getElementById('showLiveDebug').checked;
         debug.showPlayerStats = document.getElementById('showPlayerStats').checked;
@@ -104,6 +144,8 @@ window.addEventListener('load', function () {
         debugMenu.style.visibility = 'visible';
         document.getElementById('update').disabled = false;
         // general
+        document.getElementById('userId').value = debug.userId;
+        document.getElementById('username').value = debug.username;
         document.getElementById('showBoxes').checked = debug.showBoxes;
         document.getElementById('showLiveDebug').checked = debug.showLiveDebug;
         document.getElementById('showPlayerStats').checked = debug.showPlayerStats;
