@@ -41,3 +41,13 @@ function onTrayMenuItemClicked(event) {
             break;
     }
 }
+
+export async function fromStorage(key) {
+    return await Neutralino.storage.getData(key).then(data => {
+        return JSON.parse(data);
+    });
+}
+
+export async function toStorage(key, value) {
+    return await Neutralino.storage.setData(key, JSON.stringify(value));
+}

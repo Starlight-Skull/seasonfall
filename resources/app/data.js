@@ -1,217 +1,61 @@
-import {debug, player, weather, world} from "./globals.js";
-import {formatUnixTime, keyLogger} from "./helpers.js";
+import {debug, weather} from "./globals.js";
+import {formatUnixTime} from "./helpers.js";
+import {fromStorage} from "./init.js";
 
 window.addEventListener('load', function () {
-    const debugMenu = document.getElementById('debug');
-    const pauseMenu = document.getElementById('pauseMenu');
-    debugMenu.style.visibility = 'hidden';
-    pauseMenu.style.visibility = 'hidden';
-    fromStorage('debug');
-    // event listeners
-    window.addEventListener('mousedown', () => {
-        if (!world.paused) {
-            player.controls.attack = (player.controls.attack === 2) ? 2 : true;
-        }
-    });
-    window.addEventListener('mouseup', () => {
-        if (!world.paused) {
-            player.controls.attack = false;
-        }
-    });
-    window.addEventListener('keydown', ev => {
-        if (!world.paused) {
-            keyLogger(ev);
-        }
-    });
-    window.addEventListener('keyup', ev => {
-        switch (ev.key) {
-            case '`':
-                openDebugMenu();
-                break;
-            case 'Escape':
-                openPauseMenu();
-                break;
-        }
-        if (!world.paused) {
-            keyLogger(ev);
-        }
-    });
-
-    document.getElementById('continueButton').addEventListener('click', openPauseMenu);
-
-    function openPauseMenu() {
-        if (pauseMenu.style.visibility === 'hidden') {
-            world.paused = true;
-            pauseMenu.style.visibility = 'visible';
-            // api
-            document.getElementById('apiKey').value = debug.apiKey;
-            document.getElementById('location').value = debug.location;
-            document.getElementById('showFPS').checked = debug.showFPS;
-        } else {
-            world.paused = false;
-            pauseMenu.style.visibility = 'hidden';
-            toStorage('debug', debug);
-            // api
-            if (debug.apiKey !== document.getElementById('apiKey').value || debug.location !== document.getElementById('location').value) {
-                debug.apiKey = document.getElementById('apiKey').value;
-                debug.location = document.getElementById('location').value;
-                callAPI();
-            }
-            debug.showFPS = document.getElementById('showFPS').checked;
-        }
-    }
-
-    function fromStorage(key) {
-        console.log('fromStorage')
-        Neutralino.storage.getData(key)
-            .then(res => {
-                console.log('resolve')
-                res = JSON.parse(res);
-                console.log(res);
-                debug.userId = res.userId;
-                debug.username = res.username;
-                debug.apiKey = res.apiKey;
-                debug.location = res.location;
-                debug.showBoxes = res.showBoxes;
-                debug.showLiveDebug = res.showLiveDebug;
-                debug.showFPS = res.showFPS;
-                debug.showPlayerStats = res.showPlayerStats;
-            }, rej => {
-                console.log('reject')
-                console.log(rej)
-            })
-            .then(makeInterval)
-            .catch(err => {
-                console.log('error')
-                console.log(err);
-            });
-    }
-
-    function toStorage(key, value) {
-        console.log('toStorage')
-        Neutralino.storage.setData(key, JSON.stringify(value))
-            .then(res => {
-                console.log('resolve')
-                console.log(res)
-            }, rej => {
-                console.log('reject')
-                console.log(rej)
-            })
-            .catch(err => {
-                console.log('error')
-                console.log(err);
-            });
-    }
-
-    function openDebugMenu() {
-        if (debugMenu.style.visibility === 'hidden') {
-            world.paused = true;
-            debugMenu.style.visibility = 'visible';
-            // general
-            document.getElementById('userId').value = debug.userId;
-            document.getElementById('username').value = debug.username;
-            document.getElementById('showBoxes').checked = debug.showBoxes;
-            document.getElementById('showLiveDebug').checked = debug.showLiveDebug;
-            document.getElementById('showPlayerStats').checked = debug.showPlayerStats;
-            // weather
-            document.getElementById('main').value = weather.main;
-            document.getElementById('temp').value = weather.temp;
-            document.getElementById('windSpeed').value = weather.windSpeed;
-            document.getElementById('windDeg').value = weather.windDeg;
-            document.getElementById('clouds').value = weather.clouds;
-            document.getElementById('rain').value = weather.rain;
-            document.getElementById('snow').value = weather.snow;
-            document.getElementById('time').value = weather.time;
-            document.getElementById('sunrise').value = weather.sunrise;
-            document.getElementById('sunset').value = weather.sunset;
-            // player
-            document.getElementById('hp').value = player.stats.hp;
-            document.getElementById('maxHp').value = player.stats.maxHP;
-            document.getElementById('mp').value = player.stats.mp;
-            document.getElementById('maxMp').value = player.stats.maxMP;
-            document.getElementById('xp').value = player.stats.xp;
-            document.getElementById('damage').value = player.stats.damage;
-            document.getElementById('speed').value = player.stats.speed;
-            document.getElementById('maxAir').value = player.maxAir;
-            document.getElementById('x').value = player.frame.x;
-            document.getElementById('y').value = player.frame.y;
-            document.getElementById('hasCollision').checked = player.hasCollision;
-        } else {
-            // general
-            debug.userId = document.getElementById('userId').value;
-            debug.username = document.getElementById('username').value;
-            debug.showBoxes = document.getElementById('showBoxes').checked;
-            debug.showLiveDebug = document.getElementById('showLiveDebug').checked;
-            debug.showPlayerStats = document.getElementById('showPlayerStats').checked;
-            // weather
-            weather.main = document.getElementById('main').value;
-            weather.temp = parseFloat(document.getElementById('temp').value);
-            weather.windSpeed = parseFloat(document.getElementById('windSpeed').value);
-            weather.windDeg = document.getElementById('windDeg').value;
-            weather.clouds = parseFloat(document.getElementById('clouds').value);
-            weather.rain = parseFloat(document.getElementById('rain').value);
-            weather.snow = parseFloat(document.getElementById('snow').value);
-            weather.time = parseInt(document.getElementById('time').value);
-            weather.sunrise = parseInt(document.getElementById('sunrise').value);
-            weather.sunset = parseInt(document.getElementById('sunset').value);
-            // player
-            player.stats.hp = parseFloat(document.getElementById('hp').value);
-            player.stats.maxHP = parseFloat(document.getElementById('maxHp').value);
-            player.stats.mp = parseFloat(document.getElementById('mp').value);
-            player.stats.maxMP = parseFloat(document.getElementById('maxMp').value);
-            player.stats.xp = parseFloat(document.getElementById('xp').value);
-            player.stats.damage = parseFloat(document.getElementById('damage').value);
-            player.stats.speed = parseFloat(document.getElementById('speed').value);
-            player.maxAir = parseFloat(document.getElementById('maxAir').value);
-            player.frame.x = parseFloat(document.getElementById('x').value);
-            player.frame.y = parseFloat(document.getElementById('y').value);
-            player.hasCollision = document.getElementById('hasCollision').checked;
-            world.paused = false;
-            debugMenu.style.visibility = 'hidden';
-        }
-    }
-
-    function callAPI() {
-        if (debug.apiKey !== '' && debug.location !== '') {
-            fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${debug.apiKey}&q=${debug.location}&units=metric`)
-                .then(res => {
-                    return res.json();
-                })
-                .then((json) => {
-                    // process api response
-                    if (json.cod === 200) {
-                        weather.main = json.weather[0].main || '';
-                        weather.temp = json.main.temp || 0;
-                        weather.windSpeed = json.wind.speed || 0;
-                        if (json.wind.deg >= 0 && json.wind.deg <= 180) {
-                            weather.windDeg = 'East';
-                        } else if (json.wind.deg > 180 && json.wind.deg <= 360) {
-                            weather.windDeg = 'West';
-                        }
-                        weather.clouds = json.clouds.all || 0;
-                        if (json.rain) {
-                            weather.rain = json.rain["1h"] || 0;
-                        }
-                        if (json.snow) {
-                            weather.snow = json.snow["1h"] || 0;
-                        }
-                        weather.time = formatUnixTime(json.dt, json.timezone) || 0;
-                        weather.sunrise = formatUnixTime(json.sys.sunrise, json.timezone) || 0;
-                        weather.sunset = formatUnixTime(json.sys.sunset, json.timezone) || 0;
-                        debug.location = json.name + ',' + json.sys.country || '';
-                    } else {
-                        // if response has an error, tell user
-                        window.alert(json.message);
-                    }
-                });
-        }
-    }
-
-    function makeInterval() {
+    fromStorage('debug').then(res => {
+        console.log(res)
+        debug.userId = res.userId;
+        debug.username = res.username;
+        debug.apiKey = res.apiKey;
+        debug.location = res.location;
+        debug.showBoxes = res.showBoxes;
+        debug.showLiveDebug = res.showLiveDebug;
+        debug.showFPS = res.showFPS;
+        debug.showPlayerStats = res.showPlayerStats;
+    }).catch(error => {
+        console.log(error)
+    }).then(() => {
         callAPI();
         // reload weather every 10 minutes
         setInterval(() => {
             callAPI();
         }, 600000);
-    }
+    });
 });
+
+export function callAPI() {
+    if (debug.apiKey !== '' && debug.location !== '') {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${debug.apiKey}&q=${debug.location}&units=metric`)
+            .then(res => {
+                return res.json();
+            })
+            .then((json) => {
+                // process api response
+                if (json.cod === 200) {
+                    weather.main = json.weather[0].main || '';
+                    weather.temp = json.main.temp || 0;
+                    weather.windSpeed = json.wind.speed || 0;
+                    if (json.wind.deg >= 0 && json.wind.deg <= 180) {
+                        weather.windDeg = 'East';
+                    } else if (json.wind.deg > 180 && json.wind.deg <= 360) {
+                        weather.windDeg = 'West';
+                    }
+                    weather.clouds = json.clouds.all || 0;
+                    if (json.rain) {
+                        weather.rain = json.rain["1h"] || 0;
+                    }
+                    if (json.snow) {
+                        weather.snow = json.snow["1h"] || 0;
+                    }
+                    weather.time = formatUnixTime(json.dt, json.timezone) || 0;
+                    weather.sunrise = formatUnixTime(json.sys.sunrise, json.timezone) || 0;
+                    weather.sunset = formatUnixTime(json.sys.sunset, json.timezone) || 0;
+                    debug.location = json.name + ',' + json.sys.country || '';
+                } else {
+                    // if response has an error, tell user
+                    window.alert(json.message);
+                }
+            });
+    }
+}
