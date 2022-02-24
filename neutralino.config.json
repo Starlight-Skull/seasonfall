@@ -51,7 +51,7 @@
     "binaryName": "seasonfall",
     "resourcesPath": "/resources/",
     "extensionsPath": "/extensions/",
-    "clientLibrary": "/resources/neutralino/neutralino.js",
+    "clientLibrary": "/resources/app/neutralino.js",
     "binaryVersion": "4.3.0",
     "clientVersion": "3.2.0"
   }

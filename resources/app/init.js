@@ -1,5 +1,18 @@
+Neutralino.init();
+if (NL_OS !== "Darwin") setTray();
+Neutralino.events.on("trayMenuItemClicked", onTrayMenuItemClicked);
+
+window.addEventListener('keydown', event => {
+    if (event.key === 'F11') {
+        Neutralino.window.isFullScreen().then(fullscreen => {
+            if (fullscreen) Neutralino.window.exitFullScreen().then(Neutralino.window.unmaximize().then(Neutralino.window.maximize()));
+            else Neutralino.window.setFullScreen();
+        });
+    }
+});
+
 function setTray() {
-    if(NL_MODE !== "window") {
+    if (NL_MODE !== "window") {
         console.log("INFO: Tray menu is only available in the window mode.");
         return;
     }
@@ -19,7 +32,7 @@ function setTray() {
 }
 
 function onTrayMenuItemClicked(event) {
-    switch(event.detail.id) {
+    switch (event.detail.id) {
         case "GIT":
             Neutralino.os.open('https://github.com/Starlight-Skull/Seasonfall');
             break;
@@ -27,21 +40,4 @@ function onTrayMenuItemClicked(event) {
             Neutralino.app.exit();
             break;
     }
-}
-
-Neutralino.init();
-Neutralino.events.on("trayMenuItemClicked", onTrayMenuItemClicked);
-
-
-window.addEventListener('keydown', event => {
-    if (event.key === 'F11') {
-        Neutralino.window.isFullScreen().then(fullscreen => {
-            if (fullscreen) Neutralino.window.exitFullScreen().then(Neutralino.window.unmaximize().then(Neutralino.window.maximize()));
-            else Neutralino.window.setFullScreen();
-        });
-    }
-});
-
-if(NL_OS !== "Darwin") {
-    setTray();
 }
