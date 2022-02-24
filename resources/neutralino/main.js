@@ -6,7 +6,11 @@ function setTray() {
     let tray = {
         icon: "/resources/icons/icon_16x.png",
         menuItems: [
-            {id: "VERSION", text: "Get version"},
+            {id: "GIT", text: "Open on GitHub"},
+            {id: "SEP-VER", text: "-"},
+            {id: "VER-APP", text: `Seasonfall: v${NL_APPVERSION}`},
+            {id: "VER-SERVER", text: `Neutralino server: v${NL_VERSION}`},
+            {id: "VER-CLIENT", text: `Neutralino client: v${NL_CVERSION}`},
             {id: "SEP", text: "-"},
             {id: "QUIT", text: "Quit"}
         ]
@@ -16,9 +20,8 @@ function setTray() {
 
 function onTrayMenuItemClicked(event) {
     switch(event.detail.id) {
-        case "VERSION":
-            Neutralino.os.showMessageBox("Version information",
-                `Neutralinojs server: v${NL_VERSION} | Neutralinojs client: v${NL_CVERSION}`);
+        case "GIT":
+            Neutralino.os.open('https://github.com/Starlight-Skull/Seasonfall');
             break;
         case "QUIT":
             Neutralino.app.exit();
@@ -28,6 +31,16 @@ function onTrayMenuItemClicked(event) {
 
 Neutralino.init();
 Neutralino.events.on("trayMenuItemClicked", onTrayMenuItemClicked);
+
+
+window.addEventListener('keydown', event => {
+    if (event.key === 'F11') {
+        Neutralino.window.isFullScreen().then(fullscreen => {
+            if (fullscreen) Neutralino.window.exitFullScreen().then(Neutralino.window.unmaximize().then(Neutralino.window.maximize()));
+            else Neutralino.window.setFullScreen();
+        });
+    }
+});
 
 if(NL_OS !== "Darwin") {
     setTray();
