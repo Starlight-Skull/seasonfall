@@ -4,7 +4,7 @@
   "description": "Simple JS Game using the OpenWeatherMap API.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Starlight-Skull/Seasonfall.git"
+    "url": "https://github.com/Starlight-Skull/Seasonfall.git"
   },
   "keywords": [
     "JS",
