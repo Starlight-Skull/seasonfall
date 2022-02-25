@@ -24,6 +24,38 @@ window.addEventListener('load', function () {
     });
 });
 
+export function oneCallAPI(lat, lon, appid) {
+    appid = debug.apiKey;
+    if (typeof lat === 'number' && typeof lon === 'number' && typeof appid === 'string') {
+        let url = 'https://api.openweathermap.org/data/2.5/onecall';
+        url += `?lat=${lat}&lon=${lon}&appid=${appid}&exclude=minutely,hourly,daily,alerts&units=metric&lang=en`;
+        fetch(url).then(res => {
+            return res.json();
+        }).then(json => {
+            console.log(json);
+        })
+    }
+}
+
+export function geoCoderAPI(q, appid) {
+    appid = debug.apiKey;
+    if (typeof q === 'string' && typeof appid === 'string') {
+        let url = 'https://api.openweathermap.org/geo/1.0/direct';
+        url += `?q=${q}&appid=${appid}`;
+        fetch(url).then(res => {
+            return res.json();
+        }).then(json => {
+            console.log(json);
+        })
+    }
+}
+
+export function navigate() {
+    navigator.geolocation.getCurrentPosition(location => {
+        console.log(location);
+    });
+}
+
 export function callAPI() {
     if (debug.apiKey !== '' && debug.location !== '') {
         fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${debug.apiKey}&q=${debug.location}&units=metric`)
