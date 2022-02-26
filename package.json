@@ -21,5 +21,8 @@
   "homepage": "https://github.com/Starlight-Skull/Seasonfall#readme",
   "dependencies": {
     "@neutralinojs/neu": "^9.1.2"
+  },
+  "scripts": {
+    "start": "npx neu run"
   }
 }
