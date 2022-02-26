@@ -1,5 +1,5 @@
 import {animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
-import {debug} from "./globals.js";
+import {settings} from "./globals.js";
 import {entityMovement} from "./movement.js";
 
 window.addEventListener('load', function () {
@@ -48,7 +48,7 @@ window.addEventListener('load', function () {
                 }
             }
             // draw a box to show the true hitbox
-            if (debug.showBoxes) {
+            if (settings.showBoxes) {
                 if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
                     ctx.fillStyle = 'rgba(0,71,250,0.5)';
                 } else if (tile.hasCollision === 2) {
@@ -78,7 +78,7 @@ window.addEventListener('load', function () {
                 }
             }
             // draw a box to show the true hitbox
-            if (!entity.animation || debug.showBoxes) {
+            if (!entity.animation || settings.showBoxes) {
                 ctx.fillStyle = 'rgba(250,0,250,0.5)';
                 ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height);
             }
@@ -88,7 +88,7 @@ window.addEventListener('load', function () {
     function drawStats(entity) {
         if (entity.constructor.name === 'Hero') {
             // name
-            drawTextWithBackground(debug.username, entity.frame.x + entity.frame.width / 2 - (debug.username.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)');
+            drawTextWithBackground(settings.username, entity.frame.x + entity.frame.width / 2 - (settings.username.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)');
             // xp
             if (entity.stats.xp !== 0) {
                 drawTextWithBackground(entity.stats.xp.toString(), entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95, 'rgb(0,255,0)');
@@ -109,7 +109,7 @@ window.addEventListener('load', function () {
                 ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
             }
             // debug
-            if (debug.showLiveDebug) {
+            if (settings.showLiveDebug) {
                 let val = `${entity.controls.left ? '←' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.attack ? '#' : ''}${entity.controls.jump ? '▲' : ''}${entity.controls.right ? '→' : ''}`;
                 drawTextWithBackground(val, entity.frame.x + entity.frame.width / 2 - (val.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)');
             }
@@ -126,16 +126,16 @@ window.addEventListener('load', function () {
 
     function drawDebug() {
         // debug info
-        if (debug.showLiveDebug) {
+        if (settings.showLiveDebug) {
             let tracked = player;
             drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, 'cyan');
             drawTextWithBackground(`POS: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, 'cyan');
             drawTextWithBackground(`LIGHT: ${Math.round(light * 100) / 100}       MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' #') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan');
         }
-        if (debug.showFPS) {
+        if (settings.showFPS) {
             drawTextWithBackground(`FPS: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime');
         }
-        if (debug.showPlayerStats) {
+        if (settings.showPlayerStats) {
             drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220, 'magenta');
             drawTextWithBackground(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250, 'magenta');
             drawTextWithBackground(`Damage Taken: ${playerStats.damageTaken}`, 5, 280, 'magenta');
