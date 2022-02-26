@@ -26,9 +26,54 @@ export const world = {
     paused: false
 }
 
-export let player = new Hero(320, 640);
+export const weather = {
+    main: 'Clear',
+    description: 'clear sky',
+    time: 1200, // h:mm
+    sunrise: 700, // h:mm
+    sunset: 1900, // h:mm
+    temp: 20, // °C
+    tempFeelsLike: 20, // °C
+    pressure: 0, // hPa
+    humidity: 0, // %
+    dewPoint: 0, // °C
+    clouds: 50, // %
+    uvi: 0,
+    visibility: 1000, // meter
+    windSpeed: 0, // m/s
+    windDeg: 'East', // East|West
+    windGust: 0, // m/s
+    rain: 0, // mm/h
+    snow: 0, // mm/h
+}
 
-export let animTileList = [
+export const settings = {
+    userId: 0,
+    username: 'Hero',
+    apiKey: '',
+    location: '',
+    latitude: 0,
+    longitude: 0,
+    scale: 5,
+    interval: 600000, // 10 minutes
+    showFPS: true,
+    showBoxes: false,
+    showLiveDebug: false,
+    showPlayerStats: true,
+};
+
+export const playerStats = {
+    timeTaken: 0,
+    kills: 0,
+    attacks: 0,
+    attacksHit: 0,
+    damageTaken: 0,
+    damageDealt: 0,
+}
+
+export const player = new Hero(320, 640);
+
+export const animTileList = [
     new Rain(-1040, 640, 1040, world.height, false),
     new Rain(0, 640, 1040, world.height, false),
     new Rain(1040, 640, 1040, world.height, false),
@@ -38,7 +83,7 @@ export let animTileList = [
     new Rain(5200, 640, 1040, world.height, false),
 ];
 
-export let entityList = [
+export const entityList = [
     new Skeleton(1, 1680, 640),
     new Skeleton(1, 2160, 640),
     new Skeleton(1, 3600, 1040),
@@ -51,7 +96,7 @@ export let entityList = [
     new Skeleton(1, 4640, 1920),
 ];
 
-export let tileList = [
+export const tileList = [
     // surface
     new Tile(false, -1040, 640, 1040, 80, grass),
     new Tile(false, 0, 640, 160, 80, grass),
@@ -145,47 +190,8 @@ export let tileList = [
     new Tile(false, 4560, 1520, 80, 80, painting),
 ];
 
-export let tileEntityList = [
+export const tileEntityList = [
     new Door(960, 640, door, true),
     new Door(4160, 1040, door, true),
     new Door(3760, 1040, door),
 ];
-
-export let weather = {
-    main: 'Clear',
-    // °C
-    temp: 20,
-    // m/s
-    windSpeed: 0,
-    // East - West
-    windDeg: 'East',
-    // %
-    clouds: 50,
-    // mm/h
-    rain: 0,
-    snow: 0,
-    // hmm
-    time: 1200,
-    sunrise: 700,
-    sunset: 1900,
-}
-
-export let debug = {
-    userId: 0,
-    username: 'Hero',
-    apiKey: '',
-    location: '',
-    showBoxes: false,
-    showLiveDebug: false,
-    showFPS: true,
-    showPlayerStats: true,
-};
-
-export let playerStats = {
-    timeTaken: 0,
-    kills: 0,
-    attacks: 0,
-    attacksHit: 0,
-    damageTaken: 0,
-    damageDealt: 0,
-}

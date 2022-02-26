@@ -1,7 +1,7 @@
-import {debug, player, weather, world} from "./globals.js";
+import {settings, player, weather, world} from "./globals.js";
 import {keyLogger} from "./helpers.js";
 import {toStorage} from "./init.js";
-import {callAPI} from "./data.js";
+import {oneCallAPI} from "./data.js";
 
 window.addEventListener('load', function () {
     const debugMenu = document.getElementById('debug');
@@ -46,20 +46,20 @@ window.addEventListener('load', function () {
             world.paused = true;
             pauseMenu.style.visibility = 'visible';
             // api
-            document.getElementById('apiKey').value = debug.apiKey;
-            document.getElementById('location').value = debug.location;
-            document.getElementById('showFPS').checked = debug.showFPS;
+            document.getElementById('apiKey').value = settings.apiKey;
+            document.getElementById('location').value = settings.location;
+            document.getElementById('showFPS').checked = settings.showFPS;
         } else {
             world.paused = false;
             pauseMenu.style.visibility = 'hidden';
-            toStorage('debug', debug);
+            toStorage('settings', settings);
             // api
-            if (debug.apiKey !== document.getElementById('apiKey').value || debug.location !== document.getElementById('location').value) {
-                debug.apiKey = document.getElementById('apiKey').value;
-                debug.location = document.getElementById('location').value;
-                callAPI();
+            if (settings.apiKey !== document.getElementById('apiKey').value || settings.location !== document.getElementById('location').value) {
+                settings.apiKey = document.getElementById('apiKey').value;
+                settings.location = document.getElementById('location').value;
+                oneCallAPI();
             }
-            debug.showFPS = document.getElementById('showFPS').checked;
+            settings.showFPS = document.getElementById('showFPS').checked;
         }
     }
 
@@ -68,11 +68,11 @@ window.addEventListener('load', function () {
             world.paused = true;
             debugMenu.style.visibility = 'visible';
             // general
-            document.getElementById('userId').value = debug.userId;
-            document.getElementById('username').value = debug.username;
-            document.getElementById('showBoxes').checked = debug.showBoxes;
-            document.getElementById('showLiveDebug').checked = debug.showLiveDebug;
-            document.getElementById('showPlayerStats').checked = debug.showPlayerStats;
+            document.getElementById('userId').value = settings.userId;
+            document.getElementById('username').value = settings.username;
+            document.getElementById('showBoxes').checked = settings.showBoxes;
+            document.getElementById('showLiveDebug').checked = settings.showLiveDebug;
+            document.getElementById('showPlayerStats').checked = settings.showPlayerStats;
             // weather
             document.getElementById('main').value = weather.main;
             document.getElementById('temp').value = weather.temp;
@@ -100,11 +100,11 @@ window.addEventListener('load', function () {
             world.paused = false;
             debugMenu.style.visibility = 'hidden';
             // general
-            debug.userId = document.getElementById('userId').value;
-            debug.username = document.getElementById('username').value;
-            debug.showBoxes = document.getElementById('showBoxes').checked;
-            debug.showLiveDebug = document.getElementById('showLiveDebug').checked;
-            debug.showPlayerStats = document.getElementById('showPlayerStats').checked;
+            settings.userId = document.getElementById('userId').value;
+            settings.username = document.getElementById('username').value;
+            settings.showBoxes = document.getElementById('showBoxes').checked;
+            settings.showLiveDebug = document.getElementById('showLiveDebug').checked;
+            settings.showPlayerStats = document.getElementById('showPlayerStats').checked;
             // weather
             weather.main = document.getElementById('main').value;
             weather.temp = parseFloat(document.getElementById('temp').value);
