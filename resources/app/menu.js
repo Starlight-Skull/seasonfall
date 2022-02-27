@@ -87,6 +87,7 @@ window.addEventListener('load', function () {
                 element('showFps').checked = settings.showFPS;
                 element('showPlayerStats').checked = settings.showPlayerStats;
                 element('scale').value = settings.scale;
+                element('interval').value = settings.interval / 1000;
                 break;
             case 'settingsApi':
                 menus.settingsGeneral.style.display = 'none';
@@ -127,6 +128,7 @@ window.addEventListener('load', function () {
                 settings.showFPS = element('showFps').checked;
                 settings.showPlayerStats = element('showPlayerStats').checked;
                 settings.scale = parseFloat(element('scale').value);
+                settings.interval = parseInt(element('interval').value) * 1000;
                 break;
             case 'saveSettingsApi':
                 settings.apiKey = element('apiKey').value;
