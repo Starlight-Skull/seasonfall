@@ -51,7 +51,6 @@ export const settings = {
     userId: 0,
     username: 'Hero',
     apiKey: '',
-    location: '',
     latitude: 0,
     longitude: 0,
     scale: 5,

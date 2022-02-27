@@ -7,11 +7,9 @@ import {fromStorage} from "./init.js";
  */
 window.addEventListener('load', function () {
     fromStorage('settings').then(res => {
-        console.log(res)
         settings.userId = res.userId || settings.userId;
         settings.username = res.username || settings.username;
         settings.apiKey = res.apiKey || settings.apiKey;
-        settings.location = res.location || settings.location;
         settings.latitude = res.latitude || settings.latitude;
         settings.longitude = res.longitude || settings.longitude;
         settings.scale = res.scale || settings.scale;
