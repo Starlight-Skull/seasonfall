@@ -21,8 +21,8 @@ window.addEventListener('load', function () {
         settings.showLiveDebug = res.showLiveDebug || settings.showLiveDebug;
         settings.showPlayerStats = res.showPlayerStats;
         settings.keybindings = res.keybindings || settings.keybindings;
-    }).catch(error => {
-        console.error(error);
+    }).catch(() => {
+        console.log('File not found.');
     }).then(() => {
         oneCallAPI();
         setInterval(oneCallAPI, settings.interval);
@@ -105,7 +105,7 @@ const oneCallModel = {
  * Calls the 'One Call API' and sets the response to the weather object.
  */
 export function oneCallAPI() {
-    if (typeof settings.latitude === 'number' && typeof settings.longitude === 'number' && typeof settings.apiKey === 'string') {
+    if (settings.apiKey && typeof settings.latitude === 'number' && typeof settings.longitude === 'number') {
         let url = 'https://api.openweathermap.org/data/2.5/onecall';
         url += `?lat=${settings.latitude}&lon=${settings.longitude}&appid=${settings.apiKey}&exclude=minutely,hourly,daily,alerts&units=metric&lang=en`;
         fetch(url).then(res => {
