@@ -118,7 +118,7 @@ window.addEventListener('load', function () {
                 break;
             case 'changeKey':
                 console.log('listening')
-                window.addEventListener("keydown", ev => {
+                event.target.addEventListener("keydown", ev => {
                     console.log(ev.code)
                     settings.keybindings[event.target.dataset.key] = ev.code;
                     ev.target.textContent = ev.code;
@@ -241,7 +241,12 @@ window.addEventListener('load', function () {
             player.hasCollision = element('hasCollision').checked;
             // weather
             for (const weatherKey in weather) {
-                weather[weatherKey] = element(weatherKey).value;
+                let el = element(weatherKey).value;
+                if (!isNaN(parseFloat(el))) {
+                    weather[weatherKey] = parseFloat(el);
+                } else {
+                    weather[weatherKey] = el;
+                }
             }
         }
     }
