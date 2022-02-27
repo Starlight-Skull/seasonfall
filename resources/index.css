@@ -78,6 +78,10 @@ select, input[type="text"], input[type="number"], button {
     overflow: hidden;
 }
 
+#pauseMenu select, #pauseMenu input[type="text"], #pauseMenu input[type="number"] {
+    width: 12rem;
+}
+
 #pauseMenu button {
     color: white;
     background-color: transparent;
