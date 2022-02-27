@@ -1,4 +1,4 @@
-import {settings, player, weather, world} from "./globals.js";
+import {settings, player, weather, world, playerStats} from "./globals.js";
 import {element, keyLogger} from "./helpers.js";
 import {appVersion, quit, toStorage} from "./init.js";
 import {geoCoderAPI, navigate} from "./data.js";
@@ -146,6 +146,13 @@ window.addEventListener('load', function () {
                 menus.pause.style.display = 'none';
                 menus.stats.style.display = 'flex';
                 element('nameStats').innerText = `Statistics (${settings.username})`;
+                let stats = element('statsContainer');
+                stats.replaceChildren();
+                for (const playerStatsKey in playerStats) {
+                    let statItem = document.createElement('p');
+                    statItem.textContent = `${playerStatsKey}: ${playerStats[playerStatsKey]}`;
+                    stats.appendChild(statItem);
+                }
                 break;
             case 'quit':
                 toStorage('settings', settings).then(quit);
