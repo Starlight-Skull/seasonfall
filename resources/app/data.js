@@ -16,11 +16,11 @@ window.addEventListener('load', function () {
         settings.longitude = res.longitude || settings.longitude;
         settings.scale = res.scale || settings.scale;
         settings.interval = res.interval || settings.interval;
-        settings.showFPS = res.showFPS;
-        settings.showBoxes = res.showBoxes;
-        settings.showLiveDebug = res.showLiveDebug;
+        settings.showFPS = res.showFPS || settings.showFPS;
+        settings.showBoxes = res.showBoxes || settings.showBoxes;
+        settings.showLiveDebug = res.showLiveDebug || settings.showLiveDebug;
         settings.showPlayerStats = res.showPlayerStats;
-        settings.keybindings = res.keybindings;
+        settings.keybindings = res.keybindings || settings.keybindings;
     }).catch(error => {
         console.error(error);
     }).then(() => {
