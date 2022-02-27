@@ -45,6 +45,8 @@ function setupTray() {
     }
 }
 
+export const appVersion = NL_APPVERSION;
+
 /**
  * Exits the app.
  * @returns {Promise<unknown>}

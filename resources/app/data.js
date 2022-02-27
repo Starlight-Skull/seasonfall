@@ -52,13 +52,13 @@ const geoCoderModel = {
 
 /**
  * Calls the 'Geocoder API' and sets the response to the settings object.
- * @param query
- * @returns {Promise<any>}
+ * @param query - The location to search for.
+ * @returns {Promise<any>} - Array of matching locations.
  */
 export function geoCoderAPI(query) {
     if (typeof query === 'string' && typeof settings.apiKey === 'string') {
         let url = 'https://api.openweathermap.org/geo/1.0/direct';
-        url += `?q=${query}&appid=${settings.apiKey}`;
+        url += `?q=${query}&appid=${settings.apiKey}&limit=5`;
         return fetch(url).then(response => {
             return response.json();
         });

@@ -1,10 +1,11 @@
 import {animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world} from "./globals.js";
 import {settings} from "./globals.js";
 import {entityMovement} from "./movement.js";
+import {element} from "./helpers.js";
 
 window.addEventListener('load', function () {
     // setup for drawing
-    const screen = document.getElementById('screen');
+    const screen = element('screen');
     if (!screen.getContext) {
         window.alert('This application is not supported by your browser.');
     }
@@ -262,15 +263,11 @@ window.addEventListener('load', function () {
                 exit = true;
                 // pause menu
                 if (playerStats.kills === 10) {
-                    document.getElementById('modalTitle').innerText = 'Victory!';
+                    element('pauseTitle').innerText = 'Victory!';
                 } else {
-                    document.getElementById('modalTitle').innerText = 'Failure!';
+                    element('pauseTitle').innerText = 'Failure!';
                 }
-                document.getElementById('pauseMenu').style.visibility = 'visible';
-                document.getElementById('continueButton').disabled = true;
-                document.getElementById('apiKey').disabled = true;
-                document.getElementById('location').disabled = true;
-                document.getElementById('showFPS').disabled = true;
+                element('pauseMenu').style.visibility = 'visible';
             }
             requestAnimationFrame(reDraw);
         }
