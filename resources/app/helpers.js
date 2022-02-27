@@ -1,4 +1,4 @@
-import {player, world} from "./globals.js";
+import {player, settings, world} from "./globals.js";
 
 /**
  * Shorthand for document.getElementById().
@@ -15,30 +15,20 @@ export function element(s) {
  */
 export function keyLogger(event) {
     let down = event.type === 'keydown';
-    switch (event.key) {
-        case 'w':
-        case 'z':
-        case 'ArrowUp':
-            // Attack
-            player.controls.attack = (player.controls.attack === 2) ? (down ? 2 : false) : down;
-            break;
-        case 's':
-        case 'ArrowDown':
+    switch (event.code) {
+        case settings.keybindings.down:
             // Down
             player.controls.down = down;
             break;
-        case 'a':
-        case 'q':
-        case 'ArrowLeft':
+        case settings.keybindings.left:
             // Left
             player.controls.left = down;
             break;
-        case 'd':
-        case 'ArrowRight':
+        case settings.keybindings.right:
             // Right
             player.controls.right = down;
             break;
-        case ' ':
+        case settings.keybindings.jump:
             // Jump
             event.preventDefault();
             player.controls.jump = down;

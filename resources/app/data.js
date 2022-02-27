@@ -20,6 +20,7 @@ window.addEventListener('load', function () {
         settings.showBoxes = res.showBoxes;
         settings.showLiveDebug = res.showLiveDebug;
         settings.showPlayerStats = res.showPlayerStats;
+        settings.keybindings = res.keybindings;
     }).catch(error => {
         console.error(error);
     }).then(() => {

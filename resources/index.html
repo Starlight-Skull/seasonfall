@@ -179,8 +179,8 @@
             <div class="menuContent">
                 <button data-target="continue">Continue</button>
                 <button data-target="save">Save</button>
-                <button data-target="load">Load</button>
-                <button data-target="newCharacter">New</button>
+                <button disabled data-target="load">Load</button>
+                <button disabled data-target="newCharacter">New</button>
                 <button data-target="settingsGeneral">Settings</button>
                 <button data-target="stats">Statistics</button>
                 <button data-target="quit">Save & Quit</button>
@@ -315,7 +315,7 @@
                 <button data-target="settingsApi">API</button>
                 <button class="active">Keybindings</button>
             </div>
-            <div class="menuContent">
+            <div id="keybindingsContainer" class="menuContent">
                 <div>
                     <p>Left</p>
                     <p>A</p>

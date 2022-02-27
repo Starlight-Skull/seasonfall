@@ -40,8 +40,8 @@ window.addEventListener('load', function () {
         }
     });
     window.addEventListener('keyup', ev => {
-        switch (ev.key) {
-            case '`':
+        switch (ev.code) {
+            case 'Backquote':
                 openDebugMenu();
                 break;
             case 'Escape':
@@ -100,6 +100,28 @@ window.addEventListener('load', function () {
                 menus.settingsGeneral.style.display = 'none';
                 menus.settingsApi.style.display = 'none';
                 menus.settingsKeybindings.style.display = 'flex';
+                let keys = element('keybindingsContainer');
+                keys.replaceChildren();
+                for (const key in settings.keybindings) {
+                    let div = document.createElement('div');
+                    let p = document.createElement('p');
+                    p.textContent = key;
+                    div.appendChild(p);
+                    let button = document.createElement('button');
+                    button.dataset.target = 'changeKey';
+                    button.dataset.key = key;
+                    button.textContent = settings.keybindings[key];
+                    div.appendChild(button);
+                    keys.appendChild(div);
+                }
+                break;
+            case 'changeKey':
+                console.log('listening')
+                window.addEventListener("keydown", ev => {
+                    console.log(ev.code)
+                    settings.keybindings[event.target.dataset.key] = ev.code;
+                    ev.target.textContent = ev.code;
+                }, {once: true});
                 break;
             case 'saveSettingsGeneral':
                 settings.showFPS = element('showFps').checked;

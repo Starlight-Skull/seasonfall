@@ -60,6 +60,12 @@ export const settings = {
     showBoxes: false,
     showLiveDebug: false,
     showPlayerStats: true,
+    keybindings: {
+        jump: 'Space',
+        down: 'KeyS',
+        left: 'KeyA',
+        right: 'KeyD',
+    }
 };
 
 export const playerStats = {
