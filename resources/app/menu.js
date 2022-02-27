@@ -160,8 +160,6 @@ window.addEventListener('load', function () {
                     // do nothing
                 }
                 break;
-            case 'saveSettingsKeybindings':
-                break;
             case 'create':
                 break;
             case 'stats':
