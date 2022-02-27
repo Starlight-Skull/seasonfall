@@ -105,7 +105,6 @@ window.addEventListener('load', function () {
                 settings.showFPS = element('showFps').checked;
                 settings.showPlayerStats = element('showPlayerStats').checked;
                 settings.scale = parseFloat(element('scale').value);
-                console.log(settings.showFPS)
                 break;
             case 'saveSettingsApi':
                 settings.apiKey = element('apiKey').value;
@@ -120,14 +119,28 @@ window.addEventListener('load', function () {
             case 'search':
                 geoCoderAPI(element('location').value).then(locations => {
                     let select = element('searchResults');
+                    select.replaceChildren();
                     for (const location of locations) {
                         let option = document.createElement('option');
                         option.textContent = `${location.name}, ${location.state} (${location.country})`;
+                        option.dataset.lat = location.lat;
+                        option.dataset.lon = location.lon;
                         select.appendChild(option);
                     }
                 });
                 break;
+            case 'selectResult':
+                try {
+                    let option = event.target.children[event.target.selectedIndex];
+                    element('lat').value = option.dataset.lat;
+                    element('lon').value = option.dataset.lon;
+                } catch (ex) {
+                    // do nothing
+                }
+                break;
             case 'saveSettingsKeybindings':
+                break;
+            case 'create':
                 break;
             case 'stats':
                 menus.pause.style.display = 'none';
