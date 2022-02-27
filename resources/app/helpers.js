@@ -1,6 +1,15 @@
 import {player, world} from "./globals.js";
 
 /**
+ * Shorthand for document.getElementById().
+ * @param s - The ID of the element to locate.
+ * @returns {HTMLElement} - The matching element.
+ */
+export function element(s) {
+    return document.getElementById(s);
+}
+
+/**
  * Receives a key event and sets the player's controls tag accordingly.
  * @param event - The received event.
  */
