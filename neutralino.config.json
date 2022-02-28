@@ -16,6 +16,7 @@
     "app.*",
     "os.*",
     "storage.*",
+    "filesystem.readDirectory",
     "window.*"
   ],
   "modes": {
