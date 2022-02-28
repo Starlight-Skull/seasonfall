@@ -1,6 +1,6 @@
 import {settings, weather} from "./globals.js";
 import {formatUnixTime} from "./helpers.js";
-import {fromStorage} from "./init.js";
+import {fromStorage, toStorage} from "./init.js";
 
 /**
  * Loads settings from storage and sets an interval to call the 'One Call API'.
@@ -21,6 +21,7 @@ window.addEventListener('load', function () {
         settings.keybindings = res.keybindings || settings.keybindings;
     }).catch(() => {
         console.log('File not found.');
+        toStorage('settings', settings);
     }).then(() => {
         oneCallAPI();
         setInterval(oneCallAPI, settings.interval);
@@ -104,6 +105,7 @@ const oneCallModel = {
  */
 export function oneCallAPI() {
     if (settings.apiKey && typeof settings.latitude === 'number' && typeof settings.longitude === 'number') {
+        console.log('calling')
         let url = 'https://api.openweathermap.org/data/2.5/onecall';
         url += `?lat=${settings.latitude}&lon=${settings.longitude}&appid=${settings.apiKey}&exclude=minutely,hourly,daily,alerts&units=metric&lang=en`;
         fetch(url).then(res => {
