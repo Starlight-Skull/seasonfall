@@ -1,5 +1,3 @@
-import {settings} from "./globals";
-
 Neutralino.init();
 setupTray();
 
