@@ -54,7 +54,7 @@ export const settings = {
     latitude: 0,
     longitude: 0,
     scale: 5,
-    interval: 600000, // 10 minutes
+    interval: 600, // seconds
     showFPS: true,
     showBoxes: false,
     showLiveDebug: false,
