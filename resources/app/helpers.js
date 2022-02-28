@@ -30,7 +30,6 @@ export function keyLogger(event) {
             break;
         case settings.keybindings.jump:
             // Jump
-            event.preventDefault();
             player.controls.jump = down;
             break;
     }
