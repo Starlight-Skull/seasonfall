@@ -89,7 +89,7 @@ window.addEventListener('load', function () {
     function drawStats(entity) {
         if (entity.constructor.name === 'Hero') {
             // name
-            drawTextWithBackground(settings.username, entity.frame.x + entity.frame.width / 2 - (settings.username.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)');
+            drawTextWithBackground(entity.name, entity.frame.x + entity.frame.width / 2 - (entity.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)');
             // xp
             if (entity.stats.xp !== 0) {
                 drawTextWithBackground(entity.stats.xp.toString(), entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95, 'rgb(0,255,0)');

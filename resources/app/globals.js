@@ -50,7 +50,6 @@ export const weather = {
 }
 
 export const settings = {
-    username: 'Hero',
     apiKey: '',
     latitude: 0,
     longitude: 0,
@@ -75,7 +74,7 @@ export const playerStats = {
     damageDealt: 0,
 }
 
-export const player = new Hero(320, 640);
+export const player = new Hero(320, 640, 'Hero');
 
 export const animTileList = [
     new Rain(-1040, 640, 1040, world.height, false),

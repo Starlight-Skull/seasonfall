@@ -167,7 +167,7 @@ window.addEventListener('load', function () {
             case 'stats':
                 menus.pause.style.display = 'none';
                 menus.stats.style.display = 'flex';
-                element('nameStats').innerText = `Statistics (${settings.username})`;
+                element('nameStats').innerText = `Statistics (${player.name})`;
                 let stats = element('statsContainer');
                 stats.replaceChildren();
                 for (const playerStatsKey in playerStats) {
