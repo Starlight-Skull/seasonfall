@@ -49,7 +49,7 @@ window.addEventListener('load', function () {
                 }
             }
             // draw a box to show the true hitbox
-            if (settings.showBoxes) {
+            if (world.showBoxes) {
                 if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
                     ctx.fillStyle = 'rgba(0,71,250,0.5)';
                 } else if (tile.hasCollision === 2) {
@@ -79,7 +79,7 @@ window.addEventListener('load', function () {
                 }
             }
             // draw a box to show the true hitbox
-            if (!entity.animation || settings.showBoxes) {
+            if (!entity.animation || world.showBoxes) {
                 ctx.fillStyle = 'rgba(250,0,250,0.5)';
                 ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height);
             }
@@ -110,7 +110,7 @@ window.addEventListener('load', function () {
                 ctx.fillRect(entity.frame.x + entity.frame.width / 2 - entity.stats.mp * 1.5 / 2, window.innerHeight - entity.frame.y - entity.frame.height - 40, entity.stats.mp * 1.5, 10);
             }
             // debug
-            if (settings.showLiveDebug) {
+            if (world.showLiveDebug) {
                 let val = `${entity.controls.left ? '←' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.attack ? '#' : ''}${entity.controls.jump ? '▲' : ''}${entity.controls.right ? '→' : ''}`;
                 drawTextWithBackground(val, entity.frame.x + entity.frame.width / 2 - (val.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)');
             }
@@ -127,7 +127,7 @@ window.addEventListener('load', function () {
 
     function drawDebug() {
         // debug info
-        if (settings.showLiveDebug) {
+        if (world.showLiveDebug) {
             let tracked = player;
             drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, 'cyan');
             drawTextWithBackground(`POS: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, 'cyan');

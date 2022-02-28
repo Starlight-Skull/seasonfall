@@ -23,7 +23,9 @@ export const world = {
     width: 5200,
     height: 2400,
     scale: 5,
-    paused: false
+    paused: false,
+    showBoxes: false,
+    showLiveDebug: false
 }
 
 export const weather = {
@@ -55,8 +57,6 @@ export const settings = {
     scale: 5,
     interval: 600, // seconds
     showFPS: true,
-    showBoxes: false,
-    showLiveDebug: false,
     showPlayerStats: true,
     keybindings: {
         jump: 'Space',

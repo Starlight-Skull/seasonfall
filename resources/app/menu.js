@@ -201,8 +201,8 @@ window.addEventListener('load', function () {
             world.paused = true;
             debugMenu.style.visibility = 'visible';
             // general
-            element('showBoxes').checked = settings.showBoxes;
-            element('showLiveDebug').checked = settings.showLiveDebug;
+            element('showBoxes').checked = world.showBoxes;
+            element('showLiveDebug').checked = world.showLiveDebug;
             // player
             element('hp').value = player.stats.hp;
             element('maxHp').value = player.stats.maxHP;
@@ -223,8 +223,8 @@ window.addEventListener('load', function () {
             world.paused = false;
             debugMenu.style.visibility = 'hidden';
             // general
-            settings.showBoxes = element('showBoxes').checked;
-            settings.showLiveDebug = element('showLiveDebug').checked;
+            world.showBoxes = element('showBoxes').checked;
+            world.showLiveDebug = element('showLiveDebug').checked;
             // player
             player.stats.hp = parseFloat(element('hp').value);
             player.stats.maxHP = parseFloat(element('maxHp').value);
