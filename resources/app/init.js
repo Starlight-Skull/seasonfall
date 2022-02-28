@@ -1,3 +1,5 @@
+import {settings} from "./globals";
+
 Neutralino.init();
 setupTray();
 
@@ -62,6 +64,25 @@ export async function quit() {
  */
 export async function fromStorage(key) {
     return await Neutralino.storage.getData(key).then(JSON.parse);
+}
+
+/**
+ * Reads the .storage directory and returns all .neustorage files.
+ * @returns {Promise<*[]>} - An array of strings of the filenames.
+ */
+export async function readStorage() {
+    return await Neutralino.filesystem.readDirectory('.storage').then(result => {
+        let files = [];
+        for (const resultElement of result) {
+            if (resultElement.type === 'FILE' && resultElement.entry.search('.neustorage') > 0) {
+                resultElement.entry.replace('.neustorage')
+                files.push(resultElement.entry);
+            }
+        }
+        return files;
+    }).catch(() => {
+        console.log('Directory not found.');
+    });
 }
 
 /**
