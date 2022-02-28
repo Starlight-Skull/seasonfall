@@ -5,13 +5,12 @@ import {geoCoderAPI, navigate} from "./data.js";
 
 window.addEventListener('load', function () {
     const debugMenu = element('debugMenu');
-    const pauseMenu = element('pauseMenu');
     debugMenu.style.visibility = 'hidden';
+    const pauseMenu = element('pauseMenu');
     pauseMenu.style.visibility = 'hidden';
     const menus = {
         pause: element('pause'),
-        newCharacter: element('newCharacter'),
-        newApi: element('newApi'),
+        new: element('new'),
         load: element('load'),
         stats: element('stats'),
         settingsGeneral: element('settingsGeneral'),
@@ -69,14 +68,11 @@ window.addEventListener('load', function () {
                 menus.pause.style.display = 'none';
                 menus.load.style.display = 'flex';
                 break;
-            case 'newCharacter':
+            case 'new':
                 menus.pause.style.display = 'none';
-                menus.newApi.style.display = 'none';
-                menus.newCharacter.style.display = 'flex';
+                menus.new.style.display = 'flex';
                 break;
-            case 'newApi':
-                menus.newCharacter.style.display = 'none';
-                menus.newApi.style.display = 'flex';
+            case 'create':
                 break;
             case 'settingsGeneral':
                 menus.pause.style.display = 'none';
@@ -161,8 +157,6 @@ window.addEventListener('load', function () {
                 } catch (ex) {
                     // do nothing
                 }
-                break;
-            case 'create':
                 break;
             case 'stats':
                 menus.pause.style.display = 'none';
