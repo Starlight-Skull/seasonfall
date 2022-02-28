@@ -7,18 +7,9 @@ import {fromStorage, toStorage} from "./init.js";
  */
 window.addEventListener('load', function () {
     fromStorage('settings').then(res => {
-        settings.userId = res.userId || settings.userId;
-        settings.username = res.username || settings.username;
-        settings.apiKey = res.apiKey || settings.apiKey;
-        settings.latitude = res.latitude || settings.latitude;
-        settings.longitude = res.longitude || settings.longitude;
-        settings.scale = res.scale || settings.scale;
-        settings.interval = res.interval || settings.interval;
-        settings.showFPS = res.showFPS || settings.showFPS;
-        settings.showBoxes = res.showBoxes || settings.showBoxes;
-        settings.showLiveDebug = res.showLiveDebug || settings.showLiveDebug;
-        settings.showPlayerStats = res.showPlayerStats;
-        settings.keybindings = res.keybindings || settings.keybindings;
+        for (const resKey in res) {
+            settings[resKey] = res[resKey];
+        }
     }).catch(() => {
         console.log('File not found.');
         toStorage('settings', settings);
@@ -105,7 +96,6 @@ const oneCallModel = {
  */
 export function oneCallAPI() {
     if (settings.apiKey && typeof settings.latitude === 'number' && typeof settings.longitude === 'number') {
-        console.log('calling')
         let url = 'https://api.openweathermap.org/data/2.5/onecall';
         url += `?lat=${settings.latitude}&lon=${settings.longitude}&appid=${settings.apiKey}&exclude=minutely,hourly,daily,alerts&units=metric&lang=en`;
         fetch(url).then(res => {

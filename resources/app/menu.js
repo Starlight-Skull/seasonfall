@@ -64,7 +64,6 @@ window.addEventListener('load', function () {
                 openPauseMenu();
                 break;
             case 'save':
-                toStorage('settings', settings).then(openPauseMenu);
                 break;
             case 'load':
                 menus.pause.style.display = 'none';
@@ -117,11 +116,10 @@ window.addEventListener('load', function () {
                 }
                 break;
             case 'changeKey':
-                console.log('listening')
                 event.target.addEventListener("keydown", ev => {
-                    console.log(ev.code)
                     settings.keybindings[event.target.dataset.key] = ev.code;
                     ev.target.textContent = ev.code;
+                    toStorage('settings', settings);
                 }, {once: true});
                 break;
             case 'saveSettingsGeneral':
@@ -129,11 +127,13 @@ window.addEventListener('load', function () {
                 settings.showPlayerStats = element('showPlayerStats').checked;
                 settings.scale = parseFloat(element('scale').value);
                 settings.interval = parseInt(element('interval').value);
+                toStorage('settings', settings);
                 break;
             case 'saveSettingsApi':
                 settings.apiKey = element('apiKey').value;
                 settings.latitude = parseFloat(element('lat').value);
                 settings.longitude = parseFloat(element('lon').value);
+                toStorage('settings', settings);
                 break;
             case 'navigator':
                 navigate();
