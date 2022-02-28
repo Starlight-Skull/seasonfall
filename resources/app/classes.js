@@ -104,8 +104,9 @@ export class Animation {
 }
 
 export class Hero extends Entity {
-    constructor(x, y) {
+    constructor(x, y, name) {
         super(true, -1, 10, 15, 100, 50, 12, 0, x, y, 60, 155);
+        this.name = name;
         this.attackWidth = 95;
         this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle');
         this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.3, 'move');
