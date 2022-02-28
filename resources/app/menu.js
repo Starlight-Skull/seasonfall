@@ -201,7 +201,6 @@ window.addEventListener('load', function () {
             world.paused = true;
             debugMenu.style.visibility = 'visible';
             // general
-            element('userId').value = settings.userId;
             element('showBoxes').checked = settings.showBoxes;
             element('showLiveDebug').checked = settings.showLiveDebug;
             // player
@@ -224,7 +223,6 @@ window.addEventListener('load', function () {
             world.paused = false;
             debugMenu.style.visibility = 'hidden';
             // general
-            settings.userId = element('userId').value;
             settings.showBoxes = element('showBoxes').checked;
             settings.showLiveDebug = element('showLiveDebug').checked;
             // player
