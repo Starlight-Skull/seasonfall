@@ -24,7 +24,7 @@ window.addEventListener('load', function () {
         toStorage('settings', settings);
     }).then(() => {
         oneCallAPI();
-        setInterval(oneCallAPI, settings.interval);
+        setInterval(oneCallAPI, settings.interval * 1000);
     });
 });
 
