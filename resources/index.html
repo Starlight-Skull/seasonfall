@@ -176,7 +176,7 @@
                 <button data-target="continue">Continue</button>
                 <button disabled data-target="save">Save</button>
                 <button disabled data-target="load">Load</button>
-                <button disabled data-target="newCharacter">New</button>
+                <button disabled data-target="new">New</button>
                 <button data-target="settingsGeneral">Settings</button>
                 <button data-target="stats">Statistics</button>
                 <button data-target="quit">Save & Quit</button>
@@ -195,10 +195,9 @@
                 <button data-target="load">Load</button>
             </div>
         </section>
-        <section id="newCharacter">
-            <div class="menuHeader menuHeaderMulti two">
-                <button class="active">Character</button>
-                <button data-target="newApi">API</button>
+        <section id="new">
+            <div class="menuHeader">
+                <h3>New Character</h3>
             </div>
             <div class="menuContent">
                 <div>
@@ -212,38 +211,6 @@
             </div>
             <div class="menuFooter">
                 <button data-target="pause">Cancel</button>
-                <button data-target="newApi">Next</button>
-            </div>
-        </section>
-        <section id="newApi">
-            <div class="menuHeader menuHeaderMulti two">
-                <button data-target="newCharacter">Character</button>
-                <button class="active">API</button>
-            </div>
-            <div class="menuContent">
-                <div>
-                    <p>https://openweathermap.org/</p>
-                </div>
-                <div>
-                    <label for="newApiKey">API Key</label>
-                    <input type="text" id="newApiKey">
-                </div>
-                <div>
-                    <label for="newLat">Coordinates</label>
-                    <input type="text" title="Latitude" id="newLat" placeholder="lat">
-                    <input type="text" title="Longitude" id="newLon" placeholder="lon">
-                </div>
-                <div>
-                    <button data-target="navigator">Use Current Location</button>
-                </div>
-                <div>
-                    <button data-target="search">Search</button>
-                    <input type="text" title="Location" id="newLocation" placeholder="Location">
-                    <select data-target="newSelectResult" title="Search Results" name="newSearchResults" id="newSearchResults"></select>
-                </div>
-            </div>
-            <div class="menuFooter">
-                <button data-target="newCharacter">Back</button>
                 <button data-target="create">Create</button>
             </div>
         </section>
