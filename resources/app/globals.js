@@ -48,7 +48,6 @@ export const weather = {
 }
 
 export const settings = {
-    userId: 0,
     username: 'Hero',
     apiKey: '',
     latitude: 0,
