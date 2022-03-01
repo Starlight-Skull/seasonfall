@@ -1,13 +1,13 @@
 import {settings, player, weather, world, playerStats} from "./globals.js";
-import {element, handleMouseKeyEvent} from "./helpers.js";
-import {appVersion, quit, toStorage} from "./init.js";
+import {element} from "./helpers.js";
+import {quit, toStorage} from "./init.js";
 import {geoCoderAPI, navigate} from "./data.js";
 
-const pauseMenu = element('pauseMenu');
-pauseMenu.style.visibility = 'hidden';
-const debugMenu = element('debugMenu');
-debugMenu.style.visibility = 'hidden';
-const menus = {
+/**
+ * Contains the pause menus for ease of access.
+ * @type {{new: HTMLElement, settingsApi: HTMLElement, load: HTMLElement, stats: HTMLElement, settingsGeneral: HTMLElement, pause: HTMLElement, settingsKeybindings: HTMLElement}}
+ */
+export const menus = {
     pause: element('pause'),
     new: element('new'),
     load: element('load'),
@@ -16,164 +16,167 @@ const menus = {
     settingsApi: element('settingsApi'),
     settingsKeybindings: element('settingsKeybindings')
 }
-for (const menusKey in menus) {
-    menus[menusKey].style.display = 'none';
+
+/**
+ * Handles a click event on an item in the pause menu that has a data-menu or data-action attribute.
+ * @param target - The HTML element that was clicked.
+ */
+export function handleMenuEvent(target) {
+    if (target.dataset.menu) {
+        for (const menusKey in menus) {
+            menus[menusKey].style.display = 'none';
+        }
+        menus[target.dataset.menu].style.display = 'flex';
+    }
+    if (target.dataset.action) {
+        menuAction(target)
+    }
 }
-element('version').innerText = appVersion;
 
-window.addEventListener('load', function () {
-    window.addEventListener('mousedown', ev => handleMouseKeyEvent(`Mouse${ev.button}`, true));
-    window.addEventListener('mouseup', ev => handleMouseKeyEvent(`Mouse${ev.button}`, false));
-    window.addEventListener('keydown', ev => handleMouseKeyEvent(ev.code, true));
-    window.addEventListener('keyup', ev => handleMouseKeyEvent(ev.code, false));
-
-    pauseMenu.addEventListener('click', event => {
-        switch (event.target.dataset.target) {
-            case 'pause':
-                for (const menusKey in menus) {
-                    menus[menusKey].style.display = 'none';
-                }
-                menus.pause.style.display = 'flex';
-                break;
-            case 'continue':
-                openPauseMenu();
-                break;
-            case 'save':
-                break;
-            case 'load':
-                menus.pause.style.display = 'none';
-                menus.load.style.display = 'flex';
-                break;
-            case 'new':
-                menus.pause.style.display = 'none';
-                menus.new.style.display = 'flex';
-                break;
-            case 'create':
-                break;
-            case 'settingsGeneral':
-                menus.pause.style.display = 'none';
-                menus.settingsApi.style.display = 'none';
-                menus.settingsKeybindings.style.display = 'none';
-                menus.settingsGeneral.style.display = 'flex';
-                element('showFps').checked = settings.showFPS;
-                element('showPlayerStats').checked = settings.showPlayerStats;
-                element('scale').value = settings.scale;
-                element('interval').value = settings.interval;
-                break;
-            case 'settingsApi':
-                menus.settingsGeneral.style.display = 'none';
-                menus.settingsKeybindings.style.display = 'none';
-                menus.settingsApi.style.display = 'flex';
-                element('apiKey').value = settings.apiKey;
-                element('lat').value = settings.latitude;
-                element('lon').value = settings.longitude;
-                break;
-            case 'settingsKeybindings':
-                menus.settingsGeneral.style.display = 'none';
-                menus.settingsApi.style.display = 'none';
-                menus.settingsKeybindings.style.display = 'flex';
-                let keys = element('keybindingsContainer');
-                keys.replaceChildren();
-                for (const key in settings.keybindings) {
-                    let div = document.createElement('div');
-                    let p = document.createElement('p');
-                    p.textContent = key;
-                    div.appendChild(p);
-                    let button = document.createElement('button');
-                    button.dataset.target = 'changeKey';
-                    button.dataset.key = key;
-                    button.textContent = settings.keybindings[key];
-                    div.appendChild(button);
-                    keys.appendChild(div);
-                }
-                break;
-            case 'changeKey':
-                window.addEventListener("keyup", setKey, {once: true});
-                window.addEventListener("mouseup", setKey, {once: true});
-                function setKey(ev) {
-                    window.removeEventListener('keyup', setKey);
-                    window.removeEventListener('mouseup', setKey);
-                    let key = ev.code || `Mouse${ev.button}`;
-                    settings.keybindings[event.target.dataset.key] = key;
-                    event.target.textContent = key;
-                    toStorage('settings', settings);
-                }
-                break;
-            case 'saveSettingsGeneral':
-                settings.showFPS = element('showFps').checked;
-                settings.showPlayerStats = element('showPlayerStats').checked;
-                settings.scale = parseFloat(element('scale').value);
-                settings.interval = parseInt(element('interval').value);
-                toStorage('settings', settings);
-                break;
-            case 'saveSettingsApi':
-                settings.apiKey = element('apiKey').value;
-                settings.latitude = parseFloat(element('lat').value);
-                settings.longitude = parseFloat(element('lon').value);
-                toStorage('settings', settings);
-                break;
-            case 'navigator':
-                navigate();
-                element('lat').value = settings.latitude;
-                element('lon').value = settings.longitude;
-                break;
-            case 'search':
-                geoCoderAPI(element('location').value).then(locations => {
-                    let select = element('searchResults');
-                    select.replaceChildren();
+/**
+ * Handles a click event on an item that has a data-action attribute.
+ * @param target - The HTML element that was clicked.
+ */
+function menuAction(target) {
+    switch (target.dataset.action) {
+        case 'continue':
+            openPauseMenu();
+            break;
+        case 'save':
+            break;
+        case 'load':
+            break;
+        case 'create':
+            break;
+        case 'changeKey':
+            target.addEventListener("keydown", setKey);
+            target.addEventListener("mousedown", setKey);
+            break;
+        case 'saveSettings':
+            saveSettings();
+            break;
+        case 'navigator':
+            navigate();
+            element('lat').value = settings.latitude;
+            element('lon').value = settings.longitude;
+            break;
+        case 'search':
+            geoCoderAPI(element('location').value, element('apiKey').value).then(locations => {
+                if (locations.length !== 0) {
+                    element('searchResults').replaceChildren();
                     for (const location of locations) {
                         let option = document.createElement('option');
                         option.textContent = `${location.name}, ${location.state} (${location.country})`;
                         option.dataset.lat = location.lat;
                         option.dataset.lon = location.lon;
-                        select.appendChild(option);
+                        element('searchResults').appendChild(option);
                     }
-                });
-                break;
-            case 'selectResult':
-                try {
-                    let option = event.target.children[event.target.selectedIndex];
-                    element('lat').value = option.dataset.lat;
-                    element('lon').value = option.dataset.lon;
-                } catch (ex) {
-                    // do nothing
                 }
-                break;
-            case 'stats':
-                menus.pause.style.display = 'none';
-                menus.stats.style.display = 'flex';
-                element('nameStats').innerText = `Statistics (${player.name})`;
-                let stats = element('statsContainer');
-                stats.replaceChildren();
-                for (const playerStatsKey in playerStats) {
-                    let statItem = document.createElement('p');
-                    statItem.textContent = `${playerStatsKey}: ${playerStats[playerStatsKey]}`;
-                    stats.appendChild(statItem);
-                }
-                break;
-            case 'quit':
-                toStorage('settings', settings).then(quit);
-                break;
-        }
-    });
-});
+            });
+            break;
+        case 'selectResult':
+            if (target.children.length !== 0) {
+                let option = target.children[target.selectedIndex];
+                element('lat').value = option.dataset.lat;
+                element('lon').value = option.dataset.lon;
+            }
+            break;
+        case 'quit':
+            toStorage('settings', settings).then(quit);
+            break;
+    }
+}
 
+/**
+ * Handler for the keybindings menu.
+ * @param event - A keydown or mousedown event to rebind to a game action.
+ */
+function setKey(event) {
+    event.target.removeEventListener('keydown', setKey);
+    event.target.removeEventListener('mousedown', setKey);
+    let key = event.code || `Mouse${event.button}`;
+    settings.keybindings[event.target.dataset.key] = key;
+    event.target.textContent = key;
+}
 
+/**
+ * Toggles the visibility of the pause menu and handles the associated values.
+ */
 export function openPauseMenu() {
+    const pauseMenu = element('pauseMenu');
     if (pauseMenu.style.visibility === 'hidden') {
-        world.paused = true;
+        if (element('debugMenu').style.visibility === 'hidden') world.paused = true;
         pauseMenu.style.visibility = 'visible';
         menus.pause.style.display = 'flex';
+        loadSettings();
     } else {
         world.paused = false;
         pauseMenu.style.visibility = 'hidden';
         for (const menusKey in menus) {
             menus[menusKey].style.display = 'none';
         }
+        saveSettings();
     }
 }
 
+/**
+ * Saves most settings to the global settings and saves them to storage.
+ */
+function saveSettings() {
+    settings.showFPS = element('showFps').checked;
+    settings.showPlayerStats = element('showPlayerStats').checked;
+    settings.scale = parseFloat(element('scale').value);
+    settings.interval = parseInt(element('interval').value);
+    settings.apiKey = element('apiKey').value;
+    settings.latitude = parseFloat(element('lat').value);
+    settings.longitude = parseFloat(element('lon').value);
+    toStorage('settings', settings);
+}
+
+/**
+ * Loads most settings from the global settings into the settings menu.
+ */
+function loadSettings() {
+    // settings / general
+    element('showFps').checked = settings.showFPS;
+    element('showPlayerStats').checked = settings.showPlayerStats;
+    element('scale').value = settings.scale;
+    element('interval').value = settings.interval;
+    // settings / api
+    element('apiKey').value = settings.apiKey;
+    element('lat').value = settings.latitude;
+    element('lon').value = settings.longitude;
+    // settings / keybindings
+    let keys = element('keybindingsContainer');
+    keys.replaceChildren();
+    for (const key in settings.keybindings) {
+        let div = document.createElement('div');
+        let label = document.createElement('label');
+        label.textContent = key;
+        div.appendChild(label);
+        let button = document.createElement('button');
+        button.dataset.action = 'changeKey';
+        button.dataset.key = key;
+        button.textContent = settings.keybindings[key];
+        div.appendChild(button);
+        keys.appendChild(div);
+    }
+    // statistics
+    element('nameStats').innerText = `Statistics (${player.name})`;
+    let stats = element('statsContainer');
+    stats.replaceChildren();
+    for (const playerStatsKey in playerStats) {
+        let statItem = document.createElement('p');
+        statItem.textContent = `${playerStatsKey}: ${playerStats[playerStatsKey]}`;
+        stats.appendChild(statItem);
+    }
+}
+
+/**
+ * Toggles the visibility of the debug menu and handles the associated data.
+ */
 export function openDebugMenu() {
+    const debugMenu = element('debugMenu');
     if (debugMenu.style.visibility === 'hidden') {
         world.paused = true;
         debugMenu.style.visibility = 'visible';
@@ -197,7 +200,7 @@ export function openDebugMenu() {
             element(weatherKey).value = weather[weatherKey];
         }
     } else {
-        world.paused = false;
+        if (element('pauseMenu').style.visibility === 'hidden') world.paused = false;
         debugMenu.style.visibility = 'hidden';
         // general
         world.showBoxes = element('showBoxes').checked;
