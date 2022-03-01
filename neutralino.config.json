@@ -1,6 +1,6 @@
 {
   "applicationId": "js.seasonfall",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "defaultMode": "window",
   "port": 0,
   "documentRoot": "/resources/",
@@ -9,8 +9,8 @@
   "enableNativeAPI": true,
   "tokenSecurity": "one-time",
   "logging": {
-    "enabled": true,
-    "writeToLogFile": true
+    "enabled": false,
+    "writeToLogFile": false
   },
   "nativeAllowList": [
     "app.*",
@@ -35,17 +35,6 @@
       "hidden": false,
       "resizable": true,
       "exitProcessOnClose": true
-    },
-    "browser": {
-      "nativeBlockList": [
-        "filesystem.*"
-      ]
-    },
-    "cloud": {
-      "url": "/resources/#cloud",
-      "nativeAllowList": [
-        "app.*"
-      ]
     }
   },
   "cli": {
