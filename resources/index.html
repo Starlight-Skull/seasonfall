@@ -9,7 +9,6 @@
     <script src="app/neutralino.js"></script>
     <script type="module" src="app/init.js"></script>
     <script type="module" src="app/data.js"></script>
-    <script type="module" src="app/menu.js"></script>
     <script type="module" src="app/main.js"></script>
 </head>
 <body>
@@ -173,13 +172,13 @@
                 <h3 id="pauseTitle">Paused</h3>
             </div>
             <div class="menuContent">
-                <button data-target="continue">Continue</button>
-                <button disabled data-target="save">Save</button>
-                <button disabled data-target="load">Load</button>
-                <button disabled data-target="new">New</button>
-                <button data-target="settingsGeneral">Settings</button>
-                <button data-target="stats">Statistics</button>
-                <button data-target="quit">Save & Quit</button>
+                <button data-action="continue">Continue</button>
+                <button disabled data-action="save">Save</button>
+                <button disabled data-menu="load">Load</button>
+                <button disabled data-menu="new">New</button>
+                <button data-menu="settingsGeneral">Settings</button>
+                <button data-menu="stats">Statistics</button>
+                <button data-action="quit">Save & Quit</button>
             </div>
             <div class="menuVersion">
                 <p id="version">version</p>
@@ -191,8 +190,8 @@
             </div>
             <div class="menuContent"></div>
             <div class="menuFooter">
-                <button data-target="pause">Cancel</button>
-                <button data-target="load">Load</button>
+                <button data-menu="pause">Cancel</button>
+                <button data-action="load">Load</button>
             </div>
         </section>
         <section id="new">
@@ -210,15 +209,15 @@
                 </div>
             </div>
             <div class="menuFooter">
-                <button data-target="pause">Cancel</button>
-                <button data-target="create">Create</button>
+                <button data-menu="pause">Cancel</button>
+                <button data-action="create">Create</button>
             </div>
         </section>
         <section id="settingsGeneral">
             <div class="menuHeader menuHeaderMulti three">
                 <button class="active">General</button>
-                <button data-target="settingsApi">API</button>
-                <button data-target="settingsKeybindings">Keybindings</button>
+                <button data-menu="settingsApi">API</button>
+                <button data-menu="settingsKeybindings">Keybindings</button>
             </div>
             <div class="menuContent">
                 <div>
@@ -239,15 +238,14 @@
                 </div>
             </div>
             <div class="menuFooter">
-                <button data-target="pause">Back</button>
-                <button data-target="saveSettingsGeneral">Save</button>
+                <button data-menu="pause" data-action="saveSettings">Back</button>
             </div>
         </section>
         <section id="settingsApi">
             <div class="menuHeader menuHeaderMulti three">
-                <button data-target="settingsGeneral">General</button>
+                <button data-menu="settingsGeneral">General</button>
                 <button class="active">API</button>
-                <button data-target="settingsKeybindings">Keybindings</button>
+                <button data-menu="settingsKeybindings">Keybindings</button>
             </div>
             <div class="menuContent">
                 <div>
@@ -263,28 +261,28 @@
                     <input type="text" title="Longitude" id="lon" placeholder="lon">
                 </div>
                 <div>
-                    <button data-target="navigator">Use Current Location</button>
+                    <button data-action="navigator">Use Current Location</button>
                 </div>
                 <div>
-                    <button data-target="search">Search</button>
+                    <button data-action="search">Search</button>
                     <input type="text" title="Location" id="location" placeholder="Location">
-                    <select data-target="selectResult" title="Search Results" name="searchResults" id="searchResults"></select>
+                    <select data-action="selectResult" title="Search Results" name="searchResults"
+                            id="searchResults"></select>
                 </div>
             </div>
             <div class="menuFooter">
-                <button data-target="pause">Back</button>
-                <button data-target="saveSettingsApi">Save</button>
+                <button data-menu="pause" data-action="saveSettings">Back</button>
             </div>
         </section>
         <section id="settingsKeybindings">
             <div class="menuHeader menuHeaderMulti three">
-                <button data-target="settingsGeneral">General</button>
-                <button data-target="settingsApi">API</button>
+                <button data-menu="settingsGeneral">General</button>
+                <button data-menu="settingsApi">API</button>
                 <button class="active">Keybindings</button>
             </div>
             <div id="keybindingsContainer" class="menuContent"></div>
             <div class="menuFooter">
-                <button data-target="pause">Back</button>
+                <button data-menu="pause" data-action="saveSettings">Back</button>
             </div>
         </section>
         <section id="stats">
@@ -293,7 +291,7 @@
             </div>
             <div id="statsContainer" class="menuContent"></div>
             <div class="menuFooter">
-                <button data-target="pause">Back</button>
+                <button data-menu="pause">Back</button>
             </div>
         </section>
     </div>

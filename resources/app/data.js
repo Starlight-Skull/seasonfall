@@ -1,11 +1,10 @@
 import {settings, weather} from "./globals.js";
-import {formatUnixTime} from "./helpers.js";
-import {fromStorage, toStorage} from "./init.js";
+import {element, formatUnixTime, handleMouseKeyEvent} from "./helpers.js";
+import {appVersion, fromStorage, toStorage} from "./init.js";
+import {handleMenuEvent, menus} from "./menu.js";
 
-/**
- * Loads settings from storage and sets an interval to call the 'One Call API'.
- */
 window.addEventListener('load', function () {
+    element('version').innerText = appVersion;
     fromStorage('settings').then(file => {
         for (const fileKey in file) {
             if (typeof settings[fileKey] === 'object') {
@@ -21,6 +20,18 @@ window.addEventListener('load', function () {
         oneCallAPI();
         setInterval(oneCallAPI, settings.interval * 1000);
     });
+    window.addEventListener('mousedown', ev => handleMouseKeyEvent(`Mouse${ev.button}`, true));
+    window.addEventListener('mouseup', ev => handleMouseKeyEvent(`Mouse${ev.button}`, false));
+    window.addEventListener('keydown', ev => handleMouseKeyEvent(ev.code, true));
+    window.addEventListener('keyup', ev => handleMouseKeyEvent(ev.code, false));
+    const pauseMenu = element('pauseMenu');
+    pauseMenu.style.visibility = 'hidden';
+    const debugMenu = element('debugMenu');
+    debugMenu.style.visibility = 'hidden';
+    pauseMenu.addEventListener('click', ev => handleMenuEvent(ev.target));
+    for (const menusKey in menus) {
+        menus[menusKey].style.display = 'none';
+    }
 });
 
 /**
@@ -48,10 +59,12 @@ const geoCoderModel = {
 /**
  * Calls the 'Geocoder API' and sets the response to the settings object.
  * @param query - The location to search for.
+ * @param apiKey - (Optional) The key to access the API. If no key is given the global value is used.
  * @returns {Promise<any>} - Array of matching locations.
  */
-export function geoCoderAPI(query) {
-    if (typeof query === 'string' && typeof settings.apiKey === 'string') {
+export function geoCoderAPI(query, apiKey) {
+    if (!apiKey) apiKey = settings.apiKey;
+    if (query && apiKey && typeof query === 'string' && typeof apiKey === 'string') {
         let url = 'https://api.openweathermap.org/geo/1.0/direct';
         url += `?q=${query}&appid=${settings.apiKey}&limit=5`;
         return fetch(url).then(response => {

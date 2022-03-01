@@ -151,15 +151,16 @@ select, input[type="text"], input[type="number"], button {
     justify-content: left;
     align-items: center;
     height: 35vh;
-    overflow-x: hidden;
-    overflow-y: scroll;
+}
+
+#pause .menuContent button {
+    margin: 0.6rem;
+    font-size: 130%;
+    border: none;
 }
 
 .menuContent button {
-    margin: 0.6rem;
     width: initial;
-    font-size: 130%;
-    border: none;
 }
 
 .menuVersion {
