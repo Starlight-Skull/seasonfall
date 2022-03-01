@@ -58,6 +58,7 @@ export const settings = {
     showFPS: true,
     showPlayerStats: true,
     keybindings: {
+        attack: 'Mouse0',
         jump: 'Space',
         down: 'KeyS',
         left: 'KeyA',

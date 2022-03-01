@@ -1,56 +1,32 @@
 import {settings, player, weather, world, playerStats} from "./globals.js";
-import {element, keyLogger} from "./helpers.js";
+import {element, handleMouseKeyEvent} from "./helpers.js";
 import {appVersion, quit, toStorage} from "./init.js";
 import {geoCoderAPI, navigate} from "./data.js";
 
-window.addEventListener('load', function () {
-    const debugMenu = element('debugMenu');
-    debugMenu.style.visibility = 'hidden';
-    const pauseMenu = element('pauseMenu');
-    pauseMenu.style.visibility = 'hidden';
-    const menus = {
-        pause: element('pause'),
-        new: element('new'),
-        load: element('load'),
-        stats: element('stats'),
-        settingsGeneral: element('settingsGeneral'),
-        settingsApi: element('settingsApi'),
-        settingsKeybindings: element('settingsKeybindings')
-    }
-    for (const menusKey in menus) {
-        menus[menusKey].style.display = 'none';
-    }
-    element('version').innerText = appVersion;
+const pauseMenu = element('pauseMenu');
+pauseMenu.style.visibility = 'hidden';
+const debugMenu = element('debugMenu');
+debugMenu.style.visibility = 'hidden';
+const menus = {
+    pause: element('pause'),
+    new: element('new'),
+    load: element('load'),
+    stats: element('stats'),
+    settingsGeneral: element('settingsGeneral'),
+    settingsApi: element('settingsApi'),
+    settingsKeybindings: element('settingsKeybindings')
+}
+for (const menusKey in menus) {
+    menus[menusKey].style.display = 'none';
+}
+element('version').innerText = appVersion;
 
-    // event listeners
-    window.addEventListener('mousedown', () => {
-        if (!world.paused) {
-            player.controls.attack = (player.controls.attack === 2) ? 2 : true;
-        }
-    });
-    window.addEventListener('mouseup', () => {
-        if (!world.paused) {
-            player.controls.attack = false;
-        }
-    });
-    window.addEventListener('keydown', ev => {
-        if (!world.paused) {
-            keyLogger(ev);
-        }
-    });
-    window.addEventListener('keyup', ev => {
-        switch (ev.code) {
-            case 'Backquote':
-                openDebugMenu();
-                break;
-            case 'Escape':
-                openPauseMenu();
-                break;
-        }
-        if (!world.paused) {
-            keyLogger(ev);
-        }
-    });
+window.addEventListener('load', function () {
+    window.addEventListener('mousedown', ev => handleMouseKeyEvent(`Mouse${ev.button}`, true));
+    window.addEventListener('mouseup', ev => handleMouseKeyEvent(`Mouse${ev.button}`, false));
+    window.addEventListener('keydown', ev => handleMouseKeyEvent(ev.code, true));
+    window.addEventListener('keyup', ev => handleMouseKeyEvent(ev.code, false));
+
     pauseMenu.addEventListener('click', event => {
         switch (event.target.dataset.target) {
             case 'pause':
@@ -112,11 +88,16 @@ window.addEventListener('load', function () {
                 }
                 break;
             case 'changeKey':
-                event.target.addEventListener("keydown", ev => {
-                    settings.keybindings[event.target.dataset.key] = ev.code;
-                    ev.target.textContent = ev.code;
+                window.addEventListener("keyup", setKey, {once: true});
+                window.addEventListener("mouseup", setKey, {once: true});
+                function setKey(ev) {
+                    window.removeEventListener('keyup', setKey);
+                    window.removeEventListener('mouseup', setKey);
+                    let key = ev.code || `Mouse${ev.button}`;
+                    settings.keybindings[event.target.dataset.key] = key;
+                    event.target.textContent = key;
                     toStorage('settings', settings);
-                }, {once: true});
+                }
                 break;
             case 'saveSettingsGeneral':
                 settings.showFPS = element('showFps').checked;
@@ -175,71 +156,72 @@ window.addEventListener('load', function () {
                 break;
         }
     });
-
-    function openPauseMenu() {
-        if (pauseMenu.style.visibility === 'hidden') {
-            world.paused = true;
-            pauseMenu.style.visibility = 'visible';
-            menus.pause.style.display = 'flex';
-        } else {
-            world.paused = false;
-            pauseMenu.style.visibility = 'hidden';
-            for (const menusKey in menus) {
-                menus[menusKey].style.display = 'none';
-            }
-        }
-    }
-
-    function openDebugMenu() {
-        if (debugMenu.style.visibility === 'hidden') {
-            world.paused = true;
-            debugMenu.style.visibility = 'visible';
-            // general
-            element('showBoxes').checked = world.showBoxes;
-            element('showLiveDebug').checked = world.showLiveDebug;
-            // player
-            element('hp').value = player.stats.hp;
-            element('maxHp').value = player.stats.maxHP;
-            element('mp').value = player.stats.mp;
-            element('maxMp').value = player.stats.maxMP;
-            element('xp').value = player.stats.xp;
-            element('damage').value = player.stats.damage;
-            element('speed').value = player.stats.speed;
-            element('maxAir').value = player.maxAir;
-            element('x').value = player.frame.x;
-            element('y').value = player.frame.y;
-            element('hasCollision').checked = player.hasCollision;
-            // weather
-            for (const weatherKey in weather) {
-                element(weatherKey).value = weather[weatherKey];
-            }
-        } else {
-            world.paused = false;
-            debugMenu.style.visibility = 'hidden';
-            // general
-            world.showBoxes = element('showBoxes').checked;
-            world.showLiveDebug = element('showLiveDebug').checked;
-            // player
-            player.stats.hp = parseFloat(element('hp').value);
-            player.stats.maxHP = parseFloat(element('maxHp').value);
-            player.stats.mp = parseFloat(element('mp').value);
-            player.stats.maxMP = parseFloat(element('maxMp').value);
-            player.stats.xp = parseFloat(element('xp').value);
-            player.stats.damage = parseFloat(element('damage').value);
-            player.stats.speed = parseFloat(element('speed').value);
-            player.maxAir = parseFloat(element('maxAir').value);
-            player.frame.x = parseFloat(element('x').value);
-            player.frame.y = parseFloat(element('y').value);
-            player.hasCollision = element('hasCollision').checked;
-            // weather
-            for (const weatherKey in weather) {
-                let el = element(weatherKey).value;
-                if (!isNaN(parseFloat(el))) {
-                    weather[weatherKey] = parseFloat(el);
-                } else {
-                    weather[weatherKey] = el;
-                }
-            }
-        }
-    }
 });
+
+
+export function openPauseMenu() {
+    if (pauseMenu.style.visibility === 'hidden') {
+        world.paused = true;
+        pauseMenu.style.visibility = 'visible';
+        menus.pause.style.display = 'flex';
+    } else {
+        world.paused = false;
+        pauseMenu.style.visibility = 'hidden';
+        for (const menusKey in menus) {
+            menus[menusKey].style.display = 'none';
+        }
+    }
+}
+
+export function openDebugMenu() {
+    if (debugMenu.style.visibility === 'hidden') {
+        world.paused = true;
+        debugMenu.style.visibility = 'visible';
+        // general
+        element('showBoxes').checked = world.showBoxes;
+        element('showLiveDebug').checked = world.showLiveDebug;
+        // player
+        element('hp').value = player.stats.hp;
+        element('maxHp').value = player.stats.maxHP;
+        element('mp').value = player.stats.mp;
+        element('maxMp').value = player.stats.maxMP;
+        element('xp').value = player.stats.xp;
+        element('damage').value = player.stats.damage;
+        element('speed').value = player.stats.speed;
+        element('maxAir').value = player.maxAir;
+        element('x').value = player.frame.x;
+        element('y').value = player.frame.y;
+        element('hasCollision').checked = player.hasCollision;
+        // weather
+        for (const weatherKey in weather) {
+            element(weatherKey).value = weather[weatherKey];
+        }
+    } else {
+        world.paused = false;
+        debugMenu.style.visibility = 'hidden';
+        // general
+        world.showBoxes = element('showBoxes').checked;
+        world.showLiveDebug = element('showLiveDebug').checked;
+        // player
+        player.stats.hp = parseFloat(element('hp').value);
+        player.stats.maxHP = parseFloat(element('maxHp').value);
+        player.stats.mp = parseFloat(element('mp').value);
+        player.stats.maxMP = parseFloat(element('maxMp').value);
+        player.stats.xp = parseFloat(element('xp').value);
+        player.stats.damage = parseFloat(element('damage').value);
+        player.stats.speed = parseFloat(element('speed').value);
+        player.maxAir = parseFloat(element('maxAir').value);
+        player.frame.x = parseFloat(element('x').value);
+        player.frame.y = parseFloat(element('y').value);
+        player.hasCollision = element('hasCollision').checked;
+        // weather
+        for (const weatherKey in weather) {
+            let el = element(weatherKey).value;
+            if (!isNaN(parseFloat(el))) {
+                weather[weatherKey] = parseFloat(el);
+            } else {
+                weather[weatherKey] = el;
+            }
+        }
+    }
+}

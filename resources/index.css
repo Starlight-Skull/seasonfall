@@ -151,6 +151,8 @@ select, input[type="text"], input[type="number"], button {
     justify-content: left;
     align-items: center;
     height: 35vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .menuContent button {
