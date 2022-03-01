@@ -6,9 +6,13 @@ import {fromStorage, toStorage} from "./init.js";
  * Loads settings from storage and sets an interval to call the 'One Call API'.
  */
 window.addEventListener('load', function () {
-    fromStorage('settings').then(res => {
-        for (const resKey in res) {
-            settings[resKey] = res[resKey];
+    fromStorage('settings').then(file => {
+        for (const fileKey in file) {
+            if (typeof settings[fileKey] === 'object') {
+                for (const subKey in file[fileKey]) {
+                    settings[fileKey][subKey] = file[fileKey][subKey];
+                }
+            } else settings[fileKey] = file[fileKey];
         }
     }).catch(() => {
         console.log('File not found.');

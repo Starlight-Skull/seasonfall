@@ -1,4 +1,5 @@
 import {player, settings, world} from "./globals.js";
+import {openDebugMenu, openPauseMenu} from "./menu.js";
 
 /**
  * Shorthand for document.getElementById().
@@ -10,27 +11,35 @@ export function element(s) {
 }
 
 /**
- * Receives a key event and sets the player's controls tag accordingly.
- * @param event - The received event.
+ * Receives the code of a mouse or key event and acts accordingly.
+ * @param key - Can be 'KeyboardEvent.code' or 'Mouse + MouseEvent.button'.
+ * @param down - Boolean of whether the event is up or down.
  */
-export function keyLogger(event) {
-    let down = event.type === 'keydown';
-    switch (event.code) {
+export function handleMouseKeyEvent(key, down) {
+    switch (key) {
+        case settings.keybindings.attack:
+            if (!world.paused) {
+                if (down) player.controls.attack = (player.controls.attack === 2) ? 2 : true
+                else player.controls.attack = false;
+            }
+            break;
         case settings.keybindings.down:
-            // Down
-            player.controls.down = down;
+            if (!world.paused) player.controls.down = down;
             break;
         case settings.keybindings.left:
-            // Left
-            player.controls.left = down;
+            if (!world.paused) player.controls.left = down;
             break;
         case settings.keybindings.right:
-            // Right
-            player.controls.right = down;
+            if (!world.paused) player.controls.right = down;
             break;
         case settings.keybindings.jump:
-            // Jump
-            player.controls.jump = down;
+            if (!world.paused) player.controls.jump = down;
+            break;
+        case 'Backquote':
+            if (down) openDebugMenu();
+            break;
+        case 'Escape':
+            if (down) openPauseMenu();
             break;
     }
 }
