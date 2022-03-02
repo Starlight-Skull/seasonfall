@@ -1,23 +1,18 @@
-import {Door, Hero, Rain, Skeleton, Tile} from "./classes.js";
+import {LoadImage, textures} from "./textures.js";
+import {Tile} from "./classes.js";
+import {Door, Hero, Rain, Skeleton} from "./classesExtended.js";
 
-const beam = new Image();
-beam.src = './img/tile/beam.png';
-const brick = new Image();
-brick.src = './img/tile/brick.png';
-const brick_dark = new Image();
-brick_dark.src = './img/tile/brick_dark.png';
-const dirt = new Image();
-dirt.src = './img/tile/dirt.png';
-const dirt_dark = new Image();
-dirt_dark.src = './img/tile/dirt_dark.png';
-const door = new Image();
-door.src = './img/tile/door.png';
-const grass = new Image();
-grass.src = './img/tile/grass.png';
-const painting = new Image();
-painting.src = './img/tile/painting.png';
-const plank = new Image();
-plank.src = './img/tile/plank.png';
+// tileEntities
+const door = LoadImage(textures.tileEntity.door);
+// tiles
+const beam = LoadImage(textures.tiles.beam);
+const brick = LoadImage(textures.tiles.brick);
+const brick_dark = LoadImage(textures.tiles.brick_wall);
+const dirt = LoadImage(textures.tiles.dirt);
+const dirt_dark = LoadImage(textures.tiles.dirt_dark);
+const grass = LoadImage(textures.tiles.grass);
+const painting = LoadImage(textures.tiles.painting);
+const plank = LoadImage(textures.tiles.plank);
 
 export const world = {
     width: 5200,
