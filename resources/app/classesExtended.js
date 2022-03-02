@@ -3,8 +3,8 @@ import {world} from "./globals.js";
 import {Animation, Entity, TileEntity} from "./classes.js";
 
 // entities
-const hero = LoadImage(textures.entities.hero);
-const skeleton = LoadImage(textures.entities.skeleton);
+const hero = LoadImage(textures.entity.hero);
+const skeleton = LoadImage(textures.entity.skeleton);
 // environment
 const rain = LoadImage(textures.environment.rain);
 const snow = LoadImage(textures.environment.snow);

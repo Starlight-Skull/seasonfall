@@ -5,14 +5,14 @@ import {Door, Hero, Rain, Skeleton} from "./classesExtended.js";
 // tileEntities
 const door = LoadImage(textures.tileEntity.door);
 // tiles
-const beam = LoadImage(textures.tiles.beam);
-const brick = LoadImage(textures.tiles.brick);
-const brick_dark = LoadImage(textures.tiles.brick_wall);
-const dirt = LoadImage(textures.tiles.dirt);
-const dirt_dark = LoadImage(textures.tiles.dirt_dark);
-const grass = LoadImage(textures.tiles.grass);
-const painting = LoadImage(textures.tiles.painting);
-const plank = LoadImage(textures.tiles.plank);
+const beam = LoadImage(textures.tile.beam);
+const brick = LoadImage(textures.tile.brick);
+const brick_wall = LoadImage(textures.tile.brick_wall);
+const dirt = LoadImage(textures.tile.dirt);
+const dirt_wall = LoadImage(textures.tile.dirt_wall);
+const grass = LoadImage(textures.tile.grass);
+const painting = LoadImage(textures.tile.painting);
+const plank = LoadImage(textures.tile.plank);
 
 export const world = {
     width: 5200,
@@ -116,9 +116,9 @@ export const tileList = [
     new Tile(true, 0, -240, 2560, 320, dirt),
     new Tile(true, 2560, -240, 2640, 320, dirt),
     // cave lower
-    new Tile(false, 2480, 160, 2560, 160, dirt_dark),
-    new Tile(false, 2400, 320, 2720, 240, dirt_dark),
-    new Tile(false, 2560, 80, 640, 80, dirt_dark),
+    new Tile(false, 2480, 160, 2560, 160, dirt_wall),
+    new Tile(false, 2400, 320, 2720, 240, dirt_wall),
+    new Tile(false, 2560, 80, 640, 80, dirt_wall),
     new Tile(true, 2400, 80, 80, 480, dirt),
     new Tile(true, 2480, 480, 160, 160, dirt),
     new Tile(true, 2640, 560, 160, 160, dirt),
@@ -128,8 +128,8 @@ export const tileList = [
     new Tile(true, 5040, 160, 80, 160, dirt),
     new Tile(true, 5120, 160, 80, 400, dirt),
     // cave upper
-    new Tile(false, 3600, 640, 1600, 320, dirt_dark),
-    new Tile(false, 4960, 560, 240, 80, dirt_dark),
+    new Tile(false, 3600, 640, 1600, 320, dirt_wall),
+    new Tile(false, 4960, 560, 240, 80, dirt_wall),
     new Tile(true, 2960, 560, 2000, 80, dirt),
     new Tile(true, 3520, 880, 1200, 80, dirt),
     new Tile(false, 3040, 640, 160, 80, dirt),
@@ -139,7 +139,7 @@ export const tileList = [
     new Tile(true, 4080, 480, 400, 80, dirt),
     new Tile(true, 4080, 800, 80, 80, dirt),
     // well
-    new Tile(false, 2880, 480, 80, 400, brick_dark),
+    new Tile(false, 2880, 480, 80, 400, brick_wall),
     new Tile(true, 2800, 560, 80, 320, brick),
     new Tile(true, 2960, 560, 80, 320, brick),
     new Tile(2, 2880, 840, 80, 40, plank),
@@ -147,22 +147,22 @@ export const tileList = [
     new Tile(false, 2960, 880, 80, 240, beam),
     new Tile(2, 2800, 1080, 240, 40, plank),
     // house
-    new Tile(false, 240, 640, 800, 320, brick_dark),
+    new Tile(false, 240, 640, 800, 320, brick_wall),
     new Tile(true, 160, 560, 880, 80, brick),
     new Tile(true, 160, 640, 80, 400, brick),
     new Tile(true, 960, 800, 80, 240, brick),
     new Tile(true, 240, 960, 720, 40, plank),
     // tower
-    new Tile(false, 3760, 1040, 480, 240, brick_dark),
-    new Tile(false, 4240, 1040, 960, 960, brick_dark),
-    new Tile(false, 4720, 960, 80, 80, brick_dark),
-    new Tile(false, 4320, 2000, 80, 80, brick_dark),
-    new Tile(false, 4480, 2000, 80, 80, brick_dark),
-    new Tile(false, 4640, 2000, 160, 80, brick_dark),
-    new Tile(false, 4880, 2000, 80, 80, brick_dark),
-    new Tile(false, 5040, 2000, 80, 80, brick_dark),
-    new Tile(false, 4880, 2000, 80, 80, brick_dark),
-    new Tile(false, 5040, 2000, 80, 80, brick_dark),
+    new Tile(false, 3760, 1040, 480, 240, brick_wall),
+    new Tile(false, 4240, 1040, 960, 960, brick_wall),
+    new Tile(false, 4720, 960, 80, 80, brick_wall),
+    new Tile(false, 4320, 2000, 80, 80, brick_wall),
+    new Tile(false, 4480, 2000, 80, 80, brick_wall),
+    new Tile(false, 4640, 2000, 160, 80, brick_wall),
+    new Tile(false, 4880, 2000, 80, 80, brick_wall),
+    new Tile(false, 5040, 2000, 80, 80, brick_wall),
+    new Tile(false, 4880, 2000, 80, 80, brick_wall),
+    new Tile(false, 5040, 2000, 80, 80, brick_wall),
     new Tile(true, 3520, 960, 1200, 80, brick),
     new Tile(true, 4800, 960, 400, 80, brick),
     new Tile(2, 4720, 840, 80, 40, plank),
