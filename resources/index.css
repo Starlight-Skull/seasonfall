@@ -16,7 +16,7 @@
 /* General */
 html, body, main, #screen #pauseMenu {
     font-family: Pixeloid, serif;
-    background-image: url("./img/background.png");
+    background-image: url("./textures/background.png");
     margin: 0;
     padding: 0;
     width: 100vw;

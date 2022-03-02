@@ -1,32 +1,34 @@
 export const textures = {
-    entities: {
-        missing_entity: './img/entity/missing_entity.png',
-        hero: './img/entity/hero.png',
-        skeleton: './img/entity/skeleton.png'
+    entity: {
+        missing_entity: './textures/entity/missing_entity.png',
+        hero: './textures/entity/hero.png',
+        skeleton: './textures/entity/skeleton.png',
+        stick: './textures/entity/stick.png',
+        kain: './textures/entity/kain_animations.png'
     },
     tileEntity: {
-        door: './img/tile/door.png'
+        door: './textures/tileEntity/door.png'
     },
     environment: {
-        rain: './img/environment/rain.png',
-        snow: './img/environment/snow.png'
+        rain: './textures/environment/rain.png',
+        snow: './textures/environment/snow.png'
     },
-    tiles: {
-        missing_tile: './img/tile/missing_tile.png',
-        beam: './img/tile/beam.png',
-        brick: './img/tile/brick.png',
-        brick_wall: './img/tile/brick_dark.png',
-        dirt: './img/tile/dirt.png',
-        dirt_dark: './img/tile/dirt_dark.png',
-        grass: './img/tile/grass.png',
-        painting: './img/tile/painting.png',
-        plank: './img/tile/plank.png'
+    tile: {
+        missing_tile: './textures/tile/missing_tile.png',
+        beam: './textures/tile/beam.png',
+        brick: './textures/tile/brick.png',
+        brick_wall: './textures/tile/brick_wall.png',
+        dirt: './textures/tile/dirt.png',
+        dirt_wall: './textures/tile/dirt_wall.png',
+        grass: './textures/tile/grass.png',
+        painting: './textures/tile/painting.png',
+        plank: './textures/tile/plank.png'
     }
 }
 
 
 export function LoadImage(path) {
     let image = new Image();
-    image.src = path;
+    image.src = path || textures.tile.missing_tile;
     return image;
 }
