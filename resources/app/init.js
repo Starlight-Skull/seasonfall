@@ -10,8 +10,7 @@ window.addEventListener('keydown', event => {
             Neutralino.window.exitFullScreen()
                 .then(Neutralino.window.unmaximize()
                     .then(Neutralino.window.maximize()));
-        }
-        else Neutralino.window.setFullScreen();
+        } else Neutralino.window.setFullScreen();
     });
 });
 
