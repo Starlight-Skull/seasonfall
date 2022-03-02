@@ -1,4 +1,4 @@
-import {settings, player, weather, world, playerStats} from "./globals.js";
+import {player, playerStats, settings, weather, world} from "./globals.js";
 import {element} from "./helpers.js";
 import {quit, toStorage} from "./init.js";
 import {geoCoderAPI, navigate} from "./data.js";
