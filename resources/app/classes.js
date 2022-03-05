@@ -53,6 +53,48 @@ export class Entity {
     }
 }
 
+export class NewEntity {
+    constructor(collision, x, y) {
+        this.stats = {
+            damage: 10,
+            hp: 100,
+            maxHP: 100,
+            mp: 0,
+            maxMP: 0,
+            xp: 0,
+            speed: 0.5,
+            jumpHeight: 2
+        }
+        this.movement = {
+            attack: false,
+            down: false,
+            left: false,
+            right: false,
+            jump: false
+        };
+        this.collision = {
+            enabled: true,
+            up: false,
+            down: false,
+            left: false,
+            right: false
+        };
+        this.position = {
+            x: x || 0,
+            y: y || 0,
+            mirrored: false
+        };
+        this.animations = {
+            idle: '',
+            move: '',
+            attack: '',
+            jump: '',
+            fall: '',
+            death: ''
+        };
+    }
+}
+
 export class Tile {
     constructor(hasCollision, x, y, width, height, sprite) {
         this.hasCollision = hasCollision; // 2 = only top collision
@@ -66,6 +108,17 @@ export class Tile {
         }
         this.sprite = sprite || missing_tile;
         this.animation = new Animation(sprite, 0, 0, 16, 16, 1, 1, 'default');
+    }
+}
+
+export class NewTile {
+    constructor(sprite, width, height, mirrored) {
+        this.frame = {
+            width: width || 16,
+            height: height || 16,
+            mirrored: mirrored
+        }
+        this.sprite = sprite || missing_tile;
     }
 }
 
