@@ -26,9 +26,9 @@ export const textures = {
     }
 }
 
-
 export function LoadImage(path) {
     let image = new Image();
+    if (Array.isArray(path)) path = path[Math.round(Math.random()) * (path.length - 1)];
     image.src = path || textures.tile.missing_tile;
     return image;
 }
