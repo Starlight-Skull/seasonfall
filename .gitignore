@@ -1,11 +1,7 @@
 # Editors
 .idea/
 .vs/
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/
 
 # Dependencies
 node_modules/
@@ -22,3 +18,9 @@ dist/
 .storage/
 *.log
 .tmp/
+
+# sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
