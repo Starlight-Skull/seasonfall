@@ -1,18 +1,24 @@
-/.idea/
-/.vs/
-/node_modules/
+# Editors
+.idea/
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
-# Developer tools' files
-.lite_workspace.lua
+# Dependencies
+node_modules/
 
-# Neutralinojs binaries and builds
-/bin
-/dist
+# System
+.DS_Store
+Thumbs.db
+desktop.ini
 
-# Neutralinojs client (minified)
+# Neutralinojs
 neutralino.js
-
-# Neutralinojs related files
-.storage
+bin/
+dist/
+.storage/
 *.log
-/.tmp
+.tmp/
