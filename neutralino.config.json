@@ -9,7 +9,7 @@
   "enableNativeAPI": true,
   "tokenSecurity": "one-time",
   "logging": {
-    "enabled": false,
+    "enabled": true,
     "writeToLogFile": false
   },
   "nativeAllowList": [
@@ -22,8 +22,8 @@
   "modes": {
     "window": {
       "title": "Seasonfall",
-      "width": 800,
-      "height": 500,
+      "width": 1000,
+      "height": 800,
       "minWidth": 400,
       "minHeight": 200,
       "fullScreen": false,
@@ -42,7 +42,7 @@
     "resourcesPath": "/resources/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/resources/app/neutralino.js",
-    "binaryVersion": "4.3.0",
+    "binaryVersion": "4.5.0",
     "clientVersion": "3.2.0"
   }
 }
