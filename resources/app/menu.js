@@ -57,8 +57,6 @@ function menuAction(target) {
             break;
         case 'navigator':
             navigate();
-            element('lat').value = settings.latitude;
-            element('lon').value = settings.longitude;
             break;
         case 'search':
             geoCoderAPI(element('location').value, element('apiKey').value).then(locations => {

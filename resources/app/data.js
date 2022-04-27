@@ -37,10 +37,12 @@ window.addEventListener('load', function () {
 /**
  * Tries to get coordinates from the built-in navigator API.
  */
-export function navigate() {
+export async function navigate() {
     navigator.geolocation.getCurrentPosition(location => {
         settings.latitude = location.coords.latitude;
         settings.longitude = location.coords.longitude;
+        element('lat').value = settings.latitude;
+        element('lon').value = settings.longitude;
     });
 }
 
@@ -62,14 +64,13 @@ const geoCoderModel = {
  * @param apiKey - (Optional) The key to access the API. If no key is given the global value is used.
  * @returns {Promise<any>} - Array of matching locations.
  */
-export function geoCoderAPI(query, apiKey) {
+export async function geoCoderAPI(query, apiKey) {
     if (!apiKey) apiKey = settings.apiKey;
     if (query && apiKey && typeof query === 'string' && typeof apiKey === 'string') {
         let url = 'https://api.openweathermap.org/geo/1.0/direct';
         url += `?q=${query}&appid=${settings.apiKey}&limit=5`;
-        return fetch(url).then(response => {
-            return response.json();
-        });
+        const response = await fetch(url);
+        return await response.json();
     }
 }
 
@@ -111,7 +112,7 @@ const oneCallModel = {
 /**
  * Calls the 'One Call API' and sets the response to the weather object.
  */
-export function oneCallAPI() {
+export async function oneCallAPI() {
     if (settings.apiKey && typeof settings.latitude === 'number' && typeof settings.longitude === 'number') {
         let url = 'https://api.openweathermap.org/data/2.5/onecall';
         url += `?lat=${settings.latitude}&lon=${settings.longitude}&appid=${settings.apiKey}&exclude=minutely,hourly,daily,alerts&units=metric&lang=en`;
