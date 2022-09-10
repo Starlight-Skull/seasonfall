@@ -1,5 +1,4 @@
 import { animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world, settings } from './globals.js'
-
 import { entityMovement } from './movement.js'
 import { element } from './helpers.js'
 
@@ -268,6 +267,7 @@ window.addEventListener('load', function () {
           element('pauseTitle').innerText = 'Failure!'
         }
         element('pauseMenu').style.visibility = 'visible'
+        element('pause').style.display = 'flex'
       }
       requestAnimationFrame(reDraw)
     }
