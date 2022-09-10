@@ -1,22 +1,22 @@
 @font-face {
   font-family: PixeloidMono;
-  src: url("/font/PixeloidMono.ttf");
+  src: url("../font/PixeloidMono.ttf");
 }
 
 @font-face {
   font-family: Pixeloid;
-  src: url("/font/PixeloidSans.ttf");
+  src: url("../font/PixeloidSans.ttf");
 }
 
 @font-face {
   font-family: PixeloidBold;
-  src: url("/font/PixeloidSansBold.ttf");
+  src: url("../font/PixeloidSansBold.ttf");
 }
 
 /* General */
 html, body, main, #screen #pauseMenu {
   font-family: Pixeloid, serif;
-  background-image: url("/textures/background.png");
+  background-image: url("../textures/background.png");
   margin: 0;
   padding: 0;
   width: 100vw;

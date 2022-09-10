@@ -1,6 +1,6 @@
 # Seasonfall
 
-![banner](https://github.com/Starlight-Skull/Seasonfall/blob/ca3f0d77167a61dfa9739d97f201b91960388c0f/Misc/Banner.png?raw=true)
+![banner](https://github.com/Starlight-Skull/Seasonfall/blob/main/Misc/Banner.png?raw=true)
 
 ## Description
 
@@ -29,7 +29,7 @@ Clone the source and build your own.
 
 In your preferred shell and location.
 
-*(Note that you also need to have [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/download/) installed)*
+_(Note that you also need to have [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/download/) installed)_
 
 ```bash
 git clone https://github.com/Starlight-Skull/Seasonfall.git
