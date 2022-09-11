@@ -5,21 +5,17 @@ import { element } from './helpers.js'
 window.addEventListener('load', function () {
   // setup for drawing
   const screen = element('screen')
-  if (!screen.getContext) {
-    window.alert('This application is not supported by your browser.')
-  }
+  if (!screen.getContext) window.alert('This application is not supported by your browser.')
   const ctx = screen.getContext('2d')
-  screen.width = window.innerWidth
-  screen.height = window.innerHeight
-  // has to be disabled so pixel art isn't blurry
-  ctx.imageSmoothingEnabled = false
-  // call recursive main function
-  const startTime = Date.now()
-  let time = Date.now()
   let frames = 0
   let fps = 0
   let light = 0
   let exit = false
+  setInterval(() => {
+    fps = frames
+    frames = 0
+  }, 1000)
+  // call recursive main function
   reDraw()
 
   function drawTile (tile) {
@@ -240,16 +236,10 @@ window.addEventListener('load', function () {
       // update screen in case of window resize
       screen.width = window.innerWidth
       screen.height = window.innerHeight
+      // has to be disabled so pixel art isn't blurry
       ctx.imageSmoothingEnabled = false
-
-      const now = Date.now()
-      playerStats.timeTaken = Math.round((now - startTime) / 1000)
       frames++
-      if (now - time > 1000) {
-        time = Date.now()
-        fps = frames
-        frames = 0
-      }
+
       drawMain()
       drawPlayerStats()
       drawDebug()
