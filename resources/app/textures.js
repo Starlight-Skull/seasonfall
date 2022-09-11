@@ -26,6 +26,11 @@ export const textures = {
   }
 }
 
+/**
+ * Finds the image from the given path.
+ * @param path - The path to find the image from. If an array is passed a random path will be used.
+ * @returns {Image} The image at the given path.
+ */
 export function LoadImage (path) {
   const image = new Image()
   if (Array.isArray(path)) path = path[Math.round(Math.random()) * (path.length - 1)]
