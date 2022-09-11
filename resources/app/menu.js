@@ -122,16 +122,18 @@ export function openPauseMenu () {
 }
 
 /**
- * Saves most settings to the global settings and saves them to storage.
+ * Saves most settings from the global settings to storage.
  */
 function saveSettings () {
-  settings.showFPS = element('showFps').checked
-  settings.showPlayerStats = element('showPlayerStats').checked
+  // general
   settings.scale = parseFloat(element('scale').value)
-  settings.interval = parseInt(element('interval').value)
-  settings.apiKey = element('apiKey').value
-  settings.latitude = parseFloat(element('lat').value)
-  settings.longitude = parseFloat(element('lon').value)
+  settings.showFPS = element('showFps').checked
+  // api
+  settings.api.key = element('apiKey').value
+  settings.api.latitude = parseFloat(element('lat').value)
+  settings.api.longitude = parseFloat(element('lon').value)
+  settings.api.interval = parseInt(element('interval').value)
+  // keybindings are saved automatically
   toStorage('settings', settings)
 }
 
@@ -139,15 +141,15 @@ function saveSettings () {
  * Loads most settings from the global settings into the settings menu.
  */
 function loadSettings () {
-  // settings / general
-  element('showFps').checked = settings.showFPS
+  // general
   element('scale').value = settings.scale
-  // settings / api
-  element('apiKey').value = settings.apiKey
-  element('lat').value = settings.latitude
-  element('lon').value = settings.longitude
-  element('interval').value = settings.interval
-  // settings / keybindings
+  element('showFps').checked = settings.showFPS
+  // api
+  element('apiKey').value = settings.api.key
+  element('lat').value = settings.api.latitude
+  element('lon').value = settings.api.longitude
+  element('interval').value = settings.api.interval
+  // keybindings
   const keys = element('keybindingsContainer')
   keys.replaceChildren()
   for (const key in settings.keybindings) {

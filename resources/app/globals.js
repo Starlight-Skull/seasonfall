@@ -24,12 +24,10 @@ export const world = {
 }
 
 export const settings = {
-  general: {
-    scale: 5,
-    showFPS: true
-  },
+  scale: 5,
+  showFPS: false,
   api: {
-    apiKey: '',
+    key: '',
     latitude: 0,
     longitude: 0,
     interval: 600 // seconds
