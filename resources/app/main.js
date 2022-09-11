@@ -25,23 +25,23 @@ window.addEventListener('load', function () {
   function drawTile (tile) {
     if ((player.frame.x - (tile.frame.x + tile.frame.width) <= (window.innerWidth / 2)) && (tile.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (tile.frame.y + tile.frame.height) <= (window.innerHeight / 3)) && (tile.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
       // if frame is bigger, sprite is drawn multiple times to cover the whole size
-      const height = (tile.animation ? tile.animation.height : tile.sprite.height) * world.scale
-      const width = (tile.animation ? tile.animation.width : tile.sprite.width) * world.scale
+      const height = (tile.animation ? tile.animation.height : tile.sprite.height) * settings.scale
+      const width = (tile.animation ? tile.animation.width : tile.sprite.width) * settings.scale
       for (let i = 0; i < tile.frame.height; i += height) {
-        if (((tile.frame.y + i) - (player.frame.y + player.frame.height)) <= (window.innerHeight) && (player.frame.y - (tile.frame.y + tile.animation.height * world.scale + i)) <= (window.innerHeight / 3)) {
+        if (((tile.frame.y + i) - (player.frame.y + player.frame.height)) <= (window.innerHeight) && (player.frame.y - (tile.frame.y + tile.animation.height * settings.scale + i)) <= (window.innerHeight / 3)) {
           for (let j = 0; j < tile.frame.width; j += width) {
-            if (((tile.frame.x + j) - (player.frame.x + player.frame.width)) <= (window.innerWidth / 2) && (player.frame.x - (tile.frame.x + tile.animation.width * world.scale + j)) <= (window.innerWidth / 2)) {
+            if (((tile.frame.x + j) - (player.frame.x + player.frame.width)) <= (window.innerWidth / 2) && (player.frame.x - (tile.frame.x + tile.animation.width * settings.scale + j)) <= (window.innerWidth / 2)) {
               // tile entities have animation frame instead
               if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
                 if (tile.frame.mirrored) {
                   ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-                  ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width + j, window.innerHeight - tile.frame.y - tile.animation.height * world.scale - i, tile.animation.width * world.scale, tile.animation.height * world.scale)
+                  ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width + j, window.innerHeight - tile.frame.y - tile.animation.height * settings.scale - i, tile.animation.width * settings.scale, tile.animation.height * settings.scale)
                   ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
                 } else {
-                  ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.animation.height * world.scale - i, tile.animation.width * world.scale, tile.animation.height * world.scale)
+                  ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.animation.height * settings.scale - i, tile.animation.width * settings.scale, tile.animation.height * settings.scale)
                 }
               } else {
-                ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * world.scale - i, tile.sprite.width * world.scale, tile.sprite.height * world.scale)
+                ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * settings.scale - i, tile.sprite.width * settings.scale, tile.sprite.height * settings.scale)
               }
             }
           }
@@ -71,10 +71,10 @@ window.addEventListener('load', function () {
         // mirror if needed
         if (entity.frame.mirrored) {
           ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-          ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * world.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale)
+          ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * settings.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
           ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
         } else {
-          ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * world.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * world.scale, entity.animation.width * world.scale, entity.animation.height * world.scale)
+          ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
         }
       }
       // draw a box to show the true hitbox
@@ -135,7 +135,7 @@ window.addEventListener('load', function () {
     if (settings.showFPS) {
       drawTextWithBackground(`FPS: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime')
     }
-    if (settings.showPlayerStats) {
+    if (world.showPlayerStats) {
       drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220, 'magenta')
       drawTextWithBackground(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250, 'magenta')
       drawTextWithBackground(`Damage Taken: ${playerStats.damageTaken}`, 5, 280, 'magenta')
@@ -250,11 +250,9 @@ window.addEventListener('load', function () {
         fps = frames
         frames = 0
       }
-
       drawMain()
       drawPlayerStats()
       drawDebug()
-
       drawTextWithBackground('OBJECTIVE: Defeat all skeletons', window.innerWidth * 0.4, 50, 'red')
     }
     if (!exit) {

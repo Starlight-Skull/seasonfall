@@ -1,5 +1,5 @@
 import { LoadImage, textures } from './textures.js'
-import { world } from './globals.js'
+import { settings } from './globals.js'
 import { Animation, Entity, TileEntity } from './classes.js'
 
 // entities
@@ -45,7 +45,7 @@ export class Door extends TileEntity {
     this.open = new Animation(this.sprite, 16, 0, 16, 32, 1, 1, 'open')
     this.animation = this.closed
     if (mirrored) {
-      this.frame.x += this.animation.width * world.scale - this.frame.width
+      this.frame.x += this.animation.width * settings.scale - this.frame.width
     }
     this.activate = function () {
       if (this.frame.width === this.closedWidth) {

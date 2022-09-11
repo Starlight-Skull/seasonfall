@@ -17,10 +17,30 @@ const plank = LoadImage(textures.tile.plank)
 export const world = {
   width: 5200,
   height: 2400,
-  scale: 5,
   paused: false,
   showBoxes: false,
-  showLiveDebug: false
+  showLiveDebug: false,
+  showPlayerStats: false
+}
+
+export const settings = {
+  general: {
+    scale: 5,
+    showFPS: true
+  },
+  api: {
+    apiKey: '',
+    latitude: 0,
+    longitude: 0,
+    interval: 600 // seconds
+  },
+  keybindings: {
+    attack: 'Mouse0',
+    jump: 'Space',
+    down: 'KeyS',
+    left: 'KeyA',
+    right: 'KeyD'
+  }
 }
 
 export const weather = {
@@ -42,23 +62,6 @@ export const weather = {
   windGust: 0, // m/s
   rain: 0, // mm/h
   snow: 0 // mm/h
-}
-
-export const settings = {
-  apiKey: '',
-  latitude: 0,
-  longitude: 0,
-  scale: 5,
-  interval: 600, // seconds
-  showFPS: true,
-  showPlayerStats: true,
-  keybindings: {
-    attack: 'Mouse0',
-    jump: 'Space',
-    down: 'KeyS',
-    left: 'KeyA',
-    right: 'KeyD'
-  }
 }
 
 export const playerStats = {

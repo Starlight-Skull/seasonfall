@@ -26,12 +26,13 @@ window.addEventListener('load', function () {
   window.addEventListener('keyup', ev => handleMouseKeyEvent(ev.code, false))
   const pauseMenu = element('pauseMenu')
   pauseMenu.style.visibility = 'hidden'
-  const debugMenu = element('debugMenu')
-  debugMenu.style.visibility = 'hidden'
   pauseMenu.addEventListener('click', ev => handleMenuEvent(ev.target))
   for (const menusKey in menus) {
     menus[menusKey].style.display = 'none'
   }
+  menus.pause.style.display = 'flex'
+  const debugMenu = element('debugMenu')
+  debugMenu.style.visibility = 'hidden'
 })
 
 /**
@@ -119,6 +120,7 @@ export async function oneCallAPI () {
     fetch(url).then(res => {
       return res.json()
     }).then(json => {
+      console.log(json)
       if (!json.message) {
         weather.main = json.current.weather[0].main
         weather.description = json.current.weather[0].description

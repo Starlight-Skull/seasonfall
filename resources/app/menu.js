@@ -59,18 +59,7 @@ function menuAction (target) {
       navigate()
       break
     case 'search':
-      geoCoderAPI(element('location').value, element('apiKey').value).then(locations => {
-        if (locations.length !== 0) {
-          element('searchResults').replaceChildren()
-          for (const location of locations) {
-            const option = document.createElement('option')
-            option.textContent = `${location.name}, ${location.state} (${location.country})`
-            option.dataset.lat = location.lat
-            option.dataset.lon = location.lon
-            element('searchResults').appendChild(option)
-          }
-        }
-      })
+      search(element('location').value, element('apiKey').value)
       break
     case 'selectResult':
       if (target.children.length !== 0) {
@@ -83,6 +72,25 @@ function menuAction (target) {
       toStorage('settings', settings).then(quit)
       break
   }
+}
+
+/**
+ * Calls the geoCoderAPI and adds the results to the selector
+ * @param location - The location to search for
+ * @param apiKey - The API key
+ */
+function search (location, apiKey) {
+  geoCoderAPI(location, apiKey).then(locations => {
+    if (locations.length === 0) return
+    element('searchResults').replaceChildren()
+    for (const location of locations) {
+      const option = document.createElement('option')
+      option.textContent = `${location.name}, ${location.state} (${location.country})`
+      option.dataset.lat = location.lat
+      option.dataset.lon = location.lon
+      element('searchResults').appendChild(option)
+    }
+  })
 }
 
 /**
@@ -103,16 +111,12 @@ function setKey (event) {
 export function openPauseMenu () {
   const pauseMenu = element('pauseMenu')
   if (pauseMenu.style.visibility === 'hidden') {
-    if (element('debugMenu').style.visibility === 'hidden') world.paused = true
+    world.paused = true
     pauseMenu.style.visibility = 'visible'
-    menus.pause.style.display = 'flex'
     loadSettings()
   } else {
-    world.paused = false
+    world.paused = element('debugMenu').style.visibility === 'visible'
     pauseMenu.style.visibility = 'hidden'
-    for (const menusKey in menus) {
-      menus[menusKey].style.display = 'none'
-    }
     saveSettings()
   }
 }
@@ -137,13 +141,12 @@ function saveSettings () {
 function loadSettings () {
   // settings / general
   element('showFps').checked = settings.showFPS
-  element('showPlayerStats').checked = settings.showPlayerStats
   element('scale').value = settings.scale
-  element('interval').value = settings.interval
   // settings / api
   element('apiKey').value = settings.apiKey
   element('lat').value = settings.latitude
   element('lon').value = settings.longitude
+  element('interval').value = settings.interval
   // settings / keybindings
   const keys = element('keybindingsContainer')
   keys.replaceChildren()
@@ -181,6 +184,7 @@ export function openDebugMenu () {
     // general
     element('showBoxes').checked = world.showBoxes
     element('showLiveDebug').checked = world.showLiveDebug
+    element('showPlayerStats').checked = world.showPlayerStats
     // player
     element('hp').value = player.stats.hp
     element('maxHp').value = player.stats.maxHP
@@ -198,11 +202,12 @@ export function openDebugMenu () {
       element(weatherKey).value = weather[weatherKey]
     }
   } else {
-    if (element('pauseMenu').style.visibility === 'hidden') world.paused = false
+    world.paused = element('pauseMenu').style.visibility === 'visible'
     debugMenu.style.visibility = 'hidden'
     // general
     world.showBoxes = element('showBoxes').checked
     world.showLiveDebug = element('showLiveDebug').checked
+    world.showPlayerStats = element('showPlayerStats').checked
     // player
     player.stats.hp = parseFloat(element('hp').value)
     player.stats.maxHP = parseFloat(element('maxHp').value)
