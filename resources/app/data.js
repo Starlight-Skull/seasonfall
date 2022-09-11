@@ -18,7 +18,7 @@ window.addEventListener('load', function () {
     toStorage('settings', settings)
   }).then(() => {
     oneCallAPI()
-    setInterval(oneCallAPI, settings.interval * 1000)
+    setInterval(oneCallAPI, settings.api.interval * 1000)
   })
   window.addEventListener('mousedown', ev => handleMouseKeyEvent(`Mouse${ev.button}`, true))
   window.addEventListener('mouseup', ev => handleMouseKeyEvent(`Mouse${ev.button}`, false))
@@ -40,10 +40,10 @@ window.addEventListener('load', function () {
  */
 export async function navigate () {
   navigator.geolocation.getCurrentPosition(location => {
-    settings.latitude = location.coords.latitude
-    settings.longitude = location.coords.longitude
-    element('lat').value = settings.latitude
-    element('lon').value = settings.longitude
+    settings.api.latitude = location.coords.latitude
+    settings.api.longitude = location.coords.longitude
+    element('lat').value = settings.api.latitude
+    element('lon').value = settings.api.longitude
   })
 }
 
@@ -62,14 +62,14 @@ const geoCoderModel = {
 /**
  * Calls the 'Geocoder API' and sets the response to the settings object.
  * @param query - The location to search for.
- * @param apiKey - (Optional) The key to access the API. If no key is given the global value is used.
+ * @param key - (Optional) The key to access the API. If no key is given the global value is used.
  * @returns {Promise<any>} - Array of matching locations.
  */
-export async function geoCoderAPI (query, apiKey) {
-  if (!apiKey) apiKey = settings.apiKey
-  if (query && apiKey && typeof query === 'string' && typeof apiKey === 'string') {
+export async function geoCoderAPI (query, key) {
+  if (!key) key = settings.api.key
+  if (query && key && typeof query === 'string' && typeof key === 'string') {
     let url = 'https://api.openweathermap.org/geo/1.0/direct'
-    url += `?q=${query}&appid=${settings.apiKey}&limit=5`
+    url += `?q=${query}&appid=${settings.api.key}&limit=5`
     const response = await fetch(url)
     return await response.json()
   }
@@ -114,9 +114,9 @@ const oneCallModel = {
  * Calls the 'One Call API' and sets the response to the weather object.
  */
 export async function oneCallAPI () {
-  if (settings.apiKey && typeof settings.latitude === 'number' && typeof settings.longitude === 'number') {
+  if (settings.api.key && typeof settings.api.latitude === 'number' && typeof settings.api.longitude === 'number') {
     let url = 'https://api.openweathermap.org/data/2.5/onecall'
-    url += `?lat=${settings.latitude}&lon=${settings.longitude}&appid=${settings.apiKey}&exclude=minutely,hourly,daily,alerts&units=metric&lang=en`
+    url += `?lat=${settings.api.latitude}&lon=${settings.api.longitude}&appid=${settings.api.key}&exclude=minutely,hourly,daily,alerts&units=metric&lang=en`
     fetch(url).then(res => {
       return res.json()
     }).then(json => {
