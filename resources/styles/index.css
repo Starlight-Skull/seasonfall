@@ -11,9 +11,10 @@
   src: url("../font/PixeloidSansBold.ttf");
 }
 /* General */
-html, body, main, #screen #pauseMenu {
+html, body, main, #screen {
   font-family: Pixeloid, serif;
   background-image: url("../textures/background.png");
+  overflow: hidden;
   margin: 0;
   padding: 0;
   width: 100vw;
