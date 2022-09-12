@@ -22,6 +22,7 @@
   "scripts": {
     "dev": "npx neu run",
     "build": "npx neu build",
+    "update": "npx neu update",
     "sass": "sass resources/styles/index.scss resources/styles/index.css",
     "watch": "sass --watch resources/styles/index.scss resources/styles/index.css"
   },
