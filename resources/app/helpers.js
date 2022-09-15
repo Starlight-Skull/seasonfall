@@ -11,6 +11,33 @@ export function element (s) {
 }
 
 /**
+ * Closes the window
+ * @returns {Promise<unknown>}
+ */
+export function quit () {
+  window.close()
+}
+
+/**
+ * Returns data for the given key from localStorage.
+ * @param key - The name of requested key.
+ * @returns {Promise<unknown>} - A promise with the requested data.
+ */
+export async function fromStorage (key) {
+  return JSON.parse(localStorage.getItem(key))
+}
+
+/**
+ * Saves a given key-value pair to localStorage.
+ * @param key - The name of the key to store the value as.
+ * @param value - The value to store. If this is null or undefined, the record will be erased.
+ * @returns {Promise<unknown>} - Returns a promise if the data has been stored.
+ */
+export async function toStorage (key, value) {
+  return localStorage.setItem(key, JSON.stringify(value))
+}
+
+/**
  * Receives the code of a mouse or key event and acts accordingly.
  * @param key - Can be 'KeyboardEvent.code' or 'Mouse + MouseEvent.button'.
  * @param down - Boolean of whether the event is up or down.
