@@ -7,16 +7,17 @@ window.addEventListener('load', function () {
   const screen = element('screen')
   if (!screen.getContext) window.alert('This application is not supported by your browser.')
   const ctx = screen.getContext('2d')
+  let light = 0
+  // fps counter
   let frames = 0
   let fps = 0
-  let light = 0
-  let exit = false
   setInterval(() => {
     fps = frames
     frames = 0
+    playerStats.timeTaken++
   }, 1000)
   // call recursive main function
-  reDraw()
+  draw()
 
   function drawTile (tile) {
     if ((player.frame.x - (tile.frame.x + tile.frame.width) <= (window.innerWidth / 2)) && (tile.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (tile.frame.y + tile.frame.height) <= (window.innerHeight / 3)) && (tile.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
@@ -126,10 +127,8 @@ window.addEventListener('load', function () {
       const tracked = player
       drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, 'cyan')
       drawTextWithBackground(`POS: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, 'cyan')
-      drawTextWithBackground(`LIGHT: ${Math.round(light * 100) / 100}       MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' #') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan')
-    }
-    if (settings.showFPS) {
-      drawTextWithBackground(`FPS: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime')
+      drawTextWithBackground(`LIGHT: ${Math.round(light * 100) / 100}  MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' #') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan')
+      // drawTextWithBackground(`name: ${value}`, 5, 190, 'cyan')
     }
     if (world.showPlayerStats) {
       drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220, 'magenta')
@@ -171,7 +170,7 @@ window.addEventListener('load', function () {
     ctx.fillRect(-world.width / 2, window.innerHeight * 1.5, world.width * 2, -world.height * 2)
   }
 
-  function drawPlayerStats () {
+  function drawPlayerBars () {
     // player hp
     ctx.fillStyle = 'rgba(0,0,0,0.5)'
     ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30)
@@ -220,7 +219,7 @@ window.addEventListener('load', function () {
       drawEntity(entityList[i])
     }
     drawEntity(player)
-    ctx.fillStyle = 'rgba(0,0,0,' + light + ')'
+    ctx.fillStyle = `rgba(0,0,0,${light})`
     ctx.fillRect(-world.width / 2, window.innerHeight * 1.5, world.width * 2, -world.height * 2)
     for (let i = 0; i < entityList.length; i++) {
       drawStats(entityList[i])
@@ -231,7 +230,7 @@ window.addEventListener('load', function () {
     ctx.translate(0, 0)
   }
 
-  function reDraw () {
+  function draw () {
     if (!world.paused) {
       // update screen in case of window resize
       screen.width = window.innerWidth
@@ -239,25 +238,12 @@ window.addEventListener('load', function () {
       // has to be disabled so pixel art isn't blurry
       ctx.imageSmoothingEnabled = false
       frames++
-
       drawMain()
-      drawPlayerStats()
+      drawPlayerBars()
+      if (settings.showFPS) drawTextWithBackground(`FPS: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime')
       drawDebug()
       drawTextWithBackground('OBJECTIVE: Defeat all skeletons', window.innerWidth * 0.4, 50, 'red')
     }
-    if (!exit) {
-      if (playerStats.kills === 10 || player.stats.hp <= 0) {
-        exit = true
-        // pause menu
-        if (playerStats.kills === 10) {
-          element('pauseTitle').innerText = 'Victory!'
-        } else {
-          element('pauseTitle').innerText = 'Failure!'
-        }
-        element('pauseMenu').style.visibility = 'visible'
-        element('pause').style.display = 'flex'
-      }
-      requestAnimationFrame(reDraw)
-    }
+    requestAnimationFrame(draw)
   }
 })
