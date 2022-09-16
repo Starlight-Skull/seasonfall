@@ -29,7 +29,7 @@
       "fullScreen": false,
       "alwaysOnTop": false,
       "icon": "/resources/icons/icon_256x.png",
-      "enableInspector": false,
+      "enableInspector": true,
       "borderless": false,
       "maximize": true,
       "hidden": false,

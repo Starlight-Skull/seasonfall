@@ -1,5 +1,5 @@
 import { LoadImage, textures } from './textures.js'
-import { Tile } from './classes.js'
+import { NewTile, Tile } from './classes.js'
 import { Door, Hero, Rain, Skeleton } from './classesExtended.js'
 
 // tileEntities
@@ -14,14 +14,7 @@ const grass = LoadImage(textures.tile.grass)
 const painting = LoadImage(textures.tile.painting)
 const plank = LoadImage(textures.tile.plank)
 
-export const world = {
-  width: 5200,
-  height: 2400,
-  paused: false,
-  showBoxes: false,
-  showLiveDebug: false,
-  showPlayerStats: false
-}
+export const version = '1.1.1'
 
 export const settings = {
   scale: 5,
@@ -39,6 +32,16 @@ export const settings = {
     left: 'KeyA',
     right: 'KeyD'
   }
+}
+
+export const world = {
+  width: 5200,
+  height: 2400,
+  paused: false,
+  showBoxes: false,
+  showLiveDebug: false,
+  showPlayerStats: false,
+  get grid () { return settings.scale * 16 }
 }
 
 export const weather = {
@@ -95,6 +98,33 @@ export const entityList = [
   new Skeleton(1, 4640, 160),
   new Skeleton(1, 4640, 1920)
 ]
+
+export const newTiles = {
+  0: {
+    0: new NewTile(grass),
+    1: new NewTile(painting, { height: 2 }),
+    2: new NewTile(painting, { height: 2, mirrored: true }),
+    3: new NewTile(painting, { height: 2, rotation: 180, mirrored: true }),
+    4: new NewTile(grass),
+    5: new NewTile(grass),
+    6: new NewTile(grass, { rotation: 40 }),
+    7: new NewTile(grass, { rotation: 90 }),
+    8: new NewTile(grass, { collision: 'top' }),
+    9: new NewTile(grass, { collision: 'none' })
+  },
+  3: {
+    0: new NewTile(grass),
+    1: new NewTile(grass),
+    2: new NewTile(grass),
+    3: new NewTile(grass),
+    4: new NewTile(grass),
+    5: new NewTile(grass),
+    6: new NewTile(grass),
+    7: new NewTile(grass),
+    8: new NewTile(grass),
+    9: new NewTile(grass)
+  }
+}
 
 export const tileList = [
   // surface

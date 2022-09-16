@@ -1,10 +1,10 @@
-import { settings, weather } from './globals.js'
+import { version, settings, weather } from './globals.js'
 import { element, formatUnixTime, handleMouseKeyEvent } from './helpers.js'
-import { appVersion, fromStorage, toStorage } from './init.js'
+import { fromStorage, toStorage } from './init.js'
 import { handleMenuEvent, menus } from './menu.js'
 
 window.addEventListener('load', function () {
-  element('version').innerText = appVersion
+  element('version').innerText = version
   fromStorage('settings').then(file => {
     for (const fileKey in file) {
       if (typeof settings[fileKey] === 'object') {

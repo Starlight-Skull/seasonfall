@@ -54,16 +54,16 @@ export class Entity {
 }
 
 export class NewEntity {
-  constructor (collision, x, y) {
+  constructor ({ x, y, maxHP, maxMP, xp, damage, speed, mirrored }) {
     this.stats = {
-      damage: 10,
-      hp: 100,
-      maxHP: 100,
-      mp: 0,
-      maxMP: 0,
-      xp: 0,
-      speed: 0.5,
-      jumpHeight: 2
+      hp: maxHP || 100,
+      maxHP: maxHP || 100,
+      mp: maxMP || 0,
+      maxMP: maxMP || 0,
+      xp: xp || 0,
+      damage: damage || 10,
+      speed: speed || 1,
+      jumpHeight: 3
     }
     this.movement = {
       attack: false,
@@ -75,22 +75,22 @@ export class NewEntity {
     this.collision = {
       enabled: true,
       up: false,
-      down: false,
+      down: true,
       left: false,
       right: false
     }
     this.position = {
       x: x || 0,
       y: y || 0,
-      mirrored: false
+      mirrored
     }
     this.animations = {
-      idle: '',
-      move: '',
-      attack: '',
-      jump: '',
-      fall: '',
-      death: ''
+      idle: new NewAnimation(),
+      move: new NewAnimation(),
+      attack: new NewAnimation(),
+      jump: new NewAnimation(),
+      fall: new NewAnimation(),
+      death: new NewAnimation()
     }
   }
 }
@@ -112,14 +112,16 @@ export class Tile {
 }
 
 export class NewTile {
-  constructor (sprite, width, height, mirrored) {
-    this.frame = {
-      width: width || 16,
-      height: height || 16,
-      mirrored
-    }
-    this.sprite = sprite || missingTile
+  constructor (sprite, options) {
+    this.width = options?.width || 1
+    this.height = options?.height || 1
+    this.collision = options?.collision || true
+    this.mirrored = options?.mirrored || false
+    this.rotation = options?.rotation || false
+    this.animation = new NewAnimation({ sprite })
   }
+
+  activate () {}
 }
 
 export class TileEntity extends Tile {
@@ -129,8 +131,7 @@ export class TileEntity extends Tile {
     this.animation = new Animation(this.sprite, 0, 0, 16, 16, 1, 1, 'default')
   }
 
-  activate () {
-  }
+  activate () {}
 }
 
 export class Animation {
@@ -143,5 +144,17 @@ export class Animation {
     this.height = height
     this.speed = speed
     this.name = name
+  }
+}
+
+export class NewAnimation {
+  constructor ({ sprite, x, y, width, height, frames, speed }) {
+    this.sprite = sprite || missingTile
+    this.x = x || 0
+    this.y = y || 0
+    this.width = width || 16
+    this.height = height || 16
+    this.frames = frames || 1
+    this.speed = speed || 0
   }
 }
