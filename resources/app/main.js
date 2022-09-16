@@ -1,12 +1,15 @@
 import { animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world, settings, newTiles } from './globals.js'
 import { entityMovement } from './movement.js'
 import { element } from './helpers.js'
+import { newDrawTile } from './renderer.js'
+
+export let ctx
 
 window.addEventListener('load', function () {
   // setup for drawing
   const screen = element('screen')
   if (!screen.getContext) window.alert('This application is not supported by your browser.')
-  const ctx = screen.getContext('2d')
+  ctx = screen.getContext('2d')
   let light = 0
   // fps counter
   let frames = 0
@@ -58,43 +61,6 @@ window.addEventListener('load', function () {
         ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height)
       }
     }
-  }
-
-  function newDrawTile (tile, gridY, gridX) {
-    let x = gridX * world.grid
-    let y = gridY * world.grid
-    let w = tile.width * world.grid
-    let h = tile.height * world.grid
-    ctx.save()
-    if (tile.mirrored) {
-      ctx.scale(-1, 1)
-      x = -x
-      w = -w
-    }
-    if (tile.rotation) {
-      ctx.translate(x + w / 2, y + h / 2)
-      ctx.rotate(tile.rotation * Math.PI / 180)
-      x = -w / 2
-      y = -h / 2
-    }
-    ctx.drawImage(tile.animation.sprite, x, y, w, h)
-    if (world.showBoxes && tile.constructor.name === 'NewTile') {
-      switch (tile.collision) {
-        case 'none':
-          ctx.fillStyle = 'rgba(10,50,0,0.5)'
-          break
-        case 'top':
-          ctx.fillStyle = 'rgba(150,100,0,0.5)'
-          break
-        default:
-          ctx.fillStyle = 'rgba(0,250,0,0.5)'
-          break
-      }
-      ctx.fillRect(x, y, w, h)
-      ctx.strokeRect(x, y, w, h)
-    }
-    ctx.restore()
-    if (world.showBoxes) drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
   }
 
   function drawEntity (entity) {
