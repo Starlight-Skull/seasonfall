@@ -1,11 +1,8 @@
 # Seasonfall
 
-![banner](https://github.com/Starlight-Skull/Seasonfall/blob/main/Misc/Banner.png?raw=true)
+[![CodeQL](https://github.com/Starlight-Skull/Seasonfall/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Starlight-Skull/Seasonfall/actions/workflows/codeql-analysis.yml) [![pages-build-deployment](https://github.com/Starlight-Skull/Seasonfall/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/Starlight-Skull/Seasonfall/actions/workflows/pages/pages-build-deployment)
 
-## Description
-
-Seasonfall started as a school assignment on PHP, MySQL and Node.js in Docker.
-The original idea was "What if I take data from a weather API and build a game around it?"
+[![banner](https://github.com/Starlight-Skull/Seasonfall/blob/main/Misc/Banner.png?raw=true)](https://starlight-skull.github.io/Seasonfall/)
 
 ---
 
@@ -15,15 +12,19 @@ Major rewrites to make code more accessible, reusable and efficient.
 
 ---
 
-## Installing
+## For the player
 
-Download the [latest](https://github.com/Starlight-Skull/Seasonfall/releases/latest) build and run the appropriate executable.
+Download the [latest](https://github.com/Starlight-Skull/Seasonfall/releases/latest) release and run the appropriate executable.
+
+Now also available online via [GitHub Pages](https://starlight-skull.github.io/Seasonfall/).
 
 ---
 
-## Building your own code
+## For the developer
 
 Clone the source and build your own.
+
+Jsdoc documentation is also available via [GitHub Pages](https://starlight-skull.github.io/Seasonfall/jsdoc/).
 
 ### Cloning
 
@@ -35,13 +36,13 @@ _(Note that you also need to have [git](https://git-scm.com/downloads) and [npm]
 git clone https://github.com/Starlight-Skull/Seasonfall.git
 cd Seasonfall
 npm ci
-npx neu update
+npm run update
 ```
 
 ### Starting the app
 
 ```bash
-npx neu run
+npm run dev
 ```
 
 ### Making a build
@@ -49,5 +50,5 @@ npx neu run
 The executables will be in /dist
 
 ```bash
-npx neu build
+npm run build
 ```
