@@ -3,7 +3,7 @@ import { ctx } from './main.js'
 
 /**
  * Draws a given tile according to its propperties.
- * @param {NewTile} tile - The tile to
+ * @param {NewTile} tile - The tile to draw.
  * @param {int} gridY - The Y coordinate without grid scaling.
  * @param {int} gridX - The X coordinate without grid scaling.
  */

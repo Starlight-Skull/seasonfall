@@ -67,7 +67,7 @@ export async function fromStorage (key) {
 
 /**
  * Reads the .storage directory and returns all .neustorage files.
- * @returns {Promise<*[]>} - An array of strings of the filenames.
+ * @returns {Promise<*>} - An array of strings of the filenames.
  */
 export async function readStorage () {
   return await Neutralino.filesystem.readDirectory('.storage').then(result => {

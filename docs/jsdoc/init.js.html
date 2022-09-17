@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: init.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: init.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>Neutralino.init()
+setupTray()
+
+/**
+ * Toggles the fullscreen when F11 is pressed.
+ */
+window.addEventListener('keydown', event => {
+  if (event.key === 'F11') {
+    Neutralino.window.isFullScreen().then(fullscreen => {
+      if (fullscreen) {
+        Neutralino.window.exitFullScreen()
+          .then(Neutralino.window.unmaximize()
+            .then(Neutralino.window.maximize()))
+      } else Neutralino.window.setFullScreen()
+    })
+  }
+})
+
+/**
+ * Sets up the tray menu if the app is in window mode and not on macOS.
+ */
+function setupTray () {
+  if (NL_OS !== 'Darwin' &amp;&amp; NL_MODE === 'window') {
+    Neutralino.os.setTray({
+      icon: '/resources/icons/icon_16x.png',
+      menuItems: [
+        { id: 'GIT', text: 'Open on GitHub' },
+        { id: 'SEP-VER', text: '-' },
+        { id: 'VER-APP', text: `Seasonfall: v${NL_APPVERSION}` },
+        { id: 'VER-SERVER', text: `Neutralino server: v${NL_VERSION}` },
+        { id: 'VER-CLIENT', text: `Neutralino client: v${NL_CVERSION}` },
+        { id: 'SEP', text: '-' },
+        { id: 'QUIT', text: 'Quit' }
+      ]
+    })
+    Neutralino.events.on('trayMenuItemClicked', event => {
+      switch (event.detail.id) {
+        case 'GIT':
+          Neutralino.os.open('https://github.com/Starlight-Skull/Seasonfall')
+          break
+        case 'QUIT':
+          Neutralino.app.exit()
+          break
+      }
+    })
+  }
+}
+
+export const appVersion = NL_APPVERSION
+
+/**
+ * Exits the app.
+ * @returns {Promise&lt;unknown>}
+ */
+export async function quit () {
+  await Neutralino.app.exit()
+}
+
+/**
+ * Returns data for the given key from Neutralino storage.
+ * @param key - The name of requested key.
+ * @returns {Promise&lt;unknown>} - A promise with the requested data.
+ */
+export async function fromStorage (key) {
+  return await Neutralino.storage.getData(key).then(JSON.parse)
+}
+
+/**
+ * Reads the .storage directory and returns all .neustorage files.
+ * @returns {Promise&lt;*>} - An array of strings of the filenames.
+ */
+export async function readStorage () {
+  return await Neutralino.filesystem.readDirectory('.storage').then(result => {
+    const files = []
+    for (const resultElement of result) {
+      if (resultElement.type === 'FILE' &amp;&amp; resultElement.entry.search('.neustorage') > 0) {
+        resultElement.entry.replace('.neustorage')
+        files.push(resultElement.entry)
+      }
+    }
+    return files
+  }).catch(() => {
+    console.log('Directory not found.')
+  })
+}
+
+/**
+ * Saves a given key-value pair to Neutralino storage.
+ * This data is persisted in the .storage directory.
+ * @param key - The name of the key to store the value as.
+ * @param value - The value to store. If this is null or undefined, the record will be erased.
+ * @returns {Promise&lt;unknown>} - Returns a promise if the data has been stored.
+ */
+export async function toStorage (key, value) {
+  return await Neutralino.storage.setData(key, JSON.stringify(value))
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#borderControl">borderControl</a></li><li><a href="global.html#element">element</a></li><li><a href="global.html#fonts">fonts</a></li><li><a href="global.html#formatUnixTime">formatUnixTime</a></li><li><a href="global.html#fromStorage">fromStorage</a></li><li><a href="global.html#geoCoderAPI">geoCoderAPI</a></li><li><a href="global.html#geoCoderModel">geoCoderModel</a></li><li><a href="global.html#handleMenuEvent">handleMenuEvent</a></li><li><a href="global.html#handleMouseKeyEvent">handleMouseKeyEvent</a></li><li><a href="global.html#LoadImage">LoadImage</a></li><li><a href="global.html#loadSettings">loadSettings</a></li><li><a href="global.html#menuAction">menuAction</a></li><li><a href="global.html#menus">menus</a></li><li><a href="global.html#navigate">navigate</a></li><li><a href="global.html#newDrawTile">newDrawTile</a></li><li><a href="global.html#oneCallAPI">oneCallAPI</a></li><li><a href="global.html#oneCallModel">oneCallModel</a></li><li><a href="global.html#openDebugMenu">openDebugMenu</a></li><li><a href="global.html#openPauseMenu">openPauseMenu</a></li><li><a href="global.html#quit">quit</a></li><li><a href="global.html#readStorage">readStorage</a></li><li><a href="global.html#saveSettings">saveSettings</a></li><li><a href="global.html#search">search</a></li><li><a href="global.html#setKey">setKey</a></li><li><a href="global.html#setupTray">setupTray</a></li><li><a href="global.html#toStorage">toStorage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Sep 17 2022 23:35:29 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
