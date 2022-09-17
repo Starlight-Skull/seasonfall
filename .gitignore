@@ -11,7 +11,8 @@ node_modules/
 Thumbs.db
 desktop.ini
 
-# Neutralinojs
+
+# neutralinojs
 neutralino.js
 bin/
 dist/
@@ -24,3 +25,9 @@ dist/
 *.css.map
 *.sass.map
 *.scss.map
+
+# jsdoc
+out/
+
+
+# ADD MORE AS NEEDED

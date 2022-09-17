@@ -24,7 +24,8 @@
     "build": "neu build",
     "update": "neu update",
     "sass": "sass resources/styles/index.scss resources/styles/index.css",
-    "watch": "sass --watch resources/styles/index.scss resources/styles/index.css"
+    "watch": "sass --watch resources/styles/index.scss resources/styles/index.css",
+    "jsdoc": "jsdoc -c jsdoc.json"
   },
   "devDependencies": {
     "@neutralinojs/neu": "^9.3.1",
@@ -33,6 +34,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-promise": "^6.0.1",
+    "jsdoc": "^3.6.11",
     "sass": "^1.54.9"
   }
 }
