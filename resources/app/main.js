@@ -1,7 +1,7 @@
 import { animTileList, entityList, player, playerStats, tileEntityList, tileList, weather, world, settings, newTiles } from './globals.js'
 import { entityMovement } from './movement.js'
 import { element } from './helpers.js'
-import { newDrawTile } from './renderer.js'
+import { newDrawTile, drawTextWithBackground } from './renderer.js'
 
 export let ctx
 
@@ -10,6 +10,7 @@ window.addEventListener('load', function () {
   const screen = element('screen')
   if (!screen.getContext) window.alert('This application is not supported by your browser.')
   ctx = screen.getContext('2d')
+
   let light = 0
   // fps counter
   let frames = 0
@@ -19,6 +20,7 @@ window.addEventListener('load', function () {
     frames = 0
     playerStats.timeTaken++
   }, 1000)
+
   // call recursive main function
   draw()
 
@@ -88,10 +90,10 @@ window.addEventListener('load', function () {
   function drawStats (entity) {
     if (entity.constructor.name === 'Hero') {
       // name
-      drawTextWithBackground(entity.name, entity.frame.x + entity.frame.width / 2 - (entity.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)')
+      drawTextWithBackground(entity.name, entity.frame.x + entity.frame.width / 2 - (entity.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, { color: 'rgb(255,255,255)' })
       // xp
       if (entity.stats.xp !== 0) {
-        drawTextWithBackground(entity.stats.xp.toString(), entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95, 'rgb(0,255,0)')
+        drawTextWithBackground(entity.stats.xp.toString(), entity.frame.x + entity.frame.width / 2 - (entity.stats.xp.toString().length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 95, { color: 'rgb(0,255,0)' })
       }
     } else {
       // hp
@@ -111,35 +113,27 @@ window.addEventListener('load', function () {
       // debug
       if (world.showLiveDebug) {
         const val = `${entity.controls.left ? '←' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.attack ? '#' : ''}${entity.controls.jump ? '▲' : ''}${entity.controls.right ? '→' : ''}`
-        drawTextWithBackground(val, entity.frame.x + entity.frame.width / 2 - (val.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, 'rgb(255,255,255)')
+        drawTextWithBackground(val, entity.frame.x + entity.frame.width / 2 - (val.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, { color: 'rgb(255,255,255)' })
       }
     }
-  }
-
-  function drawTextWithBackground (text, x, y, color, font) {
-    ctx.fillStyle = 'rgba(0,0,0,0.5)'
-    ctx.fillRect(x - 5, y - 25, text.length * 17 + 5, 30)
-    ctx.fillStyle = color || 'rgb(255,255,255)'
-    ctx.font = font || '25px PixeloidMono'
-    ctx.fillText(text, x, y)
   }
 
   function drawDebug () {
     // debug info
     if (world.showLiveDebug) {
       const tracked = player
-      drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, 'cyan')
-      drawTextWithBackground(`POS: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, 'cyan')
-      drawTextWithBackground(`LIGHT: ${Math.round(light * 100) / 100}  MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' #') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, 'cyan')
-      // drawTextWithBackground(`name: ${value}`, 5, 190, 'cyan')
+      drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, { color: 'cyan' })
+      drawTextWithBackground(`POS: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, { color: 'cyan' })
+      drawTextWithBackground(`LIGHT: ${Math.round(light * 100) / 100}  MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' #') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, { color: 'cyan' })
+      // drawTextWithBackground(`name: ${value}`, 5, 190, { color: 'cyan' })
     }
     if (world.showPlayerStats) {
-      drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220, 'magenta')
-      drawTextWithBackground(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250, 'magenta')
-      drawTextWithBackground(`Damage Taken: ${playerStats.damageTaken}`, 5, 280, 'magenta')
-      drawTextWithBackground(`Damage Dealt: ${playerStats.damageDealt}`, 5, 310, 'magenta')
-      drawTextWithBackground(`Kills: ${playerStats.kills}`, 5, 340, 'magenta')
-      drawTextWithBackground(`Time Taken: ${playerStats.timeTaken}`, 5, 370, 'magenta')
+      drawTextWithBackground(`Attacks: ${playerStats.attacks}`, 5, 220, { color: 'magenta' })
+      drawTextWithBackground(`Attacks Hit: ${playerStats.attacksHit}`, 5, 250, { color: 'magenta' })
+      drawTextWithBackground(`Damage Taken: ${playerStats.damageTaken}`, 5, 280, { color: 'magenta' })
+      drawTextWithBackground(`Damage Dealt: ${playerStats.damageDealt}`, 5, 310, { color: 'magenta' })
+      drawTextWithBackground(`Kills: ${playerStats.kills}`, 5, 340, { color: 'magenta' })
+      drawTextWithBackground(`Time Taken: ${playerStats.timeTaken}`, 5, 370, { color: 'magenta' })
     }
   }
 
@@ -248,9 +242,9 @@ window.addEventListener('load', function () {
       frames++
       drawMain()
       drawPlayerBars()
-      if (settings.showFPS) drawTextWithBackground(`FPS: ${fps} (${frames})`, window.innerWidth - 250, 50, 'lime')
+      if (settings.showFPS) drawTextWithBackground(`FPS: ${fps} (${frames})`, window.innerWidth - 250, 50, { color: 'lime' })
       drawDebug()
-      drawTextWithBackground('OBJECTIVE: Defeat all skeletons', window.innerWidth * 0.4, 50, 'red')
+      drawTextWithBackground('OBJECTIVE: Defeat all skeletons', window.innerWidth * 0.4, 50, { color: 'red' })
     }
     requestAnimationFrame(draw)
   }

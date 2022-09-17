@@ -1,4 +1,4 @@
-import { world } from './globals.js'
+import { settings, world, UI, fonts } from './globals.js'
 import { ctx } from './main.js'
 
 /**
@@ -41,13 +41,15 @@ export function newDrawTile (tile, gridY, gridX) {
     ctx.strokeRect(x, y, w, h)
   }
   ctx.restore()
-  if (world.showBoxes) drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
+  if (world.showBoxes) drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid, { font: `${UI.fontSize}px ${fonts.Pixeloid}` })
 }
 
-function drawTextWithBackground (text, x, y, color, font) {
+export function drawTextWithBackground (text, x, y, options) {
+  let { color, font } = options
+  ctx.textBaseline = 'top'
+  ctx.font = font || UI.font
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
-  ctx.fillRect(x - 5, y - 25, text.length * 17 + 5, 30)
+  ctx.fillRect(x, y, ctx.measureText(text).width + settings.scale * 2, UI.fontSize + settings.scale)
   ctx.fillStyle = color || 'rgb(255,255,255)'
-  ctx.font = font || '25px PixeloidMono'
-  ctx.fillText(text, x, y)
+  ctx.fillText(text, x + settings.scale, y + settings.scale)
 }

@@ -44,6 +44,23 @@ export const world = {
   get grid () { return settings.scale * 16 }
 }
 
+/**
+ * Enum for fonts. Names are defined in css.
+ * @readonly
+ * @enum {string}
+ */
+export const fonts = Object.freeze({
+  Pixeloid: 'Pixeloid',
+  PixeloidMono: 'PixeloidMono',
+  PixeloidBold: 'PixeloidBold'
+})
+
+export const UI = {
+  fontSize: 25,
+  fontStyle: fonts.Pixeloid,
+  get font () { return `${this.fontSize}px ${this.fontStyle}` }
+}
+
 export const weather = {
   main: 'Clear',
   description: 'clear sky',
