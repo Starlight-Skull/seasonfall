@@ -1,4 +1,4 @@
-export const textures = {
+export const textures = Object.freeze({
   entity: {
     missing_entity: './textures/entity/missing_entity.png',
     hero: './textures/entity/hero.png',
@@ -24,14 +24,14 @@ export const textures = {
     painting: './textures/tile/painting.png',
     plank: './textures/tile/plank.png'
   }
-}
+})
 
 /**
  * Finds the image from the given path.
  * @param path - The path to find the image from. If an array is passed a random path will be used.
  * @returns {Image} The image at the given path.
  */
-export function LoadImage (path) {
+export function loadImage (path) {
   const image = new Image()
   if (Array.isArray(path)) path = path[Math.round(Math.random()) * (path.length - 1)]
   image.src = path || textures.tile.missing_tile

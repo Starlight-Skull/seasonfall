@@ -1,7 +1,7 @@
-import { LoadImage, textures } from './textures.js'
+import { loadImage, textures } from './textures.js'
 
-const missingEntity = LoadImage(textures.entity.missing_entity)
-const missingTile = LoadImage(textures.tile.missing_tile)
+const missingEntity = loadImage(textures.entity.missing_entity)
+const missingTile = loadImage(textures.tile.missing_tile)
 
 export class Entity {
   constructor (hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {

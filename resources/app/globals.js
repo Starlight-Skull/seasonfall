@@ -1,18 +1,18 @@
-import { LoadImage, textures } from './textures.js'
+import { LoadImage as loadImage, textures } from './textures.js'
 import { NewTile, Tile } from './classes.js'
 import { Door, Hero, Rain, Skeleton } from './classesExtended.js'
 
 // tileEntities
-const door = LoadImage(textures.tileEntity.door)
+const door = loadImage(textures.tileEntity.door)
 // tiles
-const beam = LoadImage(textures.tile.beam)
-const brick = LoadImage(textures.tile.brick)
-const brickWall = LoadImage(textures.tile.brick_wall)
-const dirt = LoadImage(textures.tile.dirt)
-const dirtWall = LoadImage(textures.tile.dirt_wall)
-const grass = LoadImage(textures.tile.grass)
-const painting = LoadImage(textures.tile.painting)
-const plank = LoadImage(textures.tile.plank)
+const beam = loadImage(textures.tile.beam)
+const brick = loadImage(textures.tile.brick)
+const brickWall = loadImage(textures.tile.brick_wall)
+const dirt = loadImage(textures.tile.dirt)
+const dirtWall = loadImage(textures.tile.dirt_wall)
+const grass = loadImage(textures.tile.grass)
+const painting = loadImage(textures.tile.painting)
+const plank = loadImage(textures.tile.plank)
 
 export const version = '1.1.1'
 

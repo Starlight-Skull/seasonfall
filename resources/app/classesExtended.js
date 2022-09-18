@@ -1,13 +1,13 @@
-import { LoadImage, textures } from './textures.js'
+import { loadImage, textures } from './textures.js'
 import { settings } from './globals.js'
 import { Animation, Entity, TileEntity } from './classes.js'
 
 // entities
-const hero = LoadImage(textures.entity.hero)
-const skeleton = LoadImage(textures.entity.skeleton)
+const hero = loadImage(textures.entity.hero)
+const skeleton = loadImage(textures.entity.skeleton)
 // environment
-const rain = LoadImage(textures.environment.rain)
-const snow = LoadImage(textures.environment.snow)
+const rain = loadImage(textures.environment.rain)
+const snow = loadImage(textures.environment.snow)
 
 export class Hero extends Entity {
   constructor (x, y, name) {
