@@ -1,4 +1,4 @@
-import { LoadImage as loadImage, textures } from './textures.js'
+import { loadImage, textures } from './textures.js'
 import { NewTile, Tile } from './classes.js'
 import { Door, Hero, Rain, Skeleton } from './classesExtended.js'
 
