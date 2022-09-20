@@ -1,13 +1,16 @@
-import { player, playerStats, settings, weather, world } from './globals.js'
+import { player, playerStats, settings, weather, world, version } from './globals.js'
 import { element } from './helpers.js'
 import { quit, toStorage } from './init.js'
 import { geoCoderAPI, navigate } from './data.js'
+
+const pauseMenu = element('pauseMenu')
+const debugMenu = element('debugMenu')
 
 /**
  * Contains the pause menus for ease of access.
  * @type {{new: HTMLElement, settingsApi: HTMLElement, load: HTMLElement, stats: HTMLElement, settingsGeneral: HTMLElement, pause: HTMLElement, settingsKeybindings: HTMLElement}}
  */
-export const menus = {
+const menus = {
   pause: element('pause'),
   new: element('new'),
   load: element('load'),
@@ -17,11 +20,22 @@ export const menus = {
   settingsKeybindings: element('settingsKeybindings')
 }
 
+export function initMenu () {
+  element('version').innerText = version
+  pauseMenu.style.visibility = 'hidden'
+  debugMenu.style.visibility = 'hidden'
+  for (const menusKey in menus) {
+    menus[menusKey].style.display = 'none'
+  }
+  menus.pause.style.display = 'flex'
+  pauseMenu.addEventListener('click', ev => handleMenuEvent(ev.target))
+}
+
 /**
  * Handles a click event on an item in the pause menu that has a data-menu or data-action attribute.
  * @param target - The HTML element that was clicked.
  */
-export function handleMenuEvent (target) {
+function handleMenuEvent (target) {
   if (target.dataset.menu) {
     for (const menusKey in menus) {
       menus[menusKey].style.display = 'none'
@@ -109,13 +123,12 @@ function setKey (event) {
  * Toggles the visibility of the pause menu and handles the associated values.
  */
 export function openPauseMenu () {
-  const pauseMenu = element('pauseMenu')
   if (pauseMenu.style.visibility === 'hidden') {
     world.paused = true
     pauseMenu.style.visibility = 'visible'
     loadSettings()
   } else {
-    world.paused = element('debugMenu').style.visibility === 'visible'
+    world.paused = debugMenu.style.visibility === 'visible'
     pauseMenu.style.visibility = 'hidden'
     saveSettings()
   }
@@ -179,7 +192,6 @@ function loadSettings () {
  * Toggles the visibility of the debug menu and handles the associated data.
  */
 export function openDebugMenu () {
-  const debugMenu = element('debugMenu')
   if (debugMenu.style.visibility === 'hidden') {
     world.paused = true
     debugMenu.style.visibility = 'visible'
@@ -204,7 +216,7 @@ export function openDebugMenu () {
       element(weatherKey).value = weather[weatherKey]
     }
   } else {
-    world.paused = element('pauseMenu').style.visibility === 'visible'
+    world.paused = pauseMenu.style.visibility === 'visible'
     debugMenu.style.visibility = 'hidden'
     // general
     world.showBoxes = element('showBoxes').checked

@@ -1,10 +1,8 @@
-import { version, settings, weather } from './globals.js'
-import { element, formatUnixTime, handleMouseKeyEvent } from './helpers.js'
+import { settings, weather } from './globals.js'
+import { element, formatUnixTime } from './helpers.js'
 import { fromStorage, toStorage } from './init.js'
-import { handleMenuEvent, menus } from './menu.js'
 
-window.addEventListener('load', function () {
-  element('version').innerText = version
+export function initData () {
   fromStorage('settings').then(file => {
     for (const fileKey in file) {
       if (typeof settings[fileKey] === 'object') {
@@ -20,20 +18,7 @@ window.addEventListener('load', function () {
     oneCallAPI()
     setInterval(oneCallAPI, settings.api.interval * 1000)
   })
-  window.addEventListener('mousedown', ev => handleMouseKeyEvent(`Mouse${ev.button}`, true))
-  window.addEventListener('mouseup', ev => handleMouseKeyEvent(`Mouse${ev.button}`, false))
-  window.addEventListener('keydown', ev => handleMouseKeyEvent(ev.code, true))
-  window.addEventListener('keyup', ev => handleMouseKeyEvent(ev.code, false))
-  const pauseMenu = element('pauseMenu')
-  pauseMenu.style.visibility = 'hidden'
-  pauseMenu.addEventListener('click', ev => handleMenuEvent(ev.target))
-  for (const menusKey in menus) {
-    menus[menusKey].style.display = 'none'
-  }
-  menus.pause.style.display = 'flex'
-  const debugMenu = element('debugMenu')
-  debugMenu.style.visibility = 'hidden'
-})
+}
 
 /**
  * Tries to get coordinates from the built-in navigator API.
