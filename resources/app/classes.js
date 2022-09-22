@@ -1,3 +1,4 @@
+import { world } from './globals.js'
 import { loadImage, textures } from './textures.js'
 
 const missingEntity = loadImage(textures.entity.missing_entity)
@@ -54,7 +55,13 @@ export class Entity {
 }
 
 export class NewEntity {
-  constructor ({ x, y, maxHP, maxMP, xp, damage, speed, mirrored }) {
+  constructor (x, y, sprite, options) {
+    const { maxHP, maxMP, xp, damage, speed, mirrored, jumpHeight } = options || {}
+    this.x = x || 0
+    this.y = y || 0
+    this.width = sprite?.width || world.grid
+    this.height = sprite?.height || world.grid
+    this.mirrored = mirrored || false
     this.stats = {
       hp: maxHP || 100,
       maxHP: maxHP || 100,
@@ -63,7 +70,7 @@ export class NewEntity {
       xp: xp || 0,
       damage: damage || 10,
       speed: speed || 1,
-      jumpHeight: 3
+      jumpHeight: jumpHeight || 3
     }
     this.movement = {
       attack: false,
@@ -79,18 +86,14 @@ export class NewEntity {
       left: false,
       right: false
     }
-    this.position = {
-      x: x || 0,
-      y: y || 0,
-      mirrored
-    }
+    this.animation = new SpriteSet(sprite)
     this.animations = {
-      idle: new NewAnimation(),
-      move: new NewAnimation(),
-      attack: new NewAnimation(),
-      jump: new NewAnimation(),
-      fall: new NewAnimation(),
-      death: new NewAnimation()
+      idle: new SpriteSet(sprite),
+      move: new SpriteSet(sprite),
+      attack: new SpriteSet(sprite),
+      jump: new SpriteSet(sprite),
+      fall: new SpriteSet(sprite),
+      death: new SpriteSet(sprite)
     }
   }
 }
@@ -113,12 +116,13 @@ export class Tile {
 
 export class NewTile {
   constructor (sprite, options) {
-    this.width = options?.width || 1
-    this.height = options?.height || 1
-    this.collision = options?.collision || true
-    this.mirrored = options?.mirrored || false
-    this.rotation = options?.rotation || false
-    this.animation = new NewAnimation({ sprite })
+    const { width, height, collision, mirrored, rotation } = options || {}
+    this.width = width || 1
+    this.height = height || 1
+    this.collision = collision || true
+    this.mirrored = mirrored || false
+    this.rotation = rotation || false
+    this.sprite = new SpriteSet(sprite)
   }
 
   activate () {}
@@ -147,13 +151,14 @@ export class Animation {
   }
 }
 
-export class NewAnimation {
-  constructor ({ sprite, x, y, width, height, frames, speed }) {
-    this.sprite = sprite || missingTile
+export class SpriteSet {
+  constructor (image, options) {
+    const { x, y, width, height, frames, speed } = options || {}
+    this.image = image || missingTile
     this.x = x || 0
     this.y = y || 0
-    this.width = width || 16
-    this.height = height || 16
+    this.width = width || image?.width
+    this.height = height || image?.height
     this.frames = frames || 1
     this.speed = speed || 0
   }

@@ -1,5 +1,5 @@
 import { loadImage, textures } from './textures.js'
-import { NewTile, Tile } from './classes.js'
+import { NewEntity, NewTile, Tile } from './classes.js'
 import { Door, Hero, Rain, Skeleton } from './classesExtended.js'
 
 // tileEntities
@@ -116,12 +116,17 @@ export const entityList = [
   new Skeleton(1, 4640, 1920)
 ]
 
+export const newEntities = [
+  new NewEntity(0, 0),
+  new NewEntity(5.5, 2)
+]
+
 export const newTiles = {
   0: {
     0: new NewTile(grass),
-    1: new NewTile(painting, { height: 2 }),
-    2: new NewTile(painting, { height: 2, mirrored: true }),
-    3: new NewTile(painting, { height: 2, rotation: 180, mirrored: true }),
+    1: new NewTile(brick),
+    2: new NewTile(brick, { mirrored: true }),
+    3: new NewTile(brick, { rotation: 180, mirrored: true }),
     4: new NewTile(grass),
     5: new NewTile(grass),
     6: new NewTile(grass, { rotation: 40 }),

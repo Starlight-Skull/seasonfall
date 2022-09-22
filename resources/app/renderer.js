@@ -1,12 +1,20 @@
-import { settings, world, weather, UI, fonts, animTileList, entityList, player, playerStats, tileEntityList, tileList, newTiles } from './globals.js'
-// import { ctx } from './main.js'
+import { settings, world, weather, UI, fonts, animTileList, entityList, player, playerStats, tileEntityList, tileList, newTiles, newEntities } from './globals.js'
 import { entityMovement } from './movement.js'
 import { element } from './helpers.js'
 
 const ctx = element('screen').getContext('2d')
 
+const sky = Object.freeze({
+  morning: { shade: 0.2, color: 'rgb(207,113,175)' },
+  beforeNoon: { shade: 0.1, color: 'rgb(135,206,235)' },
+  noon: { shade: 0, color: 'rgb(178, 255, 255)' },
+  afterNoon: { shade: 0.1, color: 'rgb(140,190,214)' },
+  evening: { shade: 0.5, color: 'rgb(0,73,83)' },
+  night: { shade: 0.7, color: 'rgb(25,25,112)' }
+})
+
 export function drawTextWithBackground (text, x, y, options) {
-  let { color, font } = options
+  const { color, font } = options || {}
   ctx.textBaseline = 'top'
   ctx.font = font || UI.font
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
@@ -38,7 +46,7 @@ export function newDrawTile (tile, gridY, gridX) {
     x = -w / 2
     y = -h / 2
   }
-  ctx.drawImage(tile.animation.sprite, x, y, w, h)
+  ctx.drawImage(tile.sprite.image, x, y, w, h)
   if (world.showBoxes && tile.constructor.name === 'NewTile') {
     switch (tile.collision) {
       case 'none':
@@ -55,19 +63,13 @@ export function newDrawTile (tile, gridY, gridX) {
     ctx.strokeRect(x, y, w, h)
   }
   ctx.restore()
-  if (world.showBoxes) drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid, { font: `${UI.fontSize}px ${fonts.Pixeloid}` })
+  if (world.showBoxes) {
+    drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
+  }
 }
 
 export function drawSky () {
   let timeSet
-  let sky = {
-    morning: { shade: 0.2, color: 'rgb(207,113,175)' },
-    beforeNoon: { shade: 0.1, color: 'rgb(135,206,235)' },
-    noon: { shade: 0, color: 'rgb(178, 255, 255)' },
-    afterNoon: { shade: 0.1, color: 'rgb(140,190,214)' },
-    evening: { shade: 0.5, color: 'rgb(0,73,83)' },
-    night: { shade: 0.7, color: 'rgb(25,25,112)' }
-  }
   switch (true) {
     case (weather.time >= weather.sunrise - 50 && weather.time <= weather.sunrise + 50):
       timeSet = sky.morning
@@ -92,8 +94,6 @@ export function drawSky () {
   ctx.fillStyle = timeSet.color
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }
-
-// old
 
 function drawTile (tile) {
   if ((player.frame.x - (tile.frame.x + tile.frame.width) <= (window.innerWidth / 2)) && (tile.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (tile.frame.y + tile.frame.height) <= (window.innerHeight / 3)) && (tile.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
@@ -155,6 +155,31 @@ function drawEntity (entity) {
       ctx.fillStyle = 'rgba(250,0,250,0.5)'
       ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height)
     }
+  }
+}
+
+function newDrawEntity (entity) {
+  // entityMovement(entity)
+  // if near player
+  let x = entity.x * world.grid
+  let y = entity.y * world.grid
+  let w = entity.width
+  let h = entity.height
+  ctx.save()
+  if (entity.mirrored) {
+    ctx.scale(-1, 1)
+    x = -x
+    w = -w
+  }
+  ctx.drawImage(entity.animation.image, x, y, w, h)
+  if (world.showBoxes && entity.constructor.name === 'NewEntity') {
+    ctx.fillStyle = 'rgba(250,0,250,0.5)'
+    ctx.fillRect(x, y, w, h)
+    ctx.strokeRect(x, y, w, h)
+  }
+  ctx.restore()
+  if (world.showBoxes) {
+    drawTextWithBackground(`${entity.x},${entity.y}`, entity.x * world.grid, entity.y * world.grid, { font: `${UI.fontSize}px ${fonts.Pixeloid}` })
   }
 }
 
@@ -237,6 +262,7 @@ export function drawMain () {
   // has to be disabled so pixel art isn't blurry
   ctx.imageSmoothingEnabled = false
   drawSky()
+  ctx.save()
   // move context to player
   ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
   // draw world
@@ -249,13 +275,9 @@ export function drawMain () {
       drawTile(animTileList[i])
     }
   }
+
   for (let i = 0; i < tileList.length; i++) {
     drawTile(tileList[i])
-  }
-  for (const row in newTiles) {
-    for (const collum in newTiles[row]) {
-      newDrawTile(newTiles[row][collum], row, collum)
-    }
   }
   for (let i = 0; i < tileEntityList.length; i++) {
     drawTile(tileEntityList[i])
@@ -264,17 +286,29 @@ export function drawMain () {
     drawEntity(entityList[i])
   }
   drawEntity(player)
+
   ctx.fillStyle = `rgba(0,0,0,${world.shade})`
-  ctx.fillRect(-world.width / 2, window.innerHeight * 1.5, world.width * 2, -world.height * 2)
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+
   for (let i = 0; i < entityList.length; i++) {
     drawStats(entityList[i])
   }
   drawStats(player)
-  // reset context
-  ctx.setTransform(1, 0, 0, 1, 0, 0)
-  ctx.translate(0, 0)
+  ctx.restore()
 
+  // ctx.save()
+  // ctx.translate(window.innerWidth / 2 - player.frame.x, window.innerHeight / 2 - player.frame.y)
+  // // new rendering format
+  // for (let y in newTiles) {
+  //   for (let x in newTiles[y]) {
+  //     newDrawTile(newTiles[y][x], y, x)
+  //   }
+  // }
+  // for (let entity of newEntities) {
+  //   newDrawEntity(entity)
+  // }
+  // ctx.restore()
+  // UI
   drawPlayerBars()
   drawDebug()
-  drawTextWithBackground('OBJECTIVE: Defeat all skeletons', window.innerWidth * 0.4, 20, { color: 'red' })
 }
