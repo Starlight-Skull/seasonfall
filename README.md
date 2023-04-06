@@ -14,9 +14,11 @@ Major rewrites to make code more accessible, reusable and efficient.
 
 ## For the player
 
-Download the [latest](https://github.com/Starlight-Skull/Seasonfall/releases/latest) release and run the appropriate executable.
+Now hosted right here on [GitHub Pages](https://starlight-skull.github.io/Seasonfall/).
 
-Now also available online via [GitHub Pages](https://starlight-skull.github.io/Seasonfall/).
+~~Download the [latest](https://github.com/Starlight-Skull/Seasonfall/releases/latest) release and run the appropriate executable.~~
+
+> Development for native releases is removed for the time being.
 
 ---
 
@@ -36,19 +38,8 @@ _(Note that you also need to have [git](https://git-scm.com/downloads) and [npm]
 git clone https://github.com/Starlight-Skull/Seasonfall.git
 cd Seasonfall
 npm ci
-npm run update
 ```
 
 ### Starting the app
 
-```bash
-npm run dev
-```
-
-### Making a build
-
-The executables will be in /dist
-
-```bash
-npm run build
-```
+Open index.html in your browser or use a live server extension for your IDE.

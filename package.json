@@ -20,15 +20,11 @@
   },
   "homepage": "https://github.com/Starlight-Skull/Seasonfall#readme",
   "scripts": {
-    "dev": "neu run",
-    "build": "neu build",
-    "update": "neu update",
     "sass": "sass resources/styles/index.scss resources/styles/index.css",
     "watch": "sass --watch resources/styles/index.scss resources/styles/index.css",
     "jsdoc": "jsdoc -c jsdoc.json"
   },
   "devDependencies": {
-    "@neutralinojs/neu": "^9.3.1",
     "eslint": "^8.23.1",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",

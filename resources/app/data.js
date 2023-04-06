@@ -1,6 +1,5 @@
 import { settings, weather } from './globals.js'
-import { element, formatUnixTime } from './helpers.js'
-import { fromStorage, toStorage } from './init.js'
+import { element, formatUnixTime, fromStorage, toStorage } from './helpers.js'
 
 export function initData () {
   fromStorage('settings').then(file => {

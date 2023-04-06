@@ -1,6 +1,5 @@
 import { player, playerStats, settings, weather, world, version } from './globals.js'
-import { element } from './helpers.js'
-import { quit, toStorage } from './init.js'
+import { element, quit, toStorage } from './helpers.js'
 import { geoCoderAPI, navigate } from './data.js'
 
 const pauseMenu = element('pauseMenu')
@@ -28,7 +27,7 @@ export function initMenu () {
     menus[menusKey].style.display = 'none'
   }
   menus.pause.style.display = 'flex'
-  pauseMenu.addEventListener('click', ev => handleMenuEvent(ev.target))
+  pauseMenu.addEventListener('click', (ev) => handleMenuEvent(ev.target))
 }
 
 /**
@@ -94,7 +93,7 @@ function menuAction (target) {
  * @param apiKey - The API key
  */
 function search (location, apiKey) {
-  geoCoderAPI(location, apiKey).then(locations => {
+  geoCoderAPI(location, apiKey).then((locations) => {
     if (locations.length === 0) return
     element('searchResults').replaceChildren()
     for (const location of locations) {
