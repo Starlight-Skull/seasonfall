@@ -19,7 +19,6 @@
         "monospaceLinks": true
     },
     "opts": {
-        "destination": "./docs/jsdoc",
         "recurse": true
     }
 }

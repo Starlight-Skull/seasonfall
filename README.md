@@ -26,8 +26,6 @@ Now hosted right here on [GitHub Pages](https://starlight-skull.github.io/Season
 
 Clone the source and build your own.
 
-Jsdoc documentation is also available via [GitHub Pages](https://starlight-skull.github.io/Seasonfall/jsdoc/).
-
 ### Cloning
 
 In your preferred shell and location.
