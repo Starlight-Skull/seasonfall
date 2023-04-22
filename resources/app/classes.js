@@ -77,7 +77,8 @@ export class NewEntity {
       down: false,
       left: false,
       right: false,
-      jump: false
+      jump: false,
+      use: false
     }
     this.collision = {
       enabled: true,

@@ -30,7 +30,8 @@ export const settings = {
     jump: 'Space',
     down: 'KeyS',
     left: 'KeyA',
-    right: 'KeyD'
+    right: 'KeyD',
+    use: 'KeyE'
   }
 }
 

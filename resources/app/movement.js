@@ -166,15 +166,6 @@ export function entityMovement (entity) {
         if (entity === player) {
           playerStats.attacks++
         }
-        for (let i = 0; i < tileEntityList.length; i++) {
-          let tile
-          if (entity === player) {
-            tile = collision(entity, tileEntityList[i], true)
-          }
-          if (tile && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
-            tile.activate()
-          }
-        }
         for (let i = 0; i < entityList.length; i++) {
           let entity2
           if (entity === player) {
@@ -215,6 +206,18 @@ export function entityMovement (entity) {
         }
         entity.controls.attack = 2
       }
+    }
+    if (entity.controls.use === true) {
+      for (let i = 0; i < tileEntityList.length; i++) {
+        let tile
+        if (entity === player) {
+          tile = collision(entity, tileEntityList[i], true)
+        }
+        if (tile && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
+          tile.activate()
+        }
+      }
+      entity.controls.use = 2
     }
   }
 }
