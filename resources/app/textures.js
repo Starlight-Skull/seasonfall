@@ -1,28 +1,47 @@
+/* eslint-disable camelcase */
+import missing_entity from '../textures/entity/missing_entity.png'
+import hero from '../textures/entity/hero.png'
+import skeleton from '../textures/entity/skeleton.png'
+import stick from '../textures/entity/stick.png'
+import kain from '../textures/entity/kain.png'
+import door from '../textures/tileEntity/door.png'
+import rain from '../textures/environment/rain.png'
+import snow from '../textures/environment/snow.png'
+import missingTile from '../textures/tile/missing_tile.png'
+import beam from '../textures/tile/beam.png'
+import brick from '../textures/tile/brick.png'
+import brick_wall from '../textures/tile/brick_wall.png'
+import dirt from '../textures/tile/dirt.png'
+import dirt_wall from '../textures/tile/dirt_wall.png'
+import grass from '../textures/tile/grass.png'
+import painting from '../textures/tile/painting.png'
+import plank from '../textures/tile/plank.png'
+
 export const textures = Object.freeze({
   entity: {
-    missing_entity: './textures/entity/missing_entity.png',
-    hero: './textures/entity/hero.png',
-    skeleton: './textures/entity/skeleton.png',
-    stick: './textures/entity/stick.png',
-    kain: './textures/entity/kain_animations.png'
+    missing_entity,
+    hero,
+    skeleton,
+    stick,
+    kain
   },
   tileEntity: {
-    door: './textures/tileEntity/door.png'
+    door
   },
   environment: {
-    rain: './textures/environment/rain.png',
-    snow: './textures/environment/snow.png'
+    rain,
+    snow
   },
   tile: {
-    missing_tile: './textures/tile/missing_tile.png',
-    beam: './textures/tile/beam.png',
-    brick: './textures/tile/brick.png',
-    brick_wall: './textures/tile/brick_wall.png',
-    dirt: './textures/tile/dirt.png',
-    dirt_wall: './textures/tile/dirt_wall.png',
-    grass: './textures/tile/grass.png',
-    painting: './textures/tile/painting.png',
-    plank: './textures/tile/plank.png'
+    missing_tile: missingTile,
+    beam,
+    brick,
+    brick_wall,
+    dirt,
+    dirt_wall,
+    grass,
+    painting,
+    plank
   }
 })
 

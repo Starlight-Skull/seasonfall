@@ -3,6 +3,7 @@ import { drawMain, drawTextWithBackground } from './renderer.js'
 import { element, handleMouseKeyEvent } from './helpers.js'
 import { initMenu } from './menu.js'
 import { initData } from './data.js'
+import '../styles/index.scss'
 
 let fps = 0
 let frames = 0
