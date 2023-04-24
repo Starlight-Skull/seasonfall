@@ -1,6 +1,6 @@
-import { loadImage, textures } from './textures.js'
-import { settings } from './globals.js'
-import { Animation, Entity, TileEntity } from './classes.js'
+import { loadImage, textures } from './textures'
+import { settings } from './globals'
+import { Animation, Entity, TileEntity } from './classes'
 
 // entities
 const hero = loadImage(textures.entity.hero)

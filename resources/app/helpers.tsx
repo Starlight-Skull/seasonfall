@@ -1,5 +1,5 @@
-import { player, settings, world } from './globals.js'
-import { openDebugMenu, openPauseMenu } from './menu.js'
+import { player, settings, world } from './globals'
+import { openDebugMenu, openPauseMenu } from './menu'
 
 /**
  * Shorthand for document.getElementById().

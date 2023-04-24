@@ -1,6 +1,6 @@
-import { settings, world, weather, UI, fonts, animTileList, entityList, player, playerStats, tileEntityList, tileList, newTiles, newEntities } from './globals.js'
-import { entityMovement } from './movement.js'
-import { element } from './helpers.js'
+import { settings, world, weather, UI, fonts, animTileList, entityList, player, playerStats, tileEntityList, tileList, newTiles, newEntities } from './globals'
+import { entityMovement } from './movement'
+import { element } from './helpers'
 
 const ctx = element('screen').getContext('2d')
 

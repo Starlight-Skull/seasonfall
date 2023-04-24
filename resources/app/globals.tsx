@@ -1,6 +1,6 @@
-import { loadImage, textures } from './textures.js'
-import { NewEntity, NewTile, Tile } from './classes.js'
-import { Door, Hero, Rain, Skeleton } from './classesExtended.js'
+import { loadImage, textures } from './textures'
+import { NewEntity, NewTile, Tile } from './classes'
+import { Door, Hero, Rain, Skeleton } from './classesExtended'
 
 // tileEntities
 const door = loadImage(textures.tileEntity.door)

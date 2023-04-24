@@ -1,5 +1,5 @@
-import { collision, borderControl } from './helpers.js'
-import { entityList, player, playerStats, tileEntityList, tileList, weather } from './globals.js'
+import { collision, borderControl } from './helpers'
+import { entityList, player, playerStats, tileEntityList, tileList, weather } from './globals'
 
 export function entityMovement (entity) {
   borderControl(entity)

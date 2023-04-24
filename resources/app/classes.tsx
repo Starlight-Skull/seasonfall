@@ -1,5 +1,5 @@
-import { world } from './globals.js'
-import { loadImage, textures } from './textures.js'
+import { world } from './globals'
+import { loadImage, textures } from './textures'
 
 const missingEntity = loadImage(textures.entity.missing_entity)
 const missingTile = loadImage(textures.tile.missing_tile)

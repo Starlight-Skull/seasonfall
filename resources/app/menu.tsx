@@ -1,6 +1,6 @@
-import { player, playerStats, settings, weather, world, version } from './globals.js'
-import { element, quit, toStorage } from './helpers.js'
-import { geoCoderAPI, navigate } from './data.js'
+import { player, playerStats, settings, weather, world, version } from './globals'
+import { element, quit, toStorage } from './helpers'
+import { geoCoderAPI, navigate } from './data'
 
 const pauseMenu = element('pauseMenu')
 const debugMenu = element('debugMenu')

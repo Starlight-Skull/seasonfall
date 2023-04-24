@@ -1,8 +1,9 @@
-import { settings, world, playerStats } from './globals.js'
-import { drawMain, drawTextWithBackground } from './renderer.js'
-import { element, handleMouseKeyEvent } from './helpers.js'
-import { initMenu } from './menu.js'
-import { initData } from './data.js'
+import { settings, world, playerStats } from './globals'
+import { drawMain, drawTextWithBackground } from './renderer'
+import { element, handleMouseKeyEvent } from './helpers'
+import { initMenu } from './menu'
+import { initData } from './data'
+
 import '../styles/index.scss'
 
 let fps = 0
@@ -17,7 +18,7 @@ setInterval(() => {
 
 window.addEventListener('load', function () {
   // setup for drawing
-  const screen = element('screen')
+  const screen: HTMLCanvasElement = element('screen') as HTMLCanvasElement
   if (!screen.getContext) window.alert('This application is not supported by your browser.')
 
   window.addEventListener('mousedown', ev => handleMouseKeyEvent(`Mouse${ev.button}`, true))
