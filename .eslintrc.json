@@ -12,5 +12,6 @@
   "rules": {
     "no-unused-vars": "warn",
     "prefer-const": "off"
-  }
+  },
+  "ignorePatterns": ["out/", "dist/", "docs/"]
 }

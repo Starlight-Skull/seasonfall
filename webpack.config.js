@@ -1,11 +1,11 @@
-// const path = require('path')
+const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './resources/app/main.js',
   output: {
     filename: '[name].bundle.js',
-    // path: path.resolve(__dirname, './docs'),
+    path: path.resolve(__dirname, './out/webpack'),
     assetModuleFilename: 'assets/[name][ext]',
     clean: true
   },
@@ -20,7 +20,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
       },
@@ -37,6 +37,9 @@ module.exports = {
         type: 'asset/resource'
       }
     ]
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx']
   },
   devServer: {
     host: 'localhost',
