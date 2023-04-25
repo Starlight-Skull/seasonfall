@@ -4,7 +4,7 @@ import { element, handleMouseKeyEvent } from './helpers'
 import { initMenu } from './menu'
 import { initData } from './data'
 
-import '../styles/index.scss'
+import '../styles/index.sass'
 
 let fps = 0
 let frames = 0
