@@ -26,8 +26,6 @@ Now hosted right here on [GitHub Pages](https://starlight-skull.github.io/Season
 
 Clone the source and build your own.
 
-### Cloning
-
 In your preferred shell and location.
 
 _(Note that you also need to have [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/download/) installed)_
@@ -38,6 +36,14 @@ cd Seasonfall
 npm ci
 ```
 
-### Starting the app
+Start the dev server.
 
-Open index.html in your browser or use a live server extension for your IDE.
+```bash
+npm run start
+```
+
+Or make a build.
+
+```bash
+npm run build
+```
