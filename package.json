@@ -22,8 +22,7 @@
   "homepage": "https://github.com/Starlight-Skull/Seasonfall#readme",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server",
-    "jsdoc": "jsdoc -c jsdoc.json"
+    "start": "webpack-dev-server"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
@@ -47,7 +46,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "html-webpack-plugin": "^5.5.1",
-    "jsdoc": "^4.0.2",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.54.9",
     "sass-loader": "^13.2.2",
