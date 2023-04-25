@@ -110,6 +110,6 @@
     "node_modules"
   ],
   "include": [
-    "resources/app"
+    "source"
   ],
 }

@@ -2,10 +2,10 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  entry: './resources/app/main.tsx',
+  entry: './source/app/main.tsx',
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, './out/webpack'),
+    // path: path.resolve(__dirname, './docs'),
     assetModuleFilename: 'assets/[name][ext]',
     clean: true
   },
@@ -13,8 +13,8 @@ module.exports = {
   devtool: 'inline-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'resources/public/index.html',
-      favicon: 'resources/icons/favicon.ico'
+      template: 'source/public/index.html',
+      favicon: 'source/icons/favicon.ico'
     })
   ],
   module: {
