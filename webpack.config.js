@@ -6,7 +6,7 @@ module.exports = {
   entry: './source/app/main.tsx',
   output: {
     filename: '[name].bundle.js',
-    // path: path.resolve(__dirname, './docs'),
+    path: path.resolve(__dirname, './docs'),
     assetModuleFilename: 'assets/[name][ext]',
     clean: true
   },
