@@ -1,6 +1,6 @@
 # Build with Webpack and deploy to GitHub Pages
 # Based on static and webpack workflow templates
-name: Build & Deploy
+name: Webpack
 
 on:
   # Runs on pushes and pull-requests targeting the default branch
