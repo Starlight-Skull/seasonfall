@@ -1,8 +1,10 @@
 # Seasonfall
 
-[![CodeQL](https://github.com/Starlight-Skull/Seasonfall/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Starlight-Skull/Seasonfall/actions/workflows/codeql-analysis.yml) [![pages-build-deployment](https://github.com/Starlight-Skull/Seasonfall/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/Starlight-Skull/Seasonfall/actions/workflows/pages/pages-build-deployment)
+[![Webpack](https://github.com/Starlight-Skull/seasonfall/actions/workflows/webpack.yml/badge.svg)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/webpack.yml)
+[![pages-build-deployment](https://github.com/Starlight-Skull/seasonfall/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/pages/pages-build-deployment)
+[![CodeQL](https://github.com/Starlight-Skull/seasonfall/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/codeql-analysis.yml)
 
-[![banner](https://github.com/Starlight-Skull/Seasonfall/blob/main/Misc/Banner.png?raw=true)](https://starlight-skull.github.io/Seasonfall/)
+[![Seasonfall](./Misc/Banner.png)](https://starlight-skull.github.io/Seasonfall/)
 
 ---
 
@@ -14,7 +16,7 @@ Major rewrites to make code more accessible, reusable and efficient.
 
 ## For the player
 
-Now hosted right here on [GitHub Pages](https://starlight-skull.github.io/Seasonfall/).
+Now hosted right here on [GitHub Pages](https://starlight-skull.github.io/seasonfall/).
 
 ~~Download the [latest](https://github.com/Starlight-Skull/Seasonfall/releases/latest) release and run the appropriate executable.~~
 
