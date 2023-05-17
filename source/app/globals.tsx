@@ -14,7 +14,7 @@ const grass = loadImage(textures.tile.grass)
 const painting = loadImage(textures.tile.painting)
 const plank = loadImage(textures.tile.plank)
 
-export const version = '1.1.1'
+export const version = '1.2.0'
 
 export const settings = {
   scale: 5,
