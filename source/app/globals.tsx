@@ -1,7 +1,9 @@
-import { loadImage, textures } from './textures'
-import { NewEntity, NewTile, Tile } from './classes'
+import { Collision, NewEntity, NewTile, Tile } from './classes'
 import { Door, Hero, Rain, Skeleton } from './classesExtended'
+import { loadImage, textures } from './textures'
 
+// entities
+const skeleton = loadImage(textures.entity.skeleton)
 // tileEntities
 const door = loadImage(textures.tileEntity.door)
 // tiles
@@ -16,7 +18,33 @@ const plank = loadImage(textures.tile.plank)
 
 export const version = '1.2.0'
 
-export const settings = {
+interface Settings {
+  [key: string]: string | number | boolean | object
+  scale: number
+  showFPS: boolean
+  api: ApiSettings
+  keybindings: KeyBindingsSettings
+}
+
+interface KeyBindingsSettings {
+  [key: string]: string
+  attack: string
+  jump: string
+  down: string
+  left: string
+  right: string
+  use: string
+}
+
+interface ApiSettings {
+  [key: string]: string | number
+  key: string
+  latitude: number
+  longitude: number
+  interval: number
+}
+
+export const settings: Settings = {
   scale: 5,
   showFPS: false,
   api: {
@@ -35,9 +63,21 @@ export const settings = {
   }
 }
 
-export const world = {
+interface World {
+  width: number
+  height: number
+  shade: number
+  paused: boolean
+  showBoxes: boolean
+  showLiveDebug: boolean
+  showPlayerStats: boolean
+  get grid(): number
+}
+
+export const world: World = {
   width: 5200,
   height: 2400,
+  shade: 0,
   paused: false,
   showBoxes: false,
   showLiveDebug: false,
@@ -62,7 +102,29 @@ export const UI = {
   get font () { return `${this.fontSize}px ${this.fontStyle}` }
 }
 
-export const weather = {
+interface Weather {
+  [key: string]: string | number
+  main: string
+  description: string
+  time: number
+  sunrise: number
+  sunset: number
+  temp: number
+  tempFeelsLike: number
+  pressure: number
+  humidity: number
+  dewPoint: number
+  clouds: number
+  uvi: number
+  visibility: number
+  windSpeed: number
+  windDeg: string
+  windGust: number
+  rain: number
+  snow: number
+}
+
+export const weather: Weather = {
   main: 'Clear',
   description: 'clear sky',
   time: 1200, // h:mm
@@ -83,7 +145,17 @@ export const weather = {
   snow: 0 // mm/h
 }
 
-export const playerStats = {
+interface PlayerStats {
+  [key: string]: number
+  timeTaken: number
+  kills: number
+  attacks: number
+  attacksHit: number
+  damageTaken: number
+  damageDealt: number
+}
+
+export const playerStats: PlayerStats = {
   timeTaken: 0,
   kills: 0,
   attacks: 0,
@@ -118,8 +190,8 @@ export const entityList = [
 ]
 
 export const newEntities = [
-  new NewEntity(0, 0),
-  new NewEntity(5.5, 2)
+  new NewEntity(0, 0, skeleton),
+  new NewEntity(5.5, 2, skeleton)
 ]
 
 export const newTiles = {
@@ -132,8 +204,8 @@ export const newTiles = {
     5: new NewTile(grass),
     6: new NewTile(grass, { rotation: 40 }),
     7: new NewTile(grass, { rotation: 90 }),
-    8: new NewTile(grass, { collision: 'top' }),
-    9: new NewTile(grass, { collision: 'none' })
+    8: new NewTile(grass, { collision: Collision.top }),
+    9: new NewTile(grass, { collision: Collision.none })
   },
   3: {
     0: new NewTile(grass),

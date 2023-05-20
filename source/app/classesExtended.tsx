@@ -1,6 +1,6 @@
-import { loadImage, textures } from './textures'
-import { settings } from './globals'
 import { Animation, Entity, TileEntity } from './classes'
+import { settings } from './globals'
+import { loadImage, textures } from './textures'
 
 // entities
 const hero = loadImage(textures.entity.hero)
@@ -10,7 +10,9 @@ const rain = loadImage(textures.environment.rain)
 const snow = loadImage(textures.environment.snow)
 
 export class Hero extends Entity {
-  constructor (x, y, name) {
+  name: string
+
+  constructor (x: number, y: number, name: string) {
     super(true, -1, 10, 15, 100, 50, 12, 0, x, y, 60, 155)
     this.name = name
     this.attackWidth = 95
@@ -24,7 +26,7 @@ export class Hero extends Entity {
 }
 
 export class Skeleton extends Entity {
-  constructor (cooldown, x, y) {
+  constructor (cooldown: number, x: number, y: number) {
     super(true, cooldown, 7, 10, 55, 25, 8, 1, x, y, 65, 155)
     this.attackWidth = 100
     this.idle = new Animation(skeleton, 0, 32, 16, 32, 1, 1, 'idle')
@@ -37,7 +39,12 @@ export class Skeleton extends Entity {
 }
 
 export class Door extends TileEntity {
-  constructor (x, y, sprite, mirrored) {
+  closedWidth: number
+  closed: Animation
+  openWidth: number
+  open: Animation
+
+  constructor (x: number, y: number, sprite: HTMLImageElement, mirrored = false) {
     super(true, x, y, 20, 160, sprite, mirrored)
     this.closedWidth = 20
     this.closed = new Animation(this.sprite, 0, 0, 16, 32, 1, 1, 'closed')
@@ -45,7 +52,7 @@ export class Door extends TileEntity {
     this.open = new Animation(this.sprite, 16, 0, 16, 32, 1, 1, 'open')
     this.animation = this.closed
     if (mirrored) {
-      this.frame.x += this.animation.width * settings.scale - this.frame.width
+      this.frame.x += this.animation.width * settings?.scale - this.frame.width
     }
     this.activate = function () {
       if (this.frame.width === this.closedWidth) {
@@ -68,7 +75,10 @@ export class Door extends TileEntity {
 }
 
 export class Rain extends TileEntity {
-  constructor (x, y, width, height, mirrored) {
+  rain: Animation
+  isSnow: boolean
+
+  constructor (x: number, y: number, width: number, height: number, mirrored = false) {
     super(false, x, y, width, height, rain, mirrored)
     this.rain = new Animation(this.sprite, 0, 0, 16, 16, 16, 0.5, 'rain')
     this.animation = this.rain

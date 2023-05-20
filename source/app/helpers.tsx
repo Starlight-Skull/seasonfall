@@ -1,40 +1,48 @@
+import type { Entity, Tile } from './classes'
 import { player, settings, world } from './globals'
 import { openDebugMenu, openPauseMenu } from './menu'
 
 /**
  * Shorthand for document.getElementById().
- * @param s - The ID of the element to locate.
- * @returns {HTMLElement} - The matching element.
+ * @param id - The ID of the element to locate.
+ * @returns The matching element.
  */
-export function element (s) {
-  return document.getElementById(s)
+export function element (id: string): HTMLElement | null {
+  return document.getElementById(id)
+}
+
+/**
+ * Shorthand for document.getElementById(). Cast to HTMLInputElement.
+ * @param id - The ID of the element to locate.
+ * @returns The matching element.
+ */
+export function inputElement (id: string): HTMLInputElement | null {
+  return document.getElementById(id) as HTMLInputElement
 }
 
 /**
  * Closes the window
- * @returns {Promise<unknown>}
  */
-export function quit () {
+export function quit (): void {
   window.close()
 }
 
 /**
  * Returns data for the given key from localStorage.
  * @param key - The name of requested key.
- * @returns {Promise<unknown>} - A promise with the requested data.
+ * @returns The requested data or .
  */
-export async function fromStorage (key) {
-  return JSON.parse(localStorage.getItem(key))
+export function fromStorage (key: string): any {
+  return JSON.parse(localStorage.getItem(key) ?? '{}')
 }
 
 /**
  * Saves a given key-value pair to localStorage.
  * @param key - The name of the key to store the value as.
  * @param value - The value to store. If this is null or undefined, the record will be erased.
- * @returns {Promise<unknown>} - Returns a promise if the data has been stored.
  */
-export async function toStorage (key, value) {
-  return localStorage.setItem(key, JSON.stringify(value))
+export function toStorage (key: string, value: any): void {
+  localStorage.setItem(key, JSON.stringify(value))
 }
 
 /**
@@ -42,7 +50,7 @@ export async function toStorage (key, value) {
  * @param key - Can be 'KeyboardEvent.code' or 'Mouse + MouseEvent.button'.
  * @param down - Boolean of whether the event is up or down.
  */
-export function handleMouseKeyEvent (key, down) {
+export function handleMouseKeyEvent (key: string, down: boolean): void {
   switch (key) {
     case settings.keybindings.attack:
       if (!world.paused) {
@@ -81,9 +89,9 @@ export function handleMouseKeyEvent (key, down) {
  * Converts a Unix timestamp with a given timezone into a simple h:mm number format.
  * @param timestamp - Unix timestamp in seconds.
  * @param timezone - Timezone difference from UTC in seconds.
- * @returns {number} - The given time as h:mm. (Example: 1300 for 1 PM)
+ * @returns The given time as h:mm. (Example: 1300 for 1 PM)
  */
-export function formatUnixTime (timestamp, timezone) {
+export function formatUnixTime (timestamp: number, timezone: number): number {
   const date = new Date((timestamp + timezone) * 1000)
   return date.getUTCHours() * 100 + date.getUTCMinutes()
 }
@@ -92,7 +100,7 @@ export function formatUnixTime (timestamp, timezone) {
  * Checks if the given entity is within the world border and moves it back if needed.
  * @param entity - The entity to check.
  */
-export function borderControl (entity) {
+export function borderControl (entity: Entity): void {
   if (entity.frame.x > world.width) {
     entity.frame.x = world.width
   }
@@ -107,8 +115,8 @@ export function borderControl (entity) {
   }
 }
 
-export function collision (entity, object, isAttack) {
-  if (entity.hasCollision && (object.hasCollision || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
+export function collision (entity: Entity, object: Entity | Tile, isAttack = false): boolean {
+  if (entity.hasCollision === true && (object.hasCollision === true || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
     const values = {
       up: entity.collision.up,
       down: entity.collision.down,
@@ -174,7 +182,7 @@ export function collision (entity, object, isAttack) {
       ((!values.up && entity.collision.up) || (!values.down && entity.collision.down) || (!values.left && entity.collision.left) || (!values.right && entity.collision.right)) &&
       ((entity.constructor.name !== 'Tile' && object.constructor.name === 'Hero') || (entity.constructor.name === 'Hero' && object.constructor.name !== 'Tile'))
     ) {
-      return object
+      return true
     } else return false
   } else return false
 }
