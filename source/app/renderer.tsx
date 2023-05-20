@@ -1,9 +1,15 @@
-import { settings, world, weather, UI, fonts, animTileList, entityList, player, playerStats, tileEntityList, tileList, newTiles, newEntities } from './globals'
-import { entityMovement } from './movement'
+import type { Entity, NewEntity, NewTile, Tile } from './classes'
+import { Collision } from './classes'
+import { Hero } from './classesExtended'
+import { UI, animTileList, entityList, fonts, player, playerStats, settings, tileEntityList, tileList, weather, world } from './globals'
 import { element } from './helpers'
+import { entityMovement } from './movement'
 
-const ctx = element('screen').getContext('2d')
+const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 
+/**
+ * Constants for the color and shade of the sky.
+ */
 const sky = Object.freeze({
   morning: { shade: 0.2, color: 'rgb(207,113,175)' },
   beforeNoon: { shade: 0.1, color: 'rgb(135,206,235)' },
@@ -13,23 +19,26 @@ const sky = Object.freeze({
   night: { shade: 0.7, color: 'rgb(25,25,112)' }
 })
 
-export function drawTextWithBackground (text, x, y, options) {
-  const { color, font } = options || {}
+/**
+ * Draws text at a specified location with optional color and font.
+ */
+export function drawTextWithBackground (text: string, x: number, y: number, options?: { color?: string, font?: string }): void {
+  const { color, font } = options ?? {}
   ctx.textBaseline = 'top'
-  ctx.font = font || UI.font
+  ctx.font = font ?? UI.font
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
   ctx.fillRect(x, y, ctx.measureText(text).width + settings.scale * 2, UI.fontSize + settings.scale)
-  ctx.fillStyle = color || 'rgb(255,255,255)'
+  ctx.fillStyle = color ?? 'rgb(255,255,255)'
   ctx.fillText(text, x + settings.scale, y + settings.scale)
 }
 
 /**
  * Draws a given tile according to its propperties.
- * @param {NewTile} tile - The tile to draw.
- * @param {int} gridY - The Y coordinate without grid scaling.
- * @param {int} gridX - The X coordinate without grid scaling.
+ * @param tile - The tile to draw.
+ * @param gridY - The Y coordinate without grid scaling.
+ * @param gridX - The X coordinate without grid scaling.
  */
-export function newDrawTile (tile, gridY, gridX) {
+export function newDrawTile (tile: NewTile, gridY: number, gridX: number): void {
   let x = gridX * world.grid
   let y = gridY * world.grid
   let w = tile.width * world.grid
@@ -40,7 +49,7 @@ export function newDrawTile (tile, gridY, gridX) {
     x = -x
     w = -w
   }
-  if (tile.rotation) {
+  if (tile.rotation !== 0) {
     ctx.translate(x + w / 2, y + h / 2)
     ctx.rotate(tile.rotation * Math.PI / 180)
     x = -w / 2
@@ -49,10 +58,10 @@ export function newDrawTile (tile, gridY, gridX) {
   ctx.drawImage(tile.sprite.image, x, y, w, h)
   if (world.showBoxes && tile.constructor.name === 'NewTile') {
     switch (tile.collision) {
-      case 'none':
+      case Collision.none:
         ctx.fillStyle = 'rgba(10,50,0,0.5)'
         break
-      case 'top':
+      case Collision.top:
         ctx.fillStyle = 'rgba(150,100,0,0.5)'
         break
       default:
@@ -68,7 +77,7 @@ export function newDrawTile (tile, gridY, gridX) {
   }
 }
 
-export function drawSky () {
+export function drawSky (): void {
   let timeSet
   switch (true) {
     case (weather.time >= weather.sunrise - 50 && weather.time <= weather.sunrise + 50):
@@ -95,11 +104,11 @@ export function drawSky () {
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }
 
-function drawTile (tile) {
+function drawTile (tile: Tile): void {
   if ((player.frame.x - (tile.frame.x + tile.frame.width) <= (window.innerWidth / 2)) && (tile.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (tile.frame.y + tile.frame.height) <= (window.innerHeight / 3)) && (tile.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
     // if frame is bigger, sprite is drawn multiple times to cover the whole size
-    const height = (tile.animation ? tile.animation.height : tile.sprite.height) * settings.scale
-    const width = (tile.animation ? tile.animation.width : tile.sprite.width) * settings.scale
+    const height = (tile.animation !== null ? tile.animation.height : tile.sprite.height) * settings.scale
+    const width = (tile.animation !== null ? tile.animation.width : tile.sprite.width) * settings.scale
     for (let i = 0; i < tile.frame.height; i += height) {
       if (((tile.frame.y + i) - (player.frame.y + player.frame.height)) <= (window.innerHeight) && (player.frame.y - (tile.frame.y + tile.animation.height * settings.scale + i)) <= (window.innerHeight / 3)) {
         for (let j = 0; j < tile.frame.width; j += width) {
@@ -136,29 +145,34 @@ function drawTile (tile) {
   }
 }
 
-function drawEntity (entity) {
+function drawEntity (entity: Entity): void {
   entityMovement(entity)
   if ((player.frame.x - (entity.frame.x + entity.frame.width) <= (window.innerWidth / 2)) && (entity.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (entity.frame.y + entity.frame.height) <= (window.innerHeight / 3)) && (entity.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
     // draw current sprite
-    if (entity.animation) {
+    if (entity.animation !== null) {
       // mirror if needed
       if (entity.frame.mirrored) {
         ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-        ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * settings.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
+        ctx.drawImage(entity.animation.sprite, (entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame))), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * settings.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
         ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
       } else {
         ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
       }
     }
     // draw a box to show the true hitbox
-    if (!entity.animation || world.showBoxes) {
+    if (entity.animation === null || world.showBoxes) {
       ctx.fillStyle = 'rgba(250,0,250,0.5)'
       ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height)
     }
   }
 }
 
-function newDrawEntity (entity) {
+/**
+ * Draws a given entity according to its propperties.
+ * @param entity - The entity to draw.
+ */
+
+function newDrawEntity (entity: NewEntity): void {
   // entityMovement(entity)
   // if near player
   let x = entity.x * world.grid
@@ -183,8 +197,8 @@ function newDrawEntity (entity) {
   }
 }
 
-function drawStats (entity) {
-  if (entity.constructor.name === 'Hero') {
+function drawStats (entity: Entity): void {
+  if (entity instanceof Hero) {
     // name
     drawTextWithBackground(entity.name, entity.frame.x + entity.frame.width / 2 - (entity.name.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, { color: 'rgb(255,255,255)' })
     // xp
@@ -208,19 +222,19 @@ function drawStats (entity) {
     }
     // debug
     if (world.showLiveDebug) {
-      const val = `${entity.controls.left ? '←' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.attack ? '#' : ''}${entity.controls.jump ? '▲' : ''}${entity.controls.right ? '→' : ''}`
+      const val = `${entity.controls.left ? '←' : ''}${entity.controls.down ? '↓' : ''}${entity.controls.attack !== false ? '#' : ''}${entity.controls.jump ? '▲' : ''}${entity.controls.right ? '→' : ''}`
       drawTextWithBackground(val, entity.frame.x + entity.frame.width / 2 - (val.length * 8), window.innerHeight - entity.frame.y - entity.frame.height - 65, { color: 'rgb(255,255,255)' })
     }
   }
 }
 
-function drawDebug () {
+function drawDebug (): void {
   // debug info
   if (world.showLiveDebug) {
     const tracked = player
     drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, { color: 'cyan' })
     drawTextWithBackground(`POS: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, { color: 'cyan' })
-    drawTextWithBackground(`SHADE: ${Math.round(world.shade * 100) / 100}  MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack ? (tracked.controls.attack === 2 ? ' $' : ' $$') : ''}${tracked.controls.use ? (tracked.controls.use === 2 ? ' #' : ' ##') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, { color: 'cyan' })
+    drawTextWithBackground(`SHADE: ${Math.round(world.shade * 100) / 100}  MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack !== false ? (tracked.controls.attack === 2 ? ' $' : ' $$') : ''}${tracked.controls.use !== false ? (tracked.controls.use === 2 ? ' #' : ' ##') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, { color: 'cyan' })
     // drawTextWithBackground(`name: ${value}`, 5, 190, { color: 'cyan' })
   }
   if (world.showPlayerStats) {
@@ -233,7 +247,7 @@ function drawDebug () {
   }
 }
 
-function drawPlayerBars () {
+function drawPlayerBars (): void {
   // player hp
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
   ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30)
@@ -258,10 +272,11 @@ function drawPlayerBars () {
   }
 }
 
-export function drawMain () {
+export function drawMain (): void {
   // has to be disabled so pixel art isn't blurry
   ctx.imageSmoothingEnabled = false
   drawSky()
+
   ctx.save()
   // move context to player
   ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
@@ -275,7 +290,6 @@ export function drawMain () {
       drawTile(animTileList[i])
     }
   }
-
   for (let i = 0; i < tileList.length; i++) {
     drawTile(tileList[i])
   }
@@ -286,10 +300,13 @@ export function drawMain () {
     drawEntity(entityList[i])
   }
   drawEntity(player)
+  ctx.restore()
 
   ctx.fillStyle = `rgba(0,0,0,${world.shade})`
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
+  ctx.save()
+  ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
   for (let i = 0; i < entityList.length; i++) {
     drawStats(entityList[i])
   }

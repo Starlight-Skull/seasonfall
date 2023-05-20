@@ -1,8 +1,8 @@
-import { settings, world, playerStats } from './globals'
-import { drawMain, drawTextWithBackground } from './renderer'
+import { initData } from './data'
+import { playerStats, settings, world } from './globals'
 import { element, handleMouseKeyEvent } from './helpers'
 import { initMenu } from './menu'
-import { initData } from './data'
+import { drawMain, drawTextWithBackground } from './renderer'
 
 import '../styles/index.sass'
 
@@ -16,25 +16,25 @@ setInterval(() => {
   playerStats.timeTaken++
 }, 1000)
 
-window.addEventListener('load', function () {
+window.addEventListener('load', () => {
   // setup for drawing
-  const screen: HTMLCanvasElement = element('screen') as HTMLCanvasElement
-  if (!screen.getContext) window.alert('This application is not supported by your browser.')
+  const canvas: HTMLCanvasElement = element('screen') as HTMLCanvasElement
+  if (canvas.getContext('2d') === null) window.alert('This application is not supported by your browser.')
 
-  window.addEventListener('mousedown', ev => handleMouseKeyEvent(`Mouse${ev.button}`, true))
-  window.addEventListener('mouseup', ev => handleMouseKeyEvent(`Mouse${ev.button}`, false))
-  window.addEventListener('keydown', ev => handleMouseKeyEvent(ev.code, true))
-  window.addEventListener('keyup', ev => handleMouseKeyEvent(ev.code, false))
+  window.addEventListener('mousedown', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, true) })
+  window.addEventListener('mouseup', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, false) })
+  window.addEventListener('keydown', ev => { handleMouseKeyEvent(ev.code, true) })
+  window.addEventListener('keyup', ev => { handleMouseKeyEvent(ev.code, false) })
 
   initData()
   initMenu()
 
   game()
-  function game () {
+  function game (): void {
     if (!world.paused) {
       // update screen in case of window resize
-      screen.width = window.innerWidth
-      screen.height = window.innerHeight
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
       drawMain()
     }
     frames++
