@@ -116,7 +116,7 @@ export function borderControl (entity: Entity): void {
 }
 
 export function collision (entity: Entity, object: Entity | Tile, isAttack = false): boolean {
-  if (entity.hasCollision === true && (object.hasCollision === true || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
+  if (entity.hasCollision !== false && (object.hasCollision !== false || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
     const values = {
       up: entity.collision.up,
       down: entity.collision.down,
