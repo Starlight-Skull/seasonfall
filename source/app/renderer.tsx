@@ -276,6 +276,7 @@ export function drawMain (): void {
   // has to be disabled so pixel art isn't blurry
   ctx.imageSmoothingEnabled = false
   drawSky()
+
   ctx.save()
   // move context to player
   ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
@@ -289,7 +290,6 @@ export function drawMain (): void {
       drawTile(animTileList[i])
     }
   }
-
   for (let i = 0; i < tileList.length; i++) {
     drawTile(tileList[i])
   }
@@ -300,10 +300,13 @@ export function drawMain (): void {
     drawEntity(entityList[i])
   }
   drawEntity(player)
+  ctx.restore()
 
   ctx.fillStyle = `rgba(0,0,0,${world.shade})`
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
+  ctx.save()
+  ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
   for (let i = 0; i < entityList.length; i++) {
     drawStats(entityList[i])
   }
