@@ -14,7 +14,8 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": "warn",
     "no-unused-vars": "warn",
-    "prefer-const": "off"
+    "prefer-const": "off",
+    "no-sparse-arrays": "off"
   },
   "ignorePatterns": ["out/", "dist/", "docs/"]
 }

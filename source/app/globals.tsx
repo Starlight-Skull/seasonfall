@@ -194,32 +194,53 @@ export const newEntities = [
   new NewEntity(5.5, 2, skeleton)
 ]
 
-export const newTiles = {
-  0: {
-    0: new NewTile(grass),
-    1: new NewTile(brick),
-    2: new NewTile(brick, { mirrored: true }),
-    3: new NewTile(brick, { rotation: 180, mirrored: true }),
-    4: new NewTile(grass),
-    5: new NewTile(grass),
-    6: new NewTile(grass, { rotation: 40 }),
-    7: new NewTile(grass, { rotation: 90 }),
-    8: new NewTile(grass, { collision: Collision.top }),
-    9: new NewTile(grass, { collision: Collision.none })
-  },
-  3: {
-    0: new NewTile(grass),
-    1: new NewTile(grass),
-    2: new NewTile(grass),
-    3: new NewTile(grass),
-    4: new NewTile(grass),
-    5: new NewTile(grass),
-    6: new NewTile(grass),
-    7: new NewTile(grass),
-    8: new NewTile(grass),
-    9: new NewTile(grass)
-  }
-}
+export const newTiles: Array<Array<NewTile | undefined> | undefined> = [
+  [
+    ,,
+    new NewTile(brick),
+    ,,,,,,,,,
+    new NewTile(brick)
+  ], [
+    ,,
+    new NewTile(brick),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(plank, { height: 0.5 }),
+    new NewTile(brick)
+  ], [
+    ,,
+    new NewTile(brick),
+    ,,,,,,,,,
+    new NewTile(brick)
+  ], [
+    ,,
+    new NewTile(brick)
+  ], [
+    new NewTile(grass, { collision: Collision.none }),
+    new NewTile(grass, { collision: Collision.none }),
+    new NewTile(brick)
+  ], [
+    new NewTile(dirt, { collision: Collision.none }),
+    new NewTile(dirt, { collision: Collision.none }),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick),
+    new NewTile(brick)
+  ]
+]
 
 export const tileList = [
   // surface
