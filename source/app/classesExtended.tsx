@@ -1,4 +1,4 @@
-import { Animation, Entity, TileEntity } from './classes'
+import { SpriteSet, Entity, TileEntity } from './classes'
 import { settings } from './globals'
 import { loadImage, textures } from './textures'
 
@@ -16,12 +16,12 @@ export class Hero extends Entity {
     super(true, -1, 10, 15, 100, 50, 12, 0, x, y, 60, 155)
     this.name = name
     this.attackWidth = 95
-    this.idle = new Animation(hero, 0, 32, 16, 32, 1, 1, 'idle')
-    this.move = new Animation(hero, 0, 32, 16, 32, 6, 0.3, 'move')
-    this.attack = new Animation(hero, 0, 0, 19, 32, 4, 0.3, 'attack')
-    this.jump = new Animation(hero, 80, 32, 16, 32, 1, 1, 'jump')
-    this.fall = new Animation(hero, 48, 32, 16, 32, 1, 1, 'fall')
-    this.death = new Animation(skeleton, 0, 32, 16, 32, 1, 1, 'idle')
+    this.idle = new SpriteSet(hero, 0, 32, 16, 32, 1, 1)
+    this.move = new SpriteSet(hero, 0, 32, 16, 32, 6, 0.3)
+    this.attack = new SpriteSet(hero, 0, 0, 19, 32, 4, 0.3)
+    this.jump = new SpriteSet(hero, 80, 32, 16, 32, 1, 1)
+    this.fall = new SpriteSet(hero, 48, 32, 16, 32, 1, 1)
+    this.death = new SpriteSet(skeleton, 0, 32, 16, 32, 1, 1)
   }
 }
 
@@ -29,27 +29,27 @@ export class Skeleton extends Entity {
   constructor (cooldown: number, x: number, y: number) {
     super(true, cooldown, 7, 10, 55, 25, 8, 1, x, y, 65, 155)
     this.attackWidth = 100
-    this.idle = new Animation(skeleton, 0, 32, 16, 32, 1, 1, 'idle')
-    this.move = new Animation(skeleton, 0, 32, 16, 32, 4, 0.4, 'move')
-    this.attack = new Animation(skeleton, 0, 0, 16, 32, 2, 0.1, 'attack')
-    this.jump = new Animation(skeleton, 16, 32, 16, 32, 1, 1, 'jump')
-    this.fall = new Animation(skeleton, 48, 32, 16, 32, 1, 1, 'fall')
-    this.death = new Animation(skeleton, 32, 0, 16, 32, 2, 0.1, 'death')
+    this.idle = new SpriteSet(skeleton, 0, 32, 16, 32, 1, 1)
+    this.move = new SpriteSet(skeleton, 0, 32, 16, 32, 4, 0.4)
+    this.attack = new SpriteSet(skeleton, 0, 0, 16, 32, 2, 0.1)
+    this.jump = new SpriteSet(skeleton, 16, 32, 16, 32, 1, 1)
+    this.fall = new SpriteSet(skeleton, 48, 32, 16, 32, 1, 1)
+    this.death = new SpriteSet(skeleton, 32, 0, 16, 32, 2, 0.1)
   }
 }
 
 export class Door extends TileEntity {
   closedWidth: number
-  closed: Animation
+  closed: SpriteSet
   openWidth: number
-  open: Animation
+  open: SpriteSet
 
   constructor (x: number, y: number, sprite: HTMLImageElement, mirrored = false) {
     super(true, x, y, 20, 160, sprite, mirrored)
     this.closedWidth = 20
-    this.closed = new Animation(this.sprite, 0, 0, 16, 32, 1, 1, 'closed')
+    this.closed = new SpriteSet(this.sprite, 0, 0, 16, 32, 1, 1)
     this.openWidth = 80
-    this.open = new Animation(this.sprite, 16, 0, 16, 32, 1, 1, 'open')
+    this.open = new SpriteSet(this.sprite, 16, 0, 16, 32, 1, 1)
     this.animation = this.closed
     if (mirrored) {
       this.frame.x += this.animation.width * settings?.scale - this.frame.width
@@ -75,19 +75,19 @@ export class Door extends TileEntity {
 }
 
 export class Rain extends TileEntity {
-  rain: Animation
+  rain: SpriteSet
   isSnow: boolean
 
   constructor (x: number, y: number, width: number, height: number, mirrored = false) {
     super(false, x, y, width, height, rain, mirrored)
-    this.rain = new Animation(this.sprite, 0, 0, 16, 16, 16, 0.5, 'rain')
+    this.rain = new SpriteSet(this.sprite, 0, 0, 16, 16, 16, 0.5)
     this.animation = this.rain
     this.isSnow = false
     this.activate = function () {
       if (this.isSnow) {
-        this.animation.sprite = snow
+        this.animation.image = snow
       } else {
-        this.animation.sprite = rain
+        this.animation.image = rain
       }
       if (this.frame.currentFrame < this.animation.frames - 1) {
         this.frame.currentFrame += this.animation.speed
