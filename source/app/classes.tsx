@@ -22,7 +22,7 @@ export class Entity {
   maxAir: number
   controls: { attack: boolean | number, down: boolean, left: boolean, right: boolean, jump: boolean, use: boolean | number }
   collision: { up: boolean, down: boolean, left: boolean, right: boolean }
-  hasCollision: boolean | number
+  hasCollision: boolean
 
   constructor (hasCollision: boolean, cooldown = -1, speed = 10, damage = 0, maxHP = 100, maxMP = 0, maxAir = 15, xp = 0, x = 0, y = 0, width = 160, height = 160) {
     this.cooldown = cooldown

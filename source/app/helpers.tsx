@@ -101,6 +101,7 @@ export function formatUnixTime (timestamp: number, timezone: number): number {
  * @param entity - The entity to check.
  */
 export function borderControl (entity: Entity): void {
+  if (!entity.hasCollision) return
   if (entity.frame.x > world.width) {
     entity.frame.x = world.width
   }
@@ -116,7 +117,7 @@ export function borderControl (entity: Entity): void {
 }
 
 export function collision (entity: Entity, object: Entity | Tile, isAttack = false): boolean {
-  if (entity.hasCollision !== false && (object.hasCollision !== false || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
+  if (entity.hasCollision && (object.hasCollision !== false || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
     const values = {
       up: entity.collision.up,
       down: entity.collision.down,
