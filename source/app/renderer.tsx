@@ -1,7 +1,7 @@
-import type { Entity, NewEntity, NewTile, Tile } from './classes'
-import { Collision } from './classes'
+import { type Entity, type NewEntity, type NewTile, type Tile, Collision } from './classes'
+
 import { Hero } from './classesExtended'
-import { UI, animTileList, entityList, fonts, player, playerStats, settings, tileEntityList, tileList, weather, world } from './globals'
+import { UI, animTileList, entityList, fonts, newTiles, player, playerStats, settings, tileEntityList, tileList, weather, world } from './globals'
 import { element } from './helpers'
 import { entityMovement } from './movement'
 
@@ -38,40 +38,42 @@ export function drawTextWithBackground (text: string, x: number, y: number, opti
  * @param gridY - The Y coordinate without grid scaling.
  * @param gridX - The X coordinate without grid scaling.
  */
-export function newDrawTile (tile: NewTile, gridY: number, gridX: number): void {
-  let x = gridX * world.grid
-  let y = gridY * world.grid
-  let w = tile.width * world.grid
-  let h = tile.height * world.grid
-  ctx.save()
-  if (tile.mirrored) {
-    ctx.scale(-1, 1)
-    x = -x
-    w = -w
-  }
-  if (tile.rotation !== 0) {
-    ctx.translate(x + w / 2, y + h / 2)
-    ctx.rotate(tile.rotation * Math.PI / 180)
-    x = -w / 2
-    y = -h / 2
-  }
-  ctx.drawImage(tile.sprite.image, x, y, w, h)
-  if (world.showBoxes && tile.constructor.name === 'NewTile') {
-    switch (tile.collision) {
-      case Collision.none:
-        ctx.fillStyle = 'rgba(10,50,0,0.5)'
-        break
-      case Collision.top:
-        ctx.fillStyle = 'rgba(150,100,0,0.5)'
-        break
-      default:
-        ctx.fillStyle = 'rgba(0,250,0,0.5)'
-        break
+export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void {
+  if (tile !== undefined) {
+    let x = gridX * world.grid
+    let y = gridY * world.grid
+    let w = tile.width * world.grid
+    let h = tile.height * world.grid
+    ctx.save()
+    if (tile.mirrored) {
+      ctx.scale(-1, 1)
+      x = -x
+      w = -w
     }
-    ctx.fillRect(x, y, w, h)
-    ctx.strokeRect(x, y, w, h)
+    if (tile.rotation !== 0) {
+      ctx.translate(x + w / 2, y + h / 2)
+      ctx.rotate(tile.rotation * Math.PI / 180)
+      x = -w / 2
+      y = -h / 2
+    }
+    ctx.drawImage(tile.sprite.image, x, y, w, h)
+    if (world.showBoxes && tile.constructor.name === 'NewTile') {
+      switch (tile.collision) {
+        case Collision.none:
+          ctx.fillStyle = 'rgba(10,50,0,0.5)'
+          break
+        case Collision.top:
+          ctx.fillStyle = 'rgba(150,100,0,0.5)'
+          break
+        default:
+          ctx.fillStyle = 'rgba(0,250,0,0.5)'
+          break
+      }
+      ctx.fillRect(x, y, w, h)
+      ctx.strokeRect(x, y, w, h)
+    }
+    ctx.restore()
   }
-  ctx.restore()
   if (world.showBoxes) {
     drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
   }
@@ -125,6 +127,9 @@ function drawTile (tile: Tile): void {
             } else {
               ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * settings.scale - i, tile.sprite.width * settings.scale, tile.sprite.height * settings.scale)
             }
+            if (world.showBoxes) {
+              drawTextWithBackground(`${(tile.frame.x + j) / 80},${(tile.frame.y + i) / 80}`, tile.frame.x + j, window.innerHeight - tile.frame.y - i - UI.fontSize - settings.scale)
+            }
           }
         }
       }
@@ -141,6 +146,8 @@ function drawTile (tile: Tile): void {
         ctx.fillStyle = 'rgba(65,250,0,0.5)'
       }
       ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height)
+      ctx.strokeRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height)
+      drawTextWithBackground(`${tile.frame.x / 80},${tile.frame.y / 80}`, tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, { color: 'red' })
     }
   }
 }
@@ -163,6 +170,8 @@ function drawEntity (entity: Entity): void {
     if (entity.animation === null || world.showBoxes) {
       ctx.fillStyle = 'rgba(250,0,250,0.5)'
       ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height)
+      ctx.strokeRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height)
+      drawTextWithBackground(`${entity.frame.x},${entity.frame.y}`, entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, { color: 'red' })
     }
   }
 }
@@ -313,18 +322,20 @@ export function drawMain (): void {
   drawStats(player)
   ctx.restore()
 
-  // ctx.save()
-  // ctx.translate(window.innerWidth / 2 - player.frame.x, window.innerHeight / 2 - player.frame.y)
-  // // new rendering format
-  // for (let y in newTiles) {
-  //   for (let x in newTiles[y]) {
-  //     newDrawTile(newTiles[y][x], y, x)
-  //   }
-  // }
+  // new rendering format
+  for (let y = 0; y < newTiles.length; y++) {
+    let row = newTiles[y]
+    if (row !== undefined) {
+      for (let x = 0; x < row.length; x++) {
+        newDrawTile(y, x, row[x])
+      }
+    }
+  }
+
   // for (let entity of newEntities) {
   //   newDrawEntity(entity)
   // }
-  // ctx.restore()
+
   // UI
   drawPlayerBars()
   drawDebug()
