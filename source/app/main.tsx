@@ -1,5 +1,5 @@
 import { initData } from './data'
-import { playerStats, settings, world } from './globals'
+import { newTiles, player, playerStats, settings, world } from './globals'
 import { element, handleMouseKeyEvent } from './helpers'
 import { initMenu } from './menu'
 import { drawMain, drawTextWithBackground } from './renderer'
@@ -28,6 +28,42 @@ window.addEventListener('load', () => {
 
   initData()
   initMenu()
+
+  player.hasCollision = false
+  world.showBoxes = true
+
+  // // Function to download data to a file
+  // function download (data: any, filename: string, type: string): void {
+  //   let file = new Blob([data], { type })
+  //   let a = document.createElement('a')
+  //   let url = URL.createObjectURL(file)
+  //   a.href = url
+  //   a.download = filename
+  //   document.body.appendChild(a)
+  //   a.click()
+  //   setTimeout(() => {
+  //     document.body.removeChild(a)
+  //     window.URL.revokeObjectURL(url)
+  //   }, 0)
+  // }
+  //
+  // let arr: string[][] = []
+  // for (let y = 0; y < newTiles.length; y++) {
+  //   let row = newTiles[y]
+  //   let subArr: string[] = []
+  //   if (row !== undefined) {
+  //     for (let x = 0; x < row.length; x++) {
+  //       let col = newTiles[y]?.[x]
+  //       if (col !== undefined) {
+  //         let path = col.sprite.image.src
+  //         subArr.push(path.substring(path.lastIndexOf('/') + 1, path.indexOf('.png')))
+  //       } else subArr.push('')
+  //     }
+  //     arr.push(subArr)
+  //   } else arr.push([])
+  // }
+
+  // download(JSON.stringify(arr), 'NewTiles.json', 'json')
 
   game()
   function game (): void {

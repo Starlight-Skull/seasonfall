@@ -1,26 +1,84 @@
 {
     "properties": {
-        "x": 2,
-        "y": 2
+        "rootX": 20,
+        "rootY": 20,
+        "borderX": 2,
+        "borderY": 2,
+        "borderW": 100,
+        "borderH": 50
     },
     "entities": [],
-    "tileEntities": [],
-    "tiles": {
-        "1": {
-            "1": "grass",
-            "2": "grass",
-            "3": "grass",
-            "4": "grass",
-            "5": "grass",
-            "6": "grass",
-            "7": "grass",
-            "8": "grass",
-            "9": "grass",
-            "10": "grass"
-        },
-        "2": {
-            "8": "stone",
-            "9": "stone"
-        }
-    }
+    "background": [],
+    "foreground": [
+        [
+            "",
+            "",
+            "brick",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "brick"
+        ],
+        [
+            "",
+            "",
+            "brick",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "brick"
+        ],
+        [
+            "",
+            "",
+            "brick",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "brick"
+        ],
+        [
+            "",
+            "",
+            "brick"
+        ],
+        [
+            "grass",
+            "grass",
+            "brick"
+        ],
+        [
+            "dirt",
+            "dirt",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick"
+        ]
+    ]
 }
