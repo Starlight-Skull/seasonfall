@@ -11,23 +11,20 @@ node_modules/
 Thumbs.db
 desktop.ini
 
-
-# neutralinojs
-neutralino.js
+# Binaries & builds
 bin/
 dist/
-.storage/
-*.log
-.tmp/
+out/
 
-# sass
+# Temporary & logs
+.tmp/
+*.log
+
+# Sass
 .sass-cache/
 *.css.map
 *.sass.map
 *.scss.map
-
-# jsdoc
-out/
 
 
 # ADD MORE AS NEEDED
