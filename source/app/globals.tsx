@@ -1,4 +1,4 @@
-import { Collision, NewEntity, NewTile, Tile } from './classes'
+import { NewEntity, Tile } from './classes'
 import { Door, Hero, Rain, Skeleton } from './classesExtended'
 import { loadImage, textures } from './textures'
 
@@ -192,54 +192,6 @@ export const entityList = [
 export const newEntities = [
   new NewEntity(0, 0, skeleton),
   new NewEntity(5.5, 2, skeleton)
-]
-
-export const newTiles: Array<Array<NewTile | undefined> | undefined> = [
-  [
-    ,,
-    new NewTile(brick),
-    ,,,,,,,,,
-    new NewTile(brick)
-  ], [
-    ,,
-    new NewTile(brick),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(plank, { height: 0.5 }),
-    new NewTile(brick)
-  ], [
-    ,,
-    new NewTile(brick),
-    ,,,,,,,,,
-    new NewTile(brick)
-  ], [
-    ,,
-    new NewTile(brick)
-  ], [
-    new NewTile(grass, { collision: Collision.none }),
-    new NewTile(grass, { collision: Collision.none }),
-    new NewTile(brick)
-  ], [
-    new NewTile(dirt, { collision: Collision.none }),
-    new NewTile(dirt, { collision: Collision.none }),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick),
-    new NewTile(brick)
-  ]
 ]
 
 export const tileList = [

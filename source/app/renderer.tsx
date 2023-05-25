@@ -1,9 +1,10 @@
-import { type Entity, type NewEntity, type NewTile, type Tile, Collision } from './classes'
-
+import { type Entity, type NewEntity, NewTile, type Tile, Collision } from './classes'
 import { Hero } from './classesExtended'
-import { UI, animTileList, entityList, fonts, newTiles, player, playerStats, settings, tileEntityList, tileList, weather, world } from './globals'
+import { UI, animTileList, entityList, fonts, player, playerStats, settings, tileEntityList, tileList, weather, world } from './globals'
 import { element } from './helpers'
 import { entityMovement } from './movement'
+
+import test from '../worlds/test.json'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 
@@ -323,14 +324,27 @@ export function drawMain (): void {
   ctx.restore()
 
   // new rendering format
-  for (let y = 0; y < newTiles.length; y++) {
-    let row = newTiles[y]
-    if (row !== undefined) {
-      for (let x = 0; x < row.length; x++) {
-        newDrawTile(y, x, row[x])
+  ctx.save()
+  ctx.translate(-player.frame.x, player.frame.y)
+  for (let y = 0; y < test.background.length; y++) {
+    for (let x = 0; x < test.background[y].length; x++) {
+      if (test.background[y][x] !== '') {
+        let im = new Image()
+        im.src = `/assets/${test.background[y][x]}.png`
+        newDrawTile(y, x, new NewTile(im, { collision: Collision.none }))
       }
     }
   }
+  for (let y = 0; y < test.foreground.length; y++) {
+    for (let x = 0; x < test.foreground[y].length; x++) {
+      if (test.foreground[y][x] !== '') {
+        let im = new Image()
+        im.src = `/assets/${test.foreground[y][x]}.png`
+        newDrawTile(y, x, new NewTile(im))
+      }
+    }
+  }
+  ctx.restore()
 
   // for (let entity of newEntities) {
   //   newDrawEntity(entity)

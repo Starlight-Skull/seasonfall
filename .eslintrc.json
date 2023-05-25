@@ -15,7 +15,8 @@
     "@typescript-eslint/no-unused-vars": "warn",
     "no-unused-vars": "warn",
     "prefer-const": "off",
-    "no-sparse-arrays": "off"
+    "no-sparse-arrays": "off",
+    "@typescript-eslint/restrict-template-expressions": "off"
   },
   "ignorePatterns": ["out/", "dist/", "docs/"]
 }
