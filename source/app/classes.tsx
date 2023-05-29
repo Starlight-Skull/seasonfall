@@ -6,27 +6,27 @@ const missingTile = loadImage(textures.tile.missing_tile)
 
 export class Entity {
   cooldown: number
-  missing: Animation
+  missing: SpriteSet
   frame: { x: number, y: number, width: number, height: number, currentFrame: number, mirrored: boolean }
   defaultWidth: number
   attackWidth: number
-  animation: Animation
-  idle: Animation
-  move: Animation
-  attack: Animation
-  jump: Animation
-  fall: Animation
-  death: Animation
+  animation: SpriteSet
+  idle: SpriteSet
+  move: SpriteSet
+  attack: SpriteSet
+  jump: SpriteSet
+  fall: SpriteSet
+  death: SpriteSet
   stats: { damage: number, invulnerable: number, hp: number, maxHP: number, mp: number, maxMP: number, xp: number, speed: number }
   air: number
   maxAir: number
   controls: { attack: boolean | number, down: boolean, left: boolean, right: boolean, jump: boolean, use: boolean | number }
   collision: { up: boolean, down: boolean, left: boolean, right: boolean }
-  hasCollision: boolean | number
+  hasCollision: boolean
 
   constructor (hasCollision: boolean, cooldown = -1, speed = 10, damage = 0, maxHP = 100, maxMP = 0, maxAir = 15, xp = 0, x = 0, y = 0, width = 160, height = 160) {
     this.cooldown = cooldown
-    this.missing = new Animation(missingEntity, 0, 0, 32, 32, 1, 1, 'missing')
+    this.missing = new SpriteSet(missingEntity, 0, 0, 32, 32, 1, 1)
     this.frame = {
       x,
       y,
@@ -143,7 +143,7 @@ export class Tile {
   hasCollision: boolean | number
   frame: { x: number, y: number, width: number, height: number, currentFrame: number, mirrored: boolean }
   sprite: HTMLImageElement
-  animation: Animation
+  animation: SpriteSet
 
   constructor (hasCollision: boolean | number, x: number, y: number, width = 80, height = 80, sprite = missingTile) {
     this.hasCollision = hasCollision // 2 = only top collision
@@ -156,7 +156,7 @@ export class Tile {
       mirrored: false
     }
     this.sprite = sprite
-    this.animation = new Animation(sprite, 0, 0, 16, 16, 1, 1, 'default')
+    this.animation = new SpriteSet(sprite, 0, 0, 16, 16, 1, 1)
   }
 }
 
@@ -194,43 +194,15 @@ export class TileEntity extends Tile {
   constructor (hasCollision: boolean | number, x: number, y: number, width?: number, height?: number, sprite?: HTMLImageElement, mirrored = false) {
     super(hasCollision, x, y, width, height, sprite)
     this.frame.mirrored = mirrored
-    this.animation = new Animation(this.sprite, 0, 0, 16, 16, 1, 1, 'default')
+    this.animation = new SpriteSet(this.sprite, 0, 0, 16, 16, 1, 1)
   }
 
   activate (): void {}
 }
 
-export class Animation {
-  sprite: HTMLImageElement
-  x: number
-  y: number
-  frames: number
-  width: number
-  height: number
-  speed: number
-  name: string
+/* new classes */
 
-  constructor (sprite: HTMLImageElement, x: number, y: number, width: number, height: number, frames: number, speed: number, name: string) {
-    this.sprite = sprite
-    this.x = x
-    this.y = y
-    this.frames = frames
-    this.width = width
-    this.height = height
-    this.speed = speed
-    this.name = name
-  }
-}
-
-interface SpriteSetOptions {
-  x?: number
-  y?: number
-  width?: number
-  height?: number
-  frames?: number
-  speed?: number
-}
-
+// todo overload?
 export class SpriteSet {
   image: HTMLImageElement
   x: number
@@ -240,8 +212,18 @@ export class SpriteSet {
   frames: number
   speed: number
 
-  constructor (image: HTMLImageElement, { x = 0, y = 0, width = image?.width ?? missingTile.width, height = image?.height ?? missingTile.height, frames = 1, speed = 0 }: SpriteSetOptions = {}) {
-    this.image = image ?? missingTile
+  /**
+   * Data class containing information for a single or set of sprites.
+   * @param image - The image to draw from.
+   * @param x - (optional) X offset on the image. Defaults to 0.
+   * @param y - (optional) Y offset on the image. Defaults to 0.
+   * @param width - (optional) Width cutoff. Defaults to the width of the image.
+   * @param height - (optional) Height cutoff. Defaults to the height of the image.
+   * @param frames - (optional) How many frames to take from the image. Defaults to 1.
+   * @param speed - (optional) Animation speed. Defaults to 0.
+   */
+  constructor (image: HTMLImageElement, x = 0, y = 0, width = image.width, height = image.height, frames = 1, speed = 0) {
+    this.image = image
     this.x = x
     this.y = y
     this.width = width

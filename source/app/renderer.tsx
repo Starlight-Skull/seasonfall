@@ -1,9 +1,11 @@
-import type { Entity, NewEntity, NewTile, Tile } from './classes'
-import { Collision } from './classes'
+// import { type Entity, type NewEntity, NewTile, type Tile, Collision } from './classes'
+import { type Entity, type NewEntity, type NewTile, type Tile, Collision } from './classes'
 import { Hero } from './classesExtended'
 import { UI, animTileList, entityList, fonts, player, playerStats, settings, tileEntityList, tileList, weather, world } from './globals'
 import { element } from './helpers'
 import { entityMovement } from './movement'
+
+// import test from '../worlds/world.json'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 
@@ -38,42 +40,46 @@ export function drawTextWithBackground (text: string, x: number, y: number, opti
  * @param gridY - The Y coordinate without grid scaling.
  * @param gridX - The X coordinate without grid scaling.
  */
-export function newDrawTile (tile: NewTile, gridY: number, gridX: number): void {
-  let x = gridX * world.grid
-  let y = gridY * world.grid
-  let w = tile.width * world.grid
-  let h = tile.height * world.grid
-  ctx.save()
-  if (tile.mirrored) {
-    ctx.scale(-1, 1)
-    x = -x
-    w = -w
-  }
-  if (tile.rotation !== 0) {
-    ctx.translate(x + w / 2, y + h / 2)
-    ctx.rotate(tile.rotation * Math.PI / 180)
-    x = -w / 2
-    y = -h / 2
-  }
-  ctx.drawImage(tile.sprite.image, x, y, w, h)
-  if (world.showBoxes && tile.constructor.name === 'NewTile') {
-    switch (tile.collision) {
-      case Collision.none:
-        ctx.fillStyle = 'rgba(10,50,0,0.5)'
-        break
-      case Collision.top:
-        ctx.fillStyle = 'rgba(150,100,0,0.5)'
-        break
-      default:
-        ctx.fillStyle = 'rgba(0,250,0,0.5)'
-        break
+export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void {
+  if (tile !== undefined) {
+    let x = gridX * world.grid
+    let y = gridY * world.grid
+    let w = tile.width * world.grid
+    let h = tile.height * world.grid
+    // if (Math.sqrt(Math.pow((x - player.frame.x), 2) + Math.pow((-y - player.frame.y), 2)) < (window.innerHeight / 4)) {
+    ctx.save()
+    if (tile.mirrored) {
+      ctx.scale(-1, 1)
+      x = -x
+      w = -w
     }
-    ctx.fillRect(x, y, w, h)
-    ctx.strokeRect(x, y, w, h)
-  }
-  ctx.restore()
-  if (world.showBoxes) {
-    drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
+    if (tile.rotation !== 0) {
+      ctx.translate(x + w / 2, y + h / 2)
+      ctx.rotate(tile.rotation * Math.PI / 180)
+      x = -w / 2
+      y = -h / 2
+    }
+    ctx.drawImage(tile.sprite.image, x, y, w, h)
+    if (world.showBoxes && tile.constructor.name === 'NewTile') {
+      switch (tile.collision) {
+        case Collision.none:
+          ctx.fillStyle = 'rgba(10,50,0,0.5)'
+          break
+        case Collision.top:
+          ctx.fillStyle = 'rgba(150,100,0,0.5)'
+          break
+        default:
+          ctx.fillStyle = 'rgba(0,250,0,0.5)'
+          break
+      }
+      ctx.fillRect(x, y, w, h)
+      ctx.strokeRect(x, y, w, h)
+    }
+    ctx.restore()
+    if (world.showBoxes) {
+      drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
+    }
+    // }
   }
 }
 
@@ -117,13 +123,16 @@ function drawTile (tile: Tile): void {
             if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
               if (tile.frame.mirrored) {
                 ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-                ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width + j, window.innerHeight - tile.frame.y - tile.animation.height * settings.scale - i, tile.animation.width * settings.scale, tile.animation.height * settings.scale)
+                ctx.drawImage(tile.animation.image, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width + j, window.innerHeight - tile.frame.y - tile.animation.height * settings.scale - i, tile.animation.width * settings.scale, tile.animation.height * settings.scale)
                 ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
               } else {
-                ctx.drawImage(tile.animation.sprite, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.animation.height * settings.scale - i, tile.animation.width * settings.scale, tile.animation.height * settings.scale)
+                ctx.drawImage(tile.animation.image, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.animation.height * settings.scale - i, tile.animation.width * settings.scale, tile.animation.height * settings.scale)
               }
             } else {
               ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * settings.scale - i, tile.sprite.width * settings.scale, tile.sprite.height * settings.scale)
+            }
+            if (world.showBoxes) {
+              drawTextWithBackground(`${(tile.frame.x + j) / 80},${(tile.frame.y + i) / 80}`, tile.frame.x + j, window.innerHeight - tile.frame.y - i - UI.fontSize - settings.scale)
             }
           }
         }
@@ -141,6 +150,8 @@ function drawTile (tile: Tile): void {
         ctx.fillStyle = 'rgba(65,250,0,0.5)'
       }
       ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height)
+      ctx.strokeRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height)
+      drawTextWithBackground(`${tile.frame.x / 80},${tile.frame.y / 80}`, tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, { color: 'red' })
     }
   }
 }
@@ -153,16 +164,18 @@ function drawEntity (entity: Entity): void {
       // mirror if needed
       if (entity.frame.mirrored) {
         ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-        ctx.drawImage(entity.animation.sprite, (entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame))), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * settings.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
+        ctx.drawImage(entity.animation.image, (entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame))), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * settings.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
         ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
       } else {
-        ctx.drawImage(entity.animation.sprite, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
+        ctx.drawImage(entity.animation.image, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
       }
     }
     // draw a box to show the true hitbox
     if (entity.animation === null || world.showBoxes) {
       ctx.fillStyle = 'rgba(250,0,250,0.5)'
       ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height)
+      ctx.strokeRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height)
+      drawTextWithBackground(`${entity.frame.x},${entity.frame.y}`, entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, { color: 'red' })
     }
   }
 }
@@ -171,7 +184,6 @@ function drawEntity (entity: Entity): void {
  * Draws a given entity according to its propperties.
  * @param entity - The entity to draw.
  */
-
 function newDrawEntity (entity: NewEntity): void {
   // entityMovement(entity)
   // if near player
@@ -232,7 +244,7 @@ function drawDebug (): void {
   // debug info
   if (world.showLiveDebug) {
     const tracked = player
-    drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${tracked.animation.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, { color: 'cyan' })
+    drawTextWithBackground(`ANIM: ${tracked.constructor.name} - ${Math.round(tracked.frame.currentFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, { color: 'cyan' })
     drawTextWithBackground(`POS: [${Math.round(tracked.frame.x)}, ${Math.round(tracked.frame.y)}]`, 5, 130, { color: 'cyan' })
     drawTextWithBackground(`SHADE: ${Math.round(world.shade * 100) / 100}  MOVE:${tracked.controls.left ? ' ←' : ''}${tracked.controls.attack !== false ? (tracked.controls.attack === 2 ? ' $' : ' $$') : ''}${tracked.controls.use !== false ? (tracked.controls.use === 2 ? ' #' : ' ##') : ''}${tracked.controls.jump ? ' ▲' : ''}${tracked.controls.down ? ' ↓' : ''}${tracked.controls.right ? ' →' : ''}`, 5, 160, { color: 'cyan' })
     // drawTextWithBackground(`name: ${value}`, 5, 190, { color: 'cyan' })
@@ -313,18 +325,33 @@ export function drawMain (): void {
   drawStats(player)
   ctx.restore()
 
-  // ctx.save()
-  // ctx.translate(window.innerWidth / 2 - player.frame.x, window.innerHeight / 2 - player.frame.y)
   // // new rendering format
-  // for (let y in newTiles) {
-  //   for (let x in newTiles[y]) {
-  //     newDrawTile(newTiles[y][x], y, x)
+  // ctx.save()
+  // ctx.translate(-player.frame.x, player.frame.y)
+  // for (let y = 0; y < test.background.length; y++) {
+  //   for (let x = 0; x < test.background[y].length; x++) {
+  //     if (test.background[y][x] !== '' && test.background[y][x] !== null) {
+  //       let im = new Image()
+  //       im.src = `/assets/${test.background[y][x]}.png`
+  //       newDrawTile(y, x, new NewTile(im, { collision: Collision.none }))
+  //     }
   //   }
   // }
+  // for (let y = 0; y < test.foreground.length; y++) {
+  //   for (let x = 0; x < test.foreground[y].length; x++) {
+  //     if (test.foreground[y][x] !== '' && test.foreground[y][x] !== null) {
+  //       let im = new Image()
+  //       im.src = `/assets/${test.foreground[y][x]}.png`
+  //       newDrawTile(y, x, new NewTile(im))
+  //     }
+  //   }
+  // }
+  // ctx.restore()
+
   // for (let entity of newEntities) {
   //   newDrawEntity(entity)
   // }
-  // ctx.restore()
+
   // UI
   drawPlayerBars()
   drawDebug()

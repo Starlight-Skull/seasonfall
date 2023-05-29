@@ -1,26 +1,148 @@
 {
     "properties": {
-        "x": 2,
-        "y": 2
+        "rootX": 4,
+        "rootY": 8,
+        "borderX": 0,
+        "borderY": 0,
+        "borderW": 65,
+        "borderH": 30
     },
     "entities": [],
-    "tileEntities": [],
-    "tiles": {
-        "1": {
-            "1": "grass",
-            "2": "grass",
-            "3": "grass",
-            "4": "grass",
-            "5": "grass",
-            "6": "grass",
-            "7": "grass",
-            "8": "grass",
-            "9": "grass",
-            "10": "grass"
-        },
-        "2": {
-            "8": "stone",
-            "9": "stone"
-        }
-    }
+    "background": [
+        [],
+        [
+            "",
+            "",
+            "",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall"
+        ],
+        [
+            "",
+            "",
+            "",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall"
+        ],
+        [
+            "",
+            "",
+            "",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall"
+        ],
+        [
+            "grass",
+            "grass",
+            "",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall",
+            "brick_wall"
+        ],
+        [
+            "dirt",
+            "dirt"
+        ]
+    ],
+    "foreground": [
+        [
+            "",
+            "",
+            "brick",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "plank",
+            "brick"
+        ],
+        [
+            "",
+            "",
+            "brick",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "brick"
+        ],
+        [
+            "",
+            "",
+            "brick",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "brick"
+        ],
+        [
+            "",
+            "",
+            "brick"
+        ],
+        [
+            "",
+            "",
+            "brick"
+        ],
+        [
+            "",
+            "",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick",
+            "brick"
+        ]
+    ]
 }

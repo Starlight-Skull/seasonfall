@@ -1,4 +1,4 @@
-import { Collision, NewEntity, NewTile, Tile } from './classes'
+import { NewEntity, Tile } from './classes'
 import { Door, Hero, Rain, Skeleton } from './classesExtended'
 import { loadImage, textures } from './textures'
 
@@ -194,33 +194,6 @@ export const newEntities = [
   new NewEntity(5.5, 2, skeleton)
 ]
 
-export const newTiles = {
-  0: {
-    0: new NewTile(grass),
-    1: new NewTile(brick),
-    2: new NewTile(brick, { mirrored: true }),
-    3: new NewTile(brick, { rotation: 180, mirrored: true }),
-    4: new NewTile(grass),
-    5: new NewTile(grass),
-    6: new NewTile(grass, { rotation: 40 }),
-    7: new NewTile(grass, { rotation: 90 }),
-    8: new NewTile(grass, { collision: Collision.top }),
-    9: new NewTile(grass, { collision: Collision.none })
-  },
-  3: {
-    0: new NewTile(grass),
-    1: new NewTile(grass),
-    2: new NewTile(grass),
-    3: new NewTile(grass),
-    4: new NewTile(grass),
-    5: new NewTile(grass),
-    6: new NewTile(grass),
-    7: new NewTile(grass),
-    8: new NewTile(grass),
-    9: new NewTile(grass)
-  }
-}
-
 export const tileList = [
   // surface
   new Tile(false, -1040, 640, 1040, 80, grass),
@@ -268,10 +241,10 @@ export const tileList = [
   new Tile(false, 2880, 480, 80, 400, brickWall),
   new Tile(true, 2800, 560, 80, 320, brick),
   new Tile(true, 2960, 560, 80, 320, brick),
-  new Tile(2, 2880, 840, 80, 40, plank),
+  new Tile(2, 2880, 880, 80, 40, plank),
   new Tile(false, 2800, 880, 80, 240, beam),
   new Tile(false, 2960, 880, 80, 240, beam),
-  new Tile(2, 2800, 1080, 240, 40, plank),
+  new Tile(2, 2800, 1120, 240, 40, plank),
   // house
   new Tile(false, 240, 640, 800, 320, brickWall),
   new Tile(true, 160, 560, 880, 80, brick),
@@ -291,9 +264,9 @@ export const tileList = [
   new Tile(false, 5040, 2000, 80, 80, brickWall),
   new Tile(true, 3520, 960, 1200, 80, brick),
   new Tile(true, 4800, 960, 400, 80, brick),
-  new Tile(2, 4720, 840, 80, 40, plank),
-  new Tile(2, 4720, 920, 80, 40, plank),
-  new Tile(2, 4720, 1000, 80, 40, plank),
+  new Tile(2, 4720, 880, 80, 40, plank),
+  new Tile(2, 4720, 960, 80, 40, plank),
+  new Tile(2, 4720, 1040, 80, 40, plank),
   new Tile(true, 3760, 1200, 80, 160, brick),
   new Tile(true, 4160, 1200, 80, 880, brick),
   new Tile(true, 5200, 960, 80, 1120, brick),
@@ -305,13 +278,13 @@ export const tileList = [
   new Tile(2, 5040, 1200, 160, 40, plank),
   new Tile(2, 5040, 1280, 160, 40, plank),
   new Tile(2, 4240, 1360, 960, 40, plank),
-  new Tile(2, 5040, 1400, 160, 40, plank),
-  new Tile(2, 5040, 1480, 160, 40, plank),
-  new Tile(2, 5040, 1560, 160, 40, plank),
-  new Tile(2, 5040, 1640, 160, 40, plank),
-  new Tile(2, 5040, 1720, 160, 40, plank),
-  new Tile(2, 5040, 1800, 160, 40, plank),
-  new Tile(2, 5040, 1880, 160, 40, plank),
+  new Tile(2, 5040, 1440, 160, 40, plank),
+  new Tile(2, 5040, 1520, 160, 40, plank),
+  new Tile(2, 5040, 1600, 160, 40, plank),
+  new Tile(2, 5040, 1680, 160, 40, plank),
+  new Tile(2, 5040, 1760, 160, 40, plank),
+  new Tile(2, 5040, 1840, 160, 40, plank),
+  new Tile(2, 5040, 1920, 160, 40, plank),
   new Tile(false, 4560, 1520, 80, 80, painting)
 ]
 
