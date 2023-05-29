@@ -1,10 +1,11 @@
-import { type Entity, type NewEntity, NewTile, type Tile, Collision } from './classes'
+// import { type Entity, type NewEntity, NewTile, type Tile, Collision } from './classes'
+import { type Entity, type NewEntity, type NewTile, type Tile, Collision } from './classes'
 import { Hero } from './classesExtended'
 import { UI, animTileList, entityList, fonts, player, playerStats, settings, tileEntityList, tileList, weather, world } from './globals'
 import { element } from './helpers'
 import { entityMovement } from './movement'
 
-import test from '../worlds/test.json'
+// import test from '../worlds/world.json'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 
@@ -45,6 +46,7 @@ export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void
     let y = gridY * world.grid
     let w = tile.width * world.grid
     let h = tile.height * world.grid
+    // if (Math.sqrt(Math.pow((x - player.frame.x), 2) + Math.pow((-y - player.frame.y), 2)) < (window.innerHeight / 4)) {
     ctx.save()
     if (tile.mirrored) {
       ctx.scale(-1, 1)
@@ -74,9 +76,10 @@ export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void
       ctx.strokeRect(x, y, w, h)
     }
     ctx.restore()
-  }
-  if (world.showBoxes) {
-    drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
+    if (world.showBoxes) {
+      drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
+    }
+    // }
   }
 }
 
@@ -181,7 +184,6 @@ function drawEntity (entity: Entity): void {
  * Draws a given entity according to its propperties.
  * @param entity - The entity to draw.
  */
-
 function newDrawEntity (entity: NewEntity): void {
   // entityMovement(entity)
   // if near player
@@ -323,28 +325,28 @@ export function drawMain (): void {
   drawStats(player)
   ctx.restore()
 
-  // new rendering format
-  ctx.save()
-  ctx.translate(-player.frame.x, player.frame.y)
-  for (let y = 0; y < test.background.length; y++) {
-    for (let x = 0; x < test.background[y].length; x++) {
-      if (test.background[y][x] !== '') {
-        let im = new Image()
-        im.src = `/assets/${test.background[y][x]}.png`
-        newDrawTile(y, x, new NewTile(im, { collision: Collision.none }))
-      }
-    }
-  }
-  for (let y = 0; y < test.foreground.length; y++) {
-    for (let x = 0; x < test.foreground[y].length; x++) {
-      if (test.foreground[y][x] !== '') {
-        let im = new Image()
-        im.src = `/assets/${test.foreground[y][x]}.png`
-        newDrawTile(y, x, new NewTile(im))
-      }
-    }
-  }
-  ctx.restore()
+  // // new rendering format
+  // ctx.save()
+  // ctx.translate(-player.frame.x, player.frame.y)
+  // for (let y = 0; y < test.background.length; y++) {
+  //   for (let x = 0; x < test.background[y].length; x++) {
+  //     if (test.background[y][x] !== '' && test.background[y][x] !== null) {
+  //       let im = new Image()
+  //       im.src = `/assets/${test.background[y][x]}.png`
+  //       newDrawTile(y, x, new NewTile(im, { collision: Collision.none }))
+  //     }
+  //   }
+  // }
+  // for (let y = 0; y < test.foreground.length; y++) {
+  //   for (let x = 0; x < test.foreground[y].length; x++) {
+  //     if (test.foreground[y][x] !== '' && test.foreground[y][x] !== null) {
+  //       let im = new Image()
+  //       im.src = `/assets/${test.foreground[y][x]}.png`
+  //       newDrawTile(y, x, new NewTile(im))
+  //     }
+  //   }
+  // }
+  // ctx.restore()
 
   // for (let entity of newEntities) {
   //   newDrawEntity(entity)
