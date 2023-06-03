@@ -213,7 +213,7 @@ export function openDebugMenu (): void {
     ;(element('maxAir') as HTMLInputElement).value = player.maxAir.toString()
     ;(element('x') as HTMLInputElement).value = player.frame.x.toString()
     ;(element('y') as HTMLInputElement).value = player.frame.y.toString()
-    ;(element('hasCollision') as HTMLInputElement).checked = player.hasCollision !== false
+    ;(element('hasCollision') as HTMLInputElement).checked = player.hasCollision
     // weather
     for (const weatherKey in weather) {
       ;(element(weatherKey) as HTMLInputElement).value = weather[weatherKey].toString()
