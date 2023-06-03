@@ -137,6 +137,13 @@ export function openPauseMenu (): void {
   }
 }
 
+export function togglePixi (): void {
+  const screen = element('screen') as HTMLCanvasElement
+  const app = element('app') as HTMLDivElement
+  screen.hidden = !screen.hidden
+  app.hidden = !screen.hidden
+}
+
 /**
  * Saves most settings from the global settings to storage.
  */

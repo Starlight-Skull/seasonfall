@@ -5,7 +5,7 @@ import { UI, animTileList, entityList, fonts, player, playerStats, settings, til
 import { element } from './helpers'
 import { entityMovement } from './movement'
 
-// import test from '../worlds/world.json'
+// import test from '../worlds/test.json'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 

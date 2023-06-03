@@ -1,6 +1,6 @@
 import type { Entity, Tile } from './classes'
 import { player, settings, world } from './globals'
-import { openDebugMenu, openPauseMenu } from './menu'
+import { openDebugMenu, openPauseMenu, togglePixi } from './menu'
 
 /**
  * Shorthand for document.getElementById().
@@ -101,6 +101,9 @@ export function handleMouseKeyEvent (key: string, down: boolean): void {
       break
     case 'Escape':
       if (down) openPauseMenu()
+      break
+    case 'Backspace':
+      if (down) togglePixi()
       break
   }
 }
