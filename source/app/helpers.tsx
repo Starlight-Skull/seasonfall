@@ -21,6 +21,26 @@ export function inputElement (id: string): HTMLInputElement | null {
 }
 
 /**
+ * Function to download data to a file
+ * @param data
+ * @param filename
+ * @param type
+ */
+export function download (data: any, filename: string, type: string): void {
+  let file = new Blob([data], { type })
+  let a = document.createElement('a')
+  let url = URL.createObjectURL(file)
+  a.href = url
+  a.download = filename
+  document.body.appendChild(a)
+  a.click()
+  setTimeout(() => {
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }, 0)
+}
+
+/**
  * Closes the window
  */
 export function quit (): void {
