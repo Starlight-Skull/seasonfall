@@ -1,7 +1,7 @@
 import { initData } from './data'
 import { player, playerStats, settings, tileList, world } from './globals'
 import { download, element, handleMouseKeyEvent } from './helpers'
-import { initMenu } from './menu'
+import { initMenu, togglePixi } from './menu'
 import { drawMain, drawTextWithBackground } from './renderer'
 import { addAssets } from './textures'
 
@@ -85,20 +85,29 @@ window.addEventListener('load', () => {
     width: window.innerWidth,
     height: window.innerHeight
   })
-  document.getElementById('app')?.appendChild(app.view as any)
+  element('app')?.appendChild(app.view as any)
 
   void initPIXI(app)
+
+  togglePixi()
 })
 
 async function initPIXI (app: PIXI.Application): Promise<void> {
   addAssets()
+
+  const SCALE = 5
+  const GRID = 16
+
+  PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST
+  app.stage.scale.set(SCALE)
+  app.stage.position.set(-WORLD.properties.rootX * GRID * SCALE, -WORLD.properties.rootY * GRID * SCALE)
+
   for (let y = 0; y < WORLD.background.length; y++) {
     for (let x = 0; x < WORLD.background[y].length; x++) {
       if (WORLD.background[y][x] !== '' && WORLD.background[y][x] !== null) {
         const sprite = new Sprite(await Assets.load(WORLD.background[y][x] as string))
         sprite.anchor.set(0.5)
-        sprite.position.set(x * 16 * 5, y * 16 * 5)
-        sprite.scale.set(5)
+        sprite.position.set(x * GRID, y * GRID)
         app.stage.addChild(sprite)
       }
     }
@@ -108,8 +117,7 @@ async function initPIXI (app: PIXI.Application): Promise<void> {
       if (WORLD.foreground[y][x] !== '' && WORLD.foreground[y][x] !== null) {
         const sprite = new Sprite(await Assets.load(WORLD.foreground[y][x] as string))
         sprite.anchor.set(0.5)
-        sprite.position.set(x * 16 * 5, y * 16 * 5)
-        sprite.scale.set(5)
+        sprite.position.set(x * GRID, y * GRID)
         app.stage.addChild(sprite)
       }
     }
@@ -118,9 +126,6 @@ async function initPIXI (app: PIXI.Application): Promise<void> {
   const fpsText = new Text(fps, { fill: 'red' })
   fpsText.position.set(0, 0)
   app.stage.addChild(fpsText)
-
-  app.stage.position.set(0, -3000)
-  // app.stage.scale.set(5)
 
   app.ticker.add(() => {
     frames++
