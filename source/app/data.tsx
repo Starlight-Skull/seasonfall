@@ -51,7 +51,7 @@ interface OneCallModel {
   lon: number
   timezone: string
   timezone_offset: number
-  current: {
+  current?: {
     dt: number
     sunrise: number
     sunset: number
@@ -81,14 +81,14 @@ interface OneCallModel {
  * Calls the 'One Call API' and sets the response to the weather object.
  */
 export async function oneCallAPI (): Promise<void> {
-  if (settings.api.key !== null && typeof settings.api.latitude === 'number' && typeof settings.api.longitude === 'number') {
+  if (settings.api.key != null && settings.api.key !== '' && typeof settings.api.latitude === 'number' && typeof settings.api.longitude === 'number') {
     let url = 'https://api.openweathermap.org/data/2.5/onecall'
     url += `?lat=${settings.api.latitude}&lon=${settings.api.longitude}&appid=${settings.api.key}&exclude=minutely,hourly,daily,alerts&units=metric&lang=en`
     await fetch(url).then(async res => {
       return await res.json() as OneCallModel
     }).then(json => {
       console.log(json)
-      if (json.message !== null) {
+      if (json.message != null && json.current != null) {
         weather.main = json.current.weather[0].main
         weather.description = json.current.weather[0].description
         weather.time = formatUnixTime(json.current.dt, json.timezone_offset)
