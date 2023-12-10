@@ -17,7 +17,7 @@ export function entityMovement (entity: Entity): void {
     for (let i = 0; i < tileList.length; i++) {
       collision(entity, tileList[i])
     }
-    if (!entity.collision.down && entity.hasCollision !== false) {
+    if (!entity.collision.down && entity.hasCollision) {
       entity.frame.y -= 9.81 * 2
     }
   } else {
@@ -117,7 +117,7 @@ export function entityMovement (entity: Entity): void {
         entity.frame.currentFrame = 0
       }
     }
-    if (entity.controls.jump && (entity.air < entity.maxAir) && !entity.collision.up && entity.hasCollision !== false) {
+    if (entity.controls.jump && (entity.air < entity.maxAir) && !entity.collision.up && entity.hasCollision) {
       entity.frame.y += 20
       entity.air++
       if (entity.animation !== entity.jump) {
@@ -128,7 +128,7 @@ export function entityMovement (entity: Entity): void {
       if (entity.frame.currentFrame < entity.animation.frames - 1) {
         entity.frame.currentFrame += entity.animation.speed
       }
-    } else if (((entity.air > entity.maxAir) || (!entity.controls.jump && entity.air > (entity.maxAir / 2)) || !entity.collision.down) && entity.hasCollision !== false) {
+    } else if (((entity.air > entity.maxAir) || (!entity.controls.jump && entity.air > (entity.maxAir / 2)) || !entity.collision.down) && entity.hasCollision) {
       entity.frame.y -= 9.81 * 2
       entity.air = entity.maxAir
       if (entity.animation !== entity.fall) {
@@ -141,7 +141,7 @@ export function entityMovement (entity: Entity): void {
         entity.frame.currentFrame = 0
       }
     }
-    if (entity.hasCollision === false) {
+    if (!entity.hasCollision) {
       entity.air = 0
       if (entity.controls.jump) {
         entity.frame.y += entity.stats.speed

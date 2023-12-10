@@ -1,6 +1,6 @@
 import { initData } from './data'
 import { player, playerStats, settings, tileList, world } from './globals'
-import { element, handleMouseKeyEvent } from './helpers'
+import { download, element, handleMouseKeyEvent } from './helpers'
 import { initMenu } from './menu'
 import { drawMain, drawTextWithBackground } from './renderer'
 
@@ -32,21 +32,6 @@ window.addEventListener('load', () => {
   // player.hasCollision = false
   // world.showBoxes = true
   // settings.showFPS = true
-
-  // // Function to download data to a file
-  // function download (data: any, filename: string, type: string): void {
-  //   let file = new Blob([data], { type })
-  //   let a = document.createElement('a')
-  //   let url = URL.createObjectURL(file)
-  //   a.href = url
-  //   a.download = filename
-  //   document.body.appendChild(a)
-  //   a.click()
-  //   setTimeout(() => {
-  //     document.body.removeChild(a)
-  //     window.URL.revokeObjectURL(url)
-  //   }, 0)
-  // }
 
   // let foreground: string[][] = new Array(70)
   // let background: string[][] = new Array(70)
