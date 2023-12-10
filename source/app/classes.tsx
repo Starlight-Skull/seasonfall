@@ -5,20 +5,39 @@ const missingEntity = loadImage(textures.entity.missing_entity)
 const missingTile = loadImage(textures.tile.missing_tile)
 
 export class Entity {
-  constructor (hasCollision, cooldown, speed, damage, maxHP, maxMP, maxAir, xp, x, y, width, height) {
-    this.cooldown = cooldown || -1
-    this.missing = new Animation(missingEntity, 0, 0, 32, 32, 1, 1, 'missing')
+  cooldown: number
+  missing: SpriteSet
+  frame: { x: number, y: number, width: number, height: number, currentFrame: number, mirrored: boolean }
+  defaultWidth: number
+  attackWidth: number
+  animation: SpriteSet
+  idle: SpriteSet
+  move: SpriteSet
+  attack: SpriteSet
+  jump: SpriteSet
+  fall: SpriteSet
+  death: SpriteSet
+  stats: { damage: number, invulnerable: number, hp: number, maxHP: number, mp: number, maxMP: number, xp: number, speed: number }
+  air: number
+  maxAir: number
+  controls: { attack: boolean | number, down: boolean, left: boolean, right: boolean, jump: boolean, use: boolean | number }
+  collision: { up: boolean, down: boolean, left: boolean, right: boolean }
+  hasCollision: boolean
+
+  constructor (hasCollision: boolean, cooldown = -1, speed = 10, damage = 0, maxHP = 100, maxMP = 0, maxAir = 15, xp = 0, x = 0, y = 0, width = 160, height = 160) {
+    this.cooldown = cooldown
+    this.missing = new SpriteSet(missingEntity, 0, 0, 32, 32, 1, 1)
     this.frame = {
-      x: x || 0,
-      y: y || 0,
-      width: width || 160,
-      height: height || 160,
+      x,
+      y,
+      width,
+      height,
       currentFrame: 0,
       mirrored: false
     }
     this.defaultWidth = width
     this.attackWidth = width
-    this.animation = ''
+    this.animation = this.missing
     this.idle = this.missing
     this.move = this.missing
     this.attack = this.missing
@@ -26,23 +45,24 @@ export class Entity {
     this.fall = this.missing
     this.death = this.missing
     this.stats = {
-      damage: damage || 0,
+      damage,
       invulnerable: 0,
-      hp: maxHP || 100,
-      maxHP: maxHP || 100,
-      mp: maxMP || 0,
-      maxMP: maxMP || 0,
-      xp: xp || 0,
-      speed: speed || 10
+      hp: maxHP,
+      maxHP,
+      mp: maxMP,
+      maxMP,
+      xp,
+      speed
     }
     this.air = 0
-    this.maxAir = maxAir || 15
+    this.maxAir = maxAir
     this.controls = {
       attack: false,
       down: false,
       left: false,
       right: false,
-      jump: false
+      jump: false,
+      use: false
     }
     this.collision = {
       up: false,
@@ -54,23 +74,43 @@ export class Entity {
   }
 }
 
+interface EntityOptions {
+  maxHP?: number
+  maxMP?: number
+  xp?: number
+  damage?: number
+  speed?: number
+  mirrored?: boolean
+  jumpHeight?: number
+}
+
 export class NewEntity {
-  constructor (x, y, sprite, options) {
-    const { maxHP, maxMP, xp, damage, speed, mirrored, jumpHeight } = options || {}
-    this.x = x || 0
-    this.y = y || 0
-    this.width = sprite?.width || world.grid
-    this.height = sprite?.height || world.grid
-    this.mirrored = mirrored || false
+  x: number
+  y: number
+  width: number
+  height: number
+  mirrored: boolean
+  stats: { hp: number, maxHP: number, mp: number, maxMP: number, xp: number, damage: number, speed: number, jumpHeight: number }
+  movement: { attack: boolean, down: boolean, left: boolean, right: boolean, jump: boolean, use: boolean }
+  collision: { enabled: boolean, up: boolean, down: boolean, left: boolean, right: boolean }
+  animation: SpriteSet
+  animations: { idle: SpriteSet, move: SpriteSet, attack: SpriteSet, jump: SpriteSet, fall: SpriteSet, death: SpriteSet }
+
+  constructor (x = 0, y = 0, sprite: HTMLImageElement, { maxHP = 100, maxMP = 100, xp = 0, damage = 10, speed = 1, mirrored = false, jumpHeight = 3 }: EntityOptions = {}) {
+    this.x = x
+    this.y = y
+    this.width = sprite?.width ?? world.grid
+    this.height = sprite?.height ?? world.grid
+    this.mirrored = mirrored
     this.stats = {
-      hp: maxHP || 100,
-      maxHP: maxHP || 100,
-      mp: maxMP || 0,
-      maxMP: maxMP || 0,
-      xp: xp || 0,
-      damage: damage || 10,
-      speed: speed || 1,
-      jumpHeight: jumpHeight || 3
+      hp: maxHP,
+      maxHP,
+      mp: maxMP,
+      maxMP,
+      xp,
+      damage,
+      speed,
+      jumpHeight
     }
     this.movement = {
       attack: false,
@@ -100,67 +140,95 @@ export class NewEntity {
 }
 
 export class Tile {
-  constructor (hasCollision, x, y, width, height, sprite) {
+  hasCollision: boolean | number
+  frame: { x: number, y: number, width: number, height: number, currentFrame: number, mirrored: boolean }
+  sprite: HTMLImageElement
+  animation: SpriteSet
+
+  constructor (hasCollision: boolean | number, x: number, y: number, width = 80, height = 80, sprite = missingTile) {
     this.hasCollision = hasCollision // 2 = only top collision
     this.frame = {
-      x: x || 0,
-      y: y || 0,
-      width: width || 80,
-      height: height || 80,
+      x,
+      y,
+      width,
+      height,
       currentFrame: 0,
       mirrored: false
     }
-    this.sprite = sprite || missingTile
-    this.animation = new Animation(sprite, 0, 0, 16, 16, 1, 1, 'default')
+    this.sprite = sprite
+    this.animation = new SpriteSet(sprite, 0, 0, 16, 16, 1, 1)
   }
 }
 
+interface NewTileOptions {
+  width?: number
+  height?: number
+  collision?: Collision
+  mirrored?: boolean
+  rotation?: number
+}
+
+export enum Collision { all, top, none }
+
 export class NewTile {
-  constructor (sprite, options) {
-    const { width, height, collision, mirrored, rotation } = options || {}
-    this.width = width || 1
-    this.height = height || 1
-    this.collision = collision || true
-    this.mirrored = mirrored || false
-    this.rotation = rotation || false
+  width: number
+  height: number
+  collision: Collision
+  mirrored: boolean
+  rotation: number
+  sprite: SpriteSet
+
+  constructor (sprite: HTMLImageElement, { width = 1, height = 1, collision = Collision.all, mirrored = false, rotation = 0 }: NewTileOptions = {}) {
+    this.width = width
+    this.height = height
+    this.collision = collision
+    this.mirrored = mirrored
+    this.rotation = rotation
     this.sprite = new SpriteSet(sprite)
   }
 
-  activate () {}
+  activate (): void {}
 }
 
 export class TileEntity extends Tile {
-  constructor (hasCollision, x, y, width, height, sprite, mirrored) {
+  constructor (hasCollision: boolean | number, x: number, y: number, width?: number, height?: number, sprite?: HTMLImageElement, mirrored = false) {
     super(hasCollision, x, y, width, height, sprite)
-    this.frame.mirrored = mirrored || false
-    this.animation = new Animation(this.sprite, 0, 0, 16, 16, 1, 1, 'default')
+    this.frame.mirrored = mirrored
+    this.animation = new SpriteSet(this.sprite, 0, 0, 16, 16, 1, 1)
   }
 
-  activate () {}
+  activate (): void {}
 }
 
-export class Animation {
-  constructor (sprite, x, y, width, height, frames, speed, name) {
-    this.sprite = sprite
+/* new classes */
+
+// todo overload?
+export class SpriteSet {
+  image: HTMLImageElement
+  x: number
+  y: number
+  width: number
+  height: number
+  frames: number
+  speed: number
+
+  /**
+   * Data class containing information for a single or set of sprites.
+   * @param image - The image to draw from.
+   * @param x - (optional) X offset on the image. Defaults to 0.
+   * @param y - (optional) Y offset on the image. Defaults to 0.
+   * @param width - (optional) Width cutoff. Defaults to the width of the image.
+   * @param height - (optional) Height cutoff. Defaults to the height of the image.
+   * @param frames - (optional) How many frames to take from the image. Defaults to 1.
+   * @param speed - (optional) Animation speed. Defaults to 0.
+   */
+  constructor (image: HTMLImageElement, x = 0, y = 0, width = image.width, height = image.height, frames = 1, speed = 0) {
+    this.image = image
     this.x = x
     this.y = y
-    this.frames = frames
     this.width = width
     this.height = height
+    this.frames = frames
     this.speed = speed
-    this.name = name
-  }
-}
-
-export class SpriteSet {
-  constructor (image, options) {
-    const { x, y, width, height, frames, speed } = options || {}
-    this.image = image || missingTile
-    this.x = x || 0
-    this.y = y || 0
-    this.width = width || image?.width
-    this.height = height || image?.height
-    this.frames = frames || 1
-    this.speed = speed || 0
   }
 }

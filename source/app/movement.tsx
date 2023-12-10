@@ -1,7 +1,8 @@
-import { collision, borderControl } from './helpers'
+import { TileEntity, type Entity, type Tile } from './classes'
 import { entityList, player, playerStats, tileEntityList, tileList, weather } from './globals'
+import { borderControl, collision } from './helpers'
 
-export function entityMovement (entity) {
+export function entityMovement (entity: Entity): void {
   borderControl(entity)
 
   if (entity.animation === entity.death && entity.stats.hp <= 0) {
@@ -26,7 +27,7 @@ export function entityMovement (entity) {
     } else if (entity.stats.mp < entity.stats.maxMP) {
       entity.stats.mp += Math.abs(weather.temp / 1000)
     }
-    if (!entity.controls.attack && entity.frame.width !== entity.defaultWidth) {
+    if (entity.controls.attack !== false && entity.frame.width !== entity.defaultWidth) {
       entity.frame.width = entity.defaultWidth
       entity.frame.x += (entity.attackWidth - entity.defaultWidth) / 2
     }
@@ -79,7 +80,7 @@ export function entityMovement (entity) {
         entity.air = 0
       }
     }
-    if (entity.controls.right && !entity.collision.right && !(entity.controls.attack && (entity.air === 0 || entity.air === entity.maxAir))) {
+    if (entity.controls.right && !entity.collision.right && !(entity.controls.attack !== false && (entity.air === 0 || entity.air === entity.maxAir))) {
       entity.frame.x += entity.stats.speed
       if (entity.animation !== entity.move) {
         entity.frame.currentFrame = 0
@@ -92,7 +93,7 @@ export function entityMovement (entity) {
         entity.frame.currentFrame = 0
       }
     }
-    if (entity.controls.left && !entity.collision.left && !(entity.controls.attack && (entity.air === 0 || entity.air === entity.maxAir))) {
+    if (entity.controls.left && !entity.collision.left && !(entity.controls.attack !== false && (entity.air === 0 || entity.air === entity.maxAir))) {
       entity.frame.x -= entity.stats.speed
       if (entity.animation !== entity.move) {
         entity.frame.currentFrame = 0
@@ -105,7 +106,7 @@ export function entityMovement (entity) {
         entity.frame.currentFrame = 0
       }
     }
-    if (((entity.controls.left && entity.controls.right) || (!entity.controls.left && !entity.controls.right)) && !entity.controls.attack && entity.animation !== entity.fall && !entity.controls.jump) {
+    if (((entity.controls.left && entity.controls.right) || (!entity.controls.left && !entity.controls.right)) && entity.controls.attack === false && entity.animation !== entity.fall && !entity.controls.jump) {
       if (entity.animation !== entity.idle) {
         entity.frame.currentFrame = 0
         entity.animation = entity.idle
@@ -167,13 +168,13 @@ export function entityMovement (entity) {
           playerStats.attacks++
         }
         for (let i = 0; i < entityList.length; i++) {
-          let entity2
+          let entity2: Entity | null
           if (entity === player) {
-            entity2 = collision(entity, entityList[i], true)
+            entity2 = collision(entity, entityList[i], true) ? entityList[i] : null
           } else {
-            entity2 = collision(entity, player, true)
+            entity2 = collision(entity, player, true) ? player : null
           }
-          if (entity2) {
+          if (entity2 !== null) {
             if (entity.frame.mirrored ? entity.collision.left : entity.collision.right) {
               if (entity2.stats.hp > 0) {
                 entity2.stats.hp -= entity.stats.damage
@@ -209,11 +210,11 @@ export function entityMovement (entity) {
     }
     if (entity.controls.use === true) {
       for (let i = 0; i < tileEntityList.length; i++) {
-        let tile
+        let tile: Tile | null = null
         if (entity === player) {
-          tile = collision(entity, tileEntityList[i], true)
+          tile = collision(entity, tileEntityList[i], true) ? tileEntityList[i] : null
         }
-        if (tile && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
+        if (tile instanceof TileEntity && (entity.frame.mirrored ? entity.collision.left : entity.collision.right)) {
           tile.activate()
         }
       }

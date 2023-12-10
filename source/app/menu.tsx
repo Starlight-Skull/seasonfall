@@ -1,47 +1,47 @@
-import { player, playerStats, settings, weather, world, version } from './globals'
-import { element, quit, toStorage } from './helpers'
 import { geoCoderAPI, navigate } from './data'
+import { player, playerStats, settings, version, weather, world } from './globals'
+import { element, inputElement, quit, toStorage } from './helpers'
 
-const pauseMenu = element('pauseMenu')
-const debugMenu = element('debugMenu')
+const versionTag = element('version') as HTMLElement
+const pauseMenu = element('pauseMenu') as HTMLElement
+const debugMenu = element('debugMenu') as HTMLElement
 
 /**
  * Contains the pause menus for ease of access.
- * @type {{new: HTMLElement, settingsApi: HTMLElement, load: HTMLElement, stats: HTMLElement, settingsGeneral: HTMLElement, pause: HTMLElement, settingsKeybindings: HTMLElement}}
  */
-const menus = {
-  pause: element('pause'),
-  new: element('new'),
-  load: element('load'),
-  stats: element('stats'),
-  settingsGeneral: element('settingsGeneral'),
-  settingsApi: element('settingsApi'),
-  settingsKeybindings: element('settingsKeybindings')
+const menus: any = {
+  pause: element('pause') as HTMLElement,
+  new: element('new') as HTMLElement,
+  load: element('load') as HTMLElement,
+  stats: element('stats') as HTMLElement,
+  settingsGeneral: element('settingsGeneral') as HTMLElement,
+  settingsApi: element('settingsApi') as HTMLElement,
+  settingsKeybindings: element('settingsKeybindings') as HTMLElement
 }
 
-export function initMenu () {
-  element('version').innerText = version
+export function initMenu (): void {
+  versionTag.innerText = version
   pauseMenu.style.visibility = 'hidden'
   debugMenu.style.visibility = 'hidden'
   for (const menusKey in menus) {
     menus[menusKey].style.display = 'none'
   }
   menus.pause.style.display = 'flex'
-  pauseMenu.addEventListener('click', (ev) => handleMenuEvent(ev.target))
+  pauseMenu.addEventListener('click', (ev) => { handleMenuEvent(ev.target as HTMLElement) })
 }
 
 /**
  * Handles a click event on an item in the pause menu that has a data-menu or data-action attribute.
  * @param target - The HTML element that was clicked.
  */
-function handleMenuEvent (target) {
-  if (target.dataset.menu) {
+function handleMenuEvent (target: HTMLElement): void {
+  if (target.dataset.menu != null) {
     for (const menusKey in menus) {
       menus[menusKey].style.display = 'none'
     }
     menus[target.dataset.menu].style.display = 'flex'
   }
-  if (target.dataset.action) {
+  if (target.dataset.action !== null) {
     menuAction(target)
   }
 }
@@ -50,7 +50,7 @@ function handleMenuEvent (target) {
  * Handles a click event on an item that has a data-action attribute.
  * @param target - The HTML element that was clicked.
  */
-function menuAction (target) {
+function menuAction (target: HTMLElement): void {
   switch (target.dataset.action) {
     case 'continue':
       openPauseMenu()
@@ -72,17 +72,18 @@ function menuAction (target) {
       navigate()
       break
     case 'search':
-      search(element('location').value, element('apiKey').value)
+      search((element('location') as HTMLInputElement).value, (element('apiKey') as HTMLInputElement).value)
       break
     case 'selectResult':
       if (target.children.length !== 0) {
-        const option = target.children[target.selectedIndex]
-        element('lat').value = option.dataset.lat
-        element('lon').value = option.dataset.lon
+        const option = target.children.item((target as HTMLSelectElement).selectedIndex) as HTMLOptionElement
+        ;(element('lat') as HTMLInputElement).value = option.dataset.lat as string
+        ;(element('lon') as HTMLInputElement).value = option.dataset.lon as string
       }
       break
     case 'quit':
-      toStorage('settings', settings).then(quit)
+      toStorage('settings', settings)
+      quit()
       break
   }
 }
@@ -92,36 +93,39 @@ function menuAction (target) {
  * @param location - The location to search for
  * @param apiKey - The API key
  */
-function search (location, apiKey) {
+function search (location: string, apiKey: string): void {
   geoCoderAPI(location, apiKey).then((locations) => {
     if (locations.length === 0) return
-    element('searchResults').replaceChildren()
+    element('searchResults')?.replaceChildren()
     for (const location of locations) {
       const option = document.createElement('option')
       option.textContent = `${location.name}, ${location.state} (${location.country})`
-      option.dataset.lat = location.lat
-      option.dataset.lon = location.lon
-      element('searchResults').appendChild(option)
+      option.dataset.lat = location.lat.toString()
+      option.dataset.lon = location.lon.toString()
+      element('searchResults')?.appendChild(option)
     }
-  })
+  }).catch(null)
 }
 
 /**
  * Handler for the keybindings menu.
  * @param event - A keydown or mousedown event to rebind to a game action.
  */
-function setKey (event) {
-  event.target.removeEventListener('keydown', setKey)
-  event.target.removeEventListener('mousedown', setKey)
-  const key = event.code || `Mouse${event.button}`
-  settings.keybindings[event.target.dataset.key] = key
-  event.target.textContent = key
+function setKey (event: Event): void {
+  event.target?.removeEventListener('keydown', setKey)
+  event.target?.removeEventListener('mousedown', setKey)
+  if ((event.target as HTMLElement).dataset.key !== undefined) {
+    const key = (event as KeyboardEvent).code ?? `Mouse${(event as MouseEvent).button}`
+    const k = (event.target as HTMLElement).dataset.key as string
+    settings.keybindings[k] = key
+    ;(event.target as HTMLElement).textContent = key
+  }
 }
 
 /**
  * Toggles the visibility of the pause menu and handles the associated values.
  */
-export function openPauseMenu () {
+export function openPauseMenu (): void {
   if (pauseMenu.style.visibility === 'hidden') {
     world.paused = true
     pauseMenu.style.visibility = 'visible'
@@ -136,15 +140,15 @@ export function openPauseMenu () {
 /**
  * Saves most settings from the global settings to storage.
  */
-function saveSettings () {
+function saveSettings (): void {
   // general
-  settings.scale = parseFloat(element('scale').value)
-  settings.showFPS = element('showFps').checked
+  settings.scale = parseFloat((element('scale') as HTMLInputElement).value)
+  settings.showFPS = (element('showFps') as HTMLInputElement).checked
   // api
-  settings.api.key = element('apiKey').value
-  settings.api.latitude = parseFloat(element('lat').value)
-  settings.api.longitude = parseFloat(element('lon').value)
-  settings.api.interval = parseInt(element('interval').value)
+  settings.api.key = (element('apiKey') as HTMLInputElement).value
+  settings.api.latitude = parseFloat((element('lat') as HTMLInputElement).value)
+  settings.api.longitude = parseFloat((element('lon') as HTMLInputElement).value)
+  settings.api.interval = parseInt((element('interval') as HTMLInputElement).value)
   // keybindings are saved automatically
   toStorage('settings', settings)
 }
@@ -152,18 +156,18 @@ function saveSettings () {
 /**
  * Loads most settings from the global settings into the settings menu.
  */
-function loadSettings () {
+function loadSettings (): void {
   // general
-  element('scale').value = settings.scale
-  element('showFps').checked = settings.showFPS
+  ;(element('scale') as HTMLInputElement).value = settings.scale.toString()
+  ;(element('showFps') as HTMLInputElement).checked = settings.showFPS
   // api
-  element('apiKey').value = settings.api.key
-  element('lat').value = settings.api.latitude
-  element('lon').value = settings.api.longitude
-  element('interval').value = settings.api.interval
+  ;(element('apiKey') as HTMLInputElement).value = settings.api.key.toString()
+  ;(element('lat') as HTMLInputElement).value = settings.api.latitude.toString()
+  ;(element('lon') as HTMLInputElement).value = settings.api.longitude.toString()
+  ;(element('interval') as HTMLInputElement).value = settings.api.interval.toString()
   // keybindings
   const keys = element('keybindingsContainer')
-  keys.replaceChildren()
+  keys?.replaceChildren()
   for (const key in settings.keybindings) {
     const div = document.createElement('div')
     const label = document.createElement('label')
@@ -174,68 +178,68 @@ function loadSettings () {
     button.dataset.key = key
     button.textContent = settings.keybindings[key]
     div.appendChild(button)
-    keys.appendChild(div)
+    keys?.appendChild(div)
   }
   // statistics
-  element('nameStats').innerText = `Statistics (${player.name})`
+  ;(element('nameStats') as HTMLElement).innerText = `Statistics (${player.name})`
   const stats = element('statsContainer')
-  stats.replaceChildren()
+  stats?.replaceChildren()
   for (const playerStatsKey in playerStats) {
     const statItem = document.createElement('p')
-    statItem.textContent = `${playerStatsKey}: ${playerStats[playerStatsKey]}`
-    stats.appendChild(statItem)
+    statItem.textContent = `${playerStatsKey}: ${playerStats[playerStatsKey].toString()}`
+    stats?.appendChild(statItem)
   }
 }
 
 /**
  * Toggles the visibility of the debug menu and handles the associated data.
  */
-export function openDebugMenu () {
+export function openDebugMenu (): void {
   if (debugMenu.style.visibility === 'hidden') {
     world.paused = true
     debugMenu.style.visibility = 'visible'
     // general
-    element('showBoxes').checked = world.showBoxes
-    element('showLiveDebug').checked = world.showLiveDebug
-    element('showPlayerStats').checked = world.showPlayerStats
+    ;(element('showBoxes') as HTMLInputElement).checked = world.showBoxes
+    ;(element('showLiveDebug') as HTMLInputElement).checked = world.showLiveDebug
+    ;(element('showPlayerStats') as HTMLInputElement).checked = world.showPlayerStats
     // player
-    element('hp').value = player.stats.hp
-    element('maxHp').value = player.stats.maxHP
-    element('mp').value = player.stats.mp
-    element('maxMp').value = player.stats.maxMP
-    element('xp').value = player.stats.xp
-    element('damage').value = player.stats.damage
-    element('speed').value = player.stats.speed
-    element('maxAir').value = player.maxAir
-    element('x').value = player.frame.x
-    element('y').value = player.frame.y
-    element('hasCollision').checked = player.hasCollision
+    ;(element('hp') as HTMLInputElement).value = player.stats.hp.toString()
+    ;(element('maxHp') as HTMLInputElement).value = player.stats.maxHP.toString()
+    ;(element('mp') as HTMLInputElement).value = player.stats.mp.toString()
+    ;(element('maxMp') as HTMLInputElement).value = player.stats.maxMP.toString()
+    ;(element('xp') as HTMLInputElement).value = player.stats.xp.toString()
+    ;(element('damage') as HTMLInputElement).value = player.stats.damage.toString()
+    ;(element('speed') as HTMLInputElement).value = player.stats.speed.toString()
+    ;(element('maxAir') as HTMLInputElement).value = player.maxAir.toString()
+    ;(element('x') as HTMLInputElement).value = player.frame.x.toString()
+    ;(element('y') as HTMLInputElement).value = player.frame.y.toString()
+    ;(element('hasCollision') as HTMLInputElement).checked = player.hasCollision
     // weather
     for (const weatherKey in weather) {
-      element(weatherKey).value = weather[weatherKey]
+      ;(element(weatherKey) as HTMLInputElement).value = weather[weatherKey].toString()
     }
   } else {
     world.paused = pauseMenu.style.visibility === 'visible'
     debugMenu.style.visibility = 'hidden'
     // general
-    world.showBoxes = element('showBoxes').checked
-    world.showLiveDebug = element('showLiveDebug').checked
-    world.showPlayerStats = element('showPlayerStats').checked
+    world.showBoxes = inputElement('showBoxes')?.checked ?? false
+    world.showLiveDebug = inputElement('showLiveDebug')?.checked ?? false
+    world.showPlayerStats = inputElement('showPlayerStats')?.checked ?? false
     // player
-    player.stats.hp = parseFloat(element('hp').value)
-    player.stats.maxHP = parseFloat(element('maxHp').value)
-    player.stats.mp = parseFloat(element('mp').value)
-    player.stats.maxMP = parseFloat(element('maxMp').value)
-    player.stats.xp = parseFloat(element('xp').value)
-    player.stats.damage = parseFloat(element('damage').value)
-    player.stats.speed = parseFloat(element('speed').value)
-    player.maxAir = parseFloat(element('maxAir').value)
-    player.frame.x = parseFloat(element('x').value)
-    player.frame.y = parseFloat(element('y').value)
-    player.hasCollision = element('hasCollision').checked
+    player.stats.hp = parseFloat(inputElement('hp')?.value ?? '0')
+    player.stats.maxHP = parseFloat(inputElement('maxHp')?.value ?? '0')
+    player.stats.mp = parseFloat(inputElement('mp')?.value ?? '0')
+    player.stats.maxMP = parseFloat(inputElement('maxMp')?.value ?? '0')
+    player.stats.xp = parseFloat(inputElement('xp')?.value ?? '0')
+    player.stats.damage = parseFloat(inputElement('damage')?.value ?? '0')
+    player.stats.speed = parseFloat(inputElement('speed')?.value ?? '0')
+    player.maxAir = parseFloat(inputElement('maxAir')?.value ?? '0')
+    player.frame.x = parseFloat(inputElement('x')?.value ?? '0')
+    player.frame.y = parseFloat(inputElement('y')?.value ?? '0')
+    player.hasCollision = inputElement('hasCollision')?.checked ?? true
     // weather
     for (const weatherKey in weather) {
-      const el = element(weatherKey).value
+      const el = (element(weatherKey) as HTMLInputElement).value
       if (!isNaN(parseFloat(el))) {
         weather[weatherKey] = parseFloat(el)
       } else {

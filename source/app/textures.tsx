@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-import missing_entity from '../textures/entity/missing_entity.png'
+import missingEntity from '../textures/entity/missing_entity.png'
 import hero from '../textures/entity/hero.png'
 import skeleton from '../textures/entity/skeleton.png'
 import stick from '../textures/entity/stick.png'
@@ -19,7 +18,7 @@ import plank from '../textures/tile/plank.png'
 
 export const textures = Object.freeze({
   entity: {
-    missing_entity,
+    missing_entity: missingEntity,
     hero,
     skeleton,
     stick,
@@ -48,11 +47,11 @@ export const textures = Object.freeze({
 /**
  * Finds the image from the given path.
  * @param path - The path to find the image from. If an array is passed a random path will be used.
- * @returns {Image} The image at the given path.
+ * @returns The image at the given path.
  */
-export function loadImage (path) {
+export function loadImage (path: string): HTMLImageElement {
   const image = new Image()
   if (Array.isArray(path)) path = path[Math.round(Math.random()) * (path.length - 1)]
-  image.src = path || textures.tile.missing_tile
+  image.src = path ?? textures.tile.missing_tile
   return image
 }

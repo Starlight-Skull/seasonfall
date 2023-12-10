@@ -1,8 +1,8 @@
-import { settings, world, playerStats } from './globals'
-import { drawMain, drawTextWithBackground } from './renderer'
-import { element, handleMouseKeyEvent } from './helpers'
-import { initMenu } from './menu'
 import { initData } from './data'
+import { player, playerStats, settings, tileList, world } from './globals'
+import { download, element, handleMouseKeyEvent } from './helpers'
+import { initMenu } from './menu'
+import { drawMain, drawTextWithBackground } from './renderer'
 
 import '../styles/index.sass'
 
@@ -16,25 +16,53 @@ setInterval(() => {
   playerStats.timeTaken++
 }, 1000)
 
-window.addEventListener('load', function () {
+window.addEventListener('load', () => {
   // setup for drawing
-  const screen: HTMLCanvasElement = element('screen') as HTMLCanvasElement
-  if (!screen.getContext) window.alert('This application is not supported by your browser.')
+  const canvas: HTMLCanvasElement = element('screen') as HTMLCanvasElement
+  if (canvas.getContext('2d') === null) window.alert('This application is not supported by your browser.')
 
-  window.addEventListener('mousedown', ev => handleMouseKeyEvent(`Mouse${ev.button}`, true))
-  window.addEventListener('mouseup', ev => handleMouseKeyEvent(`Mouse${ev.button}`, false))
-  window.addEventListener('keydown', ev => handleMouseKeyEvent(ev.code, true))
-  window.addEventListener('keyup', ev => handleMouseKeyEvent(ev.code, false))
+  window.addEventListener('mousedown', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, true) })
+  window.addEventListener('mouseup', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, false) })
+  window.addEventListener('keydown', ev => { handleMouseKeyEvent(ev.code, true) })
+  window.addEventListener('keyup', ev => { handleMouseKeyEvent(ev.code, false) })
 
   initData()
   initMenu()
 
+  // player.hasCollision = false
+  // world.showBoxes = true
+  // settings.showFPS = true
+
+  // let foreground: string[][] = new Array(70)
+  // let background: string[][] = new Array(70)
+
+  // foreground = new Array(70).fill('').map(() => new Array(35).fill(''))
+  // background = new Array(70).fill('').map(() => new Array(35).fill(''))
+
+  // for (let x = 0; x < tileList.length; x++) {
+  //   let tile = tileList[x]
+  //   const height = (tile.animation !== null ? tile.animation.height : tile.sprite.height) * settings.scale
+  //   const width = (tile.animation !== null ? tile.animation.width : tile.sprite.width) * settings.scale
+  //   for (let i = 0; i < tile.frame.height; i += height) {
+  //     for (let j = 0; j < tile.frame.width; j += width) {
+  //       let path = tile.animation.image.src
+  //       if (tile.hasCollision !== false) {
+  //         foreground[35 - (tile.frame.y + i) / 80 + 13][(tile.frame.x + j) / 80 + 13] = path.substring(path.lastIndexOf('/') + 1, path.indexOf('.png'))
+  //       } else {
+  //         background[35 - (tile.frame.y + i) / 80 + 13][(tile.frame.x + j) / 80 + 13] = path.substring(path.lastIndexOf('/') + 1, path.indexOf('.png'))
+  //       }
+  //     }
+  //   }
+  // }
+
+  // download(JSON.stringify({ foreground, background }), 'world.json', 'json')
+
   game()
-  function game () {
+  function game (): void {
     if (!world.paused) {
       // update screen in case of window resize
-      screen.width = window.innerWidth
-      screen.height = window.innerHeight
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
       drawMain()
     }
     frames++
