@@ -1,10 +1,11 @@
 import { initData } from './data'
-import { player, playerStats, settings, tileList, world } from './globals'
+import { player, playerStats, settings, tileList, world, level } from './globals'
 import { download, element, handleMouseKeyEvent } from './helpers'
 import { initMenu } from './menu'
 import { drawMain, drawTextWithBackground } from './renderer'
 
 import '../styles/index.sass'
+import worldJson from '../worlds/world.json'
 
 let fps = 0
 let frames = 0
@@ -25,6 +26,10 @@ window.addEventListener('load', () => {
   window.addEventListener('mouseup', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, false) })
   window.addEventListener('keydown', ev => { handleMouseKeyEvent(ev.code, true) })
   window.addEventListener('keyup', ev => { handleMouseKeyEvent(ev.code, false) })
+
+  level.properties = worldJson.properties
+  level.foreground = worldJson.foreground
+  level.background = worldJson.background
 
   initData()
   initMenu()

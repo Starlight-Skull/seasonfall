@@ -166,6 +166,34 @@ export const playerStats: PlayerStats = {
 
 export const player = new Hero(320, 640, 'Hero')
 
+interface Level {
+  properties: LevelProperties
+  foreground: string[][]
+  background: string[][]
+}
+
+interface LevelProperties {
+  rootX: number
+  rootY: number
+  borderX: number
+  borderY: number
+  borderW: number
+  borderH: number
+}
+
+export const level: Level = {
+  properties: {
+    rootX: 0,
+    rootY: 0,
+    borderX: 0,
+    borderY: 0,
+    borderW: 1,
+    borderH: 1
+  },
+  foreground: [],
+  background: []
+}
+
 export const animTileList = [
   new Rain(-1040, 640, 1040, world.height, false),
   new Rain(0, 640, 1040, world.height, false),
