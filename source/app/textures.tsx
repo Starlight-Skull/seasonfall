@@ -16,7 +16,14 @@ import grass from '../textures/tile/grass.png'
 import painting from '../textures/tile/painting.png'
 import plank from '../textures/tile/plank.png'
 
-export const textures = Object.freeze({
+interface Textures {
+  entity: any
+  tileEntity: any
+  environment: any
+  tile: any
+}
+
+export const textures: Textures = Object.freeze({
   entity: {
     missing_entity: missingEntity,
     hero,
