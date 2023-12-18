@@ -26,6 +26,8 @@ window.addEventListener('load', () => {
   window.addEventListener('keydown', ev => { handleMouseKeyEvent(ev.code, true) })
   window.addEventListener('keyup', ev => { handleMouseKeyEvent(ev.code, false) })
 
+  window.oncontextmenu = e => { return false }
+
   initData()
   initMenu()
 
