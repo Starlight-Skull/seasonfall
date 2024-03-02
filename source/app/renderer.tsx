@@ -1,11 +1,9 @@
-// import { type Entity, type NewEntity, NewTile, type Tile, Collision } from './classes'
-import { type Entity, type NewEntity, type NewTile, type Tile, Collision } from './classes'
+import { type Entity, type NewEntity, NewTile, type Tile, Collision } from './classes'
 import { Hero } from './classesExtended'
-import { UI, animTileList, entityList, fonts, player, playerStats, settings, tileEntityList, tileList, weather, world } from './globals'
+import { UI, animTileList, entityList, fonts, player, playerStats, settings, tileEntityList, tileList, weather, world, newEntities, level } from './globals'
 import { element } from './helpers'
 import { entityMovement } from './movement'
-
-// import test from '../worlds/world.json'
+import { loadImage, textures } from './textures'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 
@@ -25,6 +23,7 @@ const sky = Object.freeze({
  * Draws text at a specified location with optional color and font.
  */
 export function drawTextWithBackground (text: string, x: number, y: number, options?: { color?: string, font?: string }): void {
+  // todo optimise if unseen
   const { color, font } = options ?? {}
   ctx.textBaseline = 'top'
   ctx.font = font ?? UI.font
@@ -41,45 +40,42 @@ export function drawTextWithBackground (text: string, x: number, y: number, opti
  * @param gridX - The X coordinate without grid scaling.
  */
 export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void {
-  if (tile !== undefined) {
-    let x = gridX * world.grid
-    let y = gridY * world.grid
-    let w = tile.width * world.grid
-    let h = tile.height * world.grid
-    // if (Math.sqrt(Math.pow((x - player.frame.x), 2) + Math.pow((-y - player.frame.y), 2)) < (window.innerHeight / 4)) {
-    ctx.save()
-    if (tile.mirrored) {
-      ctx.scale(-1, 1)
-      x = -x
-      w = -w
+  if (tile === undefined) return
+  let x = gridX * world.grid
+  let y = gridY * world.grid
+  let w = tile.width * world.grid
+  let h = tile.height * world.grid
+  ctx.save()
+  if (tile.mirrored) {
+    ctx.scale(-1, 1)
+    x = -x
+    w = -w
+  }
+  if (tile.rotation !== 0) {
+    ctx.translate(x + w / 2, y + h / 2)
+    ctx.rotate(tile.rotation * Math.PI / 180)
+    x = -w / 2
+    y = -h / 2
+  }
+  ctx.drawImage(tile.sprite.image, x, y, w, h)
+  if (world.showBoxes && tile.constructor.name === 'NewTile') {
+    switch (tile.collision) {
+      case Collision.none:
+        ctx.fillStyle = 'rgba(10,50,0,0.5)'
+        break
+      case Collision.top:
+        ctx.fillStyle = 'rgba(150,100,0,0.5)'
+        break
+      default:
+        ctx.fillStyle = 'rgba(0,250,0,0.5)'
+        break
     }
-    if (tile.rotation !== 0) {
-      ctx.translate(x + w / 2, y + h / 2)
-      ctx.rotate(tile.rotation * Math.PI / 180)
-      x = -w / 2
-      y = -h / 2
-    }
-    ctx.drawImage(tile.sprite.image, x, y, w, h)
-    if (world.showBoxes && tile.constructor.name === 'NewTile') {
-      switch (tile.collision) {
-        case Collision.none:
-          ctx.fillStyle = 'rgba(10,50,0,0.5)'
-          break
-        case Collision.top:
-          ctx.fillStyle = 'rgba(150,100,0,0.5)'
-          break
-        default:
-          ctx.fillStyle = 'rgba(0,250,0,0.5)'
-          break
-      }
-      ctx.fillRect(x, y, w, h)
-      ctx.strokeRect(x, y, w, h)
-    }
-    ctx.restore()
-    if (world.showBoxes) {
-      drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
-    }
-    // }
+    ctx.fillRect(x, y, w, h)
+    ctx.strokeRect(x, y, w, h)
+  }
+  ctx.restore()
+  if (world.showBoxes) {
+    drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid)
   }
 }
 
@@ -284,73 +280,98 @@ function drawPlayerBars (): void {
   }
 }
 
+let mouseX = 0
+let mouseY = 0
+onmousemove = function (e) {
+  mouseX = Math.floor(Math.round(world.focusX * world.grid - window.innerWidth / 2 + e.clientX) / world.grid)
+  mouseY = Math.floor(Math.round(world.focusY * world.grid - window.innerHeight / 2 + e.clientY) / world.grid)
+}
+
+onmousedown = function (e) {
+  world.focusX = mouseX
+  world.focusY = mouseY
+  console.log(`pos: ${mouseX}, ${mouseY}, ${world.focusX}, ${world.focusY}`)
+}
+
 export function drawMain (): void {
   // has to be disabled so pixel art isn't blurry
   ctx.imageSmoothingEnabled = false
   drawSky()
 
-  ctx.save()
-  // move context to player
-  ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-  // draw world
-  if (weather.rain > 0 || weather.snow > 0) {
-    for (let i = 0; i < animTileList.length; i++) {
-      animTileList[i].activate()
-      animTileList[i].frame.mirrored = (weather.windDeg === 'East')
-      animTileList[i].animation.speed = weather.windSpeed / 10
-      animTileList[i].isSnow = (weather.snow > 0)
-      drawTile(animTileList[i])
-    }
-  }
-  for (let i = 0; i < tileList.length; i++) {
-    drawTile(tileList[i])
-  }
-  for (let i = 0; i < tileEntityList.length; i++) {
-    drawTile(tileEntityList[i])
-  }
-  for (let i = 0; i < entityList.length; i++) {
-    drawEntity(entityList[i])
-  }
-  drawEntity(player)
-  ctx.restore()
-
-  ctx.fillStyle = `rgba(0,0,0,${world.shade})`
-  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
-
-  ctx.save()
-  ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-  for (let i = 0; i < entityList.length; i++) {
-    drawStats(entityList[i])
-  }
-  drawStats(player)
-  ctx.restore()
-
-  // // new rendering format
   // ctx.save()
-  // ctx.translate(-player.frame.x, player.frame.y)
-  // for (let y = 0; y < test.background.length; y++) {
-  //   for (let x = 0; x < test.background[y].length; x++) {
-  //     if (test.background[y][x] !== '' && test.background[y][x] !== null) {
-  //       let im = new Image()
-  //       im.src = `/assets/${test.background[y][x]}.png`
-  //       newDrawTile(y, x, new NewTile(im, { collision: Collision.none }))
-  //     }
+  // // move context to player
+  // ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
+  // // draw world
+  // if (weather.rain > 0 || weather.snow > 0) {
+  //   for (let i = 0; i < animTileList.length; i++) {
+  //     animTileList[i].activate()
+  //     animTileList[i].frame.mirrored = (weather.windDeg === 'East')
+  //     animTileList[i].animation.speed = weather.windSpeed / 10
+  //     animTileList[i].isSnow = (weather.snow > 0)
+  //     drawTile(animTileList[i])
   //   }
   // }
-  // for (let y = 0; y < test.foreground.length; y++) {
-  //   for (let x = 0; x < test.foreground[y].length; x++) {
-  //     if (test.foreground[y][x] !== '' && test.foreground[y][x] !== null) {
-  //       let im = new Image()
-  //       im.src = `/assets/${test.foreground[y][x]}.png`
-  //       newDrawTile(y, x, new NewTile(im))
-  //     }
-  //   }
+  // for (let i = 0; i < tileList.length; i++) {
+  //   drawTile(tileList[i])
   // }
+  // for (let i = 0; i < tileEntityList.length; i++) {
+  //   drawTile(tileEntityList[i])
+  // }
+  // for (let i = 0; i < entityList.length; i++) {
+  //   drawEntity(entityList[i])
+  // }
+  // drawEntity(player)
   // ctx.restore()
 
-  // for (let entity of newEntities) {
-  //   newDrawEntity(entity)
+  // ctx.fillStyle = `rgba(0,0,0,${world.shade})`
+  // ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+
+  // ctx.save()
+  // ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
+  // for (let i = 0; i < entityList.length; i++) {
+  //   drawStats(entityList[i])
   // }
+  // drawStats(player)
+  // ctx.restore()
+
+  // new rendering format //
+
+  ctx.save()
+  ctx.translate(window.innerWidth / 2 - (world.focusX * world.grid), window.innerHeight / 2 - (world.focusY * world.grid))
+  const renderMinX = Math.floor(world.focusX - window.innerWidth / 2 / world.grid)
+  const renderMaxX = Math.ceil(world.focusX + window.innerWidth / 2 / world.grid)
+  const renderMinY = Math.floor(world.focusY - window.innerHeight / 2 / world.grid)
+  const renderMaxY = Math.ceil(world.focusY + window.innerHeight / 2 / world.grid)
+  for (let y = renderMinY; y < renderMaxY; y++) {
+    for (let x = renderMinX; x < renderMaxX; x++) {
+      // todo optimise if background is unseen
+      const background = level.background?.[y]?.[x]
+      const foreground = level.foreground?.[y]?.[x]
+      if (background !== '' && background !== null && background !== undefined) {
+        newDrawTile(y, x, new NewTile(loadImage(textures.tile[background]), { collision: Collision.none }))
+      }
+      if (foreground !== '' && foreground !== null && foreground !== undefined) {
+        newDrawTile(y, x, new NewTile(loadImage(textures.tile[foreground])))
+      }
+    }
+  }
+
+  for (let entity of newEntities) {
+    newDrawEntity(entity)
+  }
+  // newDrawEntity(player)
+
+  // mouse posision
+  ctx.fillStyle = 'rgba(250,250,250,0.5)'
+  ctx.fillRect(mouseX * world.grid, mouseY * world.grid, world.grid, world.grid)
+  drawTextWithBackground(`${mouseX},${mouseY}`, mouseX * world.grid, mouseY * world.grid, { color: 'white' })
+  // drawTextWithBackground(`${world.focusX},${world.focusY}`, world.focusX * world.grid, world.focusY * world.grid, { color: 'violet' })
+
+  ctx.restore()
+
+  // shade overlay
+  ctx.fillStyle = `rgba(0,0,0,${world.shade})`
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
   // UI
   drawPlayerBars()

@@ -66,6 +66,8 @@ export const settings: Settings = {
 interface World {
   width: number
   height: number
+  focusX: number
+  focusY: number
   shade: number
   paused: boolean
   showBoxes: boolean
@@ -77,6 +79,8 @@ interface World {
 export const world: World = {
   width: 5200,
   height: 2400,
+  focusX: 0,
+  focusY: 0,
   shade: 0,
   paused: false,
   showBoxes: false,

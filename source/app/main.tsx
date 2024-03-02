@@ -30,6 +30,8 @@ window.addEventListener('load', () => {
   level.properties = worldJson.properties
   level.foreground = worldJson.foreground
   level.background = worldJson.background
+  world.focusX = level.properties.rootX
+  world.focusY = level.properties.rootY
 
   initData()
   initMenu()
