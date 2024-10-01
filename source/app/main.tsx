@@ -1,12 +1,13 @@
 import { initData } from './data'
-import { player, playerStats, settings, tileList, world, level } from './globals'
-import { download, element, handleMouseKeyEvent } from './helpers'
+import { player, playerStats, settings, world, level, weather } from './globals'
+import { download, element, formatUnixTime, handleMouseKeyEvent } from './helpers'
 import { initMenu } from './menu'
 import { drawMain, drawTextWithBackground } from './renderer'
 
 import '../styles/index.sass'
 import worldJson from '../worlds/world.json'
 
+// todo move to global?
 let fps = 0
 let frames = 0
 
@@ -32,6 +33,8 @@ window.addEventListener('load', () => {
   level.background = worldJson.background
   world.focusX = level.properties.rootX
   world.focusY = level.properties.rootY
+  player.x = level.properties.rootX
+  player.y = level.properties.rootY
 
   initData()
   initMenu()
@@ -39,6 +42,8 @@ window.addEventListener('load', () => {
   // player.hasCollision = false
   // world.showBoxes = true
   // settings.showFPS = true
+  // world.showLiveDebug = true
+  // weather.time = formatUnixTime(Date.now() / 1000, 2 * 60 * 60)
 
   // let foreground: string[][] = new Array(70)
   // let background: string[][] = new Array(70)

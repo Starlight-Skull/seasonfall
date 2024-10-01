@@ -210,10 +210,10 @@ export function openDebugMenu (): void {
     ;(element('xp') as HTMLInputElement).value = player.stats.xp.toString()
     ;(element('damage') as HTMLInputElement).value = player.stats.damage.toString()
     ;(element('speed') as HTMLInputElement).value = player.stats.speed.toString()
-    ;(element('maxAir') as HTMLInputElement).value = player.maxAir.toString()
-    ;(element('x') as HTMLInputElement).value = player.frame.x.toString()
-    ;(element('y') as HTMLInputElement).value = player.frame.y.toString()
-    ;(element('hasCollision') as HTMLInputElement).checked = player.hasCollision
+    ;(element('maxAir') as HTMLInputElement).value = player.stats.jumpHeight.toString()
+    ;(element('x') as HTMLInputElement).value = player.x.toString()
+    ;(element('y') as HTMLInputElement).value = player.y.toString()
+    ;(element('hasCollision') as HTMLInputElement).checked = player.collision.enabled
     // weather
     for (const weatherKey in weather) {
       ;(element(weatherKey) as HTMLInputElement).value = weather[weatherKey].toString()
@@ -233,10 +233,10 @@ export function openDebugMenu (): void {
     player.stats.xp = parseFloat(inputElement('xp')?.value ?? '0')
     player.stats.damage = parseFloat(inputElement('damage')?.value ?? '0')
     player.stats.speed = parseFloat(inputElement('speed')?.value ?? '0')
-    player.maxAir = parseFloat(inputElement('maxAir')?.value ?? '0')
-    player.frame.x = parseFloat(inputElement('x')?.value ?? '0')
-    player.frame.y = parseFloat(inputElement('y')?.value ?? '0')
-    player.hasCollision = inputElement('hasCollision')?.checked ?? true
+    player.stats.jumpHeight = parseFloat(inputElement('maxAir')?.value ?? '0')
+    player.x = parseFloat(inputElement('x')?.value ?? '0')
+    player.y = parseFloat(inputElement('y')?.value ?? '0')
+    player.collision.enabled = inputElement('hasCollision')?.checked ?? true
     // weather
     for (const weatherKey in weather) {
       const el = (element(weatherKey) as HTMLInputElement).value

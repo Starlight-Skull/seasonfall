@@ -1,5 +1,5 @@
-import type { Entity, Tile } from './classes'
-import { player, settings, world } from './globals'
+import type { NewEntity, Tile } from './classes'
+import { level, player, settings, world } from './globals'
 import { openDebugMenu, openPauseMenu } from './menu'
 
 /**
@@ -73,28 +73,22 @@ export function toStorage (key: string, value: any): void {
 export function handleMouseKeyEvent (key: string, down: boolean): void {
   switch (key) {
     case settings.keybindings.attack:
-      if (!world.paused) {
-        if (down) player.controls.attack = (player.controls.attack === 2) ? 2 : true
-        else player.controls.attack = false
-      }
+      if (!world.paused) player.movement.attack = down
       break
     case settings.keybindings.down:
-      if (!world.paused) player.controls.down = down
+      if (!world.paused) player.movement.down = down
       break
     case settings.keybindings.left:
-      if (!world.paused) player.controls.left = down
+      if (!world.paused) player.movement.left = down
       break
     case settings.keybindings.right:
-      if (!world.paused) player.controls.right = down
+      if (!world.paused) player.movement.right = down
       break
     case settings.keybindings.jump:
-      if (!world.paused) player.controls.jump = down
+      if (!world.paused) player.movement.jump = down
       break
     case settings.keybindings.use:
-      if (!world.paused) {
-        if (down) player.controls.use = (player.controls.use === 2) ? 2 : true
-        else player.controls.use = false
-      }
+      if (!world.paused) player.movement.use = down
       break
     case 'Backquote':
       if (down) openDebugMenu()
@@ -120,24 +114,26 @@ export function formatUnixTime (timestamp: number, timezone: number): number {
  * Checks if the given entity is within the world border and moves it back if needed.
  * @param entity - The entity to check.
  */
-export function borderControl (entity: Entity): void {
-  if (!entity.hasCollision) return
-  if (entity.frame.x > world.width) {
-    entity.frame.x = world.width
-  }
-  if (entity.frame.x < 0) {
-    entity.frame.x = 0
-  }
-  if (entity.frame.y > world.height) {
-    entity.frame.y = world.height
-  }
-  if (entity.frame.y < 0) {
-    entity.frame.y = 0
-  }
+export function borderControl (entity: NewEntity): void {
+  if (!entity.collision.enabled) return
+  if (entity.x + entity.width > level.properties.borderW) entity.x = level.properties.borderW
+  if (entity.x < level.properties.borderX) entity.x = level.properties.borderX
+  if (entity.y + entity.height > level.properties.borderH) entity.y = level.properties.borderH
+  if (entity.y < level.properties.borderY) entity.y = level.properties.borderY
 }
 
-export function collision (entity: Entity, object: Entity | Tile, isAttack = false): boolean {
-  if (entity.hasCollision && (object.hasCollision !== false || (Object.getPrototypeOf(Object.getPrototypeOf(object)).constructor.name === 'TileEntity' && isAttack))) {
+export function hasCollision (entity: NewEntity, x: number, y: number, w: number, h: number): boolean {
+  return (
+    entity.x < x + w &&
+    entity.x + entity.width > x &&
+    entity.y < y + h &&
+    entity.y + entity.height > y &&
+    entity.collision.enabled
+  )
+}
+
+export function collision (entity: NewEntity, x: number, y: number, w: number, h: number): boolean {
+  if (entity.collision.enabled) {
     const values = {
       up: entity.collision.up,
       down: entity.collision.down,
@@ -146,62 +142,62 @@ export function collision (entity: Entity, object: Entity | Tile, isAttack = fal
     }
     if (!entity.collision.up) {
       entity.collision.up =
-        entity.frame.x < object.frame.x + object.frame.width &&
-        entity.frame.x + entity.frame.width > object.frame.x &&
-        entity.frame.y < object.frame.y &&
-        entity.frame.y + entity.frame.height >= object.frame.y &&
-        object.hasCollision !== 2
-      if (entity.collision.up && (entity.frame.y + entity.frame.height - object.frame.y <= 30) && object.constructor.name === 'Tile') {
-        entity.frame.y = object.frame.y - entity.frame.height
+        entity.x < x + w &&
+        entity.x + entity.width > x &&
+        entity.y < y &&
+        entity.y + entity.height >= y
+        // object.hasCollision !== 2
+      if (entity.collision.up && (entity.y + entity.height - y <= 30)) {
+        entity.y = y - entity.height
       }
     }
     if (!entity.collision.down) {
       entity.collision.down =
-        entity.frame.x < object.frame.x + object.frame.width &&
-        entity.frame.x + entity.frame.width > object.frame.x &&
-        entity.frame.y <= object.frame.y + object.frame.height &&
-        entity.frame.y > object.frame.y &&
-        entity.frame.y + entity.frame.height > object.frame.y + object.frame.height
-      if (object.hasCollision === 2 && entity.controls.down) {
-        entity.collision.down = false
-      } else if (entity.collision.down && (object.frame.y + object.frame.height - entity.frame.y <= 30) && object.constructor.name === 'Tile') {
-        entity.frame.y = object.frame.y + object.frame.height
-      }
+        entity.x < x + w &&
+        entity.x + entity.width > x &&
+        entity.y <= y + h &&
+        entity.y > y &&
+        entity.y + entity.height > y + h
+      // if (object.hasCollision === 2 && entity.controls.down) {
+      //   entity.collision.down = false
+      // } else if (entity.collision.down && (y + h - entity.y <= 30) && object.constructor.name === 'Tile') {
+      //   entity.y = object.y + object.height
+      // }
     }
     if (!entity.collision.left) {
       entity.collision.left =
-        entity.frame.x <= object.frame.x + object.frame.width &&
-        entity.frame.x + entity.frame.width > object.frame.x + object.frame.width &&
-        entity.frame.y < object.frame.y + object.frame.height &&
-        entity.frame.y + entity.frame.height > object.frame.y &&
-        object.hasCollision !== 2
-      if (entity.collision.left && (object.frame.x + object.frame.width - entity.frame.x <= 20) && object.constructor.name === 'Tile') {
-        entity.frame.x = object.frame.x + object.frame.width
+        entity.x <= x + w &&
+        entity.x + entity.width > x + w &&
+        entity.y < y + h &&
+        entity.y + entity.height > y
+        // object.hasCollision !== 2
+      if (entity.collision.left && (x + w - entity.x <= 20)) {
+        entity.x = x + w
       }
     }
     if (!entity.collision.right) {
       entity.collision.right =
-        entity.frame.x < object.frame.x &&
-        entity.frame.x + entity.frame.width >= object.frame.x &&
-        entity.frame.y < object.frame.y + object.frame.height &&
-        entity.frame.y + entity.frame.height > object.frame.y &&
-        object.hasCollision !== 2
-      if (entity.collision.right && (entity.frame.x + entity.frame.width - object.frame.x <= 20) && object.constructor.name === 'Tile') {
-        entity.frame.x = object.frame.x - entity.frame.width
+        entity.x < x &&
+        entity.x + entity.width >= x &&
+        entity.y < y + h &&
+        entity.y + entity.height > y
+        // object.hasCollision !== 2
+      if (entity.collision.right && (entity.x + entity.width - x <= 20)) {
+        entity.x = x - entity.width
       }
     }
     if (
       entity.collision.left && entity.collision.right &&
-      entity.frame.x <= object.frame.x &&
-      entity.frame.x + entity.frame.width >= object.frame.x + object.frame.width &&
-      !isAttack
+      entity.x <= x &&
+      entity.x + entity.width >= x + w
+      // !isAttack
     ) {
       entity.collision.left = false
       entity.collision.right = false
     }
     if (
       ((!values.up && entity.collision.up) || (!values.down && entity.collision.down) || (!values.left && entity.collision.left) || (!values.right && entity.collision.right)) &&
-      ((entity.constructor.name !== 'Tile' && object.constructor.name === 'Hero') || (entity.constructor.name === 'Hero' && object.constructor.name !== 'Tile'))
+      ((entity.constructor.name !== 'Tile'))
     ) {
       return true
     } else return false

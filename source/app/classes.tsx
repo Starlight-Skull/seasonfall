@@ -1,4 +1,3 @@
-import { world } from './globals'
 import { loadImage, textures } from './textures'
 
 const missingEntity = loadImage(textures.entity.missing_entity)
@@ -81,27 +80,32 @@ interface EntityOptions {
   damage?: number
   speed?: number
   mirrored?: boolean
+  boxWidth?: number
+  boxHeight?: number
   jumpHeight?: number
 }
 
 export class NewEntity {
   x: number
   y: number
-  width: number
-  height: number
+  cooldown: number
   mirrored: boolean
-  stats: { hp: number, maxHP: number, mp: number, maxMP: number, xp: number, damage: number, speed: number, jumpHeight: number }
+  stats: { hp: number, maxHP: number, mp: number, maxMP: number, xp: number, damage: number, speed: number, jumpHeight: number, jumpTime: number }
   movement: { attack: boolean, down: boolean, left: boolean, right: boolean, jump: boolean, use: boolean }
   collision: { enabled: boolean, up: boolean, down: boolean, left: boolean, right: boolean }
+  animationFrame: number
   animation: SpriteSet
   animations: { idle: SpriteSet, move: SpriteSet, attack: SpriteSet, jump: SpriteSet, fall: SpriteSet, death: SpriteSet }
+  boxWidth: number
+  boxHeight: number
 
-  constructor (x = 0, y = 0, sprite: HTMLImageElement, { maxHP = 100, maxMP = 100, xp = 0, damage = 10, speed = 1, mirrored = false, jumpHeight = 3 }: EntityOptions = {}) {
+  constructor (x = 0, y = 0, sprite: HTMLImageElement, { maxHP = 50, maxMP = 0, xp = 0, damage = 10, speed = 0.1, mirrored = false, jumpHeight = 3, boxWidth = 1, boxHeight = 1 }: EntityOptions = {}) {
     this.x = x
     this.y = y
-    this.width = sprite?.width ?? world.grid
-    this.height = sprite?.height ?? world.grid
+    this.cooldown = -1
     this.mirrored = mirrored
+    this.boxWidth = boxWidth
+    this.boxHeight = boxHeight
     this.stats = {
       hp: maxHP,
       maxHP,
@@ -110,7 +114,8 @@ export class NewEntity {
       xp,
       damage,
       speed,
-      jumpHeight
+      jumpHeight,
+      jumpTime: 0
     }
     this.movement = {
       attack: false,
@@ -127,6 +132,7 @@ export class NewEntity {
       left: false,
       right: false
     }
+    this.animationFrame = 0
     this.animation = new SpriteSet(sprite)
     this.animations = {
       idle: new SpriteSet(sprite),
@@ -137,6 +143,9 @@ export class NewEntity {
       death: new SpriteSet(sprite)
     }
   }
+
+  get width (): number { return this.animation.boxWidth ?? this.boxWidth }
+  get height (): number { return this.animation.boxWidth ?? this.boxHeight }
 }
 
 export class Tile {
@@ -211,6 +220,8 @@ export class SpriteSet {
   height: number
   frames: number
   speed: number
+  boxWidth?: number
+  boxHeight?: number
 
   /**
    * Data class containing information for a single or set of sprites.
@@ -221,8 +232,10 @@ export class SpriteSet {
    * @param height - (optional) Height cutoff. Defaults to the height of the image.
    * @param frames - (optional) How many frames to take from the image. Defaults to 1.
    * @param speed - (optional) Animation speed. Defaults to 0.
+   * @param boxWidth - (optional) Collision box width.
+   * @param boxHeight - (optional) Collision box height.
    */
-  constructor (image: HTMLImageElement, x = 0, y = 0, width = image.width, height = image.height, frames = 1, speed = 0) {
+  constructor (image: HTMLImageElement, x = 0, y = 0, width = image.width, height = image.height, frames = 1, speed = 0, boxWidth?: number, boxHeight?: number) {
     this.image = image
     this.x = x
     this.y = y
@@ -230,5 +243,7 @@ export class SpriteSet {
     this.height = height
     this.frames = frames
     this.speed = speed
+    this.boxWidth = boxWidth
+    this.boxHeight = boxHeight
   }
 }

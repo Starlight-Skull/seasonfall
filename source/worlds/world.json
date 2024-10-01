@@ -1,8 +1,8 @@
 {
   "properties": {
-    "rootX": 49,
-    "rootY": 17,
-    "borderX": 14,
+    "rootX": 17,
+    "rootY": 16,
+    "borderX": 0,
     "borderY": 0,
     "borderW": 78,
     "borderH": 29
