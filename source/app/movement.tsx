@@ -1,5 +1,5 @@
-import { type NewEntity, type SpriteSet } from './classes'
-import { player, playerStats, weather, level } from './globals'
+import { Collision, type NewEntity, type SpriteSet } from './classes'
+import { player, weather, level } from './globals'
 import { borderControl } from './helpers'
 
 function nextFrame (entity: NewEntity, loop = false): void {
@@ -126,11 +126,10 @@ export function entityMovement (entity: NewEntity): void {
       entity.collision.right = false
       entity.collision.up = false
       entity.collision.down = false
-      let str = ''
       for (let i = Math.floor(dx); i < Math.ceil(dx + entity.width); i++) {
         for (let j = Math.floor(dy); j < Math.ceil(dy + entity.height); j++) {
           let tile = level.foreground[j]?.[i]
-          if (tile !== undefined && tile !== '') {
+          if (tile !== undefined && tile.collision !== Collision.none) {
             if (j >= Math.floor(entity.y) && j < Math.ceil(entity.y + entity.height)) {
               if (i < entity.x) {
                 entity.collision.left = true

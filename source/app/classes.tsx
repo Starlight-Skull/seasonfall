@@ -169,7 +169,7 @@ export class Tile {
   }
 }
 
-interface NewTileOptions {
+export interface NewTileOptions {
   width?: number
   height?: number
   collision?: Collision
@@ -177,6 +177,9 @@ interface NewTileOptions {
   rotation?: number
 }
 
+/**
+ * @enum values all, top, none
+ */
 export enum Collision { all, top, none }
 
 export class NewTile {
@@ -208,8 +211,6 @@ export class TileEntity extends Tile {
 
   activate (): void {}
 }
-
-/* new classes */
 
 // todo overload?
 export class SpriteSet {

@@ -1,19 +1,5 @@
-import { NewEntity } from './classes'
+import { NewTile } from './classes'
 import { NewHero, NewSkeleton } from './classesExtended'
-
-// entities
-// const skeleton = loadImage(textures.entity.skeleton)
-// // tileEntities
-// const door = loadImage(textures.tileEntity.door)
-// // tiles
-// const beam = loadImage(textures.tile.beam)
-// const brick = loadImage(textures.tile.brick)
-// const brickWall = loadImage(textures.tile.brick_wall)
-// const dirt = loadImage(textures.tile.dirt)
-// const dirtWall = loadImage(textures.tile.dirt_wall)
-// const grass = loadImage(textures.tile.grass)
-// const painting = loadImage(textures.tile.painting)
-// const plank = loadImage(textures.tile.plank)
 
 export const version = '1.2.0'
 
@@ -62,21 +48,11 @@ export const settings: Settings = {
   }
 }
 
-interface World {
-  focusX: number
-  focusY: number
-  shade: number
-  paused: boolean
-  showBoxes: boolean
-  showLiveDebug: boolean
-  showPlayerStats: boolean
-  debug: string
-  get grid(): number
-}
-
 const PIXEL_GRID = 16
 
-export const world: World = {
+export const world = {
+  fps: 0,
+  frames: 0,
   focusX: 0,
   focusY: 0,
   shade: 0,
@@ -170,23 +146,7 @@ export const playerStats: PlayerStats = {
 
 export const player = new NewHero()
 
-interface Level {
-  properties: LevelProperties
-  foreground: string[][]
-  background: string[][]
-  entities: NewEntity[]
-}
-
-interface LevelProperties {
-  rootX: number
-  rootY: number
-  borderX: number
-  borderY: number
-  borderW: number
-  borderH: number
-}
-
-export const level: Level = {
+export const level = {
   properties: {
     rootX: 0,
     rootY: 0,
@@ -195,8 +155,8 @@ export const level: Level = {
     borderW: 1,
     borderH: 1
   },
-  foreground: [],
-  background: [],
+  foreground: new Array<Array<NewTile | undefined>>(),
+  background: new Array<Array<NewTile | undefined>>(),
   entities: [
     new NewSkeleton(34, 16),
     new NewSkeleton(40, 16),

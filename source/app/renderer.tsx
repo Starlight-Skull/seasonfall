@@ -3,7 +3,6 @@ import { NewHero } from './classesExtended'
 import { UI, player, playerStats, settings, weather, world, level } from './globals'
 import { element } from './helpers'
 import { entityMovement } from './movement'
-import { loadImage, textures } from './textures'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 
@@ -109,6 +108,7 @@ export function drawSky (): void {
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }
 
+// !cleanup
 // function drawTile (tile: Tile): void {
 //   if ((player.frame.x - (tile.frame.x + tile.frame.width) <= (window.innerWidth / 2)) && (tile.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (tile.frame.y + tile.frame.height) <= (window.innerHeight / 3)) && (tile.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
 //     // if frame is bigger, sprite is drawn multiple times to cover the whole size
@@ -155,6 +155,7 @@ export function drawSky (): void {
 //   }
 // }
 
+// !cleanup
 // function drawEntity (entity: Entity): void {
 //   entityMovement(entity)
 //   if ((player.frame.x - (entity.frame.x + entity.frame.width) <= (window.innerWidth / 2)) && (entity.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (entity.frame.y + entity.frame.height) <= (window.innerHeight / 3)) && (entity.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
@@ -181,7 +182,6 @@ export function drawSky (): void {
 
 /**
  * Draws a given entity according to its properties.
- * @param entity - The entity to draw.
  */
 function newDrawEntity (entity: NewEntity): void {
   let w = entity.width * world.grid
@@ -222,28 +222,28 @@ function drawStats (entity: NewEntity): void {
   let x = (entity.x + entity.width / 2) * world.grid
   let y = entity.y * world.grid
   if (entity instanceof NewHero) {
-    // name
+    //* name *//
     drawTextWithBackground(entity.name, x - ctx.measureText(entity.name).width / 2, y - 65, { color: 'rgb(255,255,255)' })
-    // xp
+    //* xp *//
     if (entity.stats.xp !== 0) {
       drawTextWithBackground(`${entity.stats.xp}`, x - ctx.measureText(`${entity.stats.xp}`).width / 2, y - 95, { color: 'rgb(0,255,0)' })
     }
   } else {
-    // hp
+    //* hp *//
     if (entity.stats.hp > 0) {
       ctx.fillStyle = 'rgba(0,0,0,0.5)'
       ctx.fillRect(x - entity.stats.maxHP * 1.5 / 2 - 5, y - 60, entity.stats.maxHP * 1.5 + 10, 20)
       ctx.fillStyle = 'rgba(255,0,0,0.7)'
       ctx.fillRect(x - entity.stats.hp * 1.5 / 2, y - 55, entity.stats.hp * 1.5, 10)
     }
-    // mp
+    //* mp *//
     if (entity.stats.mp > 0) {
       ctx.fillStyle = 'rgba(0,0,0,0.5)'
       ctx.fillRect(x - entity.stats.maxMP * 1.5 / 2 - 5, y - 40, entity.stats.maxMP * 1.5 + 10, 15)
       ctx.fillStyle = 'rgba(0,0,255,0.7)'
       ctx.fillRect(x - entity.stats.mp * 1.5 / 2, y - 40, entity.stats.mp * 1.5, 10)
     }
-    // debug
+    //* debug *//
     if (world.showLiveDebug) {
       const val = `${entity.movement.left ? '←' : ''}${entity.movement.down ? '↓' : ''}${entity.movement.attack ? '#' : ''}${entity.movement.jump ? '▲' : ''}${entity.movement.right ? '→' : ''}`
       drawTextWithBackground(val, x - ctx.measureText(val).width / 2, y - 95, { color: 'rgb(255,255,255)' })
@@ -252,7 +252,7 @@ function drawStats (entity: NewEntity): void {
 }
 
 function drawDebug (): void {
-  // debug info
+  //* debug info *//
   if (world.showLiveDebug) {
     const tracked = player
     drawTextWithBackground(`ANIM: ${tracked.constructor.name}::${tracked.animation.constructor.name} - ${Math.round(tracked.animationFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, { color: 'cyan' })
@@ -272,7 +272,7 @@ function drawDebug (): void {
 }
 
 function drawPlayerBars (): void {
-  // player hp
+  //* player hp *//
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
   ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30)
   const hpGradient = ctx.createLinearGradient(25, 25, player.stats.maxHP * 5, 20)
@@ -282,7 +282,7 @@ function drawPlayerBars (): void {
   if (player.stats.hp > 0) {
     ctx.fillRect(25, 25, player.stats.hp * 5, 20)
   }
-  // player mp
+  //* player mp *//
   if (player.stats.mp !== 0) {
     ctx.fillStyle = 'rgba(0,0,0,0.5)'
     ctx.fillRect(20, 50, player.stats.maxMP * 5 + 10, 15)
@@ -298,12 +298,12 @@ function drawPlayerBars (): void {
 
 let mouseX = 0
 let mouseY = 0
-onmousemove = function (e) {
+onmousemove = (e) => {
   mouseX = Math.floor(Math.round(world.focusX * world.grid - window.innerWidth / 2 + e.clientX) / world.grid)
   mouseY = Math.floor(Math.round(world.focusY * world.grid - window.innerHeight / 2 + e.clientY) / world.grid)
 }
 
-onmousedown = function (e) {
+onmousedown = (e) => {
   if (!world.paused) {
     world.focusX = mouseX
     world.focusY = mouseY
@@ -315,10 +315,6 @@ export function drawMain (): void {
   ctx.imageSmoothingEnabled = false
   drawSky()
 
-  // ctx.save()
-  // // move context to player
-  // ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-  // // draw world
   // if (weather.rain > 0 || weather.snow > 0) {
   //   for (let i = 0; i < animTileList.length; i++) {
   //     animTileList[i].activate()
@@ -328,30 +324,6 @@ export function drawMain (): void {
   //     drawTile(animTileList[i])
   //   }
   // }
-  // for (let i = 0; i < tileList.length; i++) {
-  //   drawTile(tileList[i])
-  // }
-  // for (let i = 0; i < tileEntityList.length; i++) {
-  //   drawTile(tileEntityList[i])
-  // }
-  // for (let i = 0; i < entityList.length; i++) {
-  //   drawEntity(entityList[i])
-  // }
-  // drawEntity(player)
-  // ctx.restore()
-
-  // ctx.fillStyle = `rgba(0,0,0,${world.shade})`
-  // ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
-
-  // ctx.save()
-  // ctx.translate(window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-  // for (let i = 0; i < entityList.length; i++) {
-  //   drawStats(entityList[i])
-  // }
-  // drawStats(player)
-  // ctx.restore()
-
-  // new rendering format //
 
   ctx.save()
   ctx.translate(window.innerWidth / 2 - (world.focusX * world.grid), window.innerHeight / 2 - (world.focusY * world.grid))
@@ -359,20 +331,22 @@ export function drawMain (): void {
   const renderMaxX = Math.ceil(world.focusX + window.innerWidth / 2 / world.grid)
   const renderMinY = Math.floor(world.focusY - window.innerHeight / 2 / world.grid)
   const renderMaxY = Math.ceil(world.focusY + window.innerHeight / 2 / world.grid)
+
+  //* tiles *//
   for (let y = renderMinY; y < renderMaxY; y++) {
     for (let x = renderMinX; x < renderMaxX; x++) {
-      // todo optimize if background is unseen
-      const background = level.background?.[y]?.[x]
-      const foreground = level.foreground?.[y]?.[x]
-      if (background !== '' && background !== null && background !== undefined) {
-        newDrawTile(y, x, new NewTile(loadImage(textures.tile[background]), { collision: Collision.none }))
-      }
-      if (foreground !== '' && foreground !== null && foreground !== undefined) {
-        newDrawTile(y, x, new NewTile(loadImage(textures.tile[foreground])))
-      }
+      const background = level.background[y]?.[x]
+      if (background !== undefined) newDrawTile(y, x, background)
+    }
+  }
+  for (let y = renderMinY; y < renderMaxY; y++) {
+    for (let x = renderMinX; x < renderMaxX; x++) {
+      const foreground = level.foreground[y]?.[x]
+      if (foreground !== undefined) newDrawTile(y, x, foreground)
     }
   }
 
+  //* entities + player *//
   for (let entity of level.entities) {
     entityMovement(entity)
     if (entity.x < renderMinX || entity.x > renderMaxX || entity.y < renderMinY || entity.y > renderMaxY) continue
@@ -381,19 +355,21 @@ export function drawMain (): void {
   entityMovement(player)
   newDrawEntity(player)
 
-  // mouse position
+  //* mouse position *//
   ctx.fillStyle = 'rgba(250,250,250,0.5)'
   ctx.strokeStyle = 'white'
   ctx.fillRect(mouseX * world.grid, mouseY * world.grid, world.grid, world.grid)
   drawTextWithBackground(`${mouseX},${mouseY}`, mouseX * world.grid, mouseY * world.grid, { color: 'white' })
+  //* focus point *//
   ctx.strokeRect(world.focusX * world.grid, world.focusY * world.grid, world.grid, world.grid)
 
   ctx.restore()
 
-  // shade overlay
+  //* shade overlay *//
   ctx.fillStyle = `rgba(0,0,0,${world.shade})`
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
+  //* entity stats *//
   ctx.save()
   ctx.translate(window.innerWidth / 2 - (world.focusX * world.grid), window.innerHeight / 2 - (world.focusY * world.grid))
   for (let entity of level.entities) {
