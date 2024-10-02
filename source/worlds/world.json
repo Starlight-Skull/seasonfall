@@ -247,8 +247,8 @@
       "brick",
       "brick",
       "brick",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -328,8 +328,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -409,8 +409,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -490,8 +490,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -571,8 +571,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -652,8 +652,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -723,18 +723,18 @@
       "",
       "",
       "brick",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -814,8 +814,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -895,8 +895,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -976,8 +976,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -1057,8 +1057,8 @@
       "",
       "",
       "",
-      "plank:r-180",
-      "plank:r-180",
+      "plank:r-180:c-top",
+      "plank:r-180:c-top",
       "brick"
     ],
     [
@@ -1134,7 +1134,7 @@
       "brick",
       "brick",
       "brick",
-      "plank:r-180",
+      "plank:r-180:c-top",
       "brick",
       "brick",
       "brick",
@@ -1215,7 +1215,7 @@
       "dirt",
       "dirt",
       "dirt",
-      "plank:r-180",
+      "plank:r-180:c-top",
       "",
       "",
       "",
@@ -1273,7 +1273,7 @@
       "",
       "",
       "brick",
-      "plank:r-180",
+      "plank:r-180:c-top",
       "brick",
       "",
       "",
@@ -1296,7 +1296,7 @@
       "",
       "",
       "",
-      "plank:r-180",
+      "plank:r-180:c-top",
       "",
       "",
       "",

@@ -12,11 +12,12 @@
   },
   "plugins": ["react"],
   "rules": {
-    "@typescript-eslint/no-unused-vars": "warn",
     "no-unused-vars": "warn",
     "prefer-const": "off",
     "no-sparse-arrays": "off",
-    "@typescript-eslint/restrict-template-expressions": "off"
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/consistent-type-imports": "warn",
+    "@typescript-eslint/no-unused-vars": "off"
   },
   "ignorePatterns": ["out/", "dist/", "docs/"]
 }

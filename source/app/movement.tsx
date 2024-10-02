@@ -130,17 +130,19 @@ export function entityMovement (entity: NewEntity): void {
         for (let j = Math.floor(dy); j < Math.ceil(dy + entity.height); j++) {
           let tile = level.foreground[j]?.[i]
           if (tile !== undefined && tile.collision !== Collision.none) {
-            if (j >= Math.floor(entity.y) && j < Math.ceil(entity.y + entity.height)) {
-              if (i < entity.x) {
+            const xRange = i >= Math.floor(entity.x) && (i < Math.ceil(entity.x + entity.width))
+            const yRange = j >= Math.floor(entity.y) && j < Math.ceil(entity.y + entity.height)
+            if (yRange && !xRange) {
+              if (i < entity.x && tile.collision === Collision.all) {
                 entity.collision.left = true
-              } else if (i > entity.x) {
+              } else if (i > entity.x && tile.collision === Collision.all) {
                 entity.collision.right = true
               }
             }
-            if (i >= Math.floor(entity.x) && (i < Math.ceil(entity.x + entity.width))) {
-              if (j < entity.y) {
+            if (xRange && !yRange) {
+              if (j < entity.y && tile.collision === Collision.all) {
                 entity.collision.up = true
-              } else if (j > entity.y) {
+              } else if (j > entity.y && (tile.collision === Collision.all || (!entity.movement.down && tile.collision === Collision.top))) {
                 entity.collision.down = true
               }
             }

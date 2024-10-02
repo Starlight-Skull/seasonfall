@@ -16,7 +16,7 @@ import painting from '../textures/tile/painting.png'
 import plank from '../textures/tile/plank.png'
 import { level, player, world } from './globals'
 import { isNotEmpty } from './helpers'
-import { Collision, NewTile, NewTileOptions } from './classes'
+import { Collision, NewTile, type NewTileOptions } from './classes'
 
 interface Textures {
   entity: any

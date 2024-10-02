@@ -21,15 +21,16 @@ const sky = Object.freeze({
 /**
  * Draws text at a specified location with optional color and font.
  */
-export function drawTextWithBackground (text: string, x: number, y: number, options?: { color?: string, font?: string }): void {
-  // todo optimize if unseen
-  const { color, font } = options ?? {}
+export function drawTextWithBackground (text: string, x: number, y: number, options?: { color?: string, font?: string, center?: boolean }): void {
+  const { color, font, center } = options ?? {}
+  const pad = 5
   ctx.textBaseline = 'top'
   ctx.font = font ?? UI.font
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
-  ctx.fillRect(x, y, ctx.measureText(text).width + settings.scale * 2, UI.fontSize + settings.scale)
+  if (center ?? false) x -= ctx.measureText(text).width / 2 - pad
+  ctx.fillRect(x, y, ctx.measureText(text).width + pad * 2, UI.fontSize + pad)
   ctx.fillStyle = color ?? 'rgb(255,255,255)'
-  ctx.fillText(text, x + settings.scale, y + settings.scale)
+  ctx.fillText(text, x + pad, y + pad)
 }
 
 /**
@@ -76,9 +77,9 @@ export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void
     ctx.strokeRect(x, y, w, h)
   }
   ctx.restore()
-  // if (world.showBoxes) {
-  //   drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid, { color: 'rgb(0,200,0)' })
-  // }
+  if (world.showLiveDebug) {
+    drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid, { color: 'rgb(0,200,0)' })
+  }
 }
 
 export function drawSky (): void {
@@ -213,7 +214,7 @@ function newDrawEntity (entity: NewEntity): void {
     ctx.strokeRect(animX, animY, animW, animH)
   }
   ctx.restore()
-  if (world.showBoxes) {
+  if (world.showLiveDebug) {
     drawTextWithBackground(`${(entity.x.toFixed(1))},${entity.y.toFixed(1)}`, entity.x * world.grid, entity.y * world.grid, { font: UI.getFont(15), color: 'rgb(250,0,250)' })
   }
 }
@@ -223,10 +224,10 @@ function drawStats (entity: NewEntity): void {
   let y = entity.y * world.grid
   if (entity instanceof NewHero) {
     //* name *//
-    drawTextWithBackground(entity.name, x - ctx.measureText(entity.name).width / 2, y - 65, { color: 'rgb(255,255,255)' })
+    drawTextWithBackground(entity.name, x, y - 65, { color: 'rgb(255,255,255)', center: true })
     //* xp *//
     if (entity.stats.xp !== 0) {
-      drawTextWithBackground(`${entity.stats.xp}`, x - ctx.measureText(`${entity.stats.xp}`).width / 2, y - 95, { color: 'rgb(0,255,0)' })
+      drawTextWithBackground(`${entity.stats.xp}`, x, y - 95, { color: 'rgb(0,255,0)', center: true })
     }
   } else {
     //* hp *//
@@ -246,7 +247,7 @@ function drawStats (entity: NewEntity): void {
     //* debug *//
     if (world.showLiveDebug) {
       const val = `${entity.movement.left ? '←' : ''}${entity.movement.down ? '↓' : ''}${entity.movement.attack ? '#' : ''}${entity.movement.jump ? '▲' : ''}${entity.movement.right ? '→' : ''}`
-      drawTextWithBackground(val, x - ctx.measureText(val).width / 2, y - 95, { color: 'rgb(255,255,255)' })
+      drawTextWithBackground(val, x, y - 95, { color: 'rgb(255,255,255)', center: true })
     }
   }
 }
@@ -298,15 +299,23 @@ function drawPlayerBars (): void {
 
 let mouseX = 0
 let mouseY = 0
-onmousemove = (e) => {
-  mouseX = Math.floor(Math.round(world.focusX * world.grid - window.innerWidth / 2 + e.clientX) / world.grid)
-  mouseY = Math.floor(Math.round(world.focusY * world.grid - window.innerHeight / 2 + e.clientY) / world.grid)
+onmousemove = (e: MouseEvent) => {
+  if (!world.paused) {
+    mouseX = Math.floor(Math.round(world.focusX * world.grid - window.innerWidth / 2 + e.clientX) / world.grid)
+    mouseY = Math.floor(Math.round(world.focusY * world.grid - window.innerHeight / 2 + e.clientY) / world.grid)
+  }
 }
 
-onmousedown = (e) => {
+onmousedown = (e: MouseEvent) => {
   if (!world.paused) {
-    world.focusX = mouseX
-    world.focusY = mouseY
+    if (e.button === 2) {
+      world.focusX = mouseX
+      world.focusY = mouseY
+    }
+    if (e.button === 1) {
+      player.x = mouseX
+      player.y = mouseY
+    }
   }
 }
 
@@ -359,7 +368,7 @@ export function drawMain (): void {
   ctx.fillStyle = 'rgba(250,250,250,0.5)'
   ctx.strokeStyle = 'white'
   ctx.fillRect(mouseX * world.grid, mouseY * world.grid, world.grid, world.grid)
-  drawTextWithBackground(`${mouseX},${mouseY}`, mouseX * world.grid, mouseY * world.grid, { color: 'white' })
+  if (world.showLiveDebug) drawTextWithBackground(`${mouseX},${mouseY}`, mouseX * world.grid, mouseY * world.grid, { color: 'white' })
   //* focus point *//
   ctx.strokeRect(world.focusX * world.grid, world.focusY * world.grid, world.grid, world.grid)
 
@@ -373,12 +382,13 @@ export function drawMain (): void {
   ctx.save()
   ctx.translate(window.innerWidth / 2 - (world.focusX * world.grid), window.innerHeight / 2 - (world.focusY * world.grid))
   for (let entity of level.entities) {
+    if (entity.x < renderMinX || entity.x > renderMaxX || entity.y < renderMinY || entity.y > renderMaxY) continue
     drawStats(entity)
   }
   drawStats(player)
   ctx.restore()
 
-  // UI
+  //* UI *//
   drawPlayerBars()
   drawDebug()
 }
