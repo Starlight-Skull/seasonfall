@@ -1,8 +1,4 @@
 import { isNotEmpty } from './helpers'
-import { loadImage, textures } from './textures'
-
-const missingEntity = loadImage(textures.entity.missing_entity)
-const missingTile = loadImage(textures.tile.missing_tile)
 
 /**
  * @enum values all, top, none
@@ -112,24 +108,13 @@ export class SpriteSet {
   boxWidth?: number
   boxHeight?: number
 
-  /**
-   * Data class containing information for a single or set of sprites.
-   * @param image - The image to draw from.
-   * @param x - (optional) X offset on the image. Defaults to 0.
-   * @param y - (optional) Y offset on the image. Defaults to 0.
-   * @param width - (optional) Width cutoff. Defaults to the width of the image.
-   * @param height - (optional) Height cutoff. Defaults to the height of the image.
-   * @param frames - (optional) How many frames to take from the image. Defaults to 1.
-   * @param speed - (optional) Animation speed. Defaults to 0.
-   * @param boxWidth - (optional) Collision box width.
-   * @param boxHeight - (optional) Collision box height.
-   */
-  constructor (image: HTMLImageElement, x = 0, y = 0, width = image.width, height = image.height, frames = 1, speed = 0, boxWidth?: number, boxHeight?: number, name?: string) {
+  constructor (image: HTMLImageElement, options?: { x?: number, y?: number, w?: number, h?: number, frames?: number, speed?: number, boxWidth?: number, boxHeight?: number, name?: string }) {
+    const { x = 0, y = 0, w = image.width, h = image.height, frames = 1, speed = 0, boxWidth, boxHeight, name } = options ?? {}
     this.image = image
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
+    this.x = x ?? 0
+    this.y = y ?? 0
+    this.width = w ?? image.width
+    this.height = h ?? image.height
     this.frames = frames
     this.speed = speed
     this.boxWidth = boxWidth

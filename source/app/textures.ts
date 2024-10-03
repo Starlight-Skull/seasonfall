@@ -16,8 +16,8 @@ import painting from '../textures/tile/painting.png'
 import plank from '../textures/tile/plank.png'
 import { level, player, world } from './globals'
 import { isNotEmpty } from './helpers'
-import { Collision, Tile } from './classes'
-import { Door } from './classesExtended'
+import { Collision, Entity, Tile } from './classes'
+import { Door, Hero, Skeleton } from './classesExtended'
 
 export const textures: Record<string, Record<string, string>> = Object.freeze({
   entity: { missing_entity, hero, skeleton, stick },
@@ -38,11 +38,30 @@ export function loadImage (path: string): HTMLImageElement {
   return image
 }
 
+interface World {
+  $schema: string
+  properties: {
+    rootX: number
+    rootY: number
+    borderX: number
+    borderY: number
+    borderW: number
+    borderH: number
+  }
+  entities: Array<{
+    class: string
+    x: number
+    y: number
+  }>
+  foreground: string[][]
+  background: string[][]
+}
+
 /**
  * Parses data in the world file into Tile objects.
  * @param json - World data file.
  */
-export function initAssets (json: any): void {
+export function initAssets (json: World): void {
   level.properties = json.properties
   world.focusX = level.properties.rootX
   world.focusY = level.properties.rootY
@@ -56,6 +75,8 @@ export function initAssets (json: any): void {
         level.background[y][x] = toTile(background, true)
       }
     }
+  }
+  for (let y = 0; y < json.foreground.length; y++) {
     level.foreground[y] = []
     for (let x = 0; x < json.foreground[y].length; x++) {
       const foreground: string = json.foreground?.[y]?.[x]
@@ -64,10 +85,13 @@ export function initAssets (json: any): void {
       }
     }
   }
+  json.entities.forEach(entity => {
+    level.entities.push(toEntity(entity.class, entity.x, entity.y))
+  })
 }
 
 /**
- * Convert a string to Tile object
+ * Convert a string to a Tile object.
  * @param tile - Example: 'brick:m:r-90:c-none' will have { mirrored: true, rotation: 90, collision: Collision.none }
  * @param background - if true, tile will have Collision.none
  */
@@ -91,5 +115,19 @@ export function toTile (tile: string, background = false): Tile | undefined {
       return undefined
     default:
       return new Tile(loadImage(textures.tile[split[0]]), options)
+  }
+}
+
+/**
+ * Convert a string to an Entity object.
+ */
+export function toEntity (entity: string, x: number, y: number): Entity {
+  switch (entity) {
+    case 'skeleton':
+      return new Skeleton(x, y)
+    case 'hero':
+      return new Hero('Hero', x, y)
+    default:
+      return new Entity(x, y, loadImage(textures.entity.missing_entity))
   }
 }

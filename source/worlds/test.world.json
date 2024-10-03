@@ -1,28 +1,35 @@
 {
   "$schema": "./_schema.json",
   "properties": {
-    "rootX": 7,
-    "rootY": 1,
-    "borderX": 0,
-    "borderY": 0,
-    "borderW": 65,
-    "borderH": 30
+    "rootX": 8,
+    "rootY": 6,
+    "borderX": -10,
+    "borderY": -10,
+    "borderW": 30,
+    "borderH": 15
   },
-  "entities": [],
+  "entities": [
+    { "class": "hero", "x": 10, "y": 6 }
+  ],
   "background": [
     [],
-    [ "", "", "", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ],
-    [ "", "", "", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ],
-    [ "", "", "", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ],
-    [ "grass", "grass", "", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ],
-    [ "dirt", "dirt" ]
+    [],
+    [],
+    [],
+    [ "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ],
+    [ "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ],
+    [ "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ],
+    [ "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ]
   ],
   "foreground": [
-    [ "", "", "brick", "plank", "plank", "plank", "plank", "plank", "plank", "plank", "plank", "plank", "brick" ],
-    [ "", "", "brick", "", "", "", "", "", "", "", "", "", "brick" ],
-    [ "", "", "brick", "", "", "", "", "", "", "", "", "", "brick" ],
-    [ "", "", "brick" ],
-    [ "", "", "brick" ],
-    [ "", "", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick" ]
+    [],
+    [],
+    [],
+    [ "brick", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "brick" ],
+    [ "brick", "plank:c-top", "", "", "", "", "", "", "", "", "", "", "", "", "brick" ],
+    [ "brick", "plank:c-top", "", "", "", "", "", "", "", "", "", "", "", "", "brick" ],
+    [ "brick", "plank:c-top", "", "", "", "", "", "", "", "", "", "", "", "", "brick" ],
+    [ "brick", "plank:c-top", "", "", "", "", "", "", "", "", "", "", "", "", "brick" ],
+    [ "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick" ]
   ]
 }

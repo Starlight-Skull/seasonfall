@@ -1,5 +1,5 @@
-import { type Tile } from './classes'
-import { Hero, Skeleton } from './classesExtended'
+import { type Entity, type Tile } from './classes'
+import { Hero } from './classesExtended'
 
 export const version = '1.2.0'
 
@@ -153,16 +153,5 @@ export const level = {
   },
   foreground: new Array<Array<Tile | undefined>>(),
   background: new Array<Array<Tile | undefined>>(),
-  entities: [
-    new Skeleton(34, 16),
-    new Skeleton(40, 16),
-    new Skeleton(56, 22),
-    new Skeleton(58, 11),
-    new Skeleton(63, 22),
-    new Skeleton(63, 11),
-    new Skeleton(68, 16),
-    new Skeleton(69, 22),
-    new Skeleton(71, 0),
-    new Skeleton(70, 11)
-  ]
+  entities: new Array<Entity>()
 }

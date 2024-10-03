@@ -8,7 +8,18 @@
     "borderW": 78,
     "borderH": 29
   },
-  "entities": [],
+  "entities": [
+    { "class": "skeleton", "x": 34, "y": 16 },
+    { "class": "skeleton", "x": 40, "y": 16 },
+    { "class": "skeleton", "x": 56, "y": 22 },
+    { "class": "skeleton", "x": 58, "y": 11 },
+    { "class": "skeleton", "x": 63, "y": 22 },
+    { "class": "skeleton", "x": 63, "y": 11 },
+    { "class": "skeleton", "x": 68, "y": 16 },
+    { "class": "skeleton", "x": 69, "y": 22 },
+    { "class": "skeleton", "x": 71, "y": 0 },
+    { "class": "skeleton", "x": 70, "y": 11 }
+  ],
   "foreground": [
     [
       "",
