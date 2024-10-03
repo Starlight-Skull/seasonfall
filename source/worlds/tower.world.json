@@ -1,4 +1,5 @@
 {
+  "$schema": "./_schema.json",
   "properties": {
     "rootX": 17,
     "rootY": 16,
@@ -7,6 +8,7 @@
     "borderW": 78,
     "borderH": 29
   },
+  "entities": [],
   "foreground": [
     [
       "",
@@ -1377,7 +1379,7 @@
       "",
       "",
       "",
-      "",
+      "plank:r-180:c-top",
       "",
       "",
       "",

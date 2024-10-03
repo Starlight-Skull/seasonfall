@@ -6,7 +6,7 @@ import { initMenu } from './menu'
 import { drawMain, drawTextWithBackground } from './renderer'
 
 import '../styles/index.sass'
-import worldJson from '../worlds/world.json'
+import worldJson from '../worlds/tower.world.json'
 
 window.addEventListener('load', () => {
   //* setup for drawing *//
