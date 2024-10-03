@@ -1,8 +1,8 @@
-import { NewEntity, NewTile, Collision } from './classes'
+import { type NewEntity, type NewTile, Collision } from './classes'
 import { NewHero } from './classesExtended'
 import { UI, player, playerStats, settings, weather, world, level } from './globals'
 import { element } from './helpers'
-import { entityMovement } from './movement'
+import { entityMovement, nextFrame } from './movement'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 
@@ -39,17 +39,22 @@ export function drawTextWithBackground (text: string, x: number, y: number, opti
  * @param gridY - The Y coordinate without grid scaling.
  * @param gridX - The X coordinate without grid scaling.
  */
-export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void {
-  if (tile === undefined) return
+export function newDrawTile (gridY: number, gridX: number, tile: NewTile): void {
   let x = gridX * world.grid
   let y = gridY * world.grid
   let w = tile.width * world.grid
   let h = tile.height * world.grid
+  let animW = tile.animation.width * settings.scale
+  let animH = tile.animation.height * settings.scale
+  let animX = x
+  let animY = y
   ctx.save()
   if (tile.mirrored) {
     ctx.scale(-1, 1)
-    x = -x
-    w = -w
+    x *= -1
+    w *= -1
+    animX *= -1
+    animW *= -1
   }
   if (tile.rotation !== 0) {
     ctx.translate(x + w / 2, y + h / 2)
@@ -57,11 +62,13 @@ export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void
     x = -w / 2
     y = -h / 2
   }
-  ctx.drawImage(tile.sprite.image, x, y, w, h)
-  if (world.showBoxes && tile.constructor.name === 'NewTile') {
-    // if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
-    //   ctx.fillStyle = 'rgba(0,71,250,0.5)'
-    // }
+  ctx.drawImage(tile.animation.image,
+    tile.animation.x + (tile.animation.width * Math.floor(tile.animationFrame)),
+    tile.animation.y,
+    tile.animation.width,
+    tile.animation.height,
+    animX, animY, animW, animH)
+  if (world.showBoxes) {
     switch (tile.collision) {
       case Collision.none:
         ctx.fillStyle = 'rgba(10,50,0,0.5)'
@@ -73,13 +80,17 @@ export function newDrawTile (gridY: number, gridX: number, tile?: NewTile): void
         ctx.fillStyle = 'rgba(0,250,0,0.5)'
         break
     }
+    if (tile.activator) {
+      ctx.fillStyle = 'rgba(0,71,250,0.5)'
+    }
     ctx.fillRect(x, y, w, h)
-    ctx.strokeRect(x, y, w, h)
+    ctx.strokeRect(animX, animY, animW, animH)
   }
   ctx.restore()
   if (world.showLiveDebug) {
     drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid, { color: 'rgb(0,200,0)' })
   }
+  if (tile.animation.frames > 1) nextFrame(tile, true)
 }
 
 export function drawSky (): void {
@@ -108,78 +119,6 @@ export function drawSky (): void {
   ctx.fillStyle = timeSet.color
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }
-
-// !cleanup
-// function drawTile (tile: Tile): void {
-//   if ((player.frame.x - (tile.frame.x + tile.frame.width) <= (window.innerWidth / 2)) && (tile.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (tile.frame.y + tile.frame.height) <= (window.innerHeight / 3)) && (tile.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
-//     // if frame is bigger, sprite is drawn multiple times to cover the whole size
-//     const height = (tile.animation !== null ? tile.animation.height : tile.sprite.height) * settings.scale
-//     const width = (tile.animation !== null ? tile.animation.width : tile.sprite.width) * settings.scale
-//     for (let i = 0; i < tile.frame.height; i += height) {
-//       if (((tile.frame.y + i) - (player.frame.y + player.frame.height)) <= (window.innerHeight) && (player.frame.y - (tile.frame.y + tile.animation.height * settings.scale + i)) <= (window.innerHeight / 3)) {
-//         for (let j = 0; j < tile.frame.width; j += width) {
-//           if (((tile.frame.x + j) - (player.frame.x + player.frame.width)) <= (window.innerWidth / 2) && (player.frame.x - (tile.frame.x + tile.animation.width * settings.scale + j)) <= (window.innerWidth / 2)) {
-//             // tile entities have animation frame instead
-//             if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
-//               if (tile.frame.mirrored) {
-//                 ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-//                 ctx.drawImage(tile.animation.image, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, window.innerWidth - tile.frame.x - tile.frame.width + j, window.innerHeight - tile.frame.y - tile.animation.height * settings.scale - i, tile.animation.width * settings.scale, tile.animation.height * settings.scale)
-//                 ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-//               } else {
-//                 ctx.drawImage(tile.animation.image, tile.animation.x + (tile.animation.width * Math.round(tile.frame.currentFrame)), tile.animation.y, tile.animation.width, tile.animation.height, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.animation.height * settings.scale - i, tile.animation.width * settings.scale, tile.animation.height * settings.scale)
-//               }
-//             } else {
-//               ctx.drawImage(tile.sprite, tile.frame.x + j, window.innerHeight - tile.frame.y - tile.sprite.height * settings.scale - i, tile.sprite.width * settings.scale, tile.sprite.height * settings.scale)
-//             }
-//             if (world.showBoxes) {
-//               drawTextWithBackground(`${(tile.frame.x + j) / 80},${(tile.frame.y + i) / 80}`, tile.frame.x + j, window.innerHeight - tile.frame.y - i - UI.fontSize - settings.scale)
-//             }
-//           }
-//         }
-//       }
-//     }
-//     // draw a box to show the true hitBox
-//     if (world.showBoxes) {
-//       if (Object.getPrototypeOf(Object.getPrototypeOf(tile)).constructor.name === 'TileEntity') {
-//         ctx.fillStyle = 'rgba(0,71,250,0.5)'
-//       } else if (tile.hasCollision === 2) {
-//         ctx.fillStyle = 'rgba(0,250,108,0.5)'
-//       } else if (tile.hasCollision === false) {
-//         ctx.fillStyle = 'rgba(250,200,0,0.5)'
-//       } else {
-//         ctx.fillStyle = 'rgba(65,250,0,0.5)'
-//       }
-//       ctx.fillRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height)
-//       ctx.strokeRect(tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, tile.frame.width, tile.frame.height)
-//       drawTextWithBackground(`${tile.frame.x / 80},${tile.frame.y / 80}`, tile.frame.x, window.innerHeight - tile.frame.y - tile.frame.height, { color: 'red' })
-//     }
-//   }
-// }
-
-// !cleanup
-// function drawEntity (entity: Entity): void {
-//   entityMovement(entity)
-//   if ((player.frame.x - (entity.frame.x + entity.frame.width) <= (window.innerWidth / 2)) && (entity.frame.x - (player.frame.x + player.frame.width) <= (window.innerWidth / 2)) && (player.frame.y - (entity.frame.y + entity.frame.height) <= (window.innerHeight / 3)) && (entity.frame.y - (player.frame.y + player.frame.height) <= (window.innerHeight))) {
-//     // draw current sprite
-//     if (entity.animation !== null) {
-//       // mirror if needed
-//       if (entity.frame.mirrored) {
-//         ctx.setTransform(-1, 0, 0, 1, window.innerWidth * 1.5 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-//         ctx.drawImage(entity.animation.image, (entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame))), entity.animation.y, entity.animation.width, entity.animation.height, window.innerWidth - entity.frame.x - entity.animation.width * settings.scale + Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
-//         ctx.setTransform(1, 0, 0, 1, window.innerWidth / 2 - (player.frame.x + player.frame.width / 2), player.frame.y - window.innerHeight / 10)
-//       } else {
-//         ctx.drawImage(entity.animation.image, entity.animation.x + (entity.animation.width * Math.floor(entity.frame.currentFrame)), entity.animation.y, entity.animation.width, entity.animation.height, entity.frame.x - Math.abs(entity.frame.width / 2 - entity.animation.width * settings.scale / 2), window.innerHeight - entity.frame.y - entity.animation.height * settings.scale, entity.animation.width * settings.scale, entity.animation.height * settings.scale)
-//       }
-//     }
-//     // draw a box to show the true hitBox
-//     if (entity.animation === null || world.showBoxes) {
-//       ctx.fillStyle = 'rgba(250,0,250,0.5)'
-//       ctx.fillRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height)
-//       ctx.strokeRect(entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, entity.frame.width, entity.frame.height)
-//       drawTextWithBackground(`${entity.frame.x},${entity.frame.y}`, entity.frame.x, window.innerHeight - entity.frame.y - entity.frame.height, { color: 'red' })
-//     }
-//   }
-// }
 
 /**
  * Draws a given entity according to its properties.

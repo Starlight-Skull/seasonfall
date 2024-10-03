@@ -26,7 +26,6 @@ window.addEventListener('load', () => {
   //* debug options *//
   // player.hasCollision = false
   // world.showBoxes = true
-  // settings.showFPS = true
   // world.showLiveDebug = true
   // weather.time = formatUnixTime(Date.now() / 1000, 2 * 60 * 60)
 

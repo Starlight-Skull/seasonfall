@@ -1,5 +1,4 @@
-import { SpriteSet, Entity, TileEntity, NewEntity } from './classes'
-import { settings } from './globals'
+import { SpriteSet, NewEntity, NewTile, Collision, type NewTileOptions } from './classes'
 import { loadImage, textures } from './textures'
 
 // entities
@@ -8,27 +7,12 @@ const skeleton = loadImage(textures.entity.skeleton)
 // environment
 const rain = loadImage(textures.environment.rain)
 const snow = loadImage(textures.environment.snow)
-
-// export class Hero extends Entity {
-//   name: string
-
-//   constructor (x: number, y: number, name: string) {
-//     super(true, -1, 10, 15, 100, 50, 12, 0, x, y, 60, 155)
-//     this.name = name
-//     this.attackWidth = 95
-//     this.idle = new SpriteSet(hero, 0, 32, 16, 32, 1, 1)
-//     this.move = new SpriteSet(hero, 0, 32, 16, 32, 6, 0.3)
-//     this.attack = new SpriteSet(hero, 0, 0, 19, 32, 4, 0.3)
-//     this.jump = new SpriteSet(hero, 80, 32, 16, 32, 1, 1)
-//     this.fall = new SpriteSet(hero, 48, 32, 16, 32, 1, 1)
-//     this.death = new SpriteSet(skeleton, 0, 32, 16, 32, 1, 1)
-//   }
-// }
+const door = loadImage(textures.tileEntity.door)
 
 export class NewHero extends NewEntity {
   name: string
   constructor (name = 'Player') {
-    super(0, 0, hero, { maxHP: 100, maxMP: 50, speed: 0.1, damage: 15, boxHeight: 1.95, boxWidth: 0.75 })
+    super(0, 0, hero, { maxHP: 100, maxMP: 50, speed: 0.1, damage: 15, height: 1.95, width: 0.75 })
     this.name = name
     this.animations.idle = new SpriteSet(hero, 0, 32, 16, 32, 1, 1)
     this.animations.move = new SpriteSet(hero, 0, 32, 16, 32, 6, 0.3)
@@ -40,25 +24,12 @@ export class NewHero extends NewEntity {
   }
 }
 
-// export class Skeleton extends Entity {
-//   constructor (cooldown: number, x: number, y: number) {
-//     super(true, cooldown, 7, 10, 55, 25, 8, 1, x, y, 65, 155)
-//     this.attackWidth = 100
-//     this.idle = new SpriteSet(skeleton, 0, 32, 16, 32, 1, 1)
-//     this.move = new SpriteSet(skeleton, 0, 32, 16, 32, 4, 0.4)
-//     this.attack = new SpriteSet(skeleton, 0, 0, 16, 32, 2, 0.1)
-//     this.jump = new SpriteSet(skeleton, 16, 32, 16, 32, 1, 1)
-//     this.fall = new SpriteSet(skeleton, 48, 32, 16, 32, 1, 1)
-//     this.death = new SpriteSet(skeleton, 32, 0, 16, 32, 2, 0.1)
-//   }
-// }
-
 export class NewSkeleton extends NewEntity {
   constructor (x: number, y: number) {
-    super(x, y, skeleton, { maxHP: 55, maxMP: 25, xp: 1, damage: 10, speed: 0.08, boxHeight: 1.95, boxWidth: 0.8 })
+    super(x, y, skeleton, { maxHP: 55, maxMP: 25, xp: 1, damage: 10, speed: 0.08, height: 1.95, width: 0.8 })
     this.animations.idle = new SpriteSet(skeleton, 0, 32, 16, 32, 1, 1)
     this.animations.move = new SpriteSet(skeleton, 0, 32, 16, 32, 4, 0.4)
-    this.animations.attack = new SpriteSet(skeleton, 0, 0, 16, 32, 2, 0.1)
+    this.animations.attack = new SpriteSet(skeleton, 0, 0, 16, 32, 2, 0.1, 1.30)
     this.animations.jump = new SpriteSet(skeleton, 16, 32, 16, 32, 1, 1)
     this.animations.fall = new SpriteSet(skeleton, 48, 32, 16, 32, 1, 1)
     this.animations.death = new SpriteSet(skeleton, 32, 0, 16, 32, 2, 0.1)
@@ -66,62 +37,52 @@ export class NewSkeleton extends NewEntity {
   }
 }
 
-export class Door extends TileEntity {
-  closedWidth: number
-  closed: SpriteSet
-  openWidth: number
-  open: SpriteSet
+export class Door extends NewTile {
+  isClosed: boolean
 
-  constructor (x: number, y: number, sprite: HTMLImageElement, mirrored = false) {
-    super(true, x, y, 20, 160, sprite, mirrored)
-    this.closedWidth = 20
-    this.closed = new SpriteSet(this.sprite, 0, 0, 16, 32, 1, 1)
-    this.openWidth = 80
-    this.open = new SpriteSet(this.sprite, 16, 0, 16, 32, 1, 1)
-    this.animation = this.closed
-    if (mirrored) {
-      this.frame.x += this.animation.width * settings?.scale - this.frame.width
+  constructor (isClosed = true, options?: NewTileOptions) {
+    super(door, { height: 2, ...options })
+    this.isClosed = isClosed
+    this.animations = {
+      closed: new SpriteSet(door, 0, 0, 16, 32, 1, 1, 0.25),
+      open: new SpriteSet(door, 16, 0, 16, 32, 1, 1)
     }
+    this.animation = isClosed ? this.animations.closed : this.animations.open
+    this.activator = true
     this.activate = function () {
-      if (this.frame.width === this.closedWidth) {
-        if (mirrored) {
-          this.frame.x -= (this.openWidth - this.closedWidth)
-        }
-        this.hasCollision = false
-        this.frame.width = this.openWidth
-        this.animation = this.open
+      if (this.isClosed) {
+        this.isClosed = false
+        this.animation = this.animations.open
+        this.collision = Collision.none
       } else {
-        if (mirrored) {
-          this.frame.x += (this.openWidth - this.closedWidth)
-        }
-        this.hasCollision = true
-        this.frame.width = this.closedWidth
-        this.animation = this.closed
+        this.isClosed = true
+        this.animation = this.animations.closed
+        this.collision = Collision.all
       }
     }
   }
 }
 
-export class Rain extends TileEntity {
-  rain: SpriteSet
-  isSnow: boolean
+// export class Rain extends TileEntity {
+//   rain: SpriteSet
+//   isSnow: boolean
 
-  constructor (x: number, y: number, width: number, height: number, mirrored = false) {
-    super(false, x, y, width, height, rain, mirrored)
-    this.rain = new SpriteSet(this.sprite, 0, 0, 16, 16, 16, 0.5)
-    this.animation = this.rain
-    this.isSnow = false
-    this.activate = function () {
-      if (this.isSnow) {
-        this.animation.image = snow
-      } else {
-        this.animation.image = rain
-      }
-      if (this.frame.currentFrame < this.animation.frames - 1) {
-        this.frame.currentFrame += this.animation.speed
-      } else {
-        this.frame.currentFrame = 0
-      }
-    }
-  }
-}
+//   constructor (x: number, y: number, width: number, height: number, mirrored = false) {
+//     super(false, x, y, width, height, rain, mirrored)
+//     this.rain = new SpriteSet(this.sprite, 0, 0, 16, 16, 16, 0.5)
+//     this.animation = this.rain
+//     this.isSnow = false
+//     this.activate = function () {
+//       if (this.isSnow) {
+//         this.animation.image = snow
+//       } else {
+//         this.animation.image = rain
+//       }
+//       if (this.frame.currentFrame < this.animation.frames - 1) {
+//         this.frame.currentFrame += this.animation.speed
+//       } else {
+//         this.frame.currentFrame = 0
+//       }
+//     }
+//   }
+// }

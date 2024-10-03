@@ -17,6 +17,7 @@ import plank from '../textures/tile/plank.png'
 import { level, player, world } from './globals'
 import { isNotEmpty } from './helpers'
 import { Collision, NewTile, type NewTileOptions } from './classes'
+import { Door } from './classesExtended'
 
 interface Textures {
   entity: any
@@ -95,7 +96,7 @@ export function initAssets (json: any): void {
  * @param tile - Example: 'brick:m:r-90:c-none' will have { mirrored: true, rotation: 90, collision: Collision.none }
  * @param background - if true, tile will have Collision.none
  */
-export function toTile (tile: string, background = false): NewTile {
+export function toTile (tile: string, background = false): NewTile | undefined {
   const options: NewTileOptions = {}
   const split = tile.split(':')
   if (split.includes('m')) options.mirrored = true
@@ -107,5 +108,12 @@ export function toTile (tile: string, background = false): NewTile {
   if (split.includes('c-top')) options.collision = Collision.top
   if (split.includes('c-none')) options.collision = Collision.none
   if (background) options.collision = Collision.none
-  return new NewTile(loadImage(textures.tile[split[0]]), options)
+  switch (split[0]) {
+    case 'door':
+      return new Door(true, options)
+    case 'link':
+      return undefined
+    default:
+      return new NewTile(loadImage(textures.tile[split[0]]), options)
+  }
 }
