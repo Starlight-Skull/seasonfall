@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
-  entry: './source/app/main.tsx',
+  entry: './source/app/main.ts',
   output: {
     filename: '[name].bundle.js',
     assetModuleFilename: 'assets/[name][ext]',
