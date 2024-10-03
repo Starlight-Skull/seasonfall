@@ -1,5 +1,5 @@
 import { type Tile } from './classes'
-import { NewHero, NewSkeleton } from './classesExtended'
+import { Hero, Skeleton } from './classesExtended'
 
 export const version = '1.2.0'
 
@@ -140,7 +140,7 @@ export const playerStats: PlayerStats = {
   damageDealt: 0
 }
 
-export const player = new NewHero()
+export const player = new Hero()
 
 export const level = {
   properties: {
@@ -154,15 +154,15 @@ export const level = {
   foreground: new Array<Array<Tile | undefined>>(),
   background: new Array<Array<Tile | undefined>>(),
   entities: [
-    new NewSkeleton(34, 16),
-    new NewSkeleton(40, 16),
-    new NewSkeleton(56, 22),
-    new NewSkeleton(58, 11),
-    new NewSkeleton(63, 22),
-    new NewSkeleton(63, 11),
-    new NewSkeleton(68, 16),
-    new NewSkeleton(69, 22),
-    new NewSkeleton(71, 0),
-    new NewSkeleton(70, 11)
+    new Skeleton(34, 16),
+    new Skeleton(40, 16),
+    new Skeleton(56, 22),
+    new Skeleton(58, 11),
+    new Skeleton(63, 22),
+    new Skeleton(63, 11),
+    new Skeleton(68, 16),
+    new Skeleton(69, 22),
+    new Skeleton(71, 0),
+    new Skeleton(70, 11)
   ]
 }

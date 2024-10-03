@@ -1,3 +1,4 @@
+import { isNotEmpty } from './helpers'
 import { loadImage, textures } from './textures'
 
 const missingEntity = loadImage(textures.entity.missing_entity)
@@ -9,6 +10,7 @@ const missingTile = loadImage(textures.tile.missing_tile)
 export enum Collision { all, top, none }
 
 export class Animatable {
+  name: string
   boxWidth: number
   boxHeight: number
   mirrored: boolean
@@ -16,7 +18,9 @@ export class Animatable {
   animation: SpriteSet
   animations: Record<string, SpriteSet>
 
-  constructor (sprite: HTMLImageElement, { width = 1, height = 1, mirrored = false } = {}) {
+  constructor (sprite: HTMLImageElement, options?: { width?: number, height?: number, mirrored?: boolean, name?: string }) {
+    const { width = 1, height = 1, mirrored = false, name } = options ?? {}
+    this.name = this.constructor.name + (isNotEmpty(name) ? `:${name}` : '')
     this.boxWidth = width
     this.boxHeight = height
     this.mirrored = mirrored
@@ -29,18 +33,6 @@ export class Animatable {
   get height (): number { return this.animation.boxHeight ?? this.boxHeight }
 }
 
-interface EntityOptions {
-  maxHP?: number
-  maxMP?: number
-  xp?: number
-  damage?: number
-  speed?: number
-  mirrored?: boolean
-  width?: number
-  height?: number
-  jumpHeight?: number
-}
-
 export class Entity extends Animatable {
   x: number
   y: number
@@ -48,10 +40,10 @@ export class Entity extends Animatable {
   stats: { hp: number, maxHP: number, mp: number, maxMP: number, xp: number, damage: number, speed: number, jumpHeight: number, jumpTime: number }
   movement: { attack: boolean, down: boolean, left: boolean, right: boolean, jump: boolean, use: boolean }
   collision: { enabled: boolean, up: boolean, down: boolean, left: boolean, right: boolean }
-  animations: { idle: SpriteSet, move: SpriteSet, attack: SpriteSet, jump: SpriteSet, fall: SpriteSet, death: SpriteSet }
 
-  constructor (x = 0, y = 0, sprite: HTMLImageElement, { maxHP = 50, maxMP = 0, xp = 0, damage = 10, speed = 0.1, jumpHeight = 3, width, height, mirrored }: EntityOptions = {}) {
-    super(sprite, { width, height, mirrored })
+  constructor (x: number, y: number, sprite: HTMLImageElement, options?: { maxHP?: number, maxMP?: number, xp?: number, damage?: number, speed?: number, jumpHeight?: number, width?: number, height?: number, mirrored?: boolean, name?: string }) {
+    const { maxHP = 50, maxMP = 0, xp = 0, damage = 10, speed = 0.1, jumpHeight = 3, width, height, mirrored, name } = options ?? {}
+    super(sprite, { width, height, mirrored, name })
     this.x = x
     this.y = y
     this.cooldown = -1
@@ -92,21 +84,14 @@ export class Entity extends Animatable {
   }
 }
 
-export interface TileOptions {
-  width?: number
-  height?: number
-  collision?: Collision
-  mirrored?: boolean
-  rotation?: number
-}
-
 export class Tile extends Animatable {
   collision: Collision
   rotation: number
   activator: boolean
 
-  constructor (sprite: HTMLImageElement, { collision = Collision.all, rotation = 0, width, height, mirrored }: TileOptions = {}) {
-    super(sprite, { width, height, mirrored })
+  constructor (sprite: HTMLImageElement, options?: { collision?: Collision, rotation?: number, width?: number, height?: number, mirrored?: boolean, name?: string }) {
+    const { collision = Collision.all, rotation = 0, width, height, mirrored, name } = options ?? {}
+    super(sprite, { width, height, mirrored, name })
     this.collision = collision
     this.rotation = rotation
     this.activator = false
@@ -116,6 +101,7 @@ export class Tile extends Animatable {
 }
 
 export class SpriteSet {
+  name: string
   image: HTMLImageElement
   x: number
   y: number
@@ -138,7 +124,7 @@ export class SpriteSet {
    * @param boxWidth - (optional) Collision box width.
    * @param boxHeight - (optional) Collision box height.
    */
-  constructor (image: HTMLImageElement, x = 0, y = 0, width = image.width, height = image.height, frames = 1, speed = 0, boxWidth?: number, boxHeight?: number) {
+  constructor (image: HTMLImageElement, x = 0, y = 0, width = image.width, height = image.height, frames = 1, speed = 0, boxWidth?: number, boxHeight?: number, name?: string) {
     this.image = image
     this.x = x
     this.y = y
@@ -148,5 +134,6 @@ export class SpriteSet {
     this.speed = speed
     this.boxWidth = boxWidth
     this.boxHeight = boxHeight
+    this.name = name ?? this.constructor.name
   }
 }

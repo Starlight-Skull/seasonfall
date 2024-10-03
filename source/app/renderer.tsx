@@ -1,10 +1,42 @@
 import { type Entity, type Tile, Collision } from './classes'
-import { NewHero } from './classesExtended'
+import { Hero } from './classesExtended'
 import { UI, player, playerStats, settings, weather, world, level } from './globals'
 import { element } from './helpers'
 import { entityMovement, nextFrame } from './movement'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
+const render = {
+  mouseX: 0,
+  mouseY: 0,
+  get minX () { return Math.floor(world.focusX - window.innerWidth / 2 / world.grid) },
+  get maxX () { return Math.ceil(world.focusX + window.innerWidth / 2 / world.grid) },
+  get minY () { return Math.floor(world.focusY - window.innerHeight / 2 / world.grid) },
+  get maxY () { return Math.ceil(world.focusY + window.innerHeight / 2 / world.grid) },
+  get focusX () { return window.innerWidth / 2 - grid(world.focusX) },
+  get focusY () { return window.innerHeight / 2 - grid(world.focusY) },
+  isOffScreen (x: number, y: number) { return x < render.minX || x > render.maxX || y < render.minY || y > render.maxY }
+}
+
+onmousemove = (e: MouseEvent) => {
+  if (!world.paused) {
+    render.mouseX = Math.floor(Math.round(grid(world.focusX) - window.innerWidth / 2 + e.clientX) / world.grid)
+    render.mouseY = Math.floor(Math.round(grid(world.focusY) - window.innerHeight / 2 + e.clientY) / world.grid)
+  }
+}
+
+// todo move to input code
+onmousedown = (e: MouseEvent) => {
+  if (!world.paused) {
+    if (e.button === 2) {
+      world.focusX = render.mouseX
+      world.focusY = render.mouseY
+    }
+    if (e.button === 1) {
+      player.x = render.mouseX
+      player.y = render.mouseY
+    }
+  }
+}
 
 /**
  * Constants for the color and shade of the sky.
@@ -19,7 +51,67 @@ const sky = Object.freeze({
 })
 
 /**
+ * Main render loop.
+ */
+export function drawMain (): void {
+  // has to be disabled so pixel art isn't blurry
+  ctx.imageSmoothingEnabled = false
+  drawSky()
+
+  // todo reimplement weather
+  // if (weather.rain > 0 || weather.snow > 0) {
+  //   for (let i = 0; i < animTileList.length; i++) {
+  //     animTileList[i].activate()
+  //     animTileList[i].frame.mirrored = (weather.windDeg === 'East')
+  //     animTileList[i].animation.speed = weather.windSpeed / 10
+  //     animTileList[i].isSnow = (weather.snow > 0)
+  //     drawTile(animTileList[i])
+  //   }
+  // }
+
+  saveRestore(() => {
+    ctx.translate(render.focusX, render.focusY)
+    drawWorld()
+
+    //* mouse position *//
+    ctx.fillStyle = 'rgba(250,250,250,0.5)'
+    ctx.strokeStyle = 'white'
+    ctx.fillRect(grid(render.mouseX), grid(render.mouseY), world.grid, world.grid)
+    if (world.showLiveDebug) drawTextWithBackground(`${render.mouseX},${render.mouseY}`, grid(render.mouseX), grid(render.mouseY), { color: 'white' })
+    //* focus point *//
+    ctx.strokeRect(grid(world.focusX), grid(world.focusY), world.grid, world.grid)
+  })
+
+  //* shade overlay *//
+  ctx.fillStyle = `rgba(0,0,0,${world.shade})`
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+
+  drawUI()
+}
+
+/**
+ * Saves render context and restores after executing script.
+ * @param script - function callback
+ */
+function saveRestore (script: () => void): void {
+  ctx.save()
+  script()
+  ctx.restore()
+}
+
+/**
+ * Converts relative coordinate to absolute by multiplying with world.grid.
+ */
+function grid (value: number): number {
+  return value * world.grid
+}
+
+/**
  * Draws text at a specified location with optional color and font.
+ * @param text - Text to draw.
+ * @param x - Absolute X coordinate.
+ * @param y - Absolute Y coordinate.
+ * @param options - Text options.
  */
 export function drawTextWithBackground (text: string, x: number, y: number, options?: { color?: string, font?: string, center?: boolean }): void {
   const { color, font, center } = options ?? {}
@@ -35,135 +127,113 @@ export function drawTextWithBackground (text: string, x: number, y: number, opti
 
 /**
  * Draws a given tile according to its properties.
+ * @param gridY - Relative X coordinate.
+ * @param gridX - Relative Y coordinate.
  * @param tile - The tile to draw.
- * @param gridY - The Y coordinate without grid scaling.
- * @param gridX - The X coordinate without grid scaling.
  */
 export function drawTile (gridY: number, gridX: number, tile: Tile): void {
-  let x = gridX * world.grid
-  let y = gridY * world.grid
-  let w = tile.width * world.grid
-  let h = tile.height * world.grid
+  let x = grid(gridX)
+  let y = grid(gridY)
+  let w = grid(tile.width)
+  let h = grid(tile.height)
   let animW = tile.animation.width * settings.scale
   let animH = tile.animation.height * settings.scale
   let animX = x
   let animY = y
-  ctx.save()
-  if (tile.mirrored) {
-    ctx.scale(-1, 1)
-    x *= -1
-    w *= -1
-    animX *= -1
-    animW *= -1
-  }
-  if (tile.rotation !== 0) {
-    ctx.translate(x + w / 2, y + h / 2)
-    ctx.rotate(tile.rotation * Math.PI / 180)
-    x = -w / 2
-    y = -h / 2
-  }
-  ctx.drawImage(tile.animation.image,
-    tile.animation.x + (tile.animation.width * Math.floor(tile.animationFrame)),
-    tile.animation.y,
-    tile.animation.width,
-    tile.animation.height,
-    animX, animY, animW, animH)
-  if (world.showBoxes) {
-    switch (tile.collision) {
-      case Collision.none:
-        ctx.fillStyle = 'rgba(10,50,0,0.5)'
-        break
-      case Collision.top:
-        ctx.fillStyle = 'rgba(150,100,0,0.5)'
-        break
-      default:
-        ctx.fillStyle = 'rgba(0,250,0,0.5)'
-        break
+  saveRestore(() => {
+    if (tile.mirrored) {
+      ctx.scale(-1, 1)
+      x *= -1
+      w *= -1
+      animX *= -1
+      animW *= -1
     }
-    if (tile.activator) {
-      ctx.fillStyle = 'rgba(0,71,250,0.5)'
+    if (tile.rotation !== 0) {
+      ctx.translate(x + w / 2, y + h / 2)
+      ctx.rotate(tile.rotation * Math.PI / 180)
+      x = -w / 2
+      y = -h / 2
+      animX = x
+      animY = y
     }
-    ctx.fillRect(x, y, w, h)
-    ctx.strokeRect(animX, animY, animW, animH)
-  }
-  ctx.restore()
-  if (world.showLiveDebug) {
-    drawTextWithBackground(`${gridX},${gridY}`, gridX * world.grid, gridY * world.grid, { color: 'rgb(0,200,0)' })
-  }
+    ctx.drawImage(tile.animation.image,
+      tile.animation.x + (tile.animation.width * Math.floor(tile.animationFrame)),
+      tile.animation.y,
+      tile.animation.width,
+      tile.animation.height,
+      animX, animY, animW, animH)
+    if (world.showBoxes) {
+      switch (tile.collision) {
+        case Collision.none:
+          ctx.fillStyle = 'rgba(10,50,0,0.5)'
+          break
+        case Collision.top:
+          ctx.fillStyle = 'rgba(150,100,0,0.5)'
+          break
+        default:
+          ctx.fillStyle = 'rgba(0,250,0,0.5)'
+          break
+      }
+      if (tile.activator) {
+        ctx.fillStyle = 'rgba(0,71,250,0.5)'
+      }
+      ctx.fillRect(x, y, w, h)
+      ctx.strokeRect(animX, animY, animW, animH)
+    }
+  })
+  // if (world.showLiveDebug) {
+  //   drawTextWithBackground(`${gridX},${gridY}`, grid(gridX), grid(gridY), { color: 'rgb(0,200,0)' })
+  // }
   if (tile.animation.frames > 1) nextFrame(tile, true)
-}
-
-export function drawSky (): void {
-  let timeSet
-  switch (true) {
-    case (weather.time >= weather.sunrise - 50 && weather.time <= weather.sunrise + 50):
-      timeSet = sky.morning
-      break
-    case (weather.time > weather.sunrise + 50 && weather.time < 1150):
-      timeSet = sky.beforeNoon
-      break
-    case (weather.time >= 1150 && weather.time <= 1250):
-      timeSet = sky.noon
-      break
-    case (weather.time > 1250 && weather.time < weather.sunset - 50):
-      timeSet = sky.afterNoon
-      break
-    case (weather.time >= weather.sunset - 50 && weather.time <= weather.sunset + 50):
-      timeSet = sky.evening
-      break
-    default:
-      timeSet = sky.night
-      break
-  }
-  world.shade = timeSet.shade
-  ctx.fillStyle = timeSet.color
-  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }
 
 /**
  * Draws a given entity according to its properties.
  */
 function drawEntity (entity: Entity): void {
-  let w = entity.width * world.grid
-  let h = entity.height * world.grid
-  let x = entity.x * world.grid
-  let y = entity.y * world.grid
+  let w = grid(entity.width)
+  let h = grid(entity.height)
+  let x = grid(entity.x)
+  let y = grid(entity.y)
   let animW = entity.animation.width * settings.scale
   let animH = entity.animation.height * settings.scale
   let animX = x - Math.abs(animW - w) / 2
   let animY = y - Math.abs(animH - h)
-  ctx.save()
-  if (entity.mirrored) {
-    ctx.scale(-1, 1)
-    x *= -1
-    w *= -1
-    animX *= -1
-    animW *= -1
-  }
-  ctx.drawImage(entity.animation.image,
-    entity.animation.x + (entity.animation.width * Math.floor(entity.animationFrame)),
-    entity.animation.y,
-    entity.animation.width,
-    entity.animation.height,
-    animX, animY, animW, animH)
-  if (world.showBoxes) {
-    ctx.fillStyle = 'rgba(250,0,250,0.5)'
-    ctx.strokeStyle = 'rgb(250,0,250)'
-    ctx.fillRect(x, y, w, h)
-    ctx.strokeRect(animX, animY, animW, animH)
-  }
-  ctx.restore()
+  saveRestore(() => {
+    if (entity.mirrored) {
+      ctx.scale(-1, 1)
+      x *= -1
+      w *= -1
+      animX *= -1
+      animW *= -1
+    }
+    ctx.drawImage(entity.animation.image,
+      entity.animation.x + (entity.animation.width * Math.floor(entity.animationFrame)),
+      entity.animation.y,
+      entity.animation.width,
+      entity.animation.height,
+      animX, animY, animW, animH)
+    if (world.showBoxes) {
+      ctx.fillStyle = 'rgba(250,0,250,0.5)'
+      ctx.strokeStyle = 'rgb(250,0,250)'
+      ctx.fillRect(x, y, w, h)
+      ctx.strokeRect(animX, animY, animW, animH)
+    }
+  })
   if (world.showLiveDebug) {
-    drawTextWithBackground(`${(entity.x.toFixed(1))},${entity.y.toFixed(1)}`, entity.x * world.grid, entity.y * world.grid, { font: UI.getFont(15), color: 'rgb(250,0,250)' })
+    drawTextWithBackground(`${(entity.x.toFixed(1))},${entity.y.toFixed(1)}`, grid(entity.x), grid(entity.y), { font: UI.getFont(15), color: 'rgb(250,0,250)' })
   }
 }
 
+/**
+ * Draws HP, MP, XP, name and debug info relative to the given entity.
+ */
 function drawStats (entity: Entity): void {
-  let x = (entity.x + entity.width / 2) * world.grid
-  let y = entity.y * world.grid
-  if (entity instanceof NewHero) {
+  let x = grid(entity.x + entity.width / 2)
+  let y = grid(entity.y)
+  if (entity instanceof Hero) {
     //* name *//
-    drawTextWithBackground(entity.name, x, y - 65, { color: 'rgb(255,255,255)', center: true })
+    drawTextWithBackground(entity.heroName, x, y - 65, { color: 'rgb(255,255,255)', center: true })
     //* xp *//
     if (entity.stats.xp !== 0) {
       drawTextWithBackground(`${entity.stats.xp}`, x, y - 95, { color: 'rgb(0,255,0)', center: true })
@@ -191,6 +261,9 @@ function drawStats (entity: Entity): void {
   }
 }
 
+/**
+ * Draws defined debug info.
+ */
 function drawDebug (): void {
   //* debug info *//
   if (world.showLiveDebug) {
@@ -211,6 +284,9 @@ function drawDebug (): void {
   }
 }
 
+/**
+ * Draws player HP and MP bars relative to the screen.
+ */
 function drawPlayerBars (): void {
   //* player hp *//
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
@@ -236,97 +312,76 @@ function drawPlayerBars (): void {
   }
 }
 
-let mouseX = 0
-let mouseY = 0
-onmousemove = (e: MouseEvent) => {
-  if (!world.paused) {
-    mouseX = Math.floor(Math.round(world.focusX * world.grid - window.innerWidth / 2 + e.clientX) / world.grid)
-    mouseY = Math.floor(Math.round(world.focusY * world.grid - window.innerHeight / 2 + e.clientY) / world.grid)
+/**
+ * Draws the background depending on the time
+ */
+function drawSky (): void {
+  let timeSet
+  switch (true) {
+    case (weather.time >= weather.sunrise - 50 && weather.time <= weather.sunrise + 50):
+      timeSet = sky.morning
+      break
+    case (weather.time > weather.sunrise + 50 && weather.time < 1150):
+      timeSet = sky.beforeNoon
+      break
+    case (weather.time >= 1150 && weather.time <= 1250):
+      timeSet = sky.noon
+      break
+    case (weather.time > 1250 && weather.time < weather.sunset - 50):
+      timeSet = sky.afterNoon
+      break
+    case (weather.time >= weather.sunset - 50 && weather.time <= weather.sunset + 50):
+      timeSet = sky.evening
+      break
+    default:
+      timeSet = sky.night
+      break
   }
+  world.shade = timeSet.shade
+  ctx.fillStyle = timeSet.color
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }
 
-onmousedown = (e: MouseEvent) => {
-  if (!world.paused) {
-    if (e.button === 2) {
-      world.focusX = mouseX
-      world.focusY = mouseY
-    }
-    if (e.button === 1) {
-      player.x = mouseX
-      player.y = mouseY
-    }
-  }
-}
-
-export function drawMain (): void {
-  // has to be disabled so pixel art isn't blurry
-  ctx.imageSmoothingEnabled = false
-  drawSky()
-
-  // if (weather.rain > 0 || weather.snow > 0) {
-  //   for (let i = 0; i < animTileList.length; i++) {
-  //     animTileList[i].activate()
-  //     animTileList[i].frame.mirrored = (weather.windDeg === 'East')
-  //     animTileList[i].animation.speed = weather.windSpeed / 10
-  //     animTileList[i].isSnow = (weather.snow > 0)
-  //     drawTile(animTileList[i])
-  //   }
-  // }
-
-  ctx.save()
-  ctx.translate(window.innerWidth / 2 - (world.focusX * world.grid), window.innerHeight / 2 - (world.focusY * world.grid))
-  const renderMinX = Math.floor(world.focusX - window.innerWidth / 2 / world.grid)
-  const renderMaxX = Math.ceil(world.focusX + window.innerWidth / 2 / world.grid)
-  const renderMinY = Math.floor(world.focusY - window.innerHeight / 2 / world.grid)
-  const renderMaxY = Math.ceil(world.focusY + window.innerHeight / 2 / world.grid)
-
+/**
+ * Draws tiles and entities.
+ */
+function drawWorld (): void {
   //* tiles *//
-  for (let y = renderMinY; y < renderMaxY; y++) {
-    for (let x = renderMinX; x < renderMaxX; x++) {
+  for (let y = render.minY; y < render.maxY; y++) {
+    for (let x = render.minX; x < render.maxX; x++) {
       const background = level.background[y]?.[x]
       if (background !== undefined) drawTile(y, x, background)
     }
   }
-  for (let y = renderMinY; y < renderMaxY; y++) {
-    for (let x = renderMinX; x < renderMaxX; x++) {
+  for (let y = render.minY; y < render.maxY; y++) {
+    for (let x = render.minX; x < render.maxX; x++) {
       const foreground = level.foreground[y]?.[x]
       if (foreground !== undefined) drawTile(y, x, foreground)
     }
   }
-
   //* entities + player *//
   for (let entity of level.entities) {
     entityMovement(entity)
-    if (entity.x < renderMinX || entity.x > renderMaxX || entity.y < renderMinY || entity.y > renderMaxY) continue
+    if (render.isOffScreen(entity.x, entity.y)) continue
     drawEntity(entity)
   }
   entityMovement(player)
   drawEntity(player)
+}
 
-  //* mouse position *//
-  ctx.fillStyle = 'rgba(250,250,250,0.5)'
-  ctx.strokeStyle = 'white'
-  ctx.fillRect(mouseX * world.grid, mouseY * world.grid, world.grid, world.grid)
-  if (world.showLiveDebug) drawTextWithBackground(`${mouseX},${mouseY}`, mouseX * world.grid, mouseY * world.grid, { color: 'white' })
-  //* focus point *//
-  ctx.strokeRect(world.focusX * world.grid, world.focusY * world.grid, world.grid, world.grid)
-
-  ctx.restore()
-
-  //* shade overlay *//
-  ctx.fillStyle = `rgba(0,0,0,${world.shade})`
-  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
-
+/**
+ * Draws UI overlay and floating entity stats.
+ */
+function drawUI (): void {
   //* entity stats *//
-  ctx.save()
-  ctx.translate(window.innerWidth / 2 - (world.focusX * world.grid), window.innerHeight / 2 - (world.focusY * world.grid))
-  for (let entity of level.entities) {
-    if (entity.x < renderMinX || entity.x > renderMaxX || entity.y < renderMinY || entity.y > renderMaxY) continue
-    drawStats(entity)
-  }
-  drawStats(player)
-  ctx.restore()
-
+  saveRestore(() => {
+    ctx.translate(render.focusX, render.focusY)
+    for (let entity of level.entities) {
+      if (render.isOffScreen(entity.x, entity.y)) continue
+      drawStats(entity)
+    }
+    drawStats(player)
+  })
   //* UI *//
   drawPlayerBars()
   drawDebug()

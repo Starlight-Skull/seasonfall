@@ -1,4 +1,4 @@
-import { SpriteSet, Entity, Tile, Collision, type TileOptions } from './classes'
+import { SpriteSet, Entity, Tile, Collision } from './classes'
 import { loadImage, textures } from './textures'
 
 // entities
@@ -9,11 +9,11 @@ const rain = loadImage(textures.environment.rain)
 const snow = loadImage(textures.environment.snow)
 const door = loadImage(textures.tileEntity.door)
 
-export class NewHero extends Entity {
-  name: string
+export class Hero extends Entity {
+  heroName: string
   constructor (name = 'Player') {
-    super(0, 0, hero, { maxHP: 100, maxMP: 50, speed: 0.1, damage: 15, height: 1.95, width: 0.75 })
-    this.name = name
+    super(0, 0, hero, { name, maxHP: 100, maxMP: 50, speed: 0.1, damage: 15, height: 1.95, width: 0.75 })
+    this.heroName = name
     this.animations.idle = new SpriteSet(hero, 0, 32, 16, 32, 1, 1)
     this.animations.move = new SpriteSet(hero, 0, 32, 16, 32, 6, 0.3)
     this.animations.attack = new SpriteSet(hero, 0, 0, 19, 32, 4, 0.3, 1.25)
@@ -24,7 +24,7 @@ export class NewHero extends Entity {
   }
 }
 
-export class NewSkeleton extends Entity {
+export class Skeleton extends Entity {
   constructor (x: number, y: number) {
     super(x, y, skeleton, { maxHP: 55, maxMP: 25, xp: 1, damage: 10, speed: 0.08, height: 1.95, width: 0.8 })
     this.animations.idle = new SpriteSet(skeleton, 0, 32, 16, 32, 1, 1)
@@ -40,7 +40,7 @@ export class NewSkeleton extends Entity {
 export class Door extends Tile {
   isClosed: boolean
 
-  constructor (isClosed = true, options?: TileOptions) {
+  constructor (isClosed = true, options?: { collision?: Collision, rotation?: number, mirrored?: boolean }) {
     super(door, { height: 2, ...options })
     this.isClosed = isClosed
     this.animations = {

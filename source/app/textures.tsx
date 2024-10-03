@@ -1,11 +1,11 @@
-import missingEntity from '../textures/entity/missing_entity.png'
+import missing_entity from '../textures/entity/missing_entity.png'
 import hero from '../textures/entity/hero.png'
 import skeleton from '../textures/entity/skeleton.png'
 import stick from '../textures/entity/stick.png'
 import door from '../textures/tileEntity/door.png'
 import rain from '../textures/environment/rain.png'
 import snow from '../textures/environment/snow.png'
-import missingTile from '../textures/tile/missing_tile.png'
+import missing_tile from '../textures/tile/missing_tile.png'
 import beam from '../textures/tile/beam.png'
 import brick from '../textures/tile/brick.png'
 import brick_wall from '../textures/tile/brick_wall.png'
@@ -16,41 +16,14 @@ import painting from '../textures/tile/painting.png'
 import plank from '../textures/tile/plank.png'
 import { level, player, world } from './globals'
 import { isNotEmpty } from './helpers'
-import { Collision, Tile, type TileOptions } from './classes'
+import { Collision, Tile } from './classes'
 import { Door } from './classesExtended'
 
-interface Textures {
-  entity: any
-  tileEntity: any
-  environment: any
-  tile: any
-}
-
-export const textures: Textures = Object.freeze({
-  entity: {
-    missing_entity: missingEntity,
-    hero,
-    skeleton,
-    stick
-  },
-  tileEntity: {
-    door
-  },
-  environment: {
-    rain,
-    snow
-  },
-  tile: {
-    missing_tile: missingTile,
-    beam,
-    brick,
-    brick_wall,
-    dirt,
-    dirt_wall,
-    grass,
-    painting,
-    plank
-  }
+export const textures: Record<string, Record<string, string>> = Object.freeze({
+  entity: { missing_entity, hero, skeleton, stick },
+  tileEntity: { door },
+  environment: { rain, snow },
+  tile: { missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, painting, plank }
 })
 
 /**
@@ -70,25 +43,27 @@ export function loadImage (path: string): HTMLImageElement {
  * @param json - World data file.
  */
 export function initAssets (json: any): void {
-  for (let y = 0; y < json.background.length; y++) {
-    level.background[y] = []
-    level.foreground[y] = []
-    for (let x = 0; x < json.foreground[y].length; x++) {
-      const background: string = json.background?.[y]?.[x]
-      const foreground: string = json.foreground?.[y]?.[x]
-      if (isNotEmpty(background)) {
-        level.background[y][x] = toTile(background, true)
-      }
-      if (isNotEmpty(foreground)) {
-        level.foreground[y][x] = toTile(foreground)
-      }
-    }
-  }
   level.properties = json.properties
   world.focusX = level.properties.rootX
   world.focusY = level.properties.rootY
   player.x = level.properties.rootX
   player.y = level.properties.rootY
+  for (let y = 0; y < json.background.length; y++) {
+    level.background[y] = []
+    for (let x = 0; x < json.background[y].length; x++) {
+      const background: string = json.background?.[y]?.[x]
+      if (isNotEmpty(background)) {
+        level.background[y][x] = toTile(background, true)
+      }
+    }
+    level.foreground[y] = []
+    for (let x = 0; x < json.foreground[y].length; x++) {
+      const foreground: string = json.foreground?.[y]?.[x]
+      if (isNotEmpty(foreground)) {
+        level.foreground[y][x] = toTile(foreground)
+      }
+    }
+  }
 }
 
 /**
@@ -97,8 +72,9 @@ export function initAssets (json: any): void {
  * @param background - if true, tile will have Collision.none
  */
 export function toTile (tile: string, background = false): Tile | undefined {
-  const options: TileOptions = {}
+  const options: any = {}
   const split = tile.split(':')
+  options.name = split[0]
   if (split.includes('m')) options.mirrored = true
   if (split.includes('r-90')) options.rotation = 90
   if (split.includes('r-180')) options.rotation = 180
