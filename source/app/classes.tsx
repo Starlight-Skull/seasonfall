@@ -41,7 +41,7 @@ interface EntityOptions {
   jumpHeight?: number
 }
 
-export class NewEntity extends Animatable {
+export class Entity extends Animatable {
   x: number
   y: number
   cooldown: number
@@ -92,7 +92,7 @@ export class NewEntity extends Animatable {
   }
 }
 
-export interface NewTileOptions {
+export interface TileOptions {
   width?: number
   height?: number
   collision?: Collision
@@ -100,12 +100,12 @@ export interface NewTileOptions {
   rotation?: number
 }
 
-export class NewTile extends Animatable {
+export class Tile extends Animatable {
   collision: Collision
   rotation: number
   activator: boolean
 
-  constructor (sprite: HTMLImageElement, { collision = Collision.all, rotation = 0, width, height, mirrored }: NewTileOptions = {}) {
+  constructor (sprite: HTMLImageElement, { collision = Collision.all, rotation = 0, width, height, mirrored }: TileOptions = {}) {
     super(sprite, { width, height, mirrored })
     this.collision = collision
     this.rotation = rotation

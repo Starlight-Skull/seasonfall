@@ -1,8 +1,8 @@
-import { Collision, type NewTile, type NewEntity, type SpriteSet } from './classes'
+import { Collision, type Tile, type Entity, type SpriteSet } from './classes'
 import { player, weather, level } from './globals'
 import { borderControl } from './helpers'
 
-export function nextFrame (entity: NewEntity | NewTile, loop = false): void {
+export function nextFrame (entity: Entity | Tile, loop = false): void {
   if (entity.animationFrame < entity.animation.frames - 1) {
     entity.animationFrame += entity.animation.speed
   } else if (loop) {
@@ -10,14 +10,14 @@ export function nextFrame (entity: NewEntity | NewTile, loop = false): void {
   }
 }
 
-export function changeAnimation (entity: NewEntity | NewTile, animation: SpriteSet): void {
+export function changeAnimation (entity: Entity | Tile, animation: SpriteSet): void {
   if (entity.animation !== animation) {
     entity.animationFrame = 0
     entity.animation = animation
   }
 }
 
-function tick (entity: NewEntity): void {
+function tick (entity: Entity): void {
   //* healing *//
   if (entity.stats.hp < entity.stats.maxHP && entity.stats.mp > 0 && entity.stats.mp > entity.stats.maxMP / 3) {
     entity.stats.hp += 0.02
@@ -58,7 +58,7 @@ function tick (entity: NewEntity): void {
   // }
 }
 
-export function entityMovement (entity: NewEntity): void {
+export function entityMovement (entity: Entity): void {
   let dx = entity.x
   let dy = entity.y
   let loop = true
@@ -113,7 +113,7 @@ export function entityMovement (entity: NewEntity): void {
   borderControl(entity)
 }
 
-function getCollisions (entity: NewEntity, dx: number, dy: number): void {
+function getCollisions (entity: Entity, dx: number, dy: number): void {
   entity.collision.left = false
   entity.collision.right = false
   entity.collision.up = false
@@ -154,7 +154,7 @@ function getCollisions (entity: NewEntity, dx: number, dy: number): void {
   }
 }
 
-function handleCollisions (entity: NewEntity, dx: number, dy: number): void {
+function handleCollisions (entity: Entity, dx: number, dy: number): void {
   if (!entity.collision.left && !entity.collision.right) {
     entity.x = dx
   } else {

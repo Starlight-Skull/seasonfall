@@ -1,4 +1,4 @@
-import type { NewEntity } from './classes'
+import type { Entity } from './classes'
 import { level, player, playerStats, settings, world } from './globals'
 import { openDebugMenu, openPauseMenu } from './menu'
 
@@ -130,7 +130,7 @@ export function formatUnixTime (timestamp: number, timezone: number): number {
  * Checks if the given entity is within the world border and moves it back if needed.
  * @param entity - The entity to check.
  */
-export function borderControl (entity: NewEntity): void {
+export function borderControl (entity: Entity): void {
   if (!entity.collision.enabled) return
   if (entity.x + entity.width > level.properties.borderW) entity.x = level.properties.borderW
   if (entity.x < level.properties.borderX) entity.x = level.properties.borderX
@@ -138,7 +138,7 @@ export function borderControl (entity: NewEntity): void {
   if (entity.y < level.properties.borderY) entity.y = level.properties.borderY
 }
 
-export function hasCollision (entity: NewEntity, x: number, y: number, w: number, h: number): boolean {
+export function hasCollision (entity: Entity, x: number, y: number, w: number, h: number): boolean {
   return (
     entity.x < x + w &&
     entity.x + entity.width > x &&

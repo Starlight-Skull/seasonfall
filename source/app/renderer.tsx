@@ -1,4 +1,4 @@
-import { type NewEntity, type NewTile, Collision } from './classes'
+import { type Entity, type Tile, Collision } from './classes'
 import { NewHero } from './classesExtended'
 import { UI, player, playerStats, settings, weather, world, level } from './globals'
 import { element } from './helpers'
@@ -39,7 +39,7 @@ export function drawTextWithBackground (text: string, x: number, y: number, opti
  * @param gridY - The Y coordinate without grid scaling.
  * @param gridX - The X coordinate without grid scaling.
  */
-export function newDrawTile (gridY: number, gridX: number, tile: NewTile): void {
+export function drawTile (gridY: number, gridX: number, tile: Tile): void {
   let x = gridX * world.grid
   let y = gridY * world.grid
   let w = tile.width * world.grid
@@ -123,7 +123,7 @@ export function drawSky (): void {
 /**
  * Draws a given entity according to its properties.
  */
-function newDrawEntity (entity: NewEntity): void {
+function drawEntity (entity: Entity): void {
   let w = entity.width * world.grid
   let h = entity.height * world.grid
   let x = entity.x * world.grid
@@ -158,7 +158,7 @@ function newDrawEntity (entity: NewEntity): void {
   }
 }
 
-function drawStats (entity: NewEntity): void {
+function drawStats (entity: Entity): void {
   let x = (entity.x + entity.width / 2) * world.grid
   let y = entity.y * world.grid
   if (entity instanceof NewHero) {
@@ -284,13 +284,13 @@ export function drawMain (): void {
   for (let y = renderMinY; y < renderMaxY; y++) {
     for (let x = renderMinX; x < renderMaxX; x++) {
       const background = level.background[y]?.[x]
-      if (background !== undefined) newDrawTile(y, x, background)
+      if (background !== undefined) drawTile(y, x, background)
     }
   }
   for (let y = renderMinY; y < renderMaxY; y++) {
     for (let x = renderMinX; x < renderMaxX; x++) {
       const foreground = level.foreground[y]?.[x]
-      if (foreground !== undefined) newDrawTile(y, x, foreground)
+      if (foreground !== undefined) drawTile(y, x, foreground)
     }
   }
 
@@ -298,10 +298,10 @@ export function drawMain (): void {
   for (let entity of level.entities) {
     entityMovement(entity)
     if (entity.x < renderMinX || entity.x > renderMaxX || entity.y < renderMinY || entity.y > renderMaxY) continue
-    newDrawEntity(entity)
+    drawEntity(entity)
   }
   entityMovement(player)
-  newDrawEntity(player)
+  drawEntity(player)
 
   //* mouse position *//
   ctx.fillStyle = 'rgba(250,250,250,0.5)'
