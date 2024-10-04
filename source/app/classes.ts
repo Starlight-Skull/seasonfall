@@ -3,7 +3,7 @@ import { isNotEmpty } from './helpers'
 /**
  * @enum values all, top, none
  */
-export enum Collision { all, top, none }
+export enum Collision { all, top, partial, none }
 
 export class Animatable {
   name: string
@@ -107,18 +107,22 @@ export class SpriteSet {
   speed: number
   boxWidth?: number
   boxHeight?: number
+  offsetX: number
+  offsetY: number
 
-  constructor (image: HTMLImageElement, options?: { x?: number, y?: number, w?: number, h?: number, frames?: number, speed?: number, boxWidth?: number, boxHeight?: number, name?: string }) {
-    const { x = 0, y = 0, w = image.width, h = image.height, frames = 1, speed = 0, boxWidth, boxHeight, name } = options ?? {}
+  constructor (image: HTMLImageElement, options?: { x?: number, y?: number, w?: number, h?: number, frames?: number, speed?: number, boxWidth?: number, boxHeight?: number, name?: string, offsetX?: number, offsetY?: number }) {
+    const { x = 0, y = 0, w = image.width, h = image.height, frames = 1, speed = 0, boxWidth, boxHeight, name = this.constructor.name, offsetX = 0, offsetY = 0 } = options ?? {}
     this.image = image
-    this.x = x ?? 0
-    this.y = y ?? 0
-    this.width = w ?? image.width
-    this.height = h ?? image.height
+    this.x = x
+    this.y = y
+    this.width = w
+    this.height = h
     this.frames = frames
     this.speed = speed
     this.boxWidth = boxWidth
     this.boxHeight = boxHeight
-    this.name = name ?? this.constructor.name
+    this.offsetX = offsetX
+    this.offsetY = offsetY
+    this.name = name
   }
 }

@@ -143,10 +143,10 @@ export function drawTile (gridY: number, gridX: number, tile: Tile): void {
   saveRestore(() => {
     if (tile.mirrored) {
       ctx.scale(-1, 1)
-      x *= -1
-      w *= -1
-      animX *= -1
-      animW *= -1
+      x = -x - world.grid
+      // w *= -1
+      animX = -animX - world.grid
+      // animW *= -1
     }
     if (tile.rotation !== 0) {
       ctx.translate(x + w / 2, y + h / 2)
@@ -381,6 +381,10 @@ function drawUI (): void {
       drawStats(entity)
     }
     drawStats(player)
+    if (world.showBoxes) {
+      ctx.strokeStyle = 'red'
+      ctx.strokeRect(grid(level.properties.borderX), grid(level.properties.borderY), grid(level.properties.borderW), grid(level.properties.borderH))
+    }
   })
   //* UI *//
   drawPlayerBars()

@@ -132,9 +132,9 @@ export function formatUnixTime (timestamp: number, timezone: number): number {
  */
 export function borderControl (entity: Entity): void {
   if (!entity.collision.enabled) return
-  if (entity.x + entity.width > level.properties.borderW) entity.x = level.properties.borderW
+  if (entity.x + entity.width > level.properties.borderX + level.properties.borderW) entity.x = level.properties.borderX + level.properties.borderW - entity.width
   if (entity.x < level.properties.borderX) entity.x = level.properties.borderX
-  if (entity.y + entity.height > level.properties.borderH) entity.y = level.properties.borderH
+  if (entity.y + entity.height > level.properties.borderY + level.properties.borderH) entity.y = level.properties.borderY + level.properties.borderH - entity.height
   if (entity.y < level.properties.borderY) entity.y = level.properties.borderY
 }
 

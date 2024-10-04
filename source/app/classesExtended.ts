@@ -36,7 +36,7 @@ export class Skeleton extends Entity {
 export class Door extends Tile {
   isClosed: boolean
 
-  constructor (isClosed = true, options?: { collision?: Collision, rotation?: number, mirrored?: boolean }) {
+  constructor (isClosed = true, options?: { mirrored?: boolean }) {
     super(door, { height: 2, ...options })
     this.isClosed = isClosed
     this.animations = {

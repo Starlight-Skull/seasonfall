@@ -3,10 +3,10 @@
   "properties": {
     "rootX": 17,
     "rootY": 16,
-    "borderX": 0,
-    "borderY": 0,
-    "borderW": 78,
-    "borderH": 29
+    "borderX": 13,
+    "borderY": -10,
+    "borderW": 66,
+    "borderH": 39
   },
   "entities": [
     { "class": "skeleton", "x": 34, "y": 16 },
