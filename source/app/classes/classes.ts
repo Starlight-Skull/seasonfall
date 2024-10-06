@@ -1,5 +1,5 @@
-import { PIXELS_PER_TILE } from './globals'
-import { loadImage, textures } from './textures'
+import { PIXELS_PER_TILE } from '../globals'
+import { loadImage, textures } from '../rendering/textures'
 
 /**
  * @enum values all, top, none

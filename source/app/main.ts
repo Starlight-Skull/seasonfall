@@ -1,9 +1,9 @@
-import { initData } from './data'
-import { initAssets } from './textures'
+import { initData } from './logic/data'
+import { initAssets } from './rendering/textures'
 import { settings, world, weather } from './globals'
 import { element, formatUnixTime, getFrameCount, handleMouseKeyEvent } from './helpers'
-import { initMenu } from './menu'
-import { drawMain, drawTextWithBackground } from './renderer'
+import { initMenu } from './interface/menu'
+import { drawMain, drawTextWithBackground } from './rendering/renderer'
 
 import '../styles/index.sass'
 import worldJson from '../worlds/tower.world.json'

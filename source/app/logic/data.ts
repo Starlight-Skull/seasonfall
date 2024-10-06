@@ -1,5 +1,5 @@
-import { settings, weather } from './globals'
-import { element, formatUnixTime, fromStorage, toStorage } from './helpers'
+import { settings, weather } from '../globals'
+import { element, formatUnixTime, fromStorage, toStorage } from '../helpers'
 
 export function initData (): void {
   Object.assign(settings, fromStorage('settings') ?? {})

@@ -1,6 +1,6 @@
-import type { Entity } from './classes'
+import type { Entity } from './classes/classes'
 import { level, player, playerStats, settings, world } from './globals'
-import { openDebugMenu, openPauseMenu } from './menu'
+import { openDebugMenu, openPauseMenu } from './interface/menu'
 
 /**
  * Shorthand for document.getElementById().

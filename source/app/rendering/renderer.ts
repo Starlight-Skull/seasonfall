@@ -1,8 +1,8 @@
-import { type Entity, type Tile, Collision } from './classes'
-import { Hero } from './classesExtended'
-import { UI, player, playerStats, settings, weather, world, level } from './globals'
-import { element } from './helpers'
-import { entityMovement, nextFrame } from './movement'
+import { type Entity, type Tile, Collision } from '../classes/classes'
+import { Hero } from '../classes/classesExtended'
+import { UI, player, playerStats, settings, weather, world, level } from '../globals'
+import { element } from '../helpers'
+import { entityMovement, nextFrame } from '../logic/movement'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 const render = {

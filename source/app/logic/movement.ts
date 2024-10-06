@@ -1,6 +1,6 @@
-import { Collision, type Tile, type Entity, type SpriteSet } from './classes'
-import { player, weather, level } from './globals'
-import { borderControl } from './helpers'
+import { Collision, type Tile, type Entity, type SpriteSet } from '../classes/classes'
+import { player, weather, level } from '../globals'
+import { borderControl } from '../helpers'
 
 export function nextFrame (entity: Entity | Tile, loop = false): void {
   if (entity.animationFrame < entity.animation.frames - 1) {

@@ -1,6 +1,6 @@
-import { geoCoderAPI, navigate } from './data'
-import { player, playerStats, settings, version, weather, world } from './globals'
-import { element, inputElement, quit, toStorage } from './helpers'
+import { geoCoderAPI, navigate } from '../logic/data'
+import { player, playerStats, settings, version, weather, world } from '../globals'
+import { element, inputElement, quit, toStorage } from '../helpers'
 
 const versionTag = element('version') as HTMLElement
 const pauseMenu = element('pauseMenu') as HTMLElement
