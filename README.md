@@ -1,8 +1,7 @@
 # Seasonfall
 
 [![Webpack](https://github.com/Starlight-Skull/seasonfall/actions/workflows/webpack.yml/badge.svg)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/webpack.yml)
-[![pages-build-deployment](https://github.com/Starlight-Skull/seasonfall/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/pages/pages-build-deployment)
-[![CodeQL](https://github.com/Starlight-Skull/seasonfall/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/Starlight-Skull/seasonfall/actions/workflows/codeql-analysis.yml/badge.svg?branch=development)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/codeql-analysis.yml)
 
 [![Seasonfall](./Misc/Banner.png)](https://starlight-skull.github.io/seasonfall/)
 

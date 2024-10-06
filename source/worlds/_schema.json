@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "properties": {
+      "type": "object",
+      "properties": {
+        "rootX": {
+          "type": "number"
+        },
+        "rootY": {
+          "type": "number"
+        },
+        "borderX": {
+          "type": "number"
+        },
+        "borderY": {
+          "type": "number"
+        },
+        "borderW": {
+          "type": "number"
+        },
+        "borderH": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "rootX",
+        "rootY",
+        "borderX",
+        "borderY",
+        "borderW",
+        "borderH"
+      ]
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "class": {
+            "type": "string"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "class",
+          "x",
+          "y"
+        ]
+      }
+    },
+    "background": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "foreground": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "properties",
+    "entities",
+    "background",
+    "foreground"
+  ]
+}

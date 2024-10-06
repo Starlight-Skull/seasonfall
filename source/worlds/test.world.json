@@ -1,0 +1,33 @@
+{
+  "$schema": "./_schema.json",
+  "properties": {
+    "rootX": 8,
+    "rootY": 6,
+    "borderX": -10,
+    "borderY": -10,
+    "borderW": 40,
+    "borderH": 30
+  },
+  "entities": [],
+  "background": [
+    [],
+    [],
+    [],
+    [],
+    [ "", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall", "brick_wall" ],
+    [ "", "brick_wall", "brick_wall", "", "", "", "", "", "", "", "", "", "brick_wall", "brick_wall" ],
+    [ "", "", "", "", "", "", "", "", "", "", "", "", "", "brick_wall" ],
+    [ "", "", "", "", "", "", "", "", "", "", "", "", "", "brick_wall" ]
+  ],
+  "foreground": [
+    [],
+    [],
+    [],
+    [ "brick", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "plank:c-top", "brick" ],
+    [ "brick", "plank:c-top", "", "", "", "", "", "", "", "", "", "", "", "", "brick" ],
+    [ "brick", "plank:c-top", "", "", "", "", "", "", "", "", "", "", "", "", "brick" ],
+    [ "brick", "plank:c-top", "", "", "door:m", "door", "", "", "", "", "", "", "", "", "brick" ],
+    [ "brick", "plank:c-top", "", "", "", "", "", "", "", "", "", "", "", "", "brick" ],
+    [ "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick", "brick" ]
+  ]
+}
