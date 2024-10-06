@@ -1,5 +1,5 @@
-import type { Entity } from './classes/classes'
-import { level, player, playerStats, settings, world } from './globals'
+import { type Entity } from './classes/Entity'
+import { player, playerStats, settings, world } from './globals'
 import { openDebugMenu, openPauseMenu } from './interface/menu'
 
 /**
@@ -124,18 +124,6 @@ export function isNotEmpty (value?: string): boolean {
 export function formatUnixTime (timestamp: number, timezone: number): number {
   const date = new Date((timestamp + timezone) * 1000)
   return date.getUTCHours() * 100 + date.getUTCMinutes()
-}
-
-/**
- * Checks if the given entity is within the world border and moves it back if needed.
- * @param entity - The entity to check.
- */
-export function borderControl (entity: Entity): void {
-  if (!entity.collision.enabled) return
-  if (entity.x + entity.width > level.properties.borderX + level.properties.borderW) entity.x = level.properties.borderX + level.properties.borderW - entity.width
-  if (entity.x < level.properties.borderX) entity.x = level.properties.borderX
-  if (entity.y + entity.height > level.properties.borderY + level.properties.borderH) entity.y = level.properties.borderY + level.properties.borderH - entity.height
-  if (entity.y < level.properties.borderY) entity.y = level.properties.borderY
 }
 
 export function hasCollision (entity: Entity, x: number, y: number, w: number, h: number): boolean {

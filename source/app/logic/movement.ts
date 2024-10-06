@@ -1,21 +1,6 @@
-import { Collision, type Tile, type Entity, type SpriteSet } from '../classes/classes'
-import { player, weather, level } from '../globals'
-import { borderControl } from '../helpers'
-
-export function nextFrame (entity: Entity | Tile, loop = false): void {
-  if (entity.animationFrame < entity.animation.frames - 1) {
-    entity.animationFrame += entity.animation.speed
-  } else if (loop) {
-    entity.animationFrame = 0
-  }
-}
-
-export function changeAnimation (entity: Entity | Tile, animation: SpriteSet): void {
-  if (entity.animation !== animation) {
-    entity.animationFrame = 0
-    entity.animation = animation
-  }
-}
+import { type Entity } from '../classes/Entity'
+import { Collision } from '../classes/Tile'
+import { weather, level } from '../globals'
 
 function tick (entity: Entity): void {
   //* healing *//
@@ -65,7 +50,7 @@ export function entityMovement (entity: Entity): void {
   const GRAVITY = entity.stats.speed * 1.5
   //* dead *//
   if (entity.animation === entity.animations.death || entity.stats.hp <= 0) {
-    changeAnimation(entity, entity.animations.death)
+    entity.changeAnimation(entity.animations.death)
     loop = false
     entity.movement.attack = false
     entity.movement.jump = false
@@ -77,18 +62,18 @@ export function entityMovement (entity: Entity): void {
     tick(entity)
     //* idle *//
     if (((entity.movement.left === entity.movement.right)) && !entity.movement.attack && entity.animation !== entity.animations.fall && !entity.movement.jump) {
-      changeAnimation(entity, entity.animations.idle)
+      entity.changeAnimation(entity.animations.idle)
     } else {
       //* right *//
       if (entity.movement.right && !(entity.movement.attack && (entity.stats.jumpTime === 0 || entity.stats.jumpTime === entity.stats.jumpHeight))) {
         dx += entity.stats.speed
-        changeAnimation(entity, entity.animations.move)
+        entity.changeAnimation(entity.animations.move)
         entity.mirrored = false
       }
       //* left *//
       if (entity.movement.left && !(entity.movement.attack && (entity.stats.jumpTime === 0 || entity.stats.jumpTime === entity.stats.jumpHeight))) {
         dx -= entity.stats.speed
-        changeAnimation(entity, entity.animations.move)
+        entity.changeAnimation(entity.animations.move)
         entity.mirrored = true
       }
     }
@@ -96,21 +81,21 @@ export function entityMovement (entity: Entity): void {
     if ((entity.movement.jump) && entity.stats.jumpTime >= 0 && entity.stats.jumpTime < entity.stats.jumpHeight) {
       dy -= entity.stats.speed
       entity.stats.jumpTime += 0.1
-      changeAnimation(entity, entity.animations.jump)
+      entity.changeAnimation(entity.animations.jump)
     } else if (entity.collision.enabled) {
       //* fall *//
       dy += GRAVITY
       if (entity.movement.down) dy += GRAVITY
     }
     if (entity.movement.attack) {
-      changeAnimation(entity, entity.animations.attack)
+      entity.changeAnimation(entity.animations.attack)
       loop = false
     }
   }
   getCollisions(entity, dx, dy)
   handleCollisions(entity, dx, dy)
-  nextFrame(entity, loop)
   borderControl(entity)
+  entity.nextFrame(loop)
 }
 
 function getCollisions (entity: Entity, dx: number, dy: number): void {
@@ -176,6 +161,18 @@ function handleCollisions (entity: Entity, dx: number, dy: number): void {
       entity.stats.jumpTime = 0
     }
   }
+}
+
+/**
+ * Checks if the given entity is within the world border and moves it back if needed.
+ * @param entity - The entity to check.
+ */
+function borderControl(entity: Entity): void {
+  if (!entity.collision.enabled) return
+  if (entity.x + entity.width > level.properties.borderX + level.properties.borderW) entity.x = level.properties.borderX + level.properties.borderW - entity.width
+  if (entity.x < level.properties.borderX) entity.x = level.properties.borderX
+  if (entity.y + entity.height > level.properties.borderY + level.properties.borderH) entity.y = level.properties.borderY + level.properties.borderH - entity.height
+  if (entity.y < level.properties.borderY) entity.y = level.properties.borderY
 }
 
 // if (entity.movement.jump && (entity.air < entity.maxAir) && !entity.collision.up && entity.hasCollision) {

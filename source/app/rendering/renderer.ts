@@ -1,8 +1,9 @@
-import { type Entity, type Tile, Collision } from '../classes/classes'
-import { Hero } from '../classes/classesExtended'
+import { type Entity } from '../classes/Entity'
+import { Collision, type Tile } from '../classes/Tile'
+import { Hero } from '../classes/Entity/Hero'
 import { UI, player, playerStats, settings, weather, world, level } from '../globals'
 import { element } from '../helpers'
-import { entityMovement, nextFrame } from '../logic/movement'
+import { entityMovement } from '../logic/movement'
 
 const ctx = (element('screen') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D
 const render = {
@@ -182,7 +183,7 @@ export function drawTile (gridY: number, gridX: number, tile: Tile): void {
   // if (world.showLiveDebug) {
   //   drawTextWithBackground(`${gridX},${gridY}`, grid(gridX), grid(gridY), { color: 'rgb(0,200,0)' })
   // }
-  if (tile.animation.frames > 1) nextFrame(tile, true)
+  if (tile.animation.frames > 1) tile.nextFrame(true)
 }
 
 /**

@@ -1,5 +1,5 @@
 import { initData } from './logic/data'
-import { initAssets } from './rendering/textures'
+import { initAssets } from './rendering/assets'
 import { settings, world, weather } from './globals'
 import { element, formatUnixTime, getFrameCount, handleMouseKeyEvent } from './helpers'
 import { initMenu } from './interface/menu'

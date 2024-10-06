@@ -1,5 +1,6 @@
-import { type Entity, type Tile } from './classes/classes'
-import { Hero } from './classes/classesExtended'
+import { type Entity } from './classes/Entity'
+import { type Tile } from './classes/Tile'
+import { Hero } from './classes/Entity/Hero'
 
 export const version = '1.2.0'
 
