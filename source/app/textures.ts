@@ -19,22 +19,24 @@ import { isNotEmpty } from './helpers'
 import { Collision, Entity, Tile } from './classes'
 import { Door, Hero, Skeleton } from './classesExtended'
 
-export const textures: Record<string, Record<string, string>> = Object.freeze({
-  entity: { missing_entity, hero, skeleton, stick },
-  tileEntity: { door },
-  environment: { rain, snow },
-  tile: { missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, painting, plank }
-})
+export const textures: Record<string, string> = {
+  missing_entity, hero, skeleton, stick, door, rain, snow, missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, painting, plank
+}
+
+const imageCache: Record<string, HTMLImageElement> = {}
 
 /**
  * Finds the image from the given path.
- * @param path - The path to find the image from. If an array is passed a random path will be used.
+ * @param path - The path to find the image from.
  * @returns The image at the given path.
  */
 export function loadImage (path: string): HTMLImageElement {
+  if (imageCache[path]) {
+    return imageCache[path]
+  }
   const image = new Image()
-  if (Array.isArray(path)) path = path[Math.round(Math.random()) * (path.length - 1)]
-  image.src = path ?? textures.tile.missing_tile
+  image.src = path ?? textures.missing_tile
+  imageCache[path] = image
   return image
 }
 
@@ -70,7 +72,7 @@ export function initAssets (json: World): void {
   for (let y = 0; y < json.background.length; y++) {
     level.background[y] = []
     for (let x = 0; x < json.background[y].length; x++) {
-      const background: string = json.background?.[y]?.[x]
+      const background = json.background?.[y]?.[x]
       if (isNotEmpty(background)) {
         level.background[y][x] = toTile(background, true)
       }
@@ -79,7 +81,7 @@ export function initAssets (json: World): void {
   for (let y = 0; y < json.foreground.length; y++) {
     level.foreground[y] = []
     for (let x = 0; x < json.foreground[y].length; x++) {
-      const foreground: string = json.foreground?.[y]?.[x]
+      const foreground = json.foreground?.[y]?.[x]
       if (isNotEmpty(foreground)) {
         level.foreground[y][x] = toTile(foreground)
       }
@@ -103,7 +105,6 @@ export function toTile (tile: string, background = false): Tile | undefined {
   if (split.includes('r-90')) options.rotation = 90
   if (split.includes('r-180')) options.rotation = 180
   if (split.includes('r-270')) options.rotation = 270
-  if (split.includes('h-2')) options.height = 2
   if (split.includes('c-all')) options.collision = Collision.all
   if (split.includes('c-top')) options.collision = Collision.top
   if (split.includes('c-none')) options.collision = Collision.none
@@ -111,10 +112,14 @@ export function toTile (tile: string, background = false): Tile | undefined {
   switch (split[0]) {
     case 'door':
       return new Door(true, options)
+    case 'painting':
+      const painting = new Tile(split[0], { collision: Collision.none, height: 2 })
+      painting.animation.height = 32
+      return painting
     case 'link':
       return undefined
     default:
-      return new Tile(loadImage(textures.tile[split[0]]), options)
+      return new Tile(split[0], options)
   }
 }
 
@@ -128,6 +133,6 @@ export function toEntity (entity: string, x: number, y: number): Entity {
     case 'hero':
       return new Hero('Hero', x, y)
     default:
-      return new Entity(x, y, loadImage(textures.entity.missing_entity))
+      return new Entity(x, y)
   }
 }

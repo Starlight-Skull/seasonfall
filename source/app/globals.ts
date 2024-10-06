@@ -44,7 +44,7 @@ export const settings: Settings = {
   }
 }
 
-const PIXEL_GRID = 16
+export const PIXELS_PER_TILE = 16
 
 export const world = {
   fps: 0,
@@ -57,7 +57,7 @@ export const world = {
   showLiveDebug: false,
   showPlayerStats: false,
   debug: '',
-  get grid () { return settings.scale * PIXEL_GRID }
+  get grid () { return settings.scale * PIXELS_PER_TILE }
 }
 
 /**
