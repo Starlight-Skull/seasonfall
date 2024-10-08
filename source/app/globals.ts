@@ -45,11 +45,6 @@ export const settings: Settings = {
   }
 }
 
-export const UIState = {
-  debugMenuVisible: true,
-  pauseMenuVisible: false
-}
-
 export const PIXELS_PER_TILE = 16
 
 export const world = {
@@ -58,7 +53,7 @@ export const world = {
   focusX: 0,
   focusY: 0,
   shade: 0,
-  get paused () { return UIState.debugMenuVisible || UIState.pauseMenuVisible },
+  paused: false,
   showBoxes: false,
   showLiveDebug: false,
   showPlayerStats: false,

@@ -1,33 +1,17 @@
 import React, { Component } from "react"
-import { player, UIState, world } from "../globals";
+import { player, world } from "../globals";
 
 
 /**
  * Toggles the visibility of the debug menu and handles the associated data.
  */
-export function openDebugMenu (): void {
-  UIState.debugMenuVisible = !UIState.debugMenuVisible
-  if (UIState.debugMenuVisible) {
+function openDebugMenu (): void {
+  // UIState.debugMenuVisible = !UIState.debugMenuVisible
+  // if (UIState.debugMenuVisible) {
     // for (const weatherKey in weather) {
     //   ;(element(weatherKey) as HTMLInputElement).value = weather[weatherKey].toString()
     // }
-  } else {
-    // general
-    // world.showBoxes = inputElement('showBoxes')?.checked ?? false
-    // world.showLiveDebug = inputElement('showLiveDebug')?.checked ?? false
-    // world.showPlayerStats = inputElement('showPlayerStats')?.checked ?? false
-    // player
-    // player.stats.hp = parseFloat(inputElement('hp')?.value ?? '0')
-    // player.stats.maxHP = parseFloat(inputElement('maxHp')?.value ?? '0')
-    // player.stats.mp = parseFloat(inputElement('mp')?.value ?? '0')
-    // player.stats.maxMP = parseFloat(inputElement('maxMp')?.value ?? '0')
-    // player.stats.xp = parseFloat(inputElement('xp')?.value ?? '0')
-    // player.stats.damage = parseFloat(inputElement('damage')?.value ?? '0')
-    // player.stats.speed = parseFloat(inputElement('speed')?.value ?? '0')
-    // player.stats.jumpHeight = parseFloat(inputElement('maxAir')?.value ?? '0')
-    // player.x = parseFloat(inputElement('x')?.value ?? '0')
-    // player.y = parseFloat(inputElement('y')?.value ?? '0')
-    // player.collision.enabled = inputElement('hasCollision')?.checked ?? true
+  // } else {
     // weather
     // for (const weatherKey in weather) {
     //   const el = (element(weatherKey) as HTMLInputElement).value
@@ -37,7 +21,7 @@ export function openDebugMenu (): void {
     //     weather[weatherKey] = el
     //   }
     // }
-  }
+  // }
 }
 
 export default class DebugMenu extends Component {

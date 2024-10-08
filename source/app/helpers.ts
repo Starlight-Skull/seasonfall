@@ -1,7 +1,5 @@
 import { type Entity } from './classes/Entity'
 import { player, playerStats, settings, world } from './globals'
-import { openDebugMenu } from './interface/DebugMenu'
-import { openPauseMenu } from './interface/PauseMenu'
 
 /**
  * Shorthand for document.getElementById().
@@ -90,12 +88,6 @@ export function handleMouseKeyEvent (key: string, down: boolean): void {
       break
     case settings.keybindings.use:
       if (!world.paused) player.movement.use = down
-      break
-    case 'Backquote':
-      if (down) openDebugMenu()
-      break
-    case 'Escape':
-      if (down) openPauseMenu()
       break
   }
 }

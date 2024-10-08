@@ -1,18 +1,17 @@
 import React, { Component } from "react"
-import VersionTag from "./Components/VersionTag"
-import { settings, UIState, version } from "../globals"
+import { settings, version } from "../globals"
 import { toStorage } from "../helpers"
 
 /**
  * Toggles the visibility of the pause menu and handles the associated values.
  */
 export function openPauseMenu (): void {
-  UIState.pauseMenuVisible = !UIState.pauseMenuVisible
-  if (UIState.pauseMenuVisible) {
-    loadSettings()
-  } else {
-    saveSettings()
-  }
+  // UIState.pauseMenuVisible = !UIState.pauseMenuVisible
+  // if (UIState.pauseMenuVisible) {
+    // loadSettings()
+  // } else {
+    // saveSettings()
+  // }
 }
 
 /**
@@ -143,8 +142,8 @@ export default class PauseMenu extends Component {
             </div>
             <div>
               <label htmlFor="lat">Coordinates</label>
-              <input onInput={(e) => settings.api.latitude = parseFloat((e.target as HTMLInputElement).value ?? 0)} value={settings.api.latitude.toString()} type="text" title="Latitude" id="lat" placeholder="lat" />
-              <input onInput={(e) => settings.api.longitude = parseFloat((e.target as HTMLInputElement).value ?? 0)} value={settings.api.longitude.toString()} type="text" title="Longitude" id="lon" placeholder="lon" />
+              <input onInput={(e) => settings.api.latitude = parseFloat((e.target as HTMLInputElement).value ?? 0)} value={settings.api.latitude} type="text" title="Latitude" id="lat" placeholder="lat" />
+              <input onInput={(e) => settings.api.longitude = parseFloat((e.target as HTMLInputElement).value ?? 0)} value={settings.api.longitude} type="text" title="Longitude" id="lon" placeholder="lon" />
             </div>
             <div>
               <button data-action="navigator">Use Current Location</button>
@@ -166,7 +165,7 @@ export default class PauseMenu extends Component {
             </div>
             <div>
               <label htmlFor="interval">Interval (s)</label>
-              <input onInput={(e) => settings.api.interval = parseInt((e.target as HTMLInputElement).value ?? 0)} value={settings.api.interval.toString()} type="number" id="interval" />
+              <input onInput={(e) => settings.api.interval = parseInt((e.target as HTMLInputElement).value ?? 0)} value={settings.api.interval} type="number" id="interval" />
             </div>
           </div>
           <div className="menuFooter">
