@@ -45,6 +45,11 @@ export const settings: Settings = {
   }
 }
 
+export const UIState = {
+  debugMenuVisible: true,
+  pauseMenuVisible: false
+}
+
 export const PIXELS_PER_TILE = 16
 
 export const world = {
@@ -53,12 +58,16 @@ export const world = {
   focusX: 0,
   focusY: 0,
   shade: 0,
-  paused: false,
+  get paused () { return UIState.debugMenuVisible || UIState.pauseMenuVisible },
   showBoxes: false,
   showLiveDebug: false,
   showPlayerStats: false,
   debug: '',
-  get grid () { return settings.scale * PIXELS_PER_TILE }
+  get grid () {
+    // !!! scale must be a positive number or everything breaks => (x / 0 == Infinity) !!!
+    if (settings.scale === null || settings.scale === undefined || settings.scale <= 0 || typeof settings.scale !== 'number') settings.scale = 5
+    return settings.scale * PIXELS_PER_TILE
+  }
 }
 
 /**
