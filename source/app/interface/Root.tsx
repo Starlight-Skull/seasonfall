@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom/client'
 import { element } from '../helpers'
-import DebugMenu from './DebugMenu'
+import DebugMenu from './DebugMenu/DebugMenu'
 import PauseMenu from './PauseMenu'
 import Canvas from './Canvas'
 import { world } from '../globals'
@@ -18,16 +18,19 @@ class App extends Component {
     pauseMenuVisible: false
   }
 
-  componentDidMount(): void {
-      window.addEventListener('keydown', e => {
-        if (e.code === 'Backquote') {
-          this.setState({ debugMenuVisible: !this.state.debugMenuVisible })
-        }
-        if (e.code === 'Escape') {
-          this.setState({ pauseMenuVisible: !this.state.pauseMenuVisible })
-        }
-        world.paused = this.state.debugMenuVisible || this.state.pauseMenuVisible
-      })
+  componentDidMount() {
+    window.addEventListener('keydown', e => {
+      if (e.code === 'Backquote') {
+        this.setState({ debugMenuVisible: !this.state.debugMenuVisible })
+      }
+      if (e.code === 'Escape') {
+        this.setState({ pauseMenuVisible: !this.state.pauseMenuVisible })
+      }
+    })
+  }
+
+  componentDidUpdate() {
+    world.paused = this.state.debugMenuVisible || this.state.pauseMenuVisible
   }
 
   render() {

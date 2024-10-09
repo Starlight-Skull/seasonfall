@@ -5,6 +5,7 @@ export let ctx: CanvasRenderingContext2D | undefined
 
 export default class Canvas extends Component {
   canvasRef: RefObject<HTMLCanvasElement> = createRef()
+
   state = {
     width: window.innerWidth,
     height: window.innerHeight

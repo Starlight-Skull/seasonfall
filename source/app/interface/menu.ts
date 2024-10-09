@@ -1,8 +1,3 @@
-import { geoCoderAPI, navigate } from '../logic/data'
-import { player, playerStats, settings, weather, world } from '../globals'
-import { element, inputElement, quit, toStorage } from '../helpers'
-
-
 // /**
 //  * Contains the pause menus for ease of access.
 //  */
@@ -16,13 +11,13 @@ import { element, inputElement, quit, toStorage } from '../helpers'
 //   settingsKeybindings: element('settingsKeybindings') as HTMLElement
 // }
 
-export function initMenu (): void {
+// export function initMenu (): void {
   // for (const menusKey in menus) {
   //   menus[menusKey].style.display = 'none'
   // }
   // menus.pause.style.display = 'flex'
   // pauseMenu.addEventListener('click', (ev) => { handleMenuEvent(ev.target as HTMLElement) })
-}
+// }
 
 /**
  * Handles a click event on an item in the pause menu that has a data-menu or data-action attribute.

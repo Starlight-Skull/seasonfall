@@ -1,8 +1,7 @@
 import { initData } from './logic/data'
 import { initAssets } from './rendering/assets'
 import { settings, world, weather } from './globals'
-import { element, formatUnixTime, getFrameCount, handleMouseKeyEvent } from './helpers'
-import { initMenu } from './interface/menu'
+import { formatUnixTime, getFrameCount, handleMouseKeyEvent } from './helpers'
 import { drawMain, drawTextWithBackground } from './rendering/renderer'
 import initReact from './interface/Root'
 import { ctx } from './interface/Canvas'
@@ -21,13 +20,12 @@ window.addEventListener('load', () => {
   initAssets(worldJson)
   initReact()
   initData()
-  initMenu()
 
   //* debug options *//
   // player.hasCollision = false
   // world.showBoxes = true
   // world.showLiveDebug = true
-  // weather.time = formatUnixTime(Date.now() / 1000, 2 * 60 * 60)
+  weather.time = formatUnixTime(Date.now() / 1000, 2 * 60 * 60)
 
   //* fps counter *//
   setInterval(getFrameCount, 1000)
