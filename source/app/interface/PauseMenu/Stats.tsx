@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menus } from '../PauseMenu'
+import { Menus } from './PauseMenu'
 import { player } from '../../globals'
 
 // ;(element('nameStats') as HTMLElement).innerText = `Statistics (${player.name})`

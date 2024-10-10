@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { element } from '../helpers'
 import DebugMenu from './DebugMenu/DebugMenu'
-import PauseMenu from './PauseMenu'
+import PauseMenu from './PauseMenu/PauseMenu'
 import Canvas from './Canvas'
 import { world } from '../globals'
+
+import '../../styles/index.sass'
 
 export default function initReact() {
   const root = ReactDOM.createRoot(element('root')!)
@@ -43,7 +45,7 @@ export function App() {
   return (
     <>
       {debugVisible && <DebugMenu />}
-      {pauseVisible ? <PauseMenu close={togglePause} /> : <button onClick={() => togglePause()}>Pause</button>}
+      {pauseVisible ?? <PauseMenu close={togglePause} />}
       <Canvas />
     </>
   )

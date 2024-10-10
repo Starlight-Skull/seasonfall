@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { settings } from '../globals'
-import { toStorage } from '../helpers'
-import Pause from './PauseMenu/Pause'
-import Load from './PauseMenu/Load'
-import New from './PauseMenu/New'
-import SettingsGeneral from './PauseMenu/SettingsGeneral'
-import SettingsApi from './PauseMenu/SettingsApi'
-import SettingsKeybindings from './PauseMenu/SettingsKeybindings'
-import Stats from './PauseMenu/Stats'
+import { settings } from '../../globals'
+import { toStorage } from '../../helpers'
+import Pause from './Pause'
+import Load from './Load'
+import New from './New'
+import SettingsGeneral from './SettingsGeneral'
+import SettingsApi from './SettingsApi'
+import SettingsKeybindings from './SettingsKeybindings'
+import Stats from './Stats'
+
+import './PauseMenu.sass'
 
 /**
  * Saves most settings from the global settings to storage.

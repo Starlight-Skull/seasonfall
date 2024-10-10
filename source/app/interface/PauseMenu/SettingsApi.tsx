@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { settings } from "../../globals"
-import { Menus } from "../PauseMenu"
+import { Menus } from "./PauseMenu"
 
 
 interface Props {

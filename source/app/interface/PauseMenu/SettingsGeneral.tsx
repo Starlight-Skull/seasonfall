@@ -2,7 +2,7 @@ import React from "react"
 import { settings } from "../../globals"
 import InputBoolean from "../Components/InputBoolean"
 import InputNumber from "../Components/InputNumber"
-import { Menus } from "../PauseMenu"
+import { Menus } from "./PauseMenu"
 
 
 interface Props {

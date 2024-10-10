@@ -1,59 +1,3 @@
-@font-face
-  font-family: PixeloidMono
-  src: url("../font/PixeloidMono.ttf")
-
-@font-face
-  font-family: Pixeloid
-  src: url("../font/PixeloidSans.ttf")
-
-@font-face
-  font-family: PixeloidBold
-  src: url("../font/PixeloidSansBold.ttf")
-
-/* General */
-html, body, main, #screen
-  font-family: Pixeloid, serif
-  background-image: url("../textures/background.png")
-  overflow: hidden
-  margin: 0
-  padding: 0
-  width: 100vw
-  height: 100vh
-
-h3
-  font-family: PixeloidBold, serif
-  // margin: 0.5rem 0;
-
-noscript
-  color: white
-
-select, input[type="text"], input[type="number"], button
-  width: 10vw
-  font-family: Pixeloid, serif
-
-/* Debug Menu */
-#debugMenu
-  background-color: rgba(105, 105, 105, 0.9)
-  color: white
-  position: absolute
-  left: 0
-  top: 0
-  z-index: 200
-  display: flex
-  flex-direction: row
-
-  section
-    flex-direction: column
-    justify-content: left
-    padding: .5rem
-    min-width: 20vw
-    border: 1px solid black
-
-  div, label
-    display: flex
-    flex-direction: row
-    justify-content: space-between
-
 /* Pause Menu */
 #pauseMenu
   background-color: rgba(5, 5, 5, 0.5)
@@ -67,8 +11,9 @@ select, input[type="text"], input[type="number"], button
   align-items: center
   overflow: hidden
 
-  select, input[type="text"], input[type="number"]
+  select, input[type="text"], input[type="number"], button
     width: 12rem
+    font-family: Pixeloid, serif
 
   button
     color: white

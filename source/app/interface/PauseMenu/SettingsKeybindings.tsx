@@ -1,5 +1,5 @@
 import React from "react"
-import { Menus } from "../PauseMenu"
+import { Menus } from "./PauseMenu"
 
 // const keys = element('keybindingsContainer')
 // keys?.replaceChildren()

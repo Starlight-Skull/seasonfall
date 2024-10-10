@@ -2,6 +2,8 @@ import React from 'react'
 import DebugTools from './DebugTools'
 import DebugWeather from './DebugWeather'
 
+import './DebugMenu.sass'
+
 interface Props {}
 
 export default function DebugMenu(props: Props) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { version } from '../../globals'
-import { Menus } from '../PauseMenu'
+import { Menus } from './PauseMenu'
 
 interface Props {
   setMenu: (menu: Menus) => void

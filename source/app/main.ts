@@ -3,10 +3,9 @@ import { initAssets } from './rendering/assets'
 import { settings, world, weather } from './globals'
 import { formatUnixTime, getFrameCount, handleMouseKeyEvent } from './helpers'
 import { drawMain, drawTextWithBackground } from './rendering/renderer'
-import initReact from './interface/Root'
+import initReact from './interface/App'
 import { ctx } from './interface/Canvas'
 
-import '../styles/index.sass'
 import worldJson from '../worlds/tower.world.json'
 
 
