@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { element } from '../helpers'
 import DebugMenu from './DebugMenu/DebugMenu'
@@ -6,40 +6,45 @@ import PauseMenu from './PauseMenu'
 import Canvas from './Canvas'
 import { world } from '../globals'
 
-
 export default function initReact() {
   const root = ReactDOM.createRoot(element('root')!)
-  root.render(<App />)
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )
 }
 
-class App extends Component {
-  state = {
-    debugMenuVisible: false,
-    pauseMenuVisible: false
-  }
+export function App() {
+  const [debugVisible, setDebug] = useState(false)
+  const [pauseVisible, setPause] = useState(true)
 
-  componentDidMount() {
-    window.addEventListener('keydown', e => {
-      if (e.code === 'Backquote') {
-        this.setState({ debugMenuVisible: !this.state.debugMenuVisible })
+  useEffect(() => {
+    const handleKeydown = (ev: KeyboardEvent) => {
+      if (ev.code === 'Backquote') {
+        setDebug(!debugVisible)
       }
-      if (e.code === 'Escape') {
-        this.setState({ pauseMenuVisible: !this.state.pauseMenuVisible })
+      if (ev.code === 'Escape') {
+        setPause(!pauseVisible)
       }
-    })
+    }
+    window.addEventListener('keydown', handleKeydown)
+    return () => window.removeEventListener('keydown', handleKeydown)
+  })
+
+  useEffect(() => {
+    world.paused = debugVisible || pauseVisible
+  })
+
+  function togglePause() {
+    setPause(!pauseVisible)
   }
 
-  componentDidUpdate() {
-    world.paused = this.state.debugMenuVisible || this.state.pauseMenuVisible
-  }
-
-  render() {
-    return (
-      <React.StrictMode>
-        { this.state.debugMenuVisible && <DebugMenu /> }
-        { this.state.pauseMenuVisible && <PauseMenu /> }
-        <Canvas />
-      </React.StrictMode>
-    )
-  }
+  return (
+    <>
+      {debugVisible && <DebugMenu />}
+      {pauseVisible ? <PauseMenu close={togglePause} /> : <button onClick={() => togglePause()}>Pause</button>}
+      <Canvas />
+    </>
+  )
 }

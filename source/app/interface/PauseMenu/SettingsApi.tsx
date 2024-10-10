@@ -6,16 +6,14 @@ import { Menus } from "../PauseMenu"
 interface Props {
   setMenu: (menu: Menus) => void
 }
-interface State {}
 
-export default class SettingsApi extends Component<Props, State> {
-  render() {
-    return (
-      <section id="settingsApi">
+export default function SettingsApi(props: Props) {
+  return (
+    <section id="settingsApi">
       <div className="menuHeader menuHeaderMulti three">
-        <button onClick={() => this.props.setMenu(Menus.settingsGeneral)}     data-menu="settingsGeneral">General</button>
-        <button onClick={() => this.props.setMenu(Menus.settingsApi)}         className="active">API</button>
-        <button onClick={() => this.props.setMenu(Menus.settingsKeybindings)} data-menu="settingsKeybindings">Keybindings</button>
+        <button onClick={() => props.setMenu(Menus.settingsGeneral)}     data-menu="settingsGeneral">General</button>
+        <button onClick={() => props.setMenu(Menus.settingsApi)}         className="active">API</button>
+        <button onClick={() => props.setMenu(Menus.settingsKeybindings)} data-menu="settingsKeybindings">Keybindings</button>
       </div>
       <div className="menuContent">
         <div>
@@ -58,9 +56,8 @@ export default class SettingsApi extends Component<Props, State> {
         </div>
       </div>
       <div className="menuFooter">
-        <button onClick={() => this.props.setMenu(Menus.pause)} data-menu="pause" data-action="saveSettings">Back</button>
+        <button onClick={() => props.setMenu(Menus.pause)} data-menu="pause" data-action="saveSettings">Back</button>
       </div>
     </section>
-    )
-  }
+  )
 }

@@ -1,5 +1,5 @@
 import React, {
-  Component,
+  useState,
   type FormEvent,
   type HTMLInputTypeAttribute
 } from 'react'
@@ -10,33 +10,26 @@ interface Props {
   value: string
   onChange?: (value: string) => void
 }
-interface State {
-  value: string
-}
 
-export default class InputString extends Component<Props, State> {
-  state = {
-    value: this.props.value
-  }
+export default function InputString(props: Props) {
+  const [value, setValue] = useState(props.value)
 
-  onInput(event: FormEvent) {
+  function handleChange(event: FormEvent) {
     const element = event.target as HTMLInputElement
-    this.setState({ value: element.value })
-    if (this.props.onChange) {
-      this.props.onChange(element.value)
+    setValue(element.value)
+    if (props.onChange) {
+      props.onChange(element.value)
     }
   }
 
-  render() {
-    return (
-      <label>
-        {this.props.label}
-        <input
-          onChange={(e) => this.onInput(e)}
-          value={this.state.value}
-          type={this.props.type ?? 'text'}
-        />
-      </label>
-    )
-  }
+  return (
+    <label>
+      {props.label}
+      <input
+        onChange={handleChange}
+        value={value}
+        type={props.type ?? 'text'}
+      />
+    </label>
+  )
 }

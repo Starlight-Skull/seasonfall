@@ -1,17 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import DebugTools from './DebugTools'
 import DebugWeather from './DebugWeather'
 
+interface Props {}
 
-export default class DebugMenu extends Component {
-  render() {
-    return (
-      <div id="debugMenu">
-        <DebugTools />
-        <DebugWeather />
-      </div>
-    )
-  }
-
-  style: React.CSSProperties = {}
+export default function DebugMenu(props: Props) {
+  return (
+    <div id="debugMenu">
+      <DebugTools />
+      <DebugWeather />
+    </div>
+  )
 }

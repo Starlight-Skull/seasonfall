@@ -1,31 +1,30 @@
-import React, { Component, createRef, type RefObject, type CSSProperties } from "react"
-
+import React, { createRef, useEffect, useState, type RefObject } from 'react'
 
 export let ctx: CanvasRenderingContext2D | undefined
 
-export default class Canvas extends Component {
-  canvasRef: RefObject<HTMLCanvasElement> = createRef()
+interface Props {}
 
-  state = {
-    width: window.innerWidth,
-    height: window.innerHeight
-  }
+export default function Canvas(props: Props) {
+  const canvasRef: RefObject<HTMLCanvasElement> = createRef()
+  const [width, setWidth] = useState(window.innerWidth)
+  const [height, setHeight] = useState(window.innerHeight)
 
-  componentDidMount(): void {
-    if (this.canvasRef.current) {
-      ctx = this.canvasRef.current.getContext('2d') ?? undefined
-
-      window.addEventListener('resize', (e) => {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
-      })
+  useEffect(() => {
+    if (canvasRef.current) {
+      ctx = canvasRef.current.getContext('2d') ?? undefined
+      console.log('once');
     }
-  }
+  }, [])
 
-  render() {
-    return (
-      <canvas id="screen" ref={this.canvasRef} width={this.state.width} height={this.state.height} />
-    )
-  }
+  useEffect(() => {
+    const handleResize = (ev: UIEvent) => {
+      setWidth(window.innerWidth)
+      setHeight(window.innerHeight)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  })
 
-  style: CSSProperties = {}
+
+  return <canvas id="screen" ref={canvasRef} width={width} height={height} />
 }

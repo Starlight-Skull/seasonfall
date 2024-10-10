@@ -1,64 +1,61 @@
-import React, { Component } from "react"
-import { settings } from "../globals"
-import { toStorage } from "../helpers"
-import Pause from "./PauseMenu/Pause"
-import Load from "./PauseMenu/Load"
-import New from "./PauseMenu/New"
-import SettingsGeneral from "./PauseMenu/SettingsGeneral"
-import SettingsApi from "./PauseMenu/SettingsApi"
-import SettingsKeybindings from "./PauseMenu/SettingsKeybindings"
-import Stats from "./PauseMenu/Stats"
+import React, { useEffect, useState } from 'react'
+import { settings } from '../globals'
+import { toStorage } from '../helpers'
+import Pause from './PauseMenu/Pause'
+import Load from './PauseMenu/Load'
+import New from './PauseMenu/New'
+import SettingsGeneral from './PauseMenu/SettingsGeneral'
+import SettingsApi from './PauseMenu/SettingsApi'
+import SettingsKeybindings from './PauseMenu/SettingsKeybindings'
+import Stats from './PauseMenu/Stats'
 
 /**
  * Saves most settings from the global settings to storage.
  */
-function saveSettings (): void {
-  // keybindings are saved automatically
-  toStorage('settings', settings)
+// function saveSettings (): void {
+//   // keybindings are saved automatically
+//   toStorage('settings', settings)
+// }
+
+export enum Menus {
+  pause,
+  load,
+  new,
+  settingsGeneral,
+  settingsApi,
+  settingsKeybindings,
+  stats
 }
 
-interface Props {}
-interface State {
-  currentMenu: Menus
+interface Props {
+  close: () => void
 }
 
-export enum Menus { pause, load, new, settingsGeneral, settingsApi, settingsKeybindings, stats }
+export default function PauseMenu(props: Props) {
+  const [currentMenu, setCurrentMenu] = useState(Menus.pause)
 
-export default class PauseMenu extends Component {
-  state: State = {
-    currentMenu: Menus.pause
-  }
+  useEffect(() => {
+    console.log(currentMenu)
+  })
 
-  setMenu(currentMenu: Menus) {
-    this.setState({ currentMenu })
-  }
-
-  getMenu() {
-    switch(this.state.currentMenu) {
+  function getMenu() {
+    switch (currentMenu) {
       case Menus.pause:
-        return <Pause setMenu={(menu) => this.setMenu(menu)} />
+        return <Pause setMenu={setCurrentMenu} close={props.close} />
       case Menus.load:
-        return <Load setMenu={(menu) => this.setMenu(menu)} />
+        return <Load setMenu={setCurrentMenu} />
       case Menus.new:
-        return <New setMenu={(menu) => this.setMenu(menu)} />
+        return <New setMenu={setCurrentMenu} />
       case Menus.settingsGeneral:
-        return <SettingsGeneral setMenu={(menu) => this.setMenu(menu)} />
+        return <SettingsGeneral setMenu={setCurrentMenu} />
       case Menus.settingsApi:
-        return <SettingsApi setMenu={(menu) => this.setMenu(menu)} />
+        return <SettingsApi setMenu={setCurrentMenu} />
       case Menus.settingsKeybindings:
-        return <SettingsKeybindings setMenu={(menu) => this.setMenu(menu)} />
+        return <SettingsKeybindings setMenu={setCurrentMenu} />
       case Menus.stats:
-        return <Stats setMenu={(menu) => this.setMenu(menu)} />
+        return <Stats setMenu={setCurrentMenu} />
     }
   }
 
-  render() {
-    return (
-      <div id="pauseMenu">
-        {this.getMenu()}
-      </div>
-    )
-  }
-
-  style: React.CSSProperties = {}
+  return <div id="pauseMenu">{getMenu()}</div>
 }

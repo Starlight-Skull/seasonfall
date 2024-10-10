@@ -1,16 +1,13 @@
-import React, { Component } from "react"
-import { Menus } from "../PauseMenu"
-
+import React from 'react'
+import { Menus } from '../PauseMenu'
 
 interface Props {
   setMenu: (menu: Menus) => void
 }
-interface State {}
 
-export default class New extends Component<Props, State> {
-  render() {
-    return (
-      <section id="new">
+export default function New(props: Props) {
+  return (
+    <section id="new">
       <div className="menuHeader">
         <h3>New Character</h3>
       </div>
@@ -25,10 +22,11 @@ export default class New extends Component<Props, State> {
         </div>
       </div>
       <div className="menuFooter">
-        <button onClick={() => this.props.setMenu(Menus.pause)} data-menu="pause">Cancel</button>
+        <button onClick={() => props.setMenu(Menus.pause)} data-menu="pause">
+          Cancel
+        </button>
         <button data-action="create">Create</button>
       </div>
     </section>
-    )
-  }
+  )
 }
