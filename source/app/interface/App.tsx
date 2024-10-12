@@ -6,7 +6,7 @@ import PauseMenu from './PauseMenu/PauseMenu'
 import Canvas from './Canvas'
 import { world } from '../globals'
 
-import '../../styles/index.sass'
+import './App.scss'
 
 export default function initReact() {
   const root = ReactDOM.createRoot(element('root')!)

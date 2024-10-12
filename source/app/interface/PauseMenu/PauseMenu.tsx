@@ -9,7 +9,7 @@ import SettingsApi from './SettingsApi'
 import SettingsKeybindings from './SettingsKeybindings'
 import Stats from './Stats'
 
-import './PauseMenu.sass'
+import './PauseMenu.scss'
 
 /**
  * Saves most settings from the global settings to storage.
