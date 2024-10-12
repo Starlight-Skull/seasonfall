@@ -1,0 +1,35 @@
+@font-face {
+  font-family: PixeloidMono;
+  src: url('../../font/PixeloidMono.ttf');
+}
+
+@font-face {
+  font-family: Pixeloid;
+  src: url('../../font/PixeloidSans.ttf');
+}
+
+@font-face {
+  font-family: PixeloidBold;
+  src: url('../../font/PixeloidSansBold.ttf');
+}
+
+/* font */
+$font: Pixeloid, sans-serif;
+$font-mono: PixeloidMono, monospace;
+$font-bold: PixeloidBold, serif;
+
+/* color text */
+$col-text: #fff;
+$col-text-disabled: #444;
+$col-text-hover: #0ff;
+$col-text-debug: $col-text;
+$col-text-pause: #5555ff;
+
+/* color background */
+$col-bg-debug: rgba(105, 105, 105, 0.9);
+$col-bg-pause: rgba(5, 5, 5, 0.5);
+$col-bg-pause-sub: #000;
+
+/* color border */
+$col-border-debug: #000;
+$col-border-pause: #fff;

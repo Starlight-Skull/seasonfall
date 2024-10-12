@@ -71,9 +71,9 @@ export const world = {
  * @enum {string}
  */
 export const fonts = Object.freeze({
-  Pixeloid: 'Pixeloid',
-  PixeloidMono: 'PixeloidMono',
-  PixeloidBold: 'PixeloidBold'
+  Pixeloid: 'Pixeloid, sans-serif',
+  PixeloidMono: 'PixeloidMono, monospace',
+  PixeloidBold: 'PixeloidBold, serif'
 })
 
 export const UI = {

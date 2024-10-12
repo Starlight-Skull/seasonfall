@@ -1,26 +1,34 @@
-/* Debug Menu */
-#debugMenu
-  background-color: rgba(105, 105, 105, 0.9)
-  color: white
-  position: absolute
-  left: 0
-  top: 0
-  z-index: 200
-  display: flex
-  flex-direction: row
+@import '../Vars.scss';
 
-  section
-    flex-direction: column
-    justify-content: left
-    padding: .5rem
-    min-width: 20vw
-    border: 1px solid black
+#debugMenu {
+  background-color: $col-bg-debug;
+  color: $col-text-debug;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: row;
 
-  div, label
-    display: flex
-    flex-direction: row
-    justify-content: space-between
+  section {
+    flex-direction: column;
+    justify-content: left;
+    padding: 0.5rem;
+    min-width: 20vw;
+    border: 1px solid $col-border-debug;
+  }
 
-  select, input[type="text"], input[type="number"], button
-    width: 10vw
-    font-family: Pixeloid, serif
+  div,
+  label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  select,
+  input[type='text'],
+  input[type='number'],
+  button {
+    width: 10vw;
+  }
+}

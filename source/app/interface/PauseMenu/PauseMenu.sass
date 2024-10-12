@@ -1,105 +1,134 @@
-/* Pause Menu */
-#pauseMenu
-  background-color: rgba(5, 5, 5, 0.5)
-  color: blue
-  position: absolute
-  width: 100vw
-  height: 100vh
-  z-index: 100
-  display: flex
-  justify-content: center
-  align-items: center
-  overflow: hidden
+@import '../Vars.scss';
 
-  select, input[type="text"], input[type="number"], button
-    width: 12rem
-    font-family: Pixeloid, serif
+#pauseMenu {
+  background-color: $col-bg-pause;
+  color: $col-text-pause;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  line-height: normal;
 
-  button
-    color: white
-    background-color: transparent
-    font-size: 130%
+  select,
+  input[type='text'],
+  input[type='number'],
+  button {
+    width: 12rem;
+  }
 
-  button:hover
-    font-family: PixeloidBold, serif
-    color: cyan
+  button {
+    color: $col-text;
+    background-color: transparent;
+    // font-size: 130%;
 
-  button:disabled
-    color: #444444
+    &:hover {
+      font-family: $font-bold;
+      color: $col-text-hover;
+    }
 
-  section
-    background-color: #000000
-    border: 5px solid #ffffff
-    border-radius: 1rem
-    width: 30vw
-    height: 50vh
-    display: flex
-    flex-direction: column
-    align-items: center
-    justify-content: space-between
+    &:disabled {
+      color: $col-text-disabled;
+    }
+  }
 
-  .menuHeader, .menuContent, .menuFooter
-    width: 30vw
-    display: flex
-    height: 5vh
+  section {
+    background-color: $col-bg-pause-sub;
+    border: 5px solid $col-border-pause;
+    border-radius: 1rem;
+    width: 30vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-  .menuHeader
-    border-bottom: 3px solid white
-    justify-content: center
-    margin: 0
+  .menuHeader,
+  .menuContent,
+  .menuFooter {
+    width: 30vw;
+    display: flex;
+    height: 5vh;
+  }
 
-    button
-      border-top: none
-      border-left: none
-      border-right: 3px solid white
-      border-bottom: 3px solid white
+  .menuHeader {
+    border-bottom: 3px solid $col-border-pause;
+    justify-content: center;
+    margin: 0;
 
-    button.active, button:active
-      border-bottom: none
+    button {
+      border-top: none;
+      border-left: none;
+      border-right: 3px solid $col-border-pause;
+      border-bottom: 3px solid $col-border-pause;
 
-    .three button, .three h3
-      width: 10vw
+      &.active,
+      &:active {
+        border-bottom: none;
+      }
+    }
 
-    .two button, .two h3
-      width: 15vw
-      text-align: center
+    .three button,
+    .three h3 {
+      width: 10vw;
+    }
 
-  .menuHeaderMulti
-    justify-content: space-evenly
-    border: none
+    .two button,
+    .two h3 {
+      width: 15vw;
+      text-align: center;
+    }
+  }
 
-  .menuContent
-    flex-direction: column
-    justify-content: left
-    align-items: center
-    height: 35vh
+  .menuHeaderMulti {
+    justify-content: space-evenly;
+    border: none;
+  }
 
-    button
-      width: initial
+  .menuContent {
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+    height: 35vh;
 
-    div
-      width: 28vw
-      padding: 1rem
-      display: flex
-      flex-direction: row
-      justify-content: space-between
+    button {
+      width: initial;
+    }
 
-  #pause .menuContent button
-    margin: 0.6rem
-    font-size: 130%
-    border: none
+    div {
+      width: 28vw;
+      padding: 1rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
 
-  .menuVersion
-    font-size: 80%
-    width: 28vw
-    display: flex
-    justify-content: right
+  #pause .menuContent button {
+    margin: 0.6rem;
+    font-size: 130%;
+    border: none;
+  }
 
-  .menuFooter
-    border-top: 3px solid white
-    display: flex
-    flex-direction: row
-    justify-content: space-between
+  .menuVersion {
+    font-size: 80%;
+    width: 28vw;
+    display: flex;
+    justify-content: right;
+  }
 
-    button
-      border: none
+  .menuFooter {
+    border-top: 3px solid $col-border-pause;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    button {
+      border: none;
+    }
+  }
+}

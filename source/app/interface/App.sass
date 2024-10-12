@@ -1,27 +1,24 @@
-@font-face
-  font-family: PixeloidMono
-  src: url("../font/PixeloidMono.ttf")
+@import './Vars.scss';
+@import './Reset.scss';
 
-@font-face
-  font-family: Pixeloid
-  src: url("../font/PixeloidSans.ttf")
+html,
+body {
+  font-family: $font;
+  background-image: url('../../textures/background.png');
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
 
-@font-face
-  font-family: PixeloidBold
-  src: url("../font/PixeloidSansBold.ttf")
+h1,
+h2,
+h3,
+h4 {
+  font-family: $font-bold;
+}
 
-/* General */
-html, body
-  font-family: Pixeloid, serif
-  background-image: url("../textures/background.png")
-  overflow: hidden
-  margin: 0
-  padding: 0
-  width: 100vw
-  height: 100vh
-
-h1, h2, h3, h4
-  font-family: PixeloidBold, serif
-
-noscript
-  color: white
+noscript {
+  color: $col-text;
+}
