@@ -1,0 +1,19 @@
+#Settings {
+  .MenuContent {
+    div,
+    label {
+      min-width: inherit;
+      padding: 1rem 2rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    select,
+    input[type='text'],
+    input[type='number'],
+    button {
+      width: 10vw;
+    }
+  }
+}

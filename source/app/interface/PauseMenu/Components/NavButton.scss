@@ -1,0 +1,16 @@
+@import '../../Vars.scss';
+
+.NavButton {
+  color: $col-text;
+  background-color: transparent;
+  border: none;
+
+  &:hover, &:focus {
+    // font-family: $font-bold;
+    color: $col-text-hover;
+  }
+
+  &:disabled {
+    color: $col-text-disabled;
+  }
+}

@@ -45,7 +45,7 @@ export function App() {
   return (
     <>
       {debugVisible && <DebugMenu />}
-      {pauseVisible ?? <PauseMenu close={togglePause} />}
+      {pauseVisible && <PauseMenu close={togglePause} />}
       <Canvas />
     </>
   )

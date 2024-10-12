@@ -12,12 +12,11 @@ export default function Canvas(props: Props) {
   useEffect(() => {
     if (canvasRef.current) {
       ctx = canvasRef.current.getContext('2d') ?? undefined
-      console.log('once');
     }
   }, [])
 
   useEffect(() => {
-    const handleResize = (ev: UIEvent) => {
+    const handleResize = () => {
       setWidth(window.innerWidth)
       setHeight(window.innerHeight)
     }

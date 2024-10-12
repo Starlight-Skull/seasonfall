@@ -1,5 +1,9 @@
 import React from 'react'
 import { Menus } from './PauseMenu'
+import MenuHeader from './Components/MenuHeader'
+import MenuContent from './Components/MenuContent'
+import MenuContainer from './Components/MenuContainer'
+import MenuFooter from './Components/MenuFooter'
 
 interface Props {
   setMenu: (menu: Menus) => void
@@ -7,17 +11,15 @@ interface Props {
 
 export default function Load(props: Props) {
   return (
-    <section id="load">
-      <div className="menuHeader">
-        <h3>Load Game</h3>
-      </div>
-      <div className="menuContent"></div>
-      <div className="menuFooter">
-        <button onClick={() => props.setMenu(Menus.pause)} data-menu="pause">
-          Cancel
-        </button>
-        <button data-action="load">Load</button>
-      </div>
-    </section>
+    <MenuContainer id="Load">
+      <MenuHeader>Load Game</MenuHeader>
+      <MenuContent></MenuContent>
+      <MenuFooter
+        nav={{
+          Cancel: () => props.setMenu(Menus.pause),
+          Load: () => {}
+        }}
+      />
+    </MenuContainer>
   )
 }

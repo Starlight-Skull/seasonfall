@@ -1,63 +1,77 @@
-import React, { Component } from "react"
-import { settings } from "../../globals"
-import { Menus } from "./PauseMenu"
+import React, { Component, useState } from 'react'
+import { settings } from '../../globals'
+import { Menus } from './PauseMenu'
+import MenuHeader from './Components/MenuHeader'
+import MenuContent from './Components/MenuContent'
+import MenuContainer from './Components/MenuContainer'
+import MenuFooter from './Components/MenuFooter'
 
+import './Settings.scss'
+import InputString from '../Components/InputString'
+import InputNumber from '../Components/InputNumber'
 
 interface Props {
   setMenu: (menu: Menus) => void
 }
 
 export default function SettingsApi(props: Props) {
+  const [location, setLocation] = useState('')
+
   return (
-    <section id="settingsApi">
-      <div className="menuHeader menuHeaderMulti three">
-        <button onClick={() => props.setMenu(Menus.settingsGeneral)}     data-menu="settingsGeneral">General</button>
-        <button onClick={() => props.setMenu(Menus.settingsApi)}         className="active">API</button>
-        <button onClick={() => props.setMenu(Menus.settingsKeybindings)} data-menu="settingsKeybindings">Keybindings</button>
-      </div>
-      <div className="menuContent">
+    <MenuContainer id="Settings">
+      <MenuHeader
+        nav={{
+          General: Menus.settingsGeneral,
+          API: Menus.settingsApi,
+          Keybindings: Menus.settingsKeybindings
+        }}
+        active={1}
+        setMenu={props.setMenu}
+      />
+      <MenuContent>
         <div>
-          <p>
-            <a href="https://openweathermap.org" target="_blank">
-              openweathermap.org
-            </a>
-          </p>
+          <a href="https://openweathermap.org" target="_blank">
+            openweathermap.org
+          </a>
         </div>
+        <InputString
+          label="API Key"
+          value={settings.api.key}
+          onChange={(val) => (settings.api.key = val)}
+        />
+        <InputNumber
+          label="Latitude"
+          value={settings.api.latitude}
+          onChange={(val) => (settings.api.latitude = val)}
+        />
+        <InputNumber
+          label="Longitude"
+          value={settings.api.longitude}
+          onChange={(val) => (settings.api.longitude = val)}
+        />
         <div>
-          <label htmlFor="apiKey">API Key</label>
-          <input onInput={(e) => settings.api.key = (e.target as HTMLInputElement).value} value={settings.api.key} type="text" id="apiKey" />
+          <button>Use Current Location</button>
         </div>
+        <InputString
+          label="Location"
+          value={location}
+          onChange={(val) => setLocation(val)}
+        />
         <div>
-          <label htmlFor="lat">Coordinates</label>
-          <input onInput={(e) => settings.api.latitude = parseFloat((e.target as HTMLInputElement).value ?? 0)} value={settings.api.latitude} type="text" title="Latitude" id="lat" placeholder="lat" />
-          <input onInput={(e) => settings.api.longitude = parseFloat((e.target as HTMLInputElement).value ?? 0)} value={settings.api.longitude} type="text" title="Longitude" id="lon" placeholder="lon" />
+          <button>Search</button>
+          <select id="searchResults"></select>
         </div>
-        <div>
-          <button data-action="navigator">Use Current Location</button>
-        </div>
-        <div>
-          <button data-action="search">Search</button>
-          <input
-            type="text"
-            title="Location"
-            id="location"
-            placeholder="Location"
-          />
-          <select
-            data-action="selectResult"
-            title="Search Results"
-            name="searchResults"
-            id="searchResults"
-          ></select>
-        </div>
-        <div>
-          <label htmlFor="interval">Interval (s)</label>
-          <input onInput={(e) => settings.api.interval = parseInt((e.target as HTMLInputElement).value ?? 0)} value={settings.api.interval} type="number" id="interval" />
-        </div>
-      </div>
-      <div className="menuFooter">
-        <button onClick={() => props.setMenu(Menus.pause)} data-menu="pause" data-action="saveSettings">Back</button>
-      </div>
-    </section>
+        <InputNumber
+          label="Interval (s)"
+          value={settings.api.interval}
+          onChange={(val) => (settings.api.interval = val)}
+        />
+      </MenuContent>
+      <MenuFooter
+        nav={{
+          Back: () => props.setMenu(Menus.pause)
+        }}
+      />
+    </MenuContainer>
   )
 }

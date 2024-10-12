@@ -1,0 +1,12 @@
+@import '../../Vars.scss';
+
+.MenuFooter {
+  min-width: inherit;
+  height: 5vh;
+  padding: 0.5rem;
+  display: flex;
+  border-top: 2px solid $col-border-pause;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

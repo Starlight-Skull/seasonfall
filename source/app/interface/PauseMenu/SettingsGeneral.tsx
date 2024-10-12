@@ -1,9 +1,14 @@
-import React from "react"
-import { settings } from "../../globals"
-import InputBoolean from "../Components/InputBoolean"
-import InputNumber from "../Components/InputNumber"
-import { Menus } from "./PauseMenu"
+import React from 'react'
+import { settings } from '../../globals'
+import InputBoolean from '../Components/InputBoolean'
+import InputNumber from '../Components/InputNumber'
+import { Menus } from './PauseMenu'
+import MenuHeader from './Components/MenuHeader'
+import MenuContent from './Components/MenuContent'
+import MenuContainer from './Components/MenuContainer'
+import MenuFooter from './Components/MenuFooter'
 
+import './Settings.scss'
 
 interface Props {
   setMenu: (menu: Menus) => void
@@ -11,19 +16,34 @@ interface Props {
 
 export default function SettingsGeneral(props: Props) {
   return (
-    <section id="settingsGeneral">
-      <div className="menuHeader menuHeaderMulti three">
-        <button onClick={() => props.setMenu(Menus.settingsGeneral)}     className="active">General</button>
-        <button onClick={() => props.setMenu(Menus.settingsApi)}         data-menu="settingsApi">API</button>
-        <button onClick={() => props.setMenu(Menus.settingsKeybindings)} data-menu="settingsKeybindings">Keybindings</button>
-      </div>
-      <div className="menuContent">
-        <InputBoolean label="Show FPS" value={settings.showFPS} onChange={val => settings.showFPS = val} />
-        <InputNumber label="" value={settings.scale} onChange={val => settings.scale = val} min={1} />
-      </div>
-      <div className="menuFooter">
-        <button onClick={() => props.setMenu(Menus.pause)} data-menu="pause" data-action="saveSettings">Back</button>
-      </div>
-    </section>
+    <MenuContainer id="Settings">
+      <MenuHeader
+        nav={{
+          General: Menus.settingsGeneral,
+          API: Menus.settingsApi,
+          Keybindings: Menus.settingsKeybindings
+        }}
+        active={0}
+        setMenu={props.setMenu}
+      />
+      <MenuContent>
+        <InputBoolean
+          label="Show FPS"
+          value={settings.showFPS}
+          onChange={(val) => (settings.showFPS = val)}
+        />
+        <InputNumber
+          label="Scale Factor"
+          value={settings.scale}
+          onChange={(val) => (settings.scale = val)}
+          min={1}
+        />
+      </MenuContent>
+      <MenuFooter
+        nav={{
+          Back: () => props.setMenu(Menus.pause)
+        }}
+      />
+    </MenuContainer>
   )
 }

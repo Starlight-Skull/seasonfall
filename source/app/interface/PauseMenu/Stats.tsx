@@ -1,15 +1,12 @@
 import React from 'react'
 import { Menus } from './PauseMenu'
-import { player } from '../../globals'
+import { player, playerStats } from '../../globals'
+import MenuHeader from './Components/MenuHeader'
+import MenuContent from './Components/MenuContent'
+import MenuContainer from './Components/MenuContainer'
+import MenuFooter from './Components/MenuFooter'
 
-// ;(element('nameStats') as HTMLElement).innerText = `Statistics (${player.name})`
-// const stats = element('statsContainer')
-// stats?.replaceChildren()
-// for (const playerStatsKey in playerStats) {
-//   const statItem = document.createElement('p')
-//   statItem.textContent = `${playerStatsKey}: ${playerStats[playerStatsKey].toString()}`
-//   stats?.appendChild(statItem)
-// }
+import './Stats.scss'
 
 interface Props {
   setMenu: (menu: Menus) => void
@@ -17,16 +14,23 @@ interface Props {
 
 export default function Stats(props: Props) {
   return (
-    <section id="stats">
-      <div className="menuHeader">
-        <h3 id="nameStats">Statistics ({player.heroName})</h3>
-      </div>
-      <div id="statsContainer" className="menuContent"></div>
-      <div className="menuFooter">
-        <button onClick={() => props.setMenu(Menus.pause)} data-menu="pause">
-          Back
-        </button>
-      </div>
-    </section>
+    <MenuContainer id="Stats">
+      <MenuHeader>Statistics (<i>{player.heroName}</i>)</MenuHeader>
+      <MenuContent>
+        <ul>
+          <li>Time Taken: {playerStats.timeTaken}</li>
+          <li>Kills: {playerStats.kills}</li>
+          <li>Attacks: {playerStats.attacks}</li>
+          <li>Attacks Hit: {playerStats.attacksHit}</li>
+          <li>Damage Taken: {playerStats.damageTaken}</li>
+          <li>Damage Dealt: {playerStats.damageDealt}</li>
+        </ul>
+      </MenuContent>
+      <MenuFooter
+        nav={{
+          Back: () => props.setMenu(Menus.pause)
+        }}
+      />
+    </MenuContainer>
   )
 }

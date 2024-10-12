@@ -1,6 +1,12 @@
 import React from 'react'
 import { version } from '../../globals'
 import { Menus } from './PauseMenu'
+import MenuHeader from './Components/MenuHeader'
+import NavButton from './Components/NavButton'
+import MenuContent from './Components/MenuContent'
+import MenuContainer from './Components/MenuContainer'
+
+import './Pause.scss'
 
 interface Props {
   setMenu: (menu: Menus) => void
@@ -8,36 +14,24 @@ interface Props {
 }
 
 export default function Pause(props: Props) {
+  function setMenu(menu: Menus) {
+    return () => props.setMenu(menu)
+  }
+
   return (
-    <section id="pause">
-      <div className="menuHeader">
-        <h3 id="pauseTitle">Paused</h3>
-      </div>
-      <div className="menuContent">
-        <button onClick={() => props.close()} data-action="continue">Continue</button>
-        <button disabled data-action="save">
-          Save
-        </button>
-        <button onClick={() => props.setMenu(Menus.load)} data-menu="load">
+    <MenuContainer id="Pause">
+      <MenuHeader>Paused</MenuHeader>
+      <MenuContent>
+        <NavButton onClick={() => props.close()}>Continue</NavButton>
+        <NavButton>Save</NavButton>
+        <NavButton disabled onClick={setMenu(Menus.load)}>
           Load
-        </button>
-        <button onClick={() => props.setMenu(Menus.new)} data-menu="new">
-          New
-        </button>
-        <button
-          onClick={() => props.setMenu(Menus.settingsGeneral)}
-          data-menu="settingsGeneral"
-        >
-          Settings
-        </button>
-        <button onClick={() => props.setMenu(Menus.stats)} data-menu="stats">
-          Statistics
-        </button>
-        <button onClick={() => window.close()} data-action="quit">Save & Quit</button>
-      </div>
-      <div className="menuVersion">
-        <p>{version}</p>
-      </div>
-    </section>
+        </NavButton>
+        {/* <NavButton onClick={setMenu(Menus.new)}>New</NavButton> */}
+        <NavButton onClick={setMenu(Menus.settingsGeneral)}>Settings</NavButton>
+        <NavButton onClick={setMenu(Menus.stats)}>Statistics</NavButton>
+      </MenuContent>
+      <span className="Version">{version}</span>
+    </MenuContainer>
   )
 }

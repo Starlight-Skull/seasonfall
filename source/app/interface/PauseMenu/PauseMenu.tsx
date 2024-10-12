@@ -34,11 +34,7 @@ interface Props {
 }
 
 export default function PauseMenu(props: Props) {
-  const [currentMenu, setCurrentMenu] = useState(Menus.pause)
-
-  useEffect(() => {
-    console.log(currentMenu)
-  })
+  const [currentMenu, setCurrentMenu] = useState(Menus.settingsGeneral)
 
   function getMenu() {
     switch (currentMenu) {
@@ -59,5 +55,5 @@ export default function PauseMenu(props: Props) {
     }
   }
 
-  return <div id="pauseMenu">{getMenu()}</div>
+  return <div id="PauseMenu">{getMenu()}</div>
 }

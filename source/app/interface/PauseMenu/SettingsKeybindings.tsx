@@ -1,5 +1,11 @@
 import React from "react"
 import { Menus } from "./PauseMenu"
+import MenuHeader from "./Components/MenuHeader"
+import MenuContent from "./Components/MenuContent"
+import MenuContainer from "./Components/MenuContainer"
+import MenuFooter from "./Components/MenuFooter"
+
+import './Settings.scss'
 
 // const keys = element('keybindingsContainer')
 // keys?.replaceChildren()
@@ -22,16 +28,18 @@ interface Props {
 
 export default function SettingsKeybindings(props: Props) {
   return (
-    <section id="settingsKeybindings">
-      <div className="menuHeader menuHeaderMulti three">
-        <button onClick={() => props.setMenu(Menus.settingsGeneral)}     data-menu="settingsGeneral">General</button>
-        <button onClick={() => props.setMenu(Menus.settingsApi)}         data-menu="settingsApi">API</button>
-        <button onClick={() => props.setMenu(Menus.settingsKeybindings)} className="active">Keybindings</button>
-      </div>
-      <div id="keybindingsContainer" className="menuContent"></div>
-      <div className="menuFooter">
-        <button onClick={() => props.setMenu(Menus.pause)} data-menu="pause" data-action="saveSettings">Back</button>
-      </div>
-    </section>
+    <MenuContainer>
+      <MenuHeader
+        nav={{ General: Menus.settingsGeneral, API: Menus.settingsApi, Keybindings: Menus.settingsKeybindings }}
+        active={2}
+        setMenu={props.setMenu}
+      />
+      <MenuContent></MenuContent>
+      <MenuFooter
+        nav={{
+          Back: () => props.setMenu(Menus.pause)
+        }}
+      />
+    </MenuContainer>
   )
 }
