@@ -11,15 +11,6 @@ export function element (id: string): HTMLElement | null {
 }
 
 /**
- * Shorthand for document.getElementById(). Cast to HTMLInputElement.
- * @param id - The ID of the element to locate.
- * @returns The matching element.
- */
-export function inputElement (id: string): HTMLInputElement | null {
-  return document.getElementById(id) as HTMLInputElement
-}
-
-/**
  * Function to download data to a file
  * @param data
  * @param filename

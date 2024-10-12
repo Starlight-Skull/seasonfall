@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { settings } from '../../globals'
 import { Menus } from './PauseMenu'
 import MenuHeader from './Components/MenuHeader'

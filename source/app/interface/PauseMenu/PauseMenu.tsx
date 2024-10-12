@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { settings } from '../../globals'
-import { toStorage } from '../../helpers'
+import React, { useState } from 'react'
 import Pause from './Pause'
 import Load from './Load'
 import New from './New'
@@ -10,14 +8,6 @@ import SettingsKeybindings from './SettingsKeybindings'
 import Stats from './Stats'
 
 import './PauseMenu.scss'
-
-/**
- * Saves most settings from the global settings to storage.
- */
-// function saveSettings (): void {
-//   // keybindings are saved automatically
-//   toStorage('settings', settings)
-// }
 
 export enum Menus {
   pause,
@@ -34,7 +24,7 @@ interface Props {
 }
 
 export default function PauseMenu(props: Props) {
-  const [currentMenu, setCurrentMenu] = useState(Menus.settingsGeneral)
+  const [currentMenu, setCurrentMenu] = useState(Menus.pause)
 
   function getMenu() {
     switch (currentMenu) {

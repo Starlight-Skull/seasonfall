@@ -1,40 +1,76 @@
-import React from "react"
-import { Menus } from "./PauseMenu"
-import MenuHeader from "./Components/MenuHeader"
-import MenuContent from "./Components/MenuContent"
-import MenuContainer from "./Components/MenuContainer"
-import MenuFooter from "./Components/MenuFooter"
+import React, { useEffect, useState } from 'react'
+import { Menus } from './PauseMenu'
+import MenuHeader from './Components/MenuHeader'
+import MenuContent from './Components/MenuContent'
+import MenuContainer from './Components/MenuContainer'
+import MenuFooter from './Components/MenuFooter'
+import { settings } from '../../globals'
 
 import './Settings.scss'
-
-// const keys = element('keybindingsContainer')
-// keys?.replaceChildren()
-// for (const key in settings.keybindings) {
-//   const div = document.createElement('div')
-//   const label = document.createElement('label')
-//   label.textContent = key
-//   div.appendChild(label)
-//   const button = document.createElement('button')
-//   button.dataset.action = 'changeKey'
-//   button.dataset.key = key
-//   button.textContent = settings.keybindings[key]
-//   div.appendChild(button)
-//   keys?.appendChild(div)
-// }
 
 interface Props {
   setMenu: (menu: Menus) => void
 }
 
 export default function SettingsKeybindings(props: Props) {
+  const [listening, setListening] = useState(false)
+  const [action, setAction] = useState('')
+
+  function changeKey(key: string) {
+    setAction(key)
+    setListening(true)
+  }
+
+  useEffect(() => {
+    const handleKeyboardEvent = (event: KeyboardEvent) => {
+      settings.keybindings[action] = event.code
+      setListening(false)
+      setAction('')
+    }
+    if (listening && action !== '')
+      window.addEventListener('keydown', handleKeyboardEvent)
+    return () => window.removeEventListener('keydown', handleKeyboardEvent)
+  })
+
+  useEffect(() => {
+    const handleMouseEvent = (event: MouseEvent) => {
+      settings.keybindings[action] = `Mouse${event.button}`
+      setListening(false)
+      setAction('')
+    }
+    if (listening && action !== '')
+      window.addEventListener('mousedown', handleMouseEvent)
+    return () => window.removeEventListener('mousedown', handleMouseEvent)
+  })
+
   return (
-    <MenuContainer>
+    <MenuContainer id="Settings">
       <MenuHeader
-        nav={{ General: Menus.settingsGeneral, API: Menus.settingsApi, Keybindings: Menus.settingsKeybindings }}
+        nav={{
+          General: Menus.settingsGeneral,
+          API: Menus.settingsApi,
+          Keybindings: Menus.settingsKeybindings
+        }}
         active={2}
         setMenu={props.setMenu}
       />
-      <MenuContent></MenuContent>
+      <MenuContent>
+        {listening && (
+          <div className="Blackout">
+            Press any key or button for: ({action})
+          </div>
+        )}
+        {Object.entries(settings.keybindings).map((element, i) => {
+          return (
+            <label key={i}>
+              {element[0]}
+              <button onClick={() => changeKey(element[0])}>
+                {element[1]}
+              </button>
+            </label>
+          )
+        })}
+      </MenuContent>
       <MenuFooter
         nav={{
           Back: () => props.setMenu(Menus.pause)

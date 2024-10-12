@@ -1,5 +1,6 @@
 import React from 'react'
-import { version } from '../../globals'
+import { settings, version } from '../../globals'
+import { toStorage } from '../../helpers'
 import { Menus } from './PauseMenu'
 import MenuHeader from './Components/MenuHeader'
 import NavButton from './Components/NavButton'
@@ -23,13 +24,13 @@ export default function Pause(props: Props) {
       <MenuHeader>Paused</MenuHeader>
       <MenuContent>
         <NavButton onClick={() => props.close()}>Continue</NavButton>
-        <NavButton>Save</NavButton>
         <NavButton disabled onClick={setMenu(Menus.load)}>
           Load
         </NavButton>
         {/* <NavButton onClick={setMenu(Menus.new)}>New</NavButton> */}
         <NavButton onClick={setMenu(Menus.settingsGeneral)}>Settings</NavButton>
         <NavButton onClick={setMenu(Menus.stats)}>Statistics</NavButton>
+        <NavButton onClick={() => toStorage('settings', settings)}>Save</NavButton>
       </MenuContent>
       <span className="Version">{version}</span>
     </MenuContainer>
