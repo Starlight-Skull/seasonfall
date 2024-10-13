@@ -80,7 +80,7 @@ export const UI = {
   fontSize: 25,
   fontStyle: fonts.Pixeloid,
   get font () { return `${this.fontSize}px ${this.fontStyle}` },
-  getFont (size: number, style?: string) { return `${size ?? this.fontSize}px ${style ?? this.fontStyle}` }
+  getFont (options?: {size?: number, style?: string}) { return `${options?.size ?? this.fontSize}px ${options?.style ?? this.fontStyle}` }
 }
 
 interface Weather {

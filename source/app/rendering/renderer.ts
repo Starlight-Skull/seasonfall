@@ -113,16 +113,16 @@ function grid (value: number): number {
  * @param y - Absolute Y coordinate.
  * @param options - Text options.
  */
-export function drawTextWithBackground (ctx: CanvasRenderingContext2D, text: string, x: number, y: number, options?: { color?: string, font?: string, center?: boolean }): void {
-  const { color, font, center } = options ?? {}
+export function drawTextWithBackground (ctx: CanvasRenderingContext2D, text: string, x: number, y: number, options?: { color?: string, size?: number, style?: string, center?: boolean }): void {
+  const { color, center, size, style } = options ?? {}
   const pad = 5
   ctx.textBaseline = 'top'
-  ctx.font = font ?? UI.font
+  ctx.font = UI.getFont({ size, style })
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
-  if (center ?? false) x -= ctx.measureText(text).width / 2 - pad
-  ctx.fillRect(x, y, ctx.measureText(text).width + pad * 2, UI.fontSize + pad)
+  if (center ?? false) x -= ctx.measureText(text).width / 2
+  ctx.fillRect(x, y, ctx.measureText(text).width + pad, (size ?? UI.fontSize) + pad)
   ctx.fillStyle = color ?? 'rgb(255,255,255)'
-  ctx.fillText(text, x + pad, y + pad)
+  ctx.fillText(text, x + pad / 2, y + pad / 2)
 }
 
 /**
@@ -219,7 +219,7 @@ function drawEntity (ctx: CanvasRenderingContext2D, entity: Entity): void {
     }
   })
   if (world.showLiveDebug) {
-    drawTextWithBackground(ctx, `${(entity.x.toFixed(1))},${entity.y.toFixed(1)}`, grid(entity.x), grid(entity.y), { font: UI.getFont(15), color: 'rgb(250,0,250)' })
+    drawTextWithBackground(ctx, `${(entity.x.toFixed(1))},${entity.y.toFixed(1)}`, grid(entity.x), grid(entity.y), { size: 15, color: 'rgb(250,0,250)' })
   }
 }
 

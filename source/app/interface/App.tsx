@@ -7,6 +7,8 @@ import Canvas from './Canvas'
 import { world } from '../globals'
 
 import './App.scss'
+import icon from '../../icons/icon.svg'
+import NavButton from './PauseMenu/Components/NavButton'
 
 export default function initReact() {
   const root = ReactDOM.createRoot(element('root')!)
@@ -44,9 +46,10 @@ export function App() {
 
   return (
     <>
+      <Canvas />
       {debugVisible && <DebugMenu />}
       {pauseVisible && <PauseMenu close={togglePause} />}
-      <Canvas />
+      <NavButton id='MenuToggle' onClick={() => togglePause()}><img src={icon} width={50} height={50} /></NavButton>
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { initData } from './logic/data'
 import { initAssets } from './rendering/assets'
-import { settings, world, weather } from './globals'
+import { settings, world, weather, fonts } from './globals'
 import { formatUnixTime, getFrameCount, handleMouseKeyEvent } from './helpers'
 import { drawMain, drawTextWithBackground } from './rendering/renderer'
 import initReact from './interface/App'
@@ -35,7 +35,7 @@ window.addEventListener('load', () => {
     if (ctx !== undefined) {
       if (!world.paused) drawMain(ctx)
       world.frames++
-      if (settings.showFPS) drawTextWithBackground(ctx, `FPS: ${world.fps}`, window.innerWidth - 150, 20, { color: 'rgb(0,255,0)' })
+      if (settings.showFPS) drawTextWithBackground(ctx, `${world.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: fonts.PixeloidMono })
     }
     requestAnimationFrame(game)
   }
