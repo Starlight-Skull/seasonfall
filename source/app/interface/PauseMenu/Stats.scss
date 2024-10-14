@@ -1,0 +1,17 @@
+@import '../Vars.scss';
+
+#Stats {
+  i {
+    color: $col-text-hover;
+  }
+
+  ul {
+    align-self: flex-start;
+
+    li {
+      line-height: 1.5;
+      font-size: 130%;
+      color: $col-text;
+    }
+  }
+}

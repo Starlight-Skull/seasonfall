@@ -1,0 +1,14 @@
+@import '../../Vars.scss';
+
+.MenuContainer {
+  background-color: $col-bg-pause-sub;
+  border: 5px solid $col-border-pause;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 500px;
+  max-width: 80vw;
+  max-height: 80vh;
+}

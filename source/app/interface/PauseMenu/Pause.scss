@@ -1,0 +1,21 @@
+#Pause {
+  .MenuContent {
+    padding: 0;
+
+    :first-child {
+      margin-top: 2rem;
+    }
+  }
+
+  .NavButton {
+    font-size: 130%;
+    padding: 0.5rem;
+  }
+
+  .Version {
+    align-self: flex-end;
+    font-size: 80%;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+  }
+}

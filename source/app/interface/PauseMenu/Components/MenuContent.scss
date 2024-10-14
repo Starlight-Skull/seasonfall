@@ -1,0 +1,11 @@
+.MenuContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+  max-height: 50vh;
+  flex-grow: 1;
+  overflow-y: scroll;
+  min-width: inherit;
+  height: 500px;
+}

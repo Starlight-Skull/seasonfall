@@ -1,6 +1,5 @@
 import { type Entity } from './classes/Entity'
 import { player, playerStats, settings, world } from './globals'
-import { openDebugMenu, openPauseMenu } from './interface/menu'
 
 /**
  * Shorthand for document.getElementById().
@@ -9,15 +8,6 @@ import { openDebugMenu, openPauseMenu } from './interface/menu'
  */
 export function element (id: string): HTMLElement | null {
   return document.getElementById(id)
-}
-
-/**
- * Shorthand for document.getElementById(). Cast to HTMLInputElement.
- * @param id - The ID of the element to locate.
- * @returns The matching element.
- */
-export function inputElement (id: string): HTMLInputElement | null {
-  return document.getElementById(id) as HTMLInputElement
 }
 
 /**
@@ -89,12 +79,6 @@ export function handleMouseKeyEvent (key: string, down: boolean): void {
       break
     case settings.keybindings.use:
       if (!world.paused) player.movement.use = down
-      break
-    case 'Backquote':
-      if (down) openDebugMenu()
-      break
-    case 'Escape':
-      if (down) openPauseMenu()
       break
   }
 }

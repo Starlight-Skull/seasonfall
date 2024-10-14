@@ -1,0 +1,16 @@
+@import '../Vars.scss';
+
+#PauseMenu {
+  background-color: $col-bg-pause;
+  color: $col-text-pause;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  line-height: normal;
+}

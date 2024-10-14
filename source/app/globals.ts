@@ -9,7 +9,7 @@ interface Settings {
   scale: number
   showFPS: boolean
   api: {
-    [key: string]: string | number
+    enabled: boolean
     key: string
     latitude: number
     longitude: number
@@ -30,6 +30,7 @@ export const settings: Settings = {
   scale: 5,
   showFPS: false,
   api: {
+    enabled: false,
     key: '',
     latitude: 0,
     longitude: 0,
@@ -58,7 +59,11 @@ export const world = {
   showLiveDebug: false,
   showPlayerStats: false,
   debug: '',
-  get grid () { return settings.scale * PIXELS_PER_TILE }
+  get grid () {
+    // !!! scale must be a positive number or everything breaks => (x / 0 == Infinity) !!!
+    if (settings.scale === null || settings.scale === undefined || settings.scale <= 0 || typeof settings.scale !== 'number') settings.scale = 5
+    return settings.scale * PIXELS_PER_TILE
+  }
 }
 
 /**
@@ -67,16 +72,16 @@ export const world = {
  * @enum {string}
  */
 export const fonts = Object.freeze({
-  Pixeloid: 'Pixeloid',
-  PixeloidMono: 'PixeloidMono',
-  PixeloidBold: 'PixeloidBold'
+  Pixeloid: 'Pixeloid, sans-serif',
+  PixeloidMono: 'PixeloidMono, monospace',
+  PixeloidBold: 'PixeloidBold, serif'
 })
 
 export const UI = {
   fontSize: 25,
   fontStyle: fonts.Pixeloid,
   get font () { return `${this.fontSize}px ${this.fontStyle}` },
-  getFont (size: number, style?: string) { return `${size ?? this.fontSize}px ${style ?? this.fontStyle}` }
+  getFont (options?: {size?: number, style?: string}) { return `${options?.size ?? this.fontSize}px ${options?.style ?? this.fontStyle}` }
 }
 
 interface Weather {
