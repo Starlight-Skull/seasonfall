@@ -9,7 +9,7 @@ interface Settings {
   scale: number
   showFPS: boolean
   api: {
-    [key: string]: string | number
+    enabled: boolean
     key: string
     latitude: number
     longitude: number
@@ -30,6 +30,7 @@ export const settings: Settings = {
   scale: 5,
   showFPS: false,
   api: {
+    enabled: false,
     key: '',
     latitude: 0,
     longitude: 0,

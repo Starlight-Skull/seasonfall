@@ -19,17 +19,20 @@ $font-mono: PixeloidMono, monospace;
 $font-bold: PixeloidBold, serif;
 
 /* color text */
-$col-text: #fff;
+$col-text: #d1d1d1;
 $col-text-disabled: #444;
+$col-text-active: rgb(74, 184, 248);
 $col-text-hover: #0ff;
 $col-text-debug: $col-text;
-$col-text-pause: #5555ff;
+$col-text-pause: $col-text;
 
 /* color background */
 $col-bg-debug: rgba(105, 105, 105, 0.9);
 $col-bg-pause: rgba(5, 5, 5, 0.5);
 $col-bg-pause-sub: #000;
+$col-bg-input: #575757;
 
 /* color border */
 $col-border-debug: #000;
-$col-border-pause: #fff;
+$col-border-pause: #a5a4a4;
+$col-border-input: #a5a4a4;

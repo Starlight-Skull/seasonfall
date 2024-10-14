@@ -57,15 +57,15 @@ export default function SettingsKeybindings(props: Props) {
       <MenuContent>
         {listening && (
           <div className="Blackout">
-            Press any key or button for: ({action})
+            Press any key or button for: (<b>{upperCaseFirst(action)}</b>)
           </div>
         )}
         {Object.entries(settings.keybindings).map((element, i) => {
           return (
             <label key={i}>
-              {element[0]}
+              {upperCaseFirst(element[0])}
               <button onClick={() => changeKey(element[0])}>
-                {element[1]}
+                {element[1].replace('Key', '').replace('Mouse', 'Mouse ')}
               </button>
             </label>
           )
@@ -78,4 +78,8 @@ export default function SettingsKeybindings(props: Props) {
       />
     </MenuContainer>
   )
+}
+
+function upperCaseFirst(text: string): string {
+  return text[0].toUpperCase() + text.slice(1)
 }

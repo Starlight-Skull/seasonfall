@@ -19,6 +19,21 @@ h4 {
   font-family: $font-bold;
 }
 
+input, select, option, button {
+  background-color: $col-bg-input;
+  border-color: $col-border-input;
+  color: $col-text;
+}
+
+button {
+  border-style: outset;
+  border-radius: 5px;
+
+  &:hover, &:focus {
+    background-color: $col-border-input;
+  }
+}
+
 noscript {
   color: $col-text;
 }

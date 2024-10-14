@@ -20,7 +20,7 @@ export default function InputBoolean(props: Props) {
   return (
     <label>
       {props.label}
-      <input onChange={handleChange} checked={value} type="checkbox" />
+      <input onChange={handleChange} value={`${value}`} checked={value} type="checkbox" />
     </label>
   )
 }

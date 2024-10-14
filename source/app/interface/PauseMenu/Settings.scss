@@ -2,18 +2,44 @@
 
 #Settings {
   .MenuContent {
-    label {
-      min-width: inherit;
-      padding: 0 2rem;
+    a {
+      color: $col-text-active;
+
+      &:hover {
+        color: $col-text-hover;
+      }
+    }
+
+    button, input[type='text'], input[type='number'], select {
+      min-width: 5rem;
+    }
+
+    b {
+      color: $col-text-hover;
+    }
+
+    i {
+      color: $col-text-disabled;
+    }
+
+    label, .row {
+      padding: 0.5rem 2rem;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      gap: 1rem;
+
+      label {
+        padding: 0;
+      }
+
+      select {
+        width: 100%;
+      }
     }
 
-    select,
-    input[type='text'],
-    input[type='number'] {
-      width: 10vw;
+    .left {
+      align-self: flex-end;
     }
 
     .Blackout {
