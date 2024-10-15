@@ -32,8 +32,8 @@ export class Animatable {
     }
   }
 
-  changeAnimation(animation: SpriteSet) {
-    if (this.animation !== animation) {
+  changeAnimation(animation?: SpriteSet) {
+    if (this.animation !== animation && animation !== undefined) {
       this.animationFrame = 0
       this.animation = animation
     }
