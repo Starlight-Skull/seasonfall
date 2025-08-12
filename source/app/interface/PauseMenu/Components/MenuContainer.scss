@@ -1,8 +1,8 @@
-@import '../../Vars.scss';
+@use '../../Vars.scss';
 
 .MenuContainer {
-  background-color: $col-bg-pause-sub;
-  border: 5px solid $col-border-pause;
+  background-color: Vars.$col-bg-pause-sub;
+  border: 5px solid Vars.$col-border-pause;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;

@@ -1,8 +1,8 @@
-@import '../Vars.scss';
+@use '../Vars.scss';
 
 #Stats {
   i {
-    color: $col-text-hover;
+    color: Vars.$col-text-hover;
   }
 
   ul {
@@ -11,7 +11,7 @@
     li {
       line-height: 1.5;
       font-size: 130%;
-      color: $col-text;
+      color: Vars.$col-text;
     }
   }
 }

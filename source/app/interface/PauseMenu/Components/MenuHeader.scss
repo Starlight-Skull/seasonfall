@@ -1,4 +1,4 @@
-@import '../../Vars.scss';
+@use '../../Vars.scss';
 
 .MenuHeader {
   min-width: inherit;
@@ -9,16 +9,16 @@
     flex-grow: 1;
     padding: 0.5rem;
     text-align: center;
-    border-bottom: 2px solid $col-border-pause;
+    border-bottom: 2px solid Vars.$col-border-pause;
     border-radius: 0;
   }
 
   .NavButton:disabled {
     border-bottom: none;
-    color: $col-text-pause;
+    color: Vars.$col-text-pause;
   }
 
   .NavButton + .NavButton, h3 + .NavButton, .NavButton + h3 {
-    border-left: 2px solid $col-border-pause;
+    border-left: 2px solid Vars.$col-border-pause;
   }
 }

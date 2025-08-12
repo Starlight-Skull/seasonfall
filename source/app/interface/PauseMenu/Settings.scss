@@ -1,12 +1,12 @@
-@import '../Vars.scss';
+@use '../Vars.scss';
 
 #Settings {
   .MenuContent {
     a {
-      color: $col-text-active;
+      color: Vars.$col-text-active;
 
       &:hover {
-        color: $col-text-hover;
+        color: Vars.$col-text-hover;
       }
     }
 
@@ -15,11 +15,11 @@
     }
 
     b {
-      color: $col-text-hover;
+      color: Vars.$col-text-hover;
     }
 
     i {
-      color: $col-text-disabled;
+      color: Vars.$col-text-disabled;
     }
 
     label, .row {
@@ -43,9 +43,9 @@
     }
 
     .Blackout {
-      background-color: $col-bg-pause;
-      color: $col-text;
-      font-family: $font-bold;
+      background-color: Vars.$col-bg-pause;
+      color: Vars.$col-text;
+      font-family: Vars.$font-bold;
       font-size: x-large;
       position: absolute;
       width: 100vw;

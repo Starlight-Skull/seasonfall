@@ -1,9 +1,9 @@
-@import './Vars.scss';
-@import './Reset.scss';
+@use 'Vars.scss';
+@use 'Reset.scss';
 
 html,
 body {
-  font-family: $font;
+  font-family: Vars.$font;
   background-image: url('../../textures/background.png');
   overflow: hidden;
   margin: 0;
@@ -16,13 +16,13 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: $font-bold;
+  font-family: Vars.$font-bold;
 }
 
 input, select, option, button {
-  background-color: $col-bg-input;
-  border-color: $col-border-input;
-  color: $col-text;
+  background-color: Vars.$col-bg-input;
+  border-color: Vars.$col-border-input;
+  color: Vars.$col-text;
 }
 
 button {
@@ -30,12 +30,12 @@ button {
   border-radius: 5px;
 
   &:hover, &:focus {
-    background-color: $col-border-input;
+    background-color: Vars.$col-border-input;
   }
 }
 
 noscript {
-  color: $col-text;
+  color: Vars.$col-text;
 }
 
 #MenuToggle {
