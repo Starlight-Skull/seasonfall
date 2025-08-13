@@ -1,6 +1,19 @@
 import { PIXELS_PER_TILE } from '../globals'
 import { textures, loadImage } from '../data/textures'
 
+interface Options {
+  animName?: string
+  x?: number
+  y?: number
+  w?: number
+  h?: number
+  frames?: number
+  speed?: number
+  hitboxWidth?: number
+  hitboxHeight?: number
+  offsetX?: number
+  offsetY?: number
+}
 
 export class SpriteSet {
   name: string
@@ -16,10 +29,24 @@ export class SpriteSet {
   offsetX: number
   offsetY: number
 
-  get image (): HTMLImageElement { return loadImage(this.imagePath) }
+  get image(): HTMLImageElement {
+    return loadImage(this.imagePath)
+  }
 
-  constructor (imageName: string, options?: { animName?: string, x?: number, y?: number, w?: number, h?: number, frames?: number, speed?: number, hitboxWidth?: number, hitboxHeight?: number, offsetX?: number, offsetY?: number }) {
-    const { animName = 'default', x = 0, y = 0, w = PIXELS_PER_TILE, h = PIXELS_PER_TILE, frames = 1, speed = 0, hitboxWidth, hitboxHeight, offsetX = 0, offsetY = 0 } = options ?? {}
+  constructor(imageName: string, options?: Options) {
+    const {
+      animName = 'default',
+      x = 0,
+      y = 0,
+      w = PIXELS_PER_TILE,
+      h = PIXELS_PER_TILE,
+      frames = 1,
+      speed = 0,
+      hitboxWidth,
+      hitboxHeight,
+      offsetX = 0,
+      offsetY = 0
+    } = options ?? {}
     this.x = x
     this.y = y
     this.imagePath = textures[imageName]

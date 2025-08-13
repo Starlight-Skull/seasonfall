@@ -1,5 +1,12 @@
 import { UI } from '../globals'
 
+interface Options {
+  color?: string
+  size?: number
+  style?: string
+  center?: boolean
+}
+
 /**
  * Draws text at a specified location with optional color and font.
  * @param text - Text to draw.
@@ -7,7 +14,7 @@ import { UI } from '../globals'
  * @param y - Absolute Y coordinate.
  * @param options - Text options.
  */
-export function drawText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, options?: { color?: string; size?: number; style?: string; center?: boolean} ): void {
+export function drawText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, options?: Options ): void {
   const { color, center, size, style } = options ?? {}
   const pad = 5
   ctx.textBaseline = 'top'

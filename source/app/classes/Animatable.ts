@@ -1,5 +1,12 @@
 import { SpriteSet } from './SpiteSet'
 
+interface Options {
+  width?: number
+  height?: number
+  mirrored?: boolean
+  animWidth?: number
+  animHeight?: number
+}
 
 export class Animatable {
   name: string
@@ -13,7 +20,7 @@ export class Animatable {
   get width (): number { return this.animation.hitboxWidth ?? this.defaultWidth }
   get height (): number { return this.animation.hitboxHeight ?? this.defaultHeight }
 
-  constructor (name: string, options?: { width?: number, height?: number, mirrored?: boolean, animWidth?: number, animHeight?: number }) {
+  constructor (name: string, options?: Options) {
     const { width = 1, height = 1, mirrored = false } = options ?? {}
     this.name = name
     this.defaultWidth = width

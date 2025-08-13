@@ -1,5 +1,12 @@
 import { Animatable } from './Animatable'
 
+interface Options {
+  collision?: Collision
+  rotation?: number
+  width?: number
+  height?: number
+  mirrored?: boolean
+}
 
 /**
  * @enum values all, top, none
@@ -11,7 +18,7 @@ export class Tile extends Animatable {
   rotation: number
   activator: boolean
 
-  constructor (name: string, options?: { collision?: Collision, rotation?: number, width?: number, height?: number, mirrored?: boolean }) {
+  constructor (name: string, options?: Options) {
     const { collision = Collision.all, rotation = 0, width, height, mirrored } = options ?? {}
     super(name, { width, height, mirrored })
     this.collision = collision
