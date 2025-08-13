@@ -1,4 +1,4 @@
-import { Animatable } from './Animatable'
+import Animatable from "./Animatable"
 
 interface Options {
   collision?: Collision
@@ -13,7 +13,7 @@ interface Options {
  */
 export enum Collision { all, top, partial, none }
 
-export class Tile extends Animatable {
+export default class Tile extends Animatable {
   collision: Collision
   rotation: number
   activator: boolean

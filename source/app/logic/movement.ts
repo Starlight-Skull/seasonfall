@@ -1,4 +1,4 @@
-import { type Entity } from '../classes/Entity'
+import Entity from '../classes/Entity'
 import { weather } from '../globals'
 import collision from './collision'
 
@@ -43,7 +43,7 @@ function tick (entity: Entity): void {
   // }
 }
 
-export function entityMovement (entity: Entity): void {
+export default function entityMovement (entity: Entity): void {
   let dx = entity.x
   let dy = entity.y
   let loop = true

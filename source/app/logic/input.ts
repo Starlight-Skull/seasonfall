@@ -6,7 +6,7 @@ import { render } from '../rendering/common'
  * @param key - Can be 'KeyboardEvent.code' or 'Mouse + MouseEvent.button'.
  * @param down - Boolean of whether the event is up or down.
  */
-export function handleMouseKeyEvent(key: string, down: boolean): void {
+export default function handleMouseKeyEvent(key: string, down: boolean): void {
   switch (key) {
     case settings.keybindings.attack:
       if (!world.paused) player.movement.attack = down

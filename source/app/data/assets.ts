@@ -1,13 +1,12 @@
-import { Entity } from "../classes/Entity"
-import { Hero } from "../classes/Entity/Hero"
-import { Skeleton } from "../classes/Entity/Skeleton"
-import { Tile, Collision } from "../classes/Tile"
-import { Door } from "../classes/Tile/Door"
+import Entity from "../classes/Entity"
+import Hero from "../classes/Entity/Hero"
+import Skeleton from "../classes/Entity/Skeleton"
+import Tile, { Collision } from "../classes/Tile"
+import Door from "../classes/Tile/Door"
 import { level, world, player } from "../globals"
 import { isNotEmpty } from "../helpers"
 
-
-export interface World {
+interface World {
   $schema: string
   properties: {
     rootX: number
@@ -30,7 +29,7 @@ export interface World {
  * Parses data in the world file into Tile objects.
  * @param json - World data file.
  */
-export function initAssets(json: World): void {
+export default function initAssets(json: World): void {
   level.properties = json.properties
   world.focusX = level.properties.rootX
   world.focusY = level.properties.rootY
@@ -65,7 +64,7 @@ export function initAssets(json: World): void {
  * @param tile - Example: 'brick:m:r-90:c-none' will have { mirrored: true, rotation: 90, collision: Collision.none }
  * @param background - if true, tile will have Collision.none
  */
-export function toTile(tile: string, background = false): Tile | undefined {
+function toTile(tile: string, background = false): Tile | undefined {
   const options: any = {}
   const split = tile.split(':')
   options.name = split[0]
@@ -94,8 +93,11 @@ export function toTile(tile: string, background = false): Tile | undefined {
 
 /**
  * Convert a string to an Entity object.
+ * @param entity - entity name
+ * @param x
+ * @param y
  */
-export function toEntity(entity: string, x: number, y: number): Entity {
+function toEntity(entity: string, x: number, y: number): Entity {
   switch (entity) {
     case 'skeleton':
       return new Skeleton(x, y)

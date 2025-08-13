@@ -1,12 +1,12 @@
 import { level, player, playerStats, world } from '../globals'
-import { drawStats } from './entity'
-import { drawText } from './text'
+import drawStats from './entityStats'
+import drawText from './text'
 import { grid, render, saveRestore } from './common'
 
 /**
  * Draws UI overlay and floating entity stats.
  */
-export function drawUI(ctx: CanvasRenderingContext2D): void {
+export default function drawUI(ctx: CanvasRenderingContext2D): void {
   //* entity stats *//
   saveRestore(ctx, () => {
     ctx.translate(render.focusX, render.focusY)

@@ -1,4 +1,4 @@
-import { SpriteSet } from './SpiteSet'
+import SpriteSet from './SpiteSet'
 
 interface Options {
   width?: number
@@ -8,7 +8,7 @@ interface Options {
   animHeight?: number
 }
 
-export class Animatable {
+export default class Animatable {
   name: string
   defaultWidth: number
   defaultHeight: number

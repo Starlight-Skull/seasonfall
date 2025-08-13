@@ -14,7 +14,7 @@ interface Options {
  * @param y - Absolute Y coordinate.
  * @param options - Text options.
  */
-export function drawText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, options?: Options ): void {
+export default function drawText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, options?: Options ): void {
   const { color, center, size, style } = options ?? {}
   const pad = 5
   ctx.textBaseline = 'top'

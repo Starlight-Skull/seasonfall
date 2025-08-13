@@ -1,8 +1,8 @@
 import { world } from '../globals'
-import { drawWorld } from './world'
-import { drawText } from './text'
-import { drawUI } from './ui'
-import { drawSky } from './weather'
+import drawWorld from './world'
+import drawText from './text'
+import drawUI from './ui'
+import drawSky from './weather'
 import { grid, render, saveRestore } from './common'
 
 /**
@@ -18,7 +18,7 @@ onmousemove = (e: MouseEvent) => {
 /**
  * Main render loop.
  */
-export function drawMain(ctx: CanvasRenderingContext2D): void {
+export default function drawMain(ctx: CanvasRenderingContext2D): void {
   // has to be disabled so pixel art isn't blurry
   ctx.imageSmoothingEnabled = false
   drawSky(ctx)

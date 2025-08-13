@@ -1,4 +1,4 @@
-import type { Entity } from '../classes/Entity';
+import Entity from '../classes/Entity';
 import { Collision } from '../classes/Tile';
 import { level } from '../globals';
 

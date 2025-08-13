@@ -15,7 +15,7 @@ interface Options {
   offsetY?: number
 }
 
-export class SpriteSet {
+export default class SpriteSet {
   name: string
   imagePath: string
   x: number

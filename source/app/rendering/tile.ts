@@ -1,7 +1,7 @@
-import { type Tile, Collision } from '../classes/Tile'
+import Tile, { Collision } from '../classes/Tile'
 import { settings, world } from '../globals'
 import { grid, saveRestore } from './common'
-import { drawText } from './text'
+import drawText from './text'
 
 /**
  * Draws a given tile according to its properties.
@@ -9,7 +9,7 @@ import { drawText } from './text'
  * @param gridX - Relative Y coordinate.
  * @param tile - The tile to draw.
  */
-export function drawTile(ctx: CanvasRenderingContext2D, gridY: number, gridX: number, tile: Tile): void {
+export default function drawTile(ctx: CanvasRenderingContext2D, gridY: number, gridX: number, tile: Tile): void {
   let x = grid(gridX)
   let y = grid(gridY)
   let w = grid(tile.width)

@@ -15,7 +15,7 @@ const sky = Object.freeze({
 /**
  * Draws the background depending on the time
  */
-export function drawSky(ctx: CanvasRenderingContext2D): void {
+export default function drawSky(ctx: CanvasRenderingContext2D): void {
   let timeSet
   switch (true) {
     case (weather.time >= weather.sunrise - 50 && weather.time <= weather.sunrise + 50):

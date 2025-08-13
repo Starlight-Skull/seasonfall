@@ -1,13 +1,13 @@
 import { level, player, world } from '../globals'
-import { entityMovement } from '../logic/movement'
-import { drawEntity } from './entity'
+import entityMovement from '../logic/movement'
+import drawEntity from './entity'
 import { render } from './common'
-import { drawTile } from './tile'
+import drawTile from './tile'
 
 /**
  * Draws tiles and entities.
  */
-export function drawWorld(ctx: CanvasRenderingContext2D): void {
+export default function drawWorld(ctx: CanvasRenderingContext2D): void {
   //* tiles *//
   for (let y = render.minY; y < render.maxY; y++) {
     for (let x = render.minX; x < render.maxX; x++) {

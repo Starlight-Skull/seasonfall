@@ -1,4 +1,4 @@
-import { Animatable } from './Animatable'
+import Animatable from './Animatable'
 
 interface Options {
   maxHP?: number
@@ -12,7 +12,7 @@ interface Options {
    mirrored?: boolean
 }
 
-export class Entity extends Animatable {
+export default class Entity extends Animatable {
   x: number;
   y: number;
   cooldown: number;

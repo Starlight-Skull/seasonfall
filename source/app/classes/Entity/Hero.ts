@@ -1,7 +1,7 @@
-import { Entity } from '../Entity'
-import { SpriteSet } from '../SpiteSet'
+import Entity from '../Entity'
+import SpriteSet from '../SpiteSet'
 
-export class Hero extends Entity {
+export default class Hero extends Entity {
   heroName: string
   constructor (name = 'Player', x = 0, y = 0) {
     const hero = 'hero'
