@@ -24,12 +24,13 @@ export function drawEntity(ctx: CanvasRenderingContext2D, entity: Entity): void 
       animX *= -1
       animW *= -1
     }
+    // not-so-great fix for canvas2D inaccuracy
     ctx.drawImage(entity.animation.image,
-      entity.animation.x + (entity.animation.width * Math.floor(entity.animationFrame)),
-      entity.animation.y,
-      entity.animation.width,
-      entity.animation.height,
-      animX, animY, animW, animH)
+      entity.animation.x + entity.animation.width * Math.floor(entity.animationFrame) + 0.01,
+      entity.animation.y + 0.01,
+      entity.animation.width - 0.02,
+      entity.animation.height - 0.02,
+      animX, animY, animW + 1, animH + 1)
     if (world.showBoxes) {
       ctx.fillStyle = 'rgba(250,0,250,0.5)'
       ctx.strokeStyle = 'rgb(250,0,250)'

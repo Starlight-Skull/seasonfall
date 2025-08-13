@@ -32,13 +32,14 @@ export function drawTile(ctx: CanvasRenderingContext2D, gridY: number, gridX: nu
       animX = x
       animY = y
     }
+    // not-so-great fix for canvas2D inaccuracy
     ctx.drawImage(
       tile.animation.image,
-      tile.animation.x + tile.animation.width * Math.floor(tile.animationFrame),
-      tile.animation.y,
-      tile.animation.width,
-      tile.animation.height,
-      animX, animY, animW, animH)
+      tile.animation.x + tile.animation.width * Math.floor(tile.animationFrame) + 0.01,
+      tile.animation.y + 0.01,
+      tile.animation.width - 0.01,
+      tile.animation.height - 0.01,
+      animX, animY, animW + 1, animH + 1)
     if (world.showBoxes) {
       switch (tile.collision) {
         case Collision.none:
