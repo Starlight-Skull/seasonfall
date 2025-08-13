@@ -7,7 +7,7 @@ import Canvas from './Canvas'
 import { world } from '../globals'
 
 import './App.scss'
-import icon from '../../icons/icon.svg'
+import icon from '../../textures/icon.png'
 import NavButton from './PauseMenu/Components/NavButton'
 
 export default function initReact() {
