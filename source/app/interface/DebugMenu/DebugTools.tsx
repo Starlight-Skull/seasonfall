@@ -1,5 +1,6 @@
 import React from 'react'
-import { player, world } from '../../globals'
+import { player } from '../../globals'
+import { world } from '../../globals/world'
 import InputString from './../Components/InputString'
 import InputBoolean from './../Components/InputBoolean'
 import InputNumber from './../Components/InputNumber'

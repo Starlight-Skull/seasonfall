@@ -1,5 +1,5 @@
-import { type Entity } from './classes/Entity'
-import { player, playerStats, settings, world } from './globals'
+import { playerStats } from './globals/playerStats'
+import { world } from './globals/world'
 
 /**
  * Shorthand for document.getElementById().
@@ -56,34 +56,6 @@ export function toStorage (key: string, value: any): void {
 }
 
 /**
- * Receives the code of a mouse or key event and acts accordingly.
- * @param key - Can be 'KeyboardEvent.code' or 'Mouse + MouseEvent.button'.
- * @param down - Boolean of whether the event is up or down.
- */
-export function handleMouseKeyEvent (key: string, down: boolean): void {
-  switch (key) {
-    case settings.keybindings.attack:
-      if (!world.paused) player.movement.attack = down
-      break
-    case settings.keybindings.down:
-      if (!world.paused) player.movement.down = down
-      break
-    case settings.keybindings.left:
-      if (!world.paused) player.movement.left = down
-      break
-    case settings.keybindings.right:
-      if (!world.paused) player.movement.right = down
-      break
-    case settings.keybindings.jump:
-      if (!world.paused) player.movement.jump = down
-      break
-    case settings.keybindings.use:
-      if (!world.paused) player.movement.use = down
-      break
-  }
-}
-
-/**
  * Updates the FPS counter.
  */
 export function getFrameCount (): void {
@@ -108,14 +80,4 @@ export function isNotEmpty (value?: string): boolean {
 export function formatUnixTime (timestamp: number, timezone: number): number {
   const date = new Date((timestamp + timezone) * 1000)
   return date.getUTCHours() * 100 + date.getUTCMinutes()
-}
-
-export function hasCollision (entity: Entity, x: number, y: number, w: number, h: number): boolean {
-  return (
-    entity.x < x + w &&
-    entity.x + entity.width > x &&
-    entity.y < y + h &&
-    entity.y + entity.height > y &&
-    entity.collision.enabled
-  )
 }

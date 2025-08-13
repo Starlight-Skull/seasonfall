@@ -4,7 +4,7 @@ import MenuHeader from './Components/MenuHeader'
 import MenuContent from './Components/MenuContent'
 import MenuContainer from './Components/MenuContainer'
 import MenuFooter from './Components/MenuFooter'
-import { settings } from '../../globals'
+import { settings } from '../../globals/settings'
 
 import './Settings.scss'
 

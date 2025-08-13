@@ -38,6 +38,10 @@ noscript {
   color: Vars.$col-text;
 }
 
+img, canvas {
+  image-rendering: pixelated;
+}
+
 #MenuToggle {
   position: absolute;
   top: 1rem;

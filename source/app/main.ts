@@ -1,8 +1,13 @@
-import { initData } from './logic/data'
-import { initAssets } from './rendering/assets'
-import { settings, world, weather, fonts } from './globals'
-import { formatUnixTime, getFrameCount, handleMouseKeyEvent } from './helpers'
-import { drawMain, drawTextWithBackground } from './rendering/renderer'
+import { initData } from './data/data'
+import initAssets from './data/assets'
+import { world } from './globals/world'
+import { FONTS } from './globals/fonts'
+import { settings } from './globals/settings'
+import { weather } from './globals/weather'
+import { formatUnixTime, getFrameCount } from './helpers'
+import handleMouseKeyEvent from './logic/input'
+import drawMain from './rendering/main'
+import drawText from './rendering/text'
 import initReact from './interface/App'
 import { ctx } from './interface/Canvas'
 
@@ -10,20 +15,22 @@ import worldJson from '../worlds/tower.world.json'
 
 
 window.addEventListener('load', () => {
-  window.oncontextmenu = e => { return false }
+  window.oncontextmenu = () => { return false }
   window.addEventListener('mousedown', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, true) })
   window.addEventListener('mouseup', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, false) })
   window.addEventListener('keydown', ev => { handleMouseKeyEvent(ev.code, true) })
   window.addEventListener('keyup', ev => { handleMouseKeyEvent(ev.code, false) })
 
-  initAssets(worldJson)
-  initReact()
-  initData()
-
   //* debug options *//
   // player.hasCollision = false
   // world.showBoxes = true
   // world.showLiveDebug = true
+  // world.paused = false
+
+  initAssets(worldJson)
+  initReact()
+  initData()
+
   weather.time = formatUnixTime(Date.now() / 1000, 2 * 60 * 60)
 
   //* fps counter *//
@@ -35,7 +42,7 @@ window.addEventListener('load', () => {
     if (ctx !== undefined) {
       if (!world.paused) drawMain(ctx)
       world.frames++
-      if (settings.showFPS) drawTextWithBackground(ctx, `${world.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: fonts.PixeloidMono })
+      if (settings.showFPS) drawText(ctx, `${world.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: FONTS.PixeloidMono })
     }
     requestAnimationFrame(game)
   }

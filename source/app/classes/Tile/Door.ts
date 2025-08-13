@@ -1,8 +1,8 @@
-import { SpriteSet } from '../SpiteSet'
-import { Tile, Collision } from '../Tile'
+import SpriteSet from '../SpiteSet'
+import Tile, { Collision } from '../Tile'
 
 
-export class Door extends Tile {
+export default class Door extends Tile {
   isClosed: boolean
 
   constructor (isClosed = true, options?: { mirrored?: boolean }) {

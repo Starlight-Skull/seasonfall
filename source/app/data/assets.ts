@@ -1,13 +1,13 @@
-import { Entity } from "../classes/Entity"
-import { Hero } from "../classes/Entity/Hero"
-import { Skeleton } from "../classes/Entity/Skeleton"
-import { Tile, Collision } from "../classes/Tile"
-import { Door } from "../classes/Tile/Door"
-import { level, world, player } from "../globals"
+import Entity from "../classes/Entity"
+import Hero from "../classes/Entity/Hero"
+import Skeleton from "../classes/Entity/Skeleton"
+import Tile, { Collision } from "../classes/Tile"
+import Door from "../classes/Tile/Door"
+import { level, player } from "../globals"
+import { world } from '../globals/world'
 import { isNotEmpty } from "../helpers"
 
-
-export interface World {
+interface World {
   $schema: string
   properties: {
     rootX: number
@@ -30,7 +30,7 @@ export interface World {
  * Parses data in the world file into Tile objects.
  * @param json - World data file.
  */
-export function initAssets(json: World): void {
+export default function initAssets(json: World): void {
   level.properties = json.properties
   world.focusX = level.properties.rootX
   world.focusY = level.properties.rootY
@@ -65,7 +65,7 @@ export function initAssets(json: World): void {
  * @param tile - Example: 'brick:m:r-90:c-none' will have { mirrored: true, rotation: 90, collision: Collision.none }
  * @param background - if true, tile will have Collision.none
  */
-export function toTile(tile: string, background = false): Tile | undefined {
+function toTile(tile: string, background = false): Tile | undefined {
   const options: any = {}
   const split = tile.split(':')
   options.name = split[0]
@@ -73,10 +73,11 @@ export function toTile(tile: string, background = false): Tile | undefined {
   if (split.includes('r-90')) options.rotation = 90
   if (split.includes('r-180')) options.rotation = 180
   if (split.includes('r-270')) options.rotation = 270
-  if (split.includes('c-all')) options.collision = Collision.all
-  if (split.includes('c-top')) options.collision = Collision.top
-  if (split.includes('c-none')) options.collision = Collision.none
-  if (background) options.collision = Collision.none
+  if (!background) {
+    if (split.includes('c-all')) options.collision = Collision.all
+    if (split.includes('c-top')) options.collision = Collision.top
+    if (split.includes('c-none')) options.collision = Collision.none
+  } else options.collision = Collision.none
   switch (split[0]) {
     case 'door':
       return new Door(true, options)
@@ -93,8 +94,11 @@ export function toTile(tile: string, background = false): Tile | undefined {
 
 /**
  * Convert a string to an Entity object.
+ * @param entity - entity name
+ * @param x
+ * @param y
  */
-export function toEntity(entity: string, x: number, y: number): Entity {
+function toEntity(entity: string, x: number, y: number): Entity {
   switch (entity) {
     case 'skeleton':
       return new Skeleton(x, y)

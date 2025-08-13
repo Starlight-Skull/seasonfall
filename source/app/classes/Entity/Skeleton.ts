@@ -1,8 +1,8 @@
-import { Entity } from '../Entity'
-import { SpriteSet } from '../SpiteSet'
+import Entity from '../Entity'
+import SpriteSet from '../SpiteSet'
 
 
-export class Skeleton extends Entity {
+export default class Skeleton extends Entity {
   constructor (x: number, y: number) {
     const skeleton = 'skeleton'
     super (x, y, 'skeleton', { maxHP: 55, maxMP: 25, xp: 1, damage: 10, speed: 0.08, height: 1.95, width: 0.8 })

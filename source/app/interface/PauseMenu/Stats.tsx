@@ -1,6 +1,7 @@
 import React from 'react'
 import { Menus } from './PauseMenu'
-import { player, playerStats } from '../../globals'
+import { player } from '../../globals'
+import { playerStats } from '../../globals/playerStats'
 import MenuHeader from './Components/MenuHeader'
 import MenuContent from './Components/MenuContent'
 import MenuContainer from './Components/MenuContainer'
