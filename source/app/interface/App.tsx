@@ -21,7 +21,7 @@ export default function initReact() {
 
 export function App() {
   const [debugVisible, setDebug] = useState(false)
-  const [pauseVisible, setPause] = useState(true)
+  const [pauseVisible, setPause] = useState(world.paused)
 
   useEffect(() => {
     const handleKeydown = (ev: KeyboardEvent) => {
