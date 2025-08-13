@@ -3,7 +3,8 @@ import Hero from "../classes/Entity/Hero"
 import Skeleton from "../classes/Entity/Skeleton"
 import Tile, { Collision } from "../classes/Tile"
 import Door from "../classes/Tile/Door"
-import { level, world, player } from "../globals"
+import { level, player } from "../globals"
+import { world } from '../globals/world'
 import { isNotEmpty } from "../helpers"
 
 interface World {

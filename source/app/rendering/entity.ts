@@ -1,5 +1,6 @@
 import Entity from '../classes/Entity'
-import { settings, world } from '../globals'
+import { world } from '../globals/world'
+import { settings } from '../globals/settings'
 import drawText from './text'
 import { grid, saveRestore } from './common'
 

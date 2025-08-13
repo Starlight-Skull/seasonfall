@@ -4,7 +4,7 @@ import { element } from '../helpers'
 import DebugMenu from './DebugMenu/DebugMenu'
 import PauseMenu from './PauseMenu/PauseMenu'
 import Canvas from './Canvas'
-import { world } from '../globals'
+import { world } from '../globals/world'
 
 import './App.scss'
 import icon from '../../textures/icon.png'

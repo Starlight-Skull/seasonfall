@@ -1,4 +1,5 @@
-import { level, player, world } from '../globals'
+import { level, player } from '../globals'
+import { world } from '../globals/world'
 import entityMovement from '../logic/movement'
 import drawEntity from './entity'
 import { render } from './common'

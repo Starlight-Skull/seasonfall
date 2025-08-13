@@ -1,4 +1,4 @@
-import { world } from '../globals'
+import { world } from '../globals/world'
 
 /**
  * Saves render context and restores after executing script.

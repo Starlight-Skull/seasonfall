@@ -1,4 +1,6 @@
-import { level, player, playerStats, world } from '../globals'
+import { level, player } from '../globals'
+import { playerStats } from '../globals/playerStats'
+import { world } from '../globals/world'
 import drawStats from './entityStats'
 import drawText from './text'
 import { grid, render, saveRestore } from './common'

@@ -1,4 +1,6 @@
-import { world, player, settings } from '../globals'
+import { player } from '../globals'
+import { world } from '../globals/world'
+import { settings } from '../globals/settings'
 import { render } from '../rendering/common'
 
 /**

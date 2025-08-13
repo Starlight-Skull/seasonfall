@@ -1,4 +1,4 @@
-import { world } from '../globals'
+import { world } from '../globals/world'
 import drawWorld from './world'
 import drawText from './text'
 import drawUI from './ui'

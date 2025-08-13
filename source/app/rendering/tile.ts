@@ -1,5 +1,6 @@
 import Tile, { Collision } from '../classes/Tile'
-import { settings, world } from '../globals'
+import { world } from '../globals/world'
+import { settings } from '../globals/settings'
 import { grid, saveRestore } from './common'
 import drawText from './text'
 

@@ -1,6 +1,6 @@
 import type Entity from '../classes/Entity';
 import Hero from '../classes/Entity/Hero';
-import { world } from '../globals';
+import { world } from '../globals/world';
 import { grid } from './common';
 import drawText from './text';
 

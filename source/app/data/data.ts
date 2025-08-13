@@ -1,4 +1,5 @@
-import { settings, weather } from '../globals'
+import { settings } from '../globals/settings'
+import { weather } from '../globals/weather'
 import { formatUnixTime, fromStorage, isNotEmpty, toStorage } from '../helpers'
 
 export function initData(): void {

@@ -1,5 +1,5 @@
 import Entity from '../classes/Entity'
-import { weather } from '../globals'
+import { weather } from '../globals/weather'
 import collision from './collision'
 
 function tick (entity: Entity): void {
@@ -95,5 +95,3 @@ export default function entityMovement (entity: Entity): void {
   collision(entity, dx, dy)
   entity.nextFrame(loop)
 }
-
-

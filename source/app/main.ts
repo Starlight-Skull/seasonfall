@@ -1,6 +1,9 @@
 import { initData } from './data/data'
 import initAssets from './data/assets'
-import { settings, world, weather, fonts } from './globals'
+import { world } from './globals/world'
+import { FONTS } from './globals/fonts'
+import { settings } from './globals/settings'
+import { weather } from './globals/weather'
 import { formatUnixTime, getFrameCount } from './helpers'
 import handleMouseKeyEvent from './logic/input'
 import drawMain from './rendering/main'
@@ -22,7 +25,7 @@ window.addEventListener('load', () => {
   // player.hasCollision = false
   // world.showBoxes = true
   // world.showLiveDebug = true
-  world.paused = false
+  // world.paused = false
 
   initAssets(worldJson)
   initReact()
@@ -39,7 +42,7 @@ window.addEventListener('load', () => {
     if (ctx !== undefined) {
       if (!world.paused) drawMain(ctx)
       world.frames++
-      if (settings.showFPS) drawText(ctx, `${world.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: fonts.PixeloidMono })
+      if (settings.showFPS) drawText(ctx, `${world.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: FONTS.PixeloidMono })
     }
     requestAnimationFrame(game)
   }

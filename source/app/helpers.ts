@@ -1,4 +1,5 @@
-import { playerStats, world } from './globals'
+import { playerStats } from './globals/playerStats'
+import { world } from './globals/world'
 
 /**
  * Shorthand for document.getElementById().

@@ -1,4 +1,5 @@
-import { weather, world } from '../globals'
+import { world } from '../globals/world'
+import { weather } from '../globals/weather'
 
 /**
  * Constants for the color and shade of the sky.

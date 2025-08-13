@@ -1,5 +1,5 @@
 import React from 'react'
-import { settings } from '../../globals'
+import { settings } from '../../globals/settings'
 import InputBoolean from '../Components/InputBoolean'
 import InputNumber from '../Components/InputNumber'
 import { Menus } from './PauseMenu'

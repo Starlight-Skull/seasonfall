@@ -1,4 +1,4 @@
-import { PIXELS_PER_TILE } from '../globals'
+import { PIXELS_PER_TILE } from '../globals/world'
 import { textures, loadImage } from '../data/textures'
 
 interface Options {

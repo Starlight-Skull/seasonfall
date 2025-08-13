@@ -23,7 +23,7 @@ export const textures: Record<string, string> = {
 const imageCache: Record<string, HTMLImageElement> = {}
 
 /**
- * Finds the image from the given path.
+ * Finds the image from the given path. Images are cached.
  * @param path - The path to find the image from.
  * @returns The image at the given path.
  */
