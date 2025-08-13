@@ -44,7 +44,7 @@ export function drawMain(ctx: CanvasRenderingContext2D): void {
     ctx.fillRect(grid(render.mouseX), grid(render.mouseY), world.grid, world.grid)
     if (world.showLiveDebug) drawText(ctx, `${render.mouseX},${render.mouseY}`, grid(render.mouseX), grid(render.mouseY), { color: 'white' })
     //* focus point *//
-    ctx.strokeRect(grid(world.focusX), grid(world.focusY), world.grid, world.grid)
+    // ctx.strokeRect(grid(world.focusX), grid(world.focusY), world.grid, world.grid)
   })
 
   //* shade overlay *//

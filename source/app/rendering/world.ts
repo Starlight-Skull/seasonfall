@@ -1,4 +1,4 @@
-import { level, player } from '../globals'
+import { level, player, world } from '../globals'
 import { entityMovement } from '../logic/movement'
 import { drawEntity } from './entity'
 import { render } from './common'
@@ -29,4 +29,6 @@ export function drawWorld(ctx: CanvasRenderingContext2D): void {
   }
   entityMovement(player)
   drawEntity(ctx, player)
+  world.focusX = player.x
+  world.focusY = player.y
 }
