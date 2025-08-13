@@ -1,5 +1,5 @@
 import { PIXELS_PER_TILE } from '../globals'
-import { textures, loadImage } from '../rendering/textures'
+import { textures, loadImage } from '../data/textures'
 
 
 export class SpriteSet {

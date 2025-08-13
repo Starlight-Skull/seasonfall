@@ -73,10 +73,11 @@ export function toTile(tile: string, background = false): Tile | undefined {
   if (split.includes('r-90')) options.rotation = 90
   if (split.includes('r-180')) options.rotation = 180
   if (split.includes('r-270')) options.rotation = 270
-  if (split.includes('c-all')) options.collision = Collision.all
-  if (split.includes('c-top')) options.collision = Collision.top
-  if (split.includes('c-none')) options.collision = Collision.none
-  if (background) options.collision = Collision.none
+  if (!background) {
+    if (split.includes('c-all')) options.collision = Collision.all
+    if (split.includes('c-top')) options.collision = Collision.top
+    if (split.includes('c-none')) options.collision = Collision.none
+  } else options.collision = Collision.none
   switch (split[0]) {
     case 'door':
       return new Door(true, options)

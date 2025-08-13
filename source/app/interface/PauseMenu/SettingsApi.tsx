@@ -1,6 +1,6 @@
 import React, { type ChangeEvent, useEffect, useState } from 'react'
 import { settings } from '../../globals'
-import { geoCoderAPI, type GeoCoderModel } from '../../logic/data'
+import { geoCoderAPI, type GeoCoderModel } from '../../data/data'
 import { Menus } from './PauseMenu'
 import MenuHeader from './Components/MenuHeader'
 import MenuContent from './Components/MenuContent'
