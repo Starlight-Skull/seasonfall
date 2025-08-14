@@ -1,7 +1,7 @@
 import React from 'react'
-import InputString from './../Components/InputString'
-import InputNumber from './../Components/InputNumber'
-import { weather } from '../../globals/weather'
+import InputString from '../../Components/InputString'
+import InputNumber from '../../Components/InputNumber'
+import { weather } from '../../../app/globals/weather'
 
 interface Props {}
 

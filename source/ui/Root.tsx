@@ -1,21 +1,20 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import GameView from './app/interface/GameView/GameView'
-import Editor from './editor/Editor'
-import setupGame from './app/gameSetup'
-import MainMenu from './app/interface/MainMenu'
+import setupGame from '../app/gameSetup'
+import Editor from './EditorView/Editor'
+import GameView from './GameView/GameView/GameView'
+import MainMenu from './MainView/MainMenu'
+import './Root.scss'
 
-import './app/interface/App.scss'
+export enum Views { start, game, editor }
 
-window.addEventListener('load', () => {
+export default function initUI() {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <Root />
     </React.StrictMode>
   )
-})
-
-export enum Views { start, game, editor }
+}
 
 function Root() {
   const [view, setView] = useState(Views.start)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DebugMenu from '../DebugMenu/DebugMenu'
 import PauseMenu from '../PauseMenu/PauseMenu'
 import Canvas from './Canvas'
-import { world } from '../../globals/world'
+import { world } from '../../../app/globals/world'
 import NavButton from '../PauseMenu/Components/NavButton'
 import icon from '../../../textures/icon.png'
 

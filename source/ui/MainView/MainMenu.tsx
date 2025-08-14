@@ -1,10 +1,10 @@
 import React from 'react'
-import MenuContainer from './PauseMenu/Components/MenuContainer'
-import MenuContent from './PauseMenu/Components/MenuContent'
-import MenuHeader from './PauseMenu/Components/MenuHeader'
-import NavButton from './PauseMenu/Components/NavButton'
-import { Views } from '../../main'
-import { VERSION } from '../globals'
+import MenuContainer from '../GameView/PauseMenu/Components/MenuContainer'
+import MenuContent from '../GameView/PauseMenu/Components/MenuContent'
+import MenuHeader from '../GameView/PauseMenu/Components/MenuHeader'
+import NavButton from '../GameView/PauseMenu/Components/NavButton'
+import { Views } from '../Root'
+import { VERSION } from '../../app/globals'
 
 import './MainMenu.scss'
 

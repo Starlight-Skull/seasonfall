@@ -8,7 +8,7 @@ import { formatUnixTime, getFrameCount } from './helpers'
 import handleMouseKeyEvent from './logic/input'
 import drawMain from './rendering/main'
 import drawText from './rendering/text'
-import { ctx } from './interface/GameView/Canvas'
+import { ctx } from '../ui/GameView/GameView/Canvas'
 
 import worldJson from '../worlds/tower.world.json'
 
