@@ -21,6 +21,7 @@ export enum Menus {
 
 interface Props {
   close: () => void
+  exit: () => void
 }
 
 export default function PauseMenu(props: Props) {
@@ -29,7 +30,7 @@ export default function PauseMenu(props: Props) {
   function getMenu() {
     switch (currentMenu) {
       case Menus.pause:
-        return <Pause setMenu={setCurrentMenu} close={props.close} />
+        return <Pause setMenu={setCurrentMenu} close={props.close} exit={props.exit} />
       case Menus.load:
         return <Load setMenu={setCurrentMenu} />
       case Menus.new:

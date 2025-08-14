@@ -13,11 +13,17 @@ import './Pause.scss'
 interface Props {
   setMenu: (menu: Menus) => void
   close: () => void
+  exit: () => void
 }
 
 export default function Pause(props: Props) {
   function setMenu(menu: Menus) {
     return () => props.setMenu(menu)
+  }
+
+  function toMainMenu() {
+    toStorage('settings', settings)
+    props.exit()
   }
 
   return (
@@ -31,7 +37,7 @@ export default function Pause(props: Props) {
         {/* <NavButton onClick={setMenu(Menus.new)}>New</NavButton> */}
         <NavButton onClick={setMenu(Menus.settingsGeneral)}>Settings</NavButton>
         <NavButton onClick={setMenu(Menus.stats)}>Statistics</NavButton>
-        <NavButton onClick={() => toStorage('settings', settings)}>Save</NavButton>
+        <NavButton onClick={toMainMenu}>Save & Quit</NavButton>
       </MenuContent>
       <span className="Version">{VERSION}</span>
     </MenuContainer>

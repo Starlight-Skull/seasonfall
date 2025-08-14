@@ -1,8 +1,6 @@
 @use '../Vars.scss';
 
 #MainMenu {
-  background-color: Vars.$col-bg-pause;
-  color: Vars.$col-text-pause;
   position: absolute;
   top: 0;
   left: 0;
@@ -13,4 +11,14 @@
   align-items: center;
   overflow: hidden;
   line-height: normal;
+
+  .MenuContent {
+    justify-content: center;
+    gap: 4rem;
+  }
+
+  .NavButton {
+    font-size: 200%;
+    padding: 0.5rem;
+  }
 }

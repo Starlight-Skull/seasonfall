@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import setupGame from '../app/gameSetup'
 import Editor from './EditorView/Editor'
-import GameView from './GameView/GameView/GameView'
+import GameView from './GameView/GameView'
 import MainMenu from './MainView/MainMenu'
 import './Root.scss'
 
 export enum Views { start, game, editor }
 
 export default function initUI() {
+  setupGame()
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <Root />
@@ -21,10 +22,9 @@ function Root() {
 
   switch (view) {
     case Views.game:
-      setupGame()
-      return <GameView />
+      return <GameView exit={() => setView(Views.start)} />
     case Views.editor:
-      return <Editor />
+      return <Editor exit={() => setView(Views.start)} />
     case Views.start:
     default:
       return <MainMenu setView={setView} />
