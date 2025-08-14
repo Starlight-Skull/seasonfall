@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/Starlight-Skull/Seasonfall#readme",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode production",
     "start": "webpack serve"
   },
   "dependencies": {

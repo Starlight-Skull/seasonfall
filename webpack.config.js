@@ -1,8 +1,11 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
-module.exports = {
-  entry: './source/app/main.ts',
+export default {
+  entry: {
+    main: { import: './source/app/main.ts', dependOn: 'react' },
+    react: ['react', 'react-dom', 'prop-types'],
+  },
   output: {
     filename: '[name].bundle.js',
     assetModuleFilename: 'assets/[name][ext]',
@@ -34,7 +37,10 @@ module.exports = {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource'
+        type: 'asset/resource',
+        generator: {
+         filename: 'fonts/[name][ext][query]'
+       }
       }
     ]
   },
