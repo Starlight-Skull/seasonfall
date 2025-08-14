@@ -3,7 +3,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 export default {
   entry: {
-    main: { import: './source/app/main.ts', dependOn: 'react' },
+    main: { import: './source/main.tsx', dependOn: 'react' },
     react: ['react', 'react-dom', 'prop-types'],
   },
   output: {

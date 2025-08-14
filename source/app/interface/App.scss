@@ -1,8 +1,7 @@
 @use 'Vars.scss';
 @use 'Reset.scss';
 
-html,
-body {
+html, body {
   font-family: Vars.$font;
   background-image: url('../../textures/background.png');
   overflow: hidden;
@@ -12,10 +11,7 @@ body {
   height: 100vh;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   font-family: Vars.$font-bold;
 }
 
@@ -40,10 +36,4 @@ noscript {
 
 img, canvas {
   image-rendering: pixelated;
-}
-
-#MenuToggle {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
 }
