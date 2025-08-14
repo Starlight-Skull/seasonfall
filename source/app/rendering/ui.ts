@@ -64,21 +64,30 @@ function drawPlayerBars(ctx: CanvasRenderingContext2D): void {
  * Draws defined debug info.
  */
 function drawDebug(ctx: CanvasRenderingContext2D): void {
-  //* debug info *//
+  let start = 100
   if (world.showLiveDebug) {
     const tracked = player
-    drawText(ctx, `ANIM: ${tracked.name}::${tracked.animation.name} - ${Math.round(tracked.animationFrame * 100) / 100 + 1}/${tracked.animation.frames}`, 5, 100, { color: 'cyan' })
-    drawText(ctx, `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] \t ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collision.left ? ' ←' : ''}${tracked.collision.up ? ' ↑' : ''}${tracked.collision.down ? ' ↓' : ''}${tracked.collision.right ? ' →' : ''}]`, 5, 130, { color: 'cyan' })
-    drawText(ctx, `SHADE: ${Math.round(world.shade * 100) / 100} \t MOVE: [${tracked.movement.left ? ' ←' : ''}${tracked.movement.attack ? ' $' : ''}${tracked.movement.use ? ' #' : ''}${tracked.movement.jump ? ' ▲' : ''}${tracked.movement.down ? ' ↓' : ''}${tracked.movement.right ? ' →' : ''}] ${tracked.stats.jumpTime}`, 5, 160, { color: 'cyan' })
-    drawText(ctx, `WORLD: [${level.properties.rootX},${level.properties.rootY}][${level.properties.borderX},${level.properties.borderY},${level.properties.borderW},${level.properties.borderH}]`, 5, 190, { color: 'cyan' })
-    drawText(ctx, `DEBUG: ${world.debug}`, 5, 220, { color: 'red' })
+    const info = [
+      `ANIM: ${tracked.name}::${tracked.animation.name} - ${Math.round(tracked.animationFrame * 100) / 100 + 1}/${tracked.animation.frames}`,
+      `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collision.left ? ' ←' : ''}${tracked.collision.up ? ' ↑' : ''}${tracked.collision.down ? ' ↓' : ''}${tracked.collision.right ? ' →' : ''}]`,
+      `SHADE: [${Math.round(world.shade * 100) / 100}] MOVE: [${tracked.movement.left ? ' ←' : ''}${tracked.movement.attack ? ' $' : ''}${tracked.movement.use ? ' #' : ''}${tracked.movement.jump ? ' ▲' : ''}${tracked.movement.down ? ' ↓' : ''}${tracked.movement.right ? ' →' : ''}] ${tracked.stats.jumpTime}`,
+      `WORLD: root[${level.properties.rootX},${level.properties.rootY}] border[${level.properties.borderX},${level.properties.borderY},${level.properties.borderW},${level.properties.borderH}]`,
+      `RNDR: bounds[${render.minX},${render.minY},${render.maxX},${render.maxY}]`,
+      `DEBUG: ${world.debug}`,
+    ]
+    info.forEach((value, index) => { drawText(ctx, value, 5, start + index * 30, { color: 'cyan' })})
+    start += info.length * 30 + 10
   }
   if (world.showPlayerStats) {
-    drawText(ctx, `Attacks: ${playerStats.attacks}`, 5, 220, { color: 'magenta' })
-    drawText(ctx, `Attacks Hit: ${playerStats.attacksHit}`, 5, 250, { color: 'magenta' })
-    drawText(ctx, `Damage Taken: ${playerStats.damageTaken}`, 5, 280, { color: 'magenta' })
-    drawText(ctx, `Damage Dealt: ${playerStats.damageDealt}`, 5, 310, { color: 'magenta' })
-    drawText(ctx, `Kills: ${playerStats.kills}`, 5, 340, { color: 'magenta' })
-    drawText(ctx, `Time Taken: ${playerStats.timeTaken}`, 5, 370, { color: 'magenta' })
+    const info = [
+      `Attacks: ${playerStats.attacks}`,
+      `Attacks Hit: ${playerStats.attacksHit}`,
+      `Damage Taken: ${playerStats.damageTaken}`,
+      `Damage Dealt: ${playerStats.damageDealt}`,
+      `Kills: ${playerStats.kills}`,
+      `Time Taken: ${playerStats.timeTaken}`,
+    ]
+    info.forEach((value, index) => { drawText(ctx, value, 5, start + index * 30, { color: 'magenta' })})
+    start += info.length * 30 + 10
   }
 }
