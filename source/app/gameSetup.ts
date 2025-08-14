@@ -1,40 +1,33 @@
-import { initData } from './data/data'
-import initAssets from './data/assets'
 import { world } from './globals/world'
 import { FONTS } from './globals/fonts'
 import { settings } from './globals/settings'
-import { weather } from './globals/weather'
-import { formatUnixTime, getFrameCount } from './helpers'
-import handleMouseKeyEvent from './logic/input'
+import handleGameInput from './logic/input'
 import drawMain from './rendering/main'
 import drawText from './rendering/text'
-import { ctx } from '../ui/GameView/Canvas'
+import { ctx } from '../ui/GameView/GameCanvas'
 
-import worldJson from '../worlds/tower.world.json'
+export default function setupGameLoop() {
+  let handle: number
+  window.addEventListener('mousedown', handleGameInput)
+  window.addEventListener('mouseup', handleGameInput)
+  window.addEventListener('keydown', handleGameInput)
+  window.addEventListener('keyup', handleGameInput)
 
-export default function setupGame() {
-  window.oncontextmenu = () => { return false }
-  window.addEventListener('mousedown', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, true) })
-  window.addEventListener('mouseup', ev => { handleMouseKeyEvent(`Mouse${ev.button}`, false) })
-  window.addEventListener('keydown', ev => { handleMouseKeyEvent(ev.code, true) })
-  window.addEventListener('keyup', ev => { handleMouseKeyEvent(ev.code, false) })
-
-  initAssets(worldJson)
-  initData()
-
-  weather.time = formatUnixTime(Date.now() / 1000, 2 * 60 * 60)
-
-  //* fps counter *//
-  setInterval(getFrameCount, 1000)
-
-  game()
-  //* game loop *//
-  function game (): void {
+  function game (dt: number): void {
     if (ctx !== undefined) {
-      if (!world.paused) drawMain(ctx)
+      if (!world.paused) drawMain(ctx, false)
       world.frames++
       if (settings.showFPS) drawText(ctx, `${world.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: FONTS.PixeloidMono })
     }
-    requestAnimationFrame(game)
+    handle = requestAnimationFrame(game)
+  }
+  handle = requestAnimationFrame(game)
+
+  return () => {
+    window.removeEventListener('mousedown', handleGameInput)
+    window.removeEventListener('mouseup', handleGameInput)
+    window.removeEventListener('keydown', handleGameInput)
+    window.removeEventListener('keyup', handleGameInput)
+    cancelAnimationFrame(handle)
   }
 }

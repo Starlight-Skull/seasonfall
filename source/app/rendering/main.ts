@@ -4,6 +4,7 @@ import drawText from './text'
 import drawUI from './ui'
 import drawSky from './weather'
 import { grid, render, saveRestore } from './common'
+import { player } from '../globals'
 
 /**
  * Tracks current mouse position
@@ -18,7 +19,7 @@ onmousemove = (e: MouseEvent) => {
 /**
  * Main render loop.
  */
-export default function drawMain(ctx: CanvasRenderingContext2D): void {
+export default function drawMain(ctx: CanvasRenderingContext2D, editor: boolean): void {
   // has to be disabled so pixel art isn't blurry
   ctx.imageSmoothingEnabled = false
   drawSky(ctx)
@@ -38,13 +39,18 @@ export default function drawMain(ctx: CanvasRenderingContext2D): void {
     ctx.translate(render.focusX, render.focusY)
     drawWorld(ctx)
 
+    if (editor) {
+      ctx.strokeRect(grid(world.focusX), grid(world.focusY), world.grid, world.grid)
+    } else {
+      world.focusX = player.x
+      world.focusY = player.y
+    }
+
     //* mouse position *//
     ctx.fillStyle = 'rgba(250,250,250,0.5)'
     ctx.strokeStyle = 'white'
     ctx.fillRect(grid(render.mouseX), grid(render.mouseY), world.grid, world.grid)
     if (world.showLiveDebug) drawText(ctx, `${render.mouseX},${render.mouseY}`, grid(render.mouseX), grid(render.mouseY), { color: 'white' })
-    //* focus point *//
-    // ctx.strokeRect(grid(world.focusX), grid(world.focusY), world.grid, world.grid)
   })
 
   //* shade overlay *//

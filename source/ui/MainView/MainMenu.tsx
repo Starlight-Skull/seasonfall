@@ -8,7 +8,11 @@ import { VERSION } from '../../app/globals'
 
 import './MainMenu.scss'
 
-export default function MainMenu(props: { setView: (view: Views) => void }) {
+interface Props {
+  setView: (view: Views) => void
+}
+
+export default function MainMenu(props: Props) {
   function setView(view: Views) {
     return () => props.setView(view)
   }

@@ -30,6 +30,4 @@ export default function drawWorld(ctx: CanvasRenderingContext2D): void {
   }
   entityMovement(player)
   drawEntity(ctx, player)
-  world.focusX = player.x
-  world.focusY = player.y
 }

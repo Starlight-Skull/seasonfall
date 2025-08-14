@@ -13,26 +13,25 @@
   src: url('../public/fonts/PixeloidSansBold.ttf');
 }
 
-/* font */
 $font: Pixeloid, sans-serif;
 $font-mono: PixeloidMono, monospace;
 $font-bold: PixeloidBold, serif;
 
-/* color text */
 $col-text: #d1d1d1;
 $col-text-disabled: #444;
 $col-text-active: rgb(74, 184, 248);
 $col-text-hover: #0ff;
 $col-text-debug: $col-text;
 $col-text-pause: $col-text;
+$col-text-editor: $col-text;
 
-/* color background */
 $col-bg-debug: rgba(105, 105, 105, 0.9);
 $col-bg-pause: rgba(5, 5, 5, 0.5);
 $col-bg-pause-sub: #000;
 $col-bg-input: #575757;
+$col-bg-editor: rgba(5, 5, 5, 0.8);
 
-/* color border */
 $col-border-debug: #000;
 $col-border-pause: #a5a4a4;
 $col-border-input: #a5a4a4;
+$col-border-editor: #a5a4a4;

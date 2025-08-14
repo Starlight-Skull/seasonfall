@@ -1,45 +1,40 @@
 import { player } from '../globals'
 import { world } from '../globals/world'
 import { settings } from '../globals/settings'
-import { render } from '../rendering/common'
 
 /**
  * Receives the code of a mouse or key event and acts accordingly.
- * @param key - Can be 'KeyboardEvent.code' or 'Mouse + MouseEvent.button'.
- * @param down - Boolean of whether the event is up or down.
+ * @param event - KeyboardEvent or MouseEvent
  */
-export default function handleMouseKeyEvent(key: string, down: boolean): void {
-  switch (key) {
+export default function handleGameInput(event: MouseEvent | KeyboardEvent): void {
+  if (world.paused) return
+  let code = ''
+  let down = (event.type === 'keydown' || event.type === 'mousedown')
+
+  if (event.type === 'keydown' || event.type === 'keyup') {
+    code = (event as KeyboardEvent).code
+  } else if (event.type === 'mousedown' || event.type === 'mouseup') {
+    code = `Mouse${(event as MouseEvent).button}`
+  }
+
+  switch (code) {
     case settings.keybindings.attack:
-      if (!world.paused) player.movement.attack = down
+      player.movement.attack = down
       break
     case settings.keybindings.down:
-      if (!world.paused) player.movement.down = down
+      player.movement.down = down
       break
     case settings.keybindings.left:
-      if (!world.paused) player.movement.left = down
+      player.movement.left = down
       break
     case settings.keybindings.right:
-      if (!world.paused) player.movement.right = down
+      player.movement.right = down
       break
     case settings.keybindings.jump:
-      if (!world.paused) player.movement.jump = down
+      player.movement.jump = down
       break
     case settings.keybindings.use:
-      if (!world.paused) player.movement.use = down
+      player.movement.use = down
       break
   }
 }
-
-// onmousedown = (e: MouseEvent) => {
-//   if (!world.paused) {
-//     if (e.button === 2) {
-//       world.focusX = render.mouseX;
-//       world.focusY = render.mouseY;
-//     }
-//     if (e.button === 1) {
-//       player.x = render.mouseX;
-//       player.y = render.mouseY;
-//     }
-//   }
-// }

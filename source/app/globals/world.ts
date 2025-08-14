@@ -8,7 +8,7 @@ export const world = {
   focusX: 0,
   focusY: 0,
   shade: 0,
-  paused: true,
+  paused: false,
   showBoxes: false,
   showLiveDebug: false,
   showPlayerStats: false,

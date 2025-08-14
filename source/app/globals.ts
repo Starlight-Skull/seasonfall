@@ -7,6 +7,7 @@ export const VERSION = '2.0.0-beta'
 export const player = new Hero()
 
 export const level = {
+  name: '',
   properties: {
     rootX: 0,
     rootY: 0,

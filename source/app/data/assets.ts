@@ -30,7 +30,9 @@ interface World {
  * Parses data in the world file into Tile objects.
  * @param json - World data file.
  */
-export default function initAssets(json: World): void {
+export default function  initAssets(json: World, name: string): void {
+  if (level.name === name) return
+  level.name = name
   level.properties = json.properties
   world.focusX = level.properties.rootX
   world.focusY = level.properties.rootY

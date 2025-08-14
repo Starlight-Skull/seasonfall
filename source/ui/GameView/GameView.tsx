@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import DebugMenu from './DebugMenu/DebugMenu'
 import PauseMenu from './PauseMenu/PauseMenu'
-import Canvas from './Canvas'
+import GameCanvas from './GameCanvas'
 import { world } from '../../app/globals/world'
 import NavButton from '../Components/NavButton'
+import setupGameLoop from '../../app/gameSetup'
 import icon from '../../textures/icon.png'
 
 import './GameView.scss'
 
-export default function GameView(props: { exit: () => void }) {
+interface Props {
+  exit: () => void
+}
+
+export default function GameView(props: Props) {
   const [debugVisible, setDebug] = useState(false)
-  const [pauseVisible, setPause] = useState(world.paused)
+  const [pauseVisible, setPause] = useState(false)
+
+  useEffect(setupGameLoop)
 
   useEffect(() => {
     const handleKeydown = (ev: KeyboardEvent) => {
@@ -26,6 +33,7 @@ export default function GameView(props: { exit: () => void }) {
 
   useEffect(() => {
     world.paused = debugVisible || pauseVisible
+    return () => { world.paused = false }
   }, [debugVisible, pauseVisible])
 
   function toggle() {
@@ -34,7 +42,7 @@ export default function GameView(props: { exit: () => void }) {
 
   return (
     <>
-      <Canvas />
+      <GameCanvas />
       {debugVisible && <DebugMenu />}
       {pauseVisible && <PauseMenu close={toggle} exit={props.exit} />}
       <NavButton id='MenuToggle' onClick={toggle}>
