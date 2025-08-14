@@ -2,7 +2,7 @@ import type Entity from './classes/Entity'
 import Tile from './classes/Tile'
 import Hero from './classes/Entity/Hero'
 
-export const VERSION = '1.2.0'
+export const VERSION = '2.0.0-beta'
 
 export const player = new Hero()
 
