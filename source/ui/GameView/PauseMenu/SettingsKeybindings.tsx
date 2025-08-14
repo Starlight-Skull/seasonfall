@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Menus } from './PauseMenu'
-import MenuHeader from './Components/MenuHeader'
-import MenuContent from './Components/MenuContent'
-import MenuContainer from './Components/MenuContainer'
-import MenuFooter from './Components/MenuFooter'
+import MenuHeader from '../../Components/MenuHeader'
+import MenuContent from '../../Components/MenuContent'
+import MenuContainer from '../../Components/MenuContainer'
+import MenuFooter from '../../Components/MenuFooter'
 import { settings } from '../../../app/globals/settings'
 
 import './Settings.scss'

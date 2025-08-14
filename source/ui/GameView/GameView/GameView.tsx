@@ -3,7 +3,7 @@ import DebugMenu from '../DebugMenu/DebugMenu'
 import PauseMenu from '../PauseMenu/PauseMenu'
 import Canvas from './Canvas'
 import { world } from '../../../app/globals/world'
-import NavButton from '../PauseMenu/Components/NavButton'
+import NavButton from '../../Components/NavButton'
 import icon from '../../../textures/icon.png'
 
 import './GameView.scss'

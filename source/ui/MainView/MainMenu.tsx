@@ -1,8 +1,8 @@
 import React from 'react'
-import MenuContainer from '../GameView/PauseMenu/Components/MenuContainer'
-import MenuContent from '../GameView/PauseMenu/Components/MenuContent'
-import MenuHeader from '../GameView/PauseMenu/Components/MenuHeader'
-import NavButton from '../GameView/PauseMenu/Components/NavButton'
+import MenuContainer from '../Components/MenuContainer'
+import MenuContent from '../Components/MenuContent'
+import MenuHeader from '../Components/MenuHeader'
+import NavButton from '../Components/NavButton'
 import { Views } from '../Root'
 import { VERSION } from '../../app/globals'
 
