@@ -1,13 +1,21 @@
+import { editor } from './globals/editor'
 import { world } from './globals/world'
 import { FONTS } from './globals/fonts'
 import drawMain from './rendering/main'
 import drawText from './rendering/text'
 import { ctx } from '../ui/GameView/GameCanvas'
 import { render } from './rendering/common'
+import { settings } from './globals/settings'
+import { level } from './globals'
 
 export default function setupEditor() {
   let handle: number
   window.addEventListener('mousedown', setWorldFocus)
+
+  let scale = settings.scale
+  settings.scale = editor.scale
+  world.showLiveDebug = true
+  world.showBoxes = true
 
   function loop (): void {
     if (ctx !== undefined) {
@@ -22,12 +30,20 @@ export default function setupEditor() {
   return () => {
     window.removeEventListener('mousedown', setWorldFocus)
     cancelAnimationFrame(handle)
+    settings.scale = scale
+    world.showLiveDebug = false
+    world.showBoxes = false
   }
 }
 
 function setWorldFocus (e: MouseEvent) {
-  if (e.button === 2) {
-    world.focusX = render.mouseX;
-    world.focusY = render.mouseY;
+  if (e.button === 0) {
+    editor.selectedX = render.mouseX
+    editor.selectedY = render.mouseY
+  } else if (e.button === 1) {
+    level.foreground[render.mouseY][render.mouseX] = level.foreground[editor.selectedY][editor.selectedX]
+  } else if (e.button === 2) {
+    world.focusX = render.mouseX
+    world.focusY = render.mouseY
   }
 }

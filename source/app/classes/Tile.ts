@@ -9,9 +9,9 @@ interface Options {
 }
 
 /**
- * @enum values all, top, none
+ * @enum values all, top, partial, none
  */
-export enum Collision { all, top, partial, none }
+export enum Collision { all = 'all', top = 'top', partial = 'part', none = 'none' }
 
 export default class Tile extends Animatable {
   collision: Collision

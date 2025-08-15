@@ -4,6 +4,8 @@ import { world } from '../globals/world'
 import drawStats from './entityStats'
 import drawText from './text'
 import { grid, render, saveRestore } from './common'
+import { editor } from '../globals/editor'
+import Tile from '../classes/Tile'
 
 /**
  * Draws UI overlay and floating entity stats.
@@ -65,29 +67,41 @@ function drawPlayerBars(ctx: CanvasRenderingContext2D): void {
  */
 function drawDebug(ctx: CanvasRenderingContext2D): void {
   let start = 100
-  if (world.showLiveDebug) {
-    const tracked = player
-    const info = [
-      `ANIM: ${tracked.name}::${tracked.animation.name} - ${Math.round(tracked.animationFrame * 100) / 100 + 1}/${tracked.animation.frames}`,
-      `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collision.left ? ' ←' : ''}${tracked.collision.up ? ' ↑' : ''}${tracked.collision.down ? ' ↓' : ''}${tracked.collision.right ? ' →' : ''}]`,
-      `SHADE: [${Math.round(world.shade * 100) / 100}] MOVE: [${tracked.movement.left ? ' ←' : ''}${tracked.movement.attack ? ' $' : ''}${tracked.movement.use ? ' #' : ''}${tracked.movement.jump ? ' ▲' : ''}${tracked.movement.down ? ' ↓' : ''}${tracked.movement.right ? ' →' : ''}] ${tracked.stats.jumpTime}`,
-      `WORLD: root[${level.properties.rootX},${level.properties.rootY}] border[${level.properties.borderX},${level.properties.borderY},${level.properties.borderW},${level.properties.borderH}]`,
-      `RNDR: bounds[${render.minX},${render.minY},${render.maxX},${render.maxY}]`,
-      `DEBUG: ${world.debug}`,
-    ]
-    info.forEach((value, index) => { drawText(ctx, value, 5, start + index * 30, { color: 'cyan' })})
+  const draw = (color: string, info: string[]) => {
+    info.forEach((value, index) => drawText(ctx, value, 5, start + index * 30, { color }))
     start += info.length * 30 + 10
   }
+  if (world.showLiveDebug) {
+    draw('cyan', [
+      `LEVEL: root[${level.properties.rootX},${level.properties.rootY}] border[${level.properties.borderX},${level.properties.borderY},${level.properties.borderW},${level.properties.borderH}]`,
+      `RENDER: bounds[${render.minX},${render.minY},${render.maxX},${render.maxY}]`,
+      `WORLD: SHADE: [${Math.round(world.shade * 100) / 100}]`,
+      `DEBUG: ${world.debug}${editor.selectedY},${editor.selectedX}`
+    ])
+    const tracked = player
+    draw('cyan', [
+      `ANIM: ${tracked.name}::${tracked.animation.name} - ${Math.round(tracked.animationFrame * 100) / 100 + 1}/${tracked.animation.frames}`,
+      `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collision.left ? ' ←' : ''}${tracked.collision.up ? ' ↑' : ''}${tracked.collision.down ? ' ↓' : ''}${tracked.collision.right ? ' →' : ''}]`,
+      `MOVE: [${tracked.movement.left ? ' ←' : ''}${tracked.movement.attack ? ' $' : ''}${tracked.movement.use ? ' #' : ''}${tracked.movement.jump ? ' ▲' : ''}${tracked.movement.down ? ' ↓' : ''}${tracked.movement.right ? ' →' : ''}] ${tracked.stats.jumpTime}`
+    ])
+    const selected = (tile: Tile) => draw('lime', [
+      `TILE: ${tile.name}${tile.mirrored ? ' m' : ''} c-${tile.collision.toString()} r-${tile.rotation}`,
+      `POS: [${editor.selectedX},${editor.selectedY}] SIZE: ${tile.width}x${tile.height}`,
+      `FRAME: ${tile.animationFrame} ${tile.activator ? '(activator)' : ''}`
+    ])
+    const fore = level.foreground[editor.selectedY][editor.selectedX]
+    if (fore !== undefined) selected(fore)
+    const back = level.background[editor.selectedY][editor.selectedX]
+    if (back !== undefined) selected(back)
+  }
   if (world.showPlayerStats) {
-    const info = [
+    draw('magenta', [
       `Attacks: ${playerStats.attacks}`,
       `Attacks Hit: ${playerStats.attacksHit}`,
       `Damage Taken: ${playerStats.damageTaken}`,
       `Damage Dealt: ${playerStats.damageDealt}`,
       `Kills: ${playerStats.kills}`,
-      `Time Taken: ${playerStats.timeTaken}`,
-    ]
-    info.forEach((value, index) => { drawText(ctx, value, 5, start + index * 30, { color: 'magenta' })})
-    start += info.length * 30 + 10
+      `Time Taken: ${playerStats.timeTaken}`
+    ])
   }
 }

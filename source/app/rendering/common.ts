@@ -11,7 +11,7 @@ export function saveRestore(ctx: CanvasRenderingContext2D, script: () => void): 
 }
 
 /**
- * Converts relative coordinate to absolute by multiplying with world.grid.
+ * Converts grid coordinate to canvas coordinate by multiplying with world.grid.
  */
 export function grid(value: number): number {
   return value * world.grid

@@ -40,6 +40,7 @@ export default function drawMain(ctx: CanvasRenderingContext2D, editor: boolean)
     drawWorld(ctx)
 
     if (editor) {
+      ctx.strokeStyle = 'white'
       ctx.strokeRect(grid(world.focusX), grid(world.focusY), world.grid, world.grid)
     } else {
       world.focusX = player.x
@@ -48,7 +49,6 @@ export default function drawMain(ctx: CanvasRenderingContext2D, editor: boolean)
 
     //* mouse position *//
     ctx.fillStyle = 'rgba(250,250,250,0.5)'
-    ctx.strokeStyle = 'white'
     ctx.fillRect(grid(render.mouseX), grid(render.mouseY), world.grid, world.grid)
     if (world.showLiveDebug) drawText(ctx, `${render.mouseX},${render.mouseY}`, grid(render.mouseX), grid(render.mouseY), { color: 'white' })
   })
