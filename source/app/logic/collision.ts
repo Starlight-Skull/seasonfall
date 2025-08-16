@@ -1,6 +1,6 @@
-import Entity from '../classes/Entity';
-import { Collision } from '../classes/Tile';
-import { $world } from '../globals/level';
+import Entity from '../classes/Entity'
+import { Collision } from '../classes/Tile'
+import { $world } from '../globals/level'
 
 // unused for now
 function hasCollision(entity: Entity, x: number, y: number, w: number, h: number): boolean {

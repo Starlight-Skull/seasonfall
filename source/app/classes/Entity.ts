@@ -13,9 +13,9 @@ interface Options {
 }
 
 export default class Entity extends Animatable {
-  x: number;
-  y: number;
-  cooldown: number;
+  x: number
+  y: number
+  cooldown: number
   stats: { hp: number; maxHP: number; mp: number; maxMP: number; xp: number; damage: number; speed: number; jumpHeight: number; jumpTime: number; };
   movement: { attack: boolean; down: boolean; left: boolean; right: boolean; jump: boolean; use: boolean; };
   collision: { enabled: boolean; up: boolean; down: boolean; left: boolean; right: boolean; };

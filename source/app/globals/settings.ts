@@ -10,7 +10,7 @@ interface Settings {
     interval: number
   }
   keybindings: {
-    [key: string]: string;
+    [key: string]: string
     attack: string
     jump: string
     down: string

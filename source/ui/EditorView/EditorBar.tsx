@@ -14,5 +14,5 @@ export function EditorBar(props: Props) {
         <NavButton onClick={props.exit}>Exit</NavButton>
       </div>
     </div>
-  );
+  )
 }

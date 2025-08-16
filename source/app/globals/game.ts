@@ -1,4 +1,4 @@
-import { $settings } from './settings';
+import { $settings } from './settings'
 
 export const VERSION = '2.0.0-beta'
 export const PIXELS_PER_TILE = 16
