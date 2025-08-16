@@ -1,5 +1,5 @@
 import React, { type ChangeEvent, useEffect, useState } from 'react'
-import { settings } from '../../../app/globals/settings'
+import { $settings } from '../../../app/globals/settings'
 import { geoCoderAPI, type GeoCoderModel } from '../../../app/data/data'
 import { Menus } from './PauseMenu'
 import MenuHeader from '../../Components/MenuHeader'
@@ -17,8 +17,8 @@ interface Props {
 }
 
 export default function SettingsApi(props: Props) {
-  const [lat, setLat] = useState(settings.api.latitude)
-  const [lon, setLon] = useState(settings.api.longitude)
+  const [lat, setLat] = useState($settings.api.latitude)
+  const [lon, setLon] = useState($settings.api.longitude)
   const [query, setQuery] = useState('')
   const [results, setResults] = useState(new Array<GeoCoderModel>())
 
@@ -30,8 +30,8 @@ export default function SettingsApi(props: Props) {
   }
 
   function search() {
-    if (!settings.api.enabled || query === '' || settings.api.key === '') return
-    geoCoderAPI(query, settings.api.key)
+    if (!$settings.api.enabled || query === '' || $settings.api.key === '') return
+    geoCoderAPI(query, $settings.api.key)
       .then((locations) => {
         console.log(locations)
         if (locations.length === 0) return
@@ -61,8 +61,8 @@ export default function SettingsApi(props: Props) {
   }
 
   useEffect(() => {
-    if (lat !== settings.api.latitude) settings.api.latitude = lat
-    if (lon !== settings.api.longitude) settings.api.longitude = lon
+    if (lat !== $settings.api.latitude) $settings.api.latitude = lat
+    if (lon !== $settings.api.longitude) $settings.api.longitude = lon
   })
 
   // todo add explanation
@@ -84,18 +84,18 @@ export default function SettingsApi(props: Props) {
         <div>
           <InputBoolean
             label="Enabled"
-            value={settings.api.enabled}
-            onChange={(val) => (settings.api.enabled = val)}
+            value={$settings.api.enabled}
+            onChange={(val) => ($settings.api.enabled = val)}
           />
           <InputString
             label="API Key"
-            value={settings.api.key}
-            onChange={(val) => (settings.api.key = val)}
+            value={$settings.api.key}
+            onChange={(val) => ($settings.api.key = val)}
           />
           <InputNumber
             label="Interval (s)"
-            value={settings.api.interval}
-            onChange={(val) => (settings.api.interval = val)}
+            value={$settings.api.interval}
+            onChange={(val) => ($settings.api.interval = val)}
             step={60}
             min={180}
           />
@@ -111,8 +111,8 @@ export default function SettingsApi(props: Props) {
         <div className="row left">
           <button onClick={() => navigate()}>Request Current Location</button>
         </div>
-        {settings.api.key && <i className="row"></i>}
-        {settings.api.key && (
+        {$settings.api.key && <i className="row"></i>}
+        {$settings.api.key && (
           <div className="row">
             <button onClick={() => search()}>Search</button>
             <InputString label="" value={query} onChange={setQuery} />

@@ -16,7 +16,7 @@ import painting from '../../textures/tile/painting.png'
 import plank from '../../textures/tile/plank.png'
 
 
-export const textures: Record<string, string> = {
+export const $textures: Record<string, string> = {
   missing_entity, hero, skeleton, stick, door, rain, snow, missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, painting, plank
 }
 
@@ -32,7 +32,7 @@ export function loadImage (path: string): HTMLImageElement {
     return imageCache[path]
   }
   const image = new Image()
-  image.src = path ?? textures.missing_tile
+  image.src = path ?? $textures.missing_tile
   imageCache[path] = image
   return image
 }

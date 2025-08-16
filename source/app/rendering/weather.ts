@@ -1,5 +1,5 @@
-import { game } from '../globals/game'
-import { weather } from '../globals/weather'
+import { $game } from '../globals/game'
+import { $weather } from '../globals/weather'
 
 /**
  * Constants for the color and shade of the sky.
@@ -19,26 +19,26 @@ const sky = Object.freeze({
 export default function drawSky(ctx: CanvasRenderingContext2D): void {
   let timeSet
   switch (true) {
-    case (weather.time >= weather.sunrise - 50 && weather.time <= weather.sunrise + 50):
+    case ($weather.time >= $weather.sunrise - 50 && $weather.time <= $weather.sunrise + 50):
       timeSet = sky.morning
       break
-    case (weather.time > weather.sunrise + 50 && weather.time < 1150):
+    case ($weather.time > $weather.sunrise + 50 && $weather.time < 1150):
       timeSet = sky.beforeNoon
       break
-    case (weather.time >= 1150 && weather.time <= 1250):
+    case ($weather.time >= 1150 && $weather.time <= 1250):
       timeSet = sky.noon
       break
-    case (weather.time > 1250 && weather.time < weather.sunset - 50):
+    case ($weather.time > 1250 && $weather.time < $weather.sunset - 50):
       timeSet = sky.afterNoon
       break
-    case (weather.time >= weather.sunset - 50 && weather.time <= weather.sunset + 50):
+    case ($weather.time >= $weather.sunset - 50 && $weather.time <= $weather.sunset + 50):
       timeSet = sky.evening
       break
     default:
       timeSet = sky.night
       break
   }
-  game.shade = timeSet.shade
+  $game.shade = timeSet.shade
   ctx.fillStyle = timeSet.color
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }

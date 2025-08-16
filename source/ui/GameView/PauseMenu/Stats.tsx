@@ -1,7 +1,7 @@
 import React from 'react'
 import { Menus } from './PauseMenu'
-import { player } from '../../../app/globals/level'
-import { playerStats } from '../../../app/globals/playerStats'
+import { $player } from '../../../app/globals/level'
+import { $playerStats } from '../../../app/globals/playerStats'
 import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'
 import MenuContainer from '../../Components/MenuContainer'
@@ -16,15 +16,15 @@ interface Props {
 export default function Stats(props: Props) {
   return (
     <MenuContainer id="Stats">
-      <MenuHeader>Statistics (<i>{player.userName}</i>)</MenuHeader>
+      <MenuHeader>Statistics (<i>{$player.userName}</i>)</MenuHeader>
       <MenuContent>
         <ul>
-          <li>Time Taken: {playerStats.timeTaken}</li>
-          <li>Kills: {playerStats.kills}</li>
-          <li>Attacks: {playerStats.attacks}</li>
-          <li>Attacks Hit: {playerStats.attacksHit}</li>
-          <li>Damage Taken: {playerStats.damageTaken}</li>
-          <li>Damage Dealt: {playerStats.damageDealt}</li>
+          <li>Time Taken: {$playerStats.timeTaken}</li>
+          <li>Kills: {$playerStats.kills}</li>
+          <li>Attacks: {$playerStats.attacks}</li>
+          <li>Attacks Hit: {$playerStats.attacksHit}</li>
+          <li>Damage Taken: {$playerStats.damageTaken}</li>
+          <li>Damage Dealt: {$playerStats.damageDealt}</li>
         </ul>
       </MenuContent>
       <MenuFooter

@@ -1,5 +1,5 @@
 import { PIXELS_PER_TILE } from '../globals/game'
-import { textures, loadImage } from '../data/textures'
+import { $textures, loadImage } from '../data/textures'
 
 interface Options {
   animName?: string
@@ -49,7 +49,7 @@ export default class SpriteSet {
     } = options ?? {}
     this.x = x
     this.y = y
-    this.imagePath = textures[imageName]
+    this.imagePath = $textures[imageName]
     this.width = w
     this.height = h
     this.frames = frames

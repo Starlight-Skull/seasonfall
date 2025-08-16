@@ -1,5 +1,5 @@
 import React from 'react'
-import { settings } from '../../../app/globals/settings'
+import { $settings } from '../../../app/globals/settings'
 import InputBoolean from '../../Components/InputBoolean'
 import InputNumber from '../../Components/InputNumber'
 import { Menus } from './PauseMenu'
@@ -29,13 +29,13 @@ export default function SettingsGeneral(props: Props) {
       <MenuContent>
         <InputBoolean
           label="Show FPS"
-          value={settings.showFPS}
-          onChange={(val) => (settings.showFPS = val)}
+          value={$settings.showFPS}
+          onChange={(val) => ($settings.showFPS = val)}
         />
         <InputNumber
           label="Scale Factor"
-          value={settings.scale}
-          onChange={(val) => (settings.scale = val)}
+          value={$settings.scale}
+          onChange={(val) => ($settings.scale = val)}
           min={1}
         />
       </MenuContent>

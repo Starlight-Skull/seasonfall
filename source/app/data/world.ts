@@ -3,8 +3,8 @@ import Hero from "../classes/Entity/Hero"
 import Skeleton from "../classes/Entity/Skeleton"
 import Tile, { Collision } from "../classes/Tile"
 import Door from "../classes/Tile/Door"
-import { world, player } from "../globals/level"
-import { game } from '../globals/game'
+import { $world, $player } from "../globals/level"
+import { $game } from '../globals/game'
 import { isNotEmpty } from "../helpers"
 
 interface WorldFile {
@@ -31,33 +31,33 @@ interface WorldFile {
  * @param json - World data file.
  */
 export default function  loadWorld(json: WorldFile, name: string): void {
-  if (world.name === name) return
-  world.name = name
-  world.properties = json.properties
-  game.focusX = world.properties.rootX
-  game.focusY = world.properties.rootY
-  player.x = world.properties.rootX
-  player.y = world.properties.rootY
+  if ($world.name === name) return
+  $world.name = name
+  $world.properties = json.properties
+  $game.focusX = $world.properties.rootX
+  $game.focusY = $world.properties.rootY
+  $player.x = $world.properties.rootX
+  $player.y = $world.properties.rootY
   for (let y = 0; y < json.background.length; y++) {
-    world.background[y] = []
+    $world.background[y] = []
     for (let x = 0; x < json.background[y].length; x++) {
       const background = json.background?.[y]?.[x]
       if (isNotEmpty(background)) {
-        world.background[y][x] = toTile(background, true)
+        $world.background[y][x] = toTile(background, true)
       }
     }
   }
   for (let y = 0; y < json.foreground.length; y++) {
-    world.foreground[y] = []
+    $world.foreground[y] = []
     for (let x = 0; x < json.foreground[y].length; x++) {
       const foreground = json.foreground?.[y]?.[x]
       if (isNotEmpty(foreground)) {
-        world.foreground[y][x] = toTile(foreground)
+        $world.foreground[y][x] = toTile(foreground)
       }
     }
   }
   json.entities.forEach(entity => {
-    world.entities.push(toEntity(entity.class, entity.x, entity.y))
+    $world.entities.push(toEntity(entity.class, entity.x, entity.y))
   })
 
 }

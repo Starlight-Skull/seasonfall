@@ -1,7 +1,7 @@
-import { world, player } from '../globals/level'
+import { $world, $player } from '../globals/level'
 import entityMovement from '../logic/movement'
 import drawEntity from './entity'
-import { render } from './common'
+import { $render } from './common'
 import drawTile from './tile'
 
 /**
@@ -9,24 +9,24 @@ import drawTile from './tile'
  */
 export default function drawWorld(ctx: CanvasRenderingContext2D): void {
   //* tiles *//
-  for (let y = render.minY; y < render.maxY; y++) {
-    for (let x = render.minX; x < render.maxX; x++) {
-      const background = world.background[y]?.[x]
+  for (let y = $render.minY; y < $render.maxY; y++) {
+    for (let x = $render.minX; x < $render.maxX; x++) {
+      const background = $world.background[y]?.[x]
       if (background !== undefined) drawTile(ctx, y, x, background)
     }
   }
-  for (let y = render.minY; y < render.maxY; y++) {
-    for (let x = render.minX; x < render.maxX; x++) {
-      const foreground = world.foreground[y]?.[x]
+  for (let y = $render.minY; y < $render.maxY; y++) {
+    for (let x = $render.minX; x < $render.maxX; x++) {
+      const foreground = $world.foreground[y]?.[x]
       if (foreground !== undefined) drawTile(ctx, y, x, foreground)
     }
   }
   //* entities + player *//
-  for (let entity of world.entities) {
+  for (let entity of $world.entities) {
     entityMovement(entity)
-    if (render.isOffScreen(entity.x, entity.y)) continue
+    if ($render.isOffScreen(entity.x, entity.y)) continue
     drawEntity(ctx, entity)
   }
-  entityMovement(player)
-  drawEntity(ctx, player)
+  entityMovement($player)
+  drawEntity(ctx, $player)
 }

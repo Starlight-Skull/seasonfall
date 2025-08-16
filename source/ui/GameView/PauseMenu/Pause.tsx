@@ -1,6 +1,6 @@
 import React from 'react'
 import { VERSION } from '../../../app/globals/game'
-import { settings } from '../../../app/globals/settings'
+import { $settings } from '../../../app/globals/settings'
 import { toStorage } from '../../../app/helpers'
 import { Menus } from './PauseMenu'
 import MenuHeader from '../../Components/MenuHeader'
@@ -22,7 +22,7 @@ export default function Pause(props: Props) {
   }
 
   function toMainMenu() {
-    toStorage('settings', settings)
+    toStorage('settings', $settings)
     props.exit()
   }
 

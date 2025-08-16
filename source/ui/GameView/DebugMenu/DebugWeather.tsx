@@ -1,7 +1,7 @@
 import React from 'react'
 import InputString from '../../Components/InputString'
 import InputNumber from '../../Components/InputNumber'
-import { weather } from '../../../app/globals/weather'
+import { $weather } from '../../../app/globals/weather'
 
 interface Props {}
 
@@ -29,82 +29,82 @@ export default function DebugWeather(props: Props) {
           <option value="Clouds">Clouds</option>
         </select>
       </div> */}
-      <InputString label="Name" value={weather.main} />
+      <InputString label="Name" value={$weather.main} />
       <InputString
         label="Description"
-        value={weather.description}
-        onChange={(val) => (weather.description = val)}
+        value={$weather.description}
+        onChange={(val) => ($weather.description = val)}
       />
       <InputNumber
         label="Timestamp (hmm)"
-        value={weather.time}
-        onChange={(val) => (weather.time = val)}
+        value={$weather.time}
+        onChange={(val) => ($weather.time = val)}
         min={0}
       />
       <InputNumber
         label="Sunrise (hmm)"
-        value={weather.sunrise}
-        onChange={(val) => (weather.sunrise = val)}
+        value={$weather.sunrise}
+        onChange={(val) => ($weather.sunrise = val)}
         min={0}
       />
       <InputNumber
         label="Sunset (hmm)"
-        value={weather.sunset}
-        onChange={(val) => (weather.sunset = val)}
+        value={$weather.sunset}
+        onChange={(val) => ($weather.sunset = val)}
         min={0}
       />
       <InputNumber
         label="Temperature (&deg;C)"
-        value={weather.temp}
-        onChange={(val) => (weather.temp = val)}
+        value={$weather.temp}
+        onChange={(val) => ($weather.temp = val)}
         min={0}
       />
       <InputNumber
         label="Feels Like (&deg;C)"
-        value={weather.tempFeelsLike}
-        onChange={(val) => (weather.tempFeelsLike = val)}
+        value={$weather.tempFeelsLike}
+        onChange={(val) => ($weather.tempFeelsLike = val)}
         min={0}
       />
       <InputNumber
         label="Pressure (hPa)"
-        value={weather.pressure}
-        onChange={(val) => (weather.pressure = val)}
+        value={$weather.pressure}
+        onChange={(val) => ($weather.pressure = val)}
         min={0}
       />
       <InputNumber
         label="Humidity (%)"
-        value={weather.humidity}
-        onChange={(val) => (weather.humidity = val)}
+        value={$weather.humidity}
+        onChange={(val) => ($weather.humidity = val)}
         min={0}
       />
       <InputNumber
         label="Dew Point (&deg;C)"
-        value={weather.dewPoint}
-        onChange={(val) => (weather.dewPoint = val)}
+        value={$weather.dewPoint}
+        onChange={(val) => ($weather.dewPoint = val)}
         min={0}
       />
       <InputNumber
         label="Clouds (%)"
-        value={weather.clouds}
-        onChange={(val) => (weather.clouds = val)}
+        value={$weather.clouds}
+        onChange={(val) => ($weather.clouds = val)}
         min={0}
       />
       <InputNumber
         label="UV Index"
-        value={weather.uvi}
-        onChange={(val) => (weather.uvi = val)}
+        value={$weather.uvi}
+        onChange={(val) => ($weather.uvi = val)}
         min={0}
       />
       <InputNumber
         label="Visibility (m)"
-        value={weather.visibility}
-        onChange={(val) => (weather.visibility = val)}
+        value={$weather.visibility}
+        onChange={(val) => ($weather.visibility = val)}
         min={0}
       />
       <InputNumber
         label="Wind Speed (m/s)"
-        value={weather.windSpeed}
-        onChange={(val) => (weather.windSpeed = val)}
+        value={$weather.windSpeed}
+        onChange={(val) => ($weather.windSpeed = val)}
         min={0}
       />
       {/* <div> // todo
@@ -114,23 +114,23 @@ export default function DebugWeather(props: Props) {
           <option value="West">West</option>
         </select>
       </div> */}
-      <InputString label="Wind Degrees" value={weather.windDeg} />
+      <InputString label="Wind Degrees" value={$weather.windDeg} />
       <InputNumber
         label="Wind Gust (m/s)"
-        value={weather.windGust}
-        onChange={(val) => (weather.windGust = val)}
+        value={$weather.windGust}
+        onChange={(val) => ($weather.windGust = val)}
         min={0}
       />
       <InputNumber
         label="Rain (mm/h)"
-        value={weather.rain}
-        onChange={(val) => (weather.rain = val)}
+        value={$weather.rain}
+        onChange={(val) => ($weather.rain = val)}
         min={0}
       />
       <InputNumber
         label="Snow (mm/h)"
-        value={weather.snow}
-        onChange={(val) => (weather.snow = val)}
+        value={$weather.snow}
+        onChange={(val) => ($weather.snow = val)}
         min={0}
       />
     </section>

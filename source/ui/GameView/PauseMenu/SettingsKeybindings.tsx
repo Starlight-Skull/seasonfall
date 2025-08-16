@@ -4,7 +4,7 @@ import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'
 import MenuContainer from '../../Components/MenuContainer'
 import MenuFooter from '../../Components/MenuFooter'
-import { settings } from '../../../app/globals/settings'
+import { $settings } from '../../../app/globals/settings'
 
 import './Settings.scss'
 
@@ -23,7 +23,7 @@ export default function SettingsKeybindings(props: Props) {
 
   useEffect(() => {
     const handleKeyboardEvent = (event: KeyboardEvent) => {
-      settings.keybindings[action] = event.code
+      $settings.keybindings[action] = event.code
       setListening(false)
       setAction('')
     }
@@ -34,7 +34,7 @@ export default function SettingsKeybindings(props: Props) {
 
   useEffect(() => {
     const handleMouseEvent = (event: MouseEvent) => {
-      settings.keybindings[action] = `Mouse${event.button}`
+      $settings.keybindings[action] = `Mouse${event.button}`
       setListening(false)
       setAction('')
     }
@@ -60,7 +60,7 @@ export default function SettingsKeybindings(props: Props) {
             Press any key or button for: (<b>{upperCaseFirst(action)}</b>)
           </div>
         )}
-        {Object.entries(settings.keybindings).map((element, i) => {
+        {Object.entries($settings.keybindings).map((element, i) => {
           return (
             <label key={i}>
               {upperCaseFirst(element[0])}

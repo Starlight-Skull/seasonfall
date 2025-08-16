@@ -1,13 +1,13 @@
-import { player } from '../globals/level'
-import { game } from '../globals/game'
-import { settings } from '../globals/settings'
+import { $player } from '../globals/level'
+import { $game } from '../globals/game'
+import { $settings } from '../globals/settings'
 
 /**
  * Receives the code of a mouse or key event and acts accordingly.
  * @param event - KeyboardEvent or MouseEvent
  */
 export default function handleGameInput(event: MouseEvent | KeyboardEvent): void {
-  if (game.paused) return
+  if ($game.paused) return
   let code = ''
   let down = (event.type === 'keydown' || event.type === 'mousedown')
 
@@ -18,23 +18,23 @@ export default function handleGameInput(event: MouseEvent | KeyboardEvent): void
   }
 
   switch (code) {
-    case settings.keybindings.attack:
-      player.movement.attack = down
+    case $settings.keybindings.attack:
+      $player.movement.attack = down
       break
-    case settings.keybindings.down:
-      player.movement.down = down
+    case $settings.keybindings.down:
+      $player.movement.down = down
       break
-    case settings.keybindings.left:
-      player.movement.left = down
+    case $settings.keybindings.left:
+      $player.movement.left = down
       break
-    case settings.keybindings.right:
-      player.movement.right = down
+    case $settings.keybindings.right:
+      $player.movement.right = down
       break
-    case settings.keybindings.jump:
-      player.movement.jump = down
+    case $settings.keybindings.jump:
+      $player.movement.jump = down
       break
-    case settings.keybindings.use:
-      player.movement.use = down
+    case $settings.keybindings.use:
+      $player.movement.use = down
       break
   }
 }

@@ -8,7 +8,7 @@ interface PlayerStats {
   damageDealt: number
 }
 
-export const playerStats: PlayerStats = {
+export const $playerStats: PlayerStats = {
   timeTaken: 0,
   kills: 0,
   attacks: 0,

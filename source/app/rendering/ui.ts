@@ -1,10 +1,10 @@
-import { world, player } from '../globals/level'
-import { playerStats } from '../globals/playerStats'
-import { game } from '../globals/game'
+import { $world, $player } from '../globals/level'
+import { $playerStats } from '../globals/playerStats'
+import { $game } from '../globals/game'
 import drawStats from './entityStats'
 import drawText from './text'
-import { grid, render, saveRestore } from './common'
-import { editor } from '../globals/editor'
+import { toCanvas, $render, saveRestore } from './common'
+import { $editor } from '../globals/editor'
 import Tile from '../classes/Tile'
 
 /**
@@ -13,19 +13,19 @@ import Tile from '../classes/Tile'
 export default function drawUI(ctx: CanvasRenderingContext2D): void {
   //* entity stats *//
   saveRestore(ctx, () => {
-    ctx.translate(render.focusX, render.focusY)
-    for (let entity of world.entities) {
-      if (render.isOffScreen(entity.x, entity.y)) continue
+    ctx.translate($render.focusX, $render.focusY)
+    for (let entity of $world.entities) {
+      if ($render.isOffScreen(entity.x, entity.y)) continue
       drawStats(ctx, entity)
     }
-    drawStats(ctx, player)
-    if (game.showBoxes) {
+    drawStats(ctx, $player)
+    if ($game.showBoxes) {
       ctx.strokeStyle = 'red'
       ctx.strokeRect(
-        grid(world.properties.borderX),
-        grid(world.properties.borderY),
-        grid(world.properties.borderW),
-        grid(world.properties.borderH)
+        toCanvas($world.properties.borderX),
+        toCanvas($world.properties.borderY),
+        toCanvas($world.properties.borderW),
+        toCanvas($world.properties.borderH)
       )
     }
   })
@@ -40,24 +40,24 @@ export default function drawUI(ctx: CanvasRenderingContext2D): void {
 function drawPlayerBars(ctx: CanvasRenderingContext2D): void {
   //* player hp *//
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
-  ctx.fillRect(20, 20, player.stats.maxHP * 5 + 10, 30)
-  const hpGradient = ctx.createLinearGradient(25, 25, player.stats.maxHP * 5, 20)
+  ctx.fillRect(20, 20, $player.stats.maxHP * 5 + 10, 30)
+  const hpGradient = ctx.createLinearGradient(25, 25, $player.stats.maxHP * 5, 20)
   hpGradient.addColorStop(0, 'red')
   hpGradient.addColorStop(1, 'magenta')
   ctx.fillStyle = hpGradient
-  if (player.stats.hp > 0) {
-    ctx.fillRect(25, 25, player.stats.hp * 5, 20)
+  if ($player.stats.hp > 0) {
+    ctx.fillRect(25, 25, $player.stats.hp * 5, 20)
   }
   //* player mp *//
-  if (player.stats.mp !== 0) {
+  if ($player.stats.mp !== 0) {
     ctx.fillStyle = 'rgba(0,0,0,0.5)'
-    ctx.fillRect(20, 50, player.stats.maxMP * 5 + 10, 15)
-    const mpGradient = ctx.createLinearGradient(25, 50, player.stats.maxMP * 5, 10)
+    ctx.fillRect(20, 50, $player.stats.maxMP * 5 + 10, 15)
+    const mpGradient = ctx.createLinearGradient(25, 50, $player.stats.maxMP * 5, 10)
     mpGradient.addColorStop(0, 'blue')
     mpGradient.addColorStop(1, 'cyan')
     ctx.fillStyle = mpGradient
-    if (player.stats.mp > 0) {
-      ctx.fillRect(25, 50, player.stats.mp * 5, 10)
+    if ($player.stats.mp > 0) {
+      ctx.fillRect(25, 50, $player.stats.mp * 5, 10)
     }
   }
 }
@@ -71,14 +71,14 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
     info.forEach((value, index) => drawText(ctx, value, 5, start + index * 30, { color }))
     start += info.length * 30 + 10
   }
-  if (game.showLiveDebug) {
+  if ($game.showLiveDebug) {
     draw('cyan', [
-      `LEVEL: root[${world.properties.rootX},${world.properties.rootY}] border[${world.properties.borderX},${world.properties.borderY},${world.properties.borderW},${world.properties.borderH}]`,
-      `RENDER: bounds[${render.minX},${render.minY},${render.maxX},${render.maxY}]`,
-      `WORLD: SHADE: [${Math.round(game.shade * 100) / 100}]`,
-      `DEBUG: ${game.debug}${editor.selectedY},${editor.selectedX}`
+      `WORLD: root[${$world.properties.rootX},${$world.properties.rootY}] border[${$world.properties.borderX},${$world.properties.borderY},${$world.properties.borderW},${$world.properties.borderH}]`,
+      `RENDER: bounds[${$render.minX},${$render.minY},${$render.maxX},${$render.maxY}]`,
+      `SHADE: [${Math.round($game.shade * 100) / 100}]`,
+      `DEBUG: ${$game.debug}`
     ])
-    const tracked = player
+    const tracked = $player
     draw('cyan', [
       `ANIM: ${tracked.name}::${tracked.animation.name} - ${Math.round(tracked.animationFrame * 100) / 100 + 1}/${tracked.animation.frames}`,
       `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collision.left ? ' ←' : ''}${tracked.collision.up ? ' ↑' : ''}${tracked.collision.down ? ' ↓' : ''}${tracked.collision.right ? ' →' : ''}]`,
@@ -86,22 +86,22 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
     ])
     const selected = (tile: Tile) => draw('lime', [
       `TILE: ${tile.toString()}`,
-      `POS: [${editor.selectedX},${editor.selectedY}] SIZE: ${tile.width}x${tile.height}`,
+      `POS: [${$editor.selectedX},${$editor.selectedY}] SIZE: ${tile.width}x${tile.height}`,
       `FRAME: ${tile.animationFrame} ${tile.activator ? '(activator)' : ''}`
     ])
-    const fore = world.foreground[editor.selectedY][editor.selectedX]
+    const fore = $world.foreground[$editor.selectedY][$editor.selectedX]
     if (fore !== undefined) selected(fore)
-    const back = world.background[editor.selectedY][editor.selectedX]
+    const back = $world.background[$editor.selectedY][$editor.selectedX]
     if (back !== undefined) selected(back)
   }
-  if (game.showPlayerStats) {
+  if ($game.showPlayerStats) {
     draw('magenta', [
-      `Attacks: ${playerStats.attacks}`,
-      `Attacks Hit: ${playerStats.attacksHit}`,
-      `Damage Taken: ${playerStats.damageTaken}`,
-      `Damage Dealt: ${playerStats.damageDealt}`,
-      `Kills: ${playerStats.kills}`,
-      `Time Taken: ${playerStats.timeTaken}`
+      `Attacks: ${$playerStats.attacks}`,
+      `Attacks Hit: ${$playerStats.attacksHit}`,
+      `Damage Taken: ${$playerStats.damageTaken}`,
+      `Damage Dealt: ${$playerStats.damageDealt}`,
+      `Kills: ${$playerStats.kills}`,
+      `Time Taken: ${$playerStats.timeTaken}`
     ])
   }
 }
