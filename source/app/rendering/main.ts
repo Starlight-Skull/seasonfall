@@ -4,7 +4,7 @@ import drawText from './text'
 import drawUI from './ui'
 import drawSky from './weather'
 import { toCanvas, $render, saveRestore } from './common'
-import { $player } from '../globals/level'
+import { $player } from '../globals/world'
 
 /**
  * Tracks current mouse position

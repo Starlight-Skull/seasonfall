@@ -1,4 +1,4 @@
-import { $player } from '../globals/level'
+import { $player } from '../globals/world'
 import { $game } from '../globals/game'
 import { $settings } from '../globals/settings'
 

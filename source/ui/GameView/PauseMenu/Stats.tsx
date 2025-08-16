@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menus } from './PauseMenu'
-import { $player } from '../../../app/globals/level'
+import { $player } from '../../../app/globals/world'
 import { $playerStats } from '../../../app/globals/playerStats'
 import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'

@@ -1,4 +1,4 @@
-import { $world, $player } from '../globals/level'
+import { $world, $player } from '../globals/world'
 import entityMovement from '../logic/movement'
 import drawEntity from './entity'
 import { $render } from './common'

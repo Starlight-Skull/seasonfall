@@ -6,7 +6,7 @@ import drawText from './rendering/text'
 import { ctx } from '../ui/GameView/GameCanvas'
 import { $render } from './rendering/common'
 import { $settings } from './globals/settings'
-import { $world } from './globals/level'
+import { $world } from './globals/world'
 
 export default function setupEditor() {
   let handle: number

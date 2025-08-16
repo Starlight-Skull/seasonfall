@@ -1,4 +1,4 @@
-import { $world, $player } from '../globals/level'
+import { $world, $player } from '../globals/world'
 import { $playerStats } from '../globals/playerStats'
 import { $game } from '../globals/game'
 import drawStats from './entityStats'

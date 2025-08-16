@@ -1,5 +1,5 @@
 import React from 'react'
-import { $player } from '../../../app/globals/level'
+import { $player } from '../../../app/globals/world'
 import { $game } from '../../../app/globals/game'
 import InputString from '../../Components/InputString'
 import InputBoolean from '../../Components/InputBoolean'

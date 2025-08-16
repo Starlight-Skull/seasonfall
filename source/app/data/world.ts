@@ -3,7 +3,7 @@ import Hero from "../classes/Entity/Hero"
 import Skeleton from "../classes/Entity/Skeleton"
 import Tile, { Collision } from "../classes/Tile"
 import Door from "../classes/Tile/Door"
-import { $world, $player } from "../globals/level"
+import { $world, $player } from "../globals/world"
 import { $game } from '../globals/game'
 import { isNotEmpty } from "../helpers"
 
