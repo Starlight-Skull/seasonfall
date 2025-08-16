@@ -1,5 +1,5 @@
 import { playerStats } from './globals/playerStats'
-import { world } from './globals/world'
+import { game } from './globals/game'
 
 /**
  * Shorthand for document.getElementById().
@@ -59,9 +59,9 @@ export function toStorage (key: string, value: any): void {
  * Updates the FPS counter.
  */
 export function getFrameCount (): void {
-  if (!world.paused) playerStats.timeTaken++
-  world.fps = world.frames
-  world.frames = 0
+  if (!game.paused) playerStats.timeTaken++
+  game.fps = game.frames
+  game.frames = 0
 }
 
 /**

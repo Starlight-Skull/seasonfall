@@ -1,5 +1,5 @@
-import { player } from '../globals'
-import { world } from '../globals/world'
+import { player } from '../globals/level'
+import { game } from '../globals/game'
 import { settings } from '../globals/settings'
 
 /**
@@ -7,7 +7,7 @@ import { settings } from '../globals/settings'
  * @param event - KeyboardEvent or MouseEvent
  */
 export default function handleGameInput(event: MouseEvent | KeyboardEvent): void {
-  if (world.paused) return
+  if (game.paused) return
   let code = ''
   let down = (event.type === 'keydown' || event.type === 'mousedown')
 

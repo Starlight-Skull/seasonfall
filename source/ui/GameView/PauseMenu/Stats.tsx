@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menus } from './PauseMenu'
-import { player } from '../../../app/globals'
+import { player } from '../../../app/globals/level'
 import { playerStats } from '../../../app/globals/playerStats'
 import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'
@@ -16,7 +16,7 @@ interface Props {
 export default function Stats(props: Props) {
   return (
     <MenuContainer id="Stats">
-      <MenuHeader>Statistics (<i>{player.heroName}</i>)</MenuHeader>
+      <MenuHeader>Statistics (<i>{player.userName}</i>)</MenuHeader>
       <MenuContent>
         <ul>
           <li>Time Taken: {playerStats.timeTaken}</li>

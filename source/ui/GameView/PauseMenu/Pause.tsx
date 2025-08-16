@@ -1,5 +1,5 @@
 import React from 'react'
-import { VERSION } from '../../../app/globals'
+import { VERSION } from '../../../app/globals/game'
 import { settings } from '../../../app/globals/settings'
 import { toStorage } from '../../../app/helpers'
 import { Menus } from './PauseMenu'

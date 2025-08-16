@@ -1,16 +1,16 @@
-import initAssets from './app/data/assets'
+import loadWorld from './app/data/world'
 import { initData } from './app/data/data'
 import { weather } from './app/globals/weather'
 import { formatUnixTime } from './app/helpers'
 import initUI from './ui/Root'
 
-import worldJson from './worlds/tower.world.json'
+import worldFile from './worlds/tower.world.json'
 
 
 window.oncontextmenu = () => { return false }
 window.addEventListener('load', initUI)
 
-initAssets(worldJson, 'Tower')
+loadWorld(worldFile, 'Tower')
 initData()
 
 //* temporary debug stuff *//

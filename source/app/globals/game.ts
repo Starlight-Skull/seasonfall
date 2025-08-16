@@ -1,8 +1,12 @@
 import { settings } from './settings';
 
+export const VERSION = '2.0.0-beta'
 export const PIXELS_PER_TILE = 16
 
-export const world = {
+/**
+ * Game settings at runtime.
+ */
+export const game = {
   fps: 0,
   frames: 0,
   focusX: 0,

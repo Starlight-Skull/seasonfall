@@ -1,5 +1,5 @@
 import Entity from '../classes/Entity'
-import { world } from '../globals/world'
+import { game } from '../globals/game'
 import { settings } from '../globals/settings'
 import drawText from './text'
 import { grid, saveRestore } from './common'
@@ -31,14 +31,14 @@ export default function drawEntity(ctx: CanvasRenderingContext2D, entity: Entity
       entity.animation.width - 0.02,
       entity.animation.height - 0.02,
       animX, animY, animW + 1, animH + 1)
-    if (world.showBoxes) {
+    if (game.showBoxes) {
       ctx.fillStyle = 'rgba(250,0,250,0.5)'
       ctx.strokeStyle = 'rgb(250,0,250)'
       ctx.fillRect(x, y, w, h)
       ctx.strokeRect(animX, animY, animW, animH)
     }
   })
-  if (world.showLiveDebug) {
+  if (game.showLiveDebug) {
     drawText(ctx, `${(entity.x.toFixed(1))},${entity.y.toFixed(1)}`, grid(entity.x), grid(entity.y), { size: 15, color: 'rgb(250,0,250)' })
   }
 }

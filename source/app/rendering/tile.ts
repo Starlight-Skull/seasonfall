@@ -1,5 +1,5 @@
 import Tile, { Collision } from '../classes/Tile'
-import { world } from '../globals/world'
+import { game } from '../globals/game'
 import { settings } from '../globals/settings'
 import { grid, saveRestore } from './common'
 import drawText from './text'
@@ -22,8 +22,8 @@ export default function drawTile(ctx: CanvasRenderingContext2D, gridY: number, g
   saveRestore(ctx, () => {
     if (tile.mirrored) {
       ctx.scale(-1, 1)
-      x = -x - world.grid
-      animX = -animX - world.grid
+      x = -x - game.grid
+      animX = -animX - game.grid
     }
     if (tile.rotation !== 0) {
       ctx.translate(x + w / 2, y + h / 2)
@@ -41,7 +41,7 @@ export default function drawTile(ctx: CanvasRenderingContext2D, gridY: number, g
       tile.animation.width - 0.01,
       tile.animation.height - 0.01,
       animX, animY, animW + 1, animH + 1)
-    if (world.showBoxes) {
+    if (game.showBoxes) {
       switch (tile.collision) {
         case Collision.none:
           ctx.fillStyle = 'rgba(10,50,0,0.5)'

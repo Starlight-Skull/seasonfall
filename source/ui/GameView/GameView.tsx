@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DebugMenu from './DebugMenu/DebugMenu'
 import PauseMenu from './PauseMenu/PauseMenu'
 import GameCanvas from './GameCanvas'
-import { world } from '../../app/globals/world'
+import { game } from '../../app/globals/game'
 import NavButton from '../Components/NavButton'
 import setupGameLoop from '../../app/gameSetup'
 import icon from '../../textures/icon.png'
@@ -32,8 +32,8 @@ export default function GameView(props: Props) {
   })
 
   useEffect(() => {
-    world.paused = debugVisible || pauseVisible
-    return () => { world.paused = false }
+    game.paused = debugVisible || pauseVisible
+    return () => { game.paused = false }
   }, [debugVisible, pauseVisible])
 
   function toggle() {

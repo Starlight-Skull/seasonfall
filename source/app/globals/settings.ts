@@ -20,6 +20,9 @@ interface Settings {
   }
 }
 
+/**
+ * User settings that will be saved.
+ */
 export const settings: Settings = {
   scale: 5,
   showFPS: false,

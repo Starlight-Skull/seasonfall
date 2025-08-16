@@ -1,12 +1,10 @@
-import type Entity from './classes/Entity'
-import Tile from './classes/Tile'
-import Hero from './classes/Entity/Hero'
-
-export const VERSION = '2.0.0-beta'
+import type Entity from '../classes/Entity'
+import Tile from '../classes/Tile'
+import Hero from '../classes/Entity/Hero'
 
 export const player = new Hero()
 
-export const level = {
+export const world = {
   name: '',
   properties: {
     rootX: 0,

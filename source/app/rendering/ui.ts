@@ -1,6 +1,6 @@
-import { level, player } from '../globals'
+import { world, player } from '../globals/level'
 import { playerStats } from '../globals/playerStats'
-import { world } from '../globals/world'
+import { game } from '../globals/game'
 import drawStats from './entityStats'
 import drawText from './text'
 import { grid, render, saveRestore } from './common'
@@ -14,18 +14,18 @@ export default function drawUI(ctx: CanvasRenderingContext2D): void {
   //* entity stats *//
   saveRestore(ctx, () => {
     ctx.translate(render.focusX, render.focusY)
-    for (let entity of level.entities) {
+    for (let entity of world.entities) {
       if (render.isOffScreen(entity.x, entity.y)) continue
       drawStats(ctx, entity)
     }
     drawStats(ctx, player)
-    if (world.showBoxes) {
+    if (game.showBoxes) {
       ctx.strokeStyle = 'red'
       ctx.strokeRect(
-        grid(level.properties.borderX),
-        grid(level.properties.borderY),
-        grid(level.properties.borderW),
-        grid(level.properties.borderH)
+        grid(world.properties.borderX),
+        grid(world.properties.borderY),
+        grid(world.properties.borderW),
+        grid(world.properties.borderH)
       )
     }
   })
@@ -71,12 +71,12 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
     info.forEach((value, index) => drawText(ctx, value, 5, start + index * 30, { color }))
     start += info.length * 30 + 10
   }
-  if (world.showLiveDebug) {
+  if (game.showLiveDebug) {
     draw('cyan', [
-      `LEVEL: root[${level.properties.rootX},${level.properties.rootY}] border[${level.properties.borderX},${level.properties.borderY},${level.properties.borderW},${level.properties.borderH}]`,
+      `LEVEL: root[${world.properties.rootX},${world.properties.rootY}] border[${world.properties.borderX},${world.properties.borderY},${world.properties.borderW},${world.properties.borderH}]`,
       `RENDER: bounds[${render.minX},${render.minY},${render.maxX},${render.maxY}]`,
-      `WORLD: SHADE: [${Math.round(world.shade * 100) / 100}]`,
-      `DEBUG: ${world.debug}${editor.selectedY},${editor.selectedX}`
+      `WORLD: SHADE: [${Math.round(game.shade * 100) / 100}]`,
+      `DEBUG: ${game.debug}${editor.selectedY},${editor.selectedX}`
     ])
     const tracked = player
     draw('cyan', [
@@ -89,12 +89,12 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
       `POS: [${editor.selectedX},${editor.selectedY}] SIZE: ${tile.width}x${tile.height}`,
       `FRAME: ${tile.animationFrame} ${tile.activator ? '(activator)' : ''}`
     ])
-    const fore = level.foreground[editor.selectedY][editor.selectedX]
+    const fore = world.foreground[editor.selectedY][editor.selectedX]
     if (fore !== undefined) selected(fore)
-    const back = level.background[editor.selectedY][editor.selectedX]
+    const back = world.background[editor.selectedY][editor.selectedX]
     if (back !== undefined) selected(back)
   }
-  if (world.showPlayerStats) {
+  if (game.showPlayerStats) {
     draw('magenta', [
       `Attacks: ${playerStats.attacks}`,
       `Attacks Hit: ${playerStats.attacksHit}`,

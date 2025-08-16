@@ -4,7 +4,7 @@ import MenuContent from '../Components/MenuContent'
 import MenuHeader from '../Components/MenuHeader'
 import NavButton from '../Components/NavButton'
 import { Views } from '../Root'
-import { VERSION } from '../../app/globals'
+import { VERSION } from '../../app/globals/game'
 
 import './MainMenu.scss'
 

@@ -1,4 +1,4 @@
-import { world } from './globals/world'
+import { game } from './globals/game'
 import { FONTS } from './globals/fonts'
 import { settings } from './globals/settings'
 import handleGameInput from './logic/input'
@@ -13,15 +13,15 @@ export default function setupGameLoop() {
   window.addEventListener('keydown', handleGameInput)
   window.addEventListener('keyup', handleGameInput)
 
-  function game (dt: number): void {
+  function loop (dt: number): void {
     if (ctx !== undefined) {
-      if (!world.paused) drawMain(ctx, false)
-      world.frames++
-      if (settings.showFPS) drawText(ctx, `${world.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: FONTS.PixeloidMono })
+      if (!game.paused) drawMain(ctx, false)
+      game.frames++
+      if (settings.showFPS) drawText(ctx, `${game.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: FONTS.PixeloidMono })
     }
-    handle = requestAnimationFrame(game)
+    handle = requestAnimationFrame(loop)
   }
-  handle = requestAnimationFrame(game)
+  handle = requestAnimationFrame(loop)
 
   return () => {
     window.removeEventListener('mousedown', handleGameInput)

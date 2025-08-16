@@ -1,4 +1,4 @@
-import { world } from '../globals/world'
+import { game } from '../globals/game'
 import { weather } from '../globals/weather'
 
 /**
@@ -38,7 +38,7 @@ export default function drawSky(ctx: CanvasRenderingContext2D): void {
       timeSet = sky.night
       break
   }
-  world.shade = timeSet.shade
+  game.shade = timeSet.shade
   ctx.fillStyle = timeSet.color
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }

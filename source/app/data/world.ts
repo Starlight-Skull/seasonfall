@@ -3,11 +3,11 @@ import Hero from "../classes/Entity/Hero"
 import Skeleton from "../classes/Entity/Skeleton"
 import Tile, { Collision } from "../classes/Tile"
 import Door from "../classes/Tile/Door"
-import { level, player } from "../globals"
-import { world } from '../globals/world'
+import { world, player } from "../globals/level"
+import { game } from '../globals/game'
 import { isNotEmpty } from "../helpers"
 
-interface World {
+interface WorldFile {
   $schema: string
   properties: {
     rootX: number
@@ -30,34 +30,34 @@ interface World {
  * Parses data in the world file into Tile objects.
  * @param json - World data file.
  */
-export default function  initAssets(json: World, name: string): void {
-  if (level.name === name) return
-  level.name = name
-  level.properties = json.properties
-  world.focusX = level.properties.rootX
-  world.focusY = level.properties.rootY
-  player.x = level.properties.rootX
-  player.y = level.properties.rootY
+export default function  loadWorld(json: WorldFile, name: string): void {
+  if (world.name === name) return
+  world.name = name
+  world.properties = json.properties
+  game.focusX = world.properties.rootX
+  game.focusY = world.properties.rootY
+  player.x = world.properties.rootX
+  player.y = world.properties.rootY
   for (let y = 0; y < json.background.length; y++) {
-    level.background[y] = []
+    world.background[y] = []
     for (let x = 0; x < json.background[y].length; x++) {
       const background = json.background?.[y]?.[x]
       if (isNotEmpty(background)) {
-        level.background[y][x] = toTile(background, true)
+        world.background[y][x] = toTile(background, true)
       }
     }
   }
   for (let y = 0; y < json.foreground.length; y++) {
-    level.foreground[y] = []
+    world.foreground[y] = []
     for (let x = 0; x < json.foreground[y].length; x++) {
       const foreground = json.foreground?.[y]?.[x]
       if (isNotEmpty(foreground)) {
-        level.foreground[y][x] = toTile(foreground)
+        world.foreground[y][x] = toTile(foreground)
       }
     }
   }
   json.entities.forEach(entity => {
-    level.entities.push(toEntity(entity.class, entity.x, entity.y))
+    world.entities.push(toEntity(entity.class, entity.x, entity.y))
   })
 
 }
@@ -85,9 +85,6 @@ function toTile(tile: string, background = false): Tile | undefined {
 
 /**
  * Convert a string to an Entity object.
- * @param entity - entity name
- * @param x
- * @param y
  */
 function toEntity(entity: string, x: number, y: number): Entity {
   switch (entity) {
