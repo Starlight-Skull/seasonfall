@@ -7,6 +7,13 @@ import { $world, $player } from "../globals/level"
 import { $game } from '../globals/game'
 import { isNotEmpty } from "../helpers"
 
+import tower from '../../worlds/tower.world.json'
+import test from '../../worlds/test.world.json'
+
+export const $worlds: Record<string, WorldFile> = {
+  tower, test
+}
+
 interface WorldFile {
   $schema: string
   properties: {
@@ -38,6 +45,9 @@ export default function  loadWorld(json: WorldFile, name: string): void {
   $game.focusY = $world.properties.rootY
   $player.x = $world.properties.rootX
   $player.y = $world.properties.rootY
+  $world.background = []
+  $world.foreground = []
+  $world.entities = []
   for (let y = 0; y < json.background.length; y++) {
     $world.background[y] = []
     for (let x = 0; x < json.background[y].length; x++) {

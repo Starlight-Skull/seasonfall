@@ -88,9 +88,9 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
       `POS: [${$editor.selectedX},${$editor.selectedY}] SIZE: ${tile.width}x${tile.height}`,
       `FRAME: ${tile.animationFrame} ${tile.activator ? '(activator)' : ''}`
     ])
-    const fore = $world.foreground[$editor.selectedY][$editor.selectedX]
+    const fore = $world.foreground[$editor.selectedY]?.[$editor.selectedX]
     if (fore !== undefined) selected(fore, 'FORE')
-    const back = $world.background[$editor.selectedY][$editor.selectedX]
+    const back = $world.background[$editor.selectedY]?.[$editor.selectedX]
     if (back !== undefined) selected(back, 'BACK')
   }
   if ($game.showPlayerStats) {
