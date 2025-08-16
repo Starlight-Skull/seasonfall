@@ -87,6 +87,7 @@ function toTile(tile: string, background = false): Tile | undefined {
       painting.animation.height = 32
       return painting
     case 'link':
+      // todo link type
       return undefined
     default:
       return new Tile(name, options)
@@ -105,4 +106,47 @@ function toEntity(entity: string, x: number, y: number): Entity {
     default:
       return new Entity(x, y)
   }
+}
+
+/**
+ * Function to download data to a file
+ */
+export function saveWorld(): void {
+  const world: WorldFile = {
+    $schema: "./_schema.json",
+    properties: $world.properties,
+    entities: [],
+    foreground: [],
+    background: []
+  }
+  $world.foreground.forEach((row, i) => {
+    world.foreground[i] = []
+    for (let j = 0; j < row.length; j++) {
+      const tile = row[j]
+      world.foreground[i][j] = (tile !== undefined ? tile.toString() : '')
+    }
+  })
+  $world.background.forEach((row, i) => {
+    world.background[i] = []
+    for (let j = 0; j < row.length; j++) {
+      const tile = row[j]
+      world.background[i][j] = (tile !== undefined ? tile.toString(true) : '')
+    }
+  })
+  // world.entities = $world.entities.map(entity => ({ class: entity.name, x: entity.x, y: entity.y }))
+  download(world, $world.name)
+}
+
+function download(data: WorldFile, filename: string): void {
+  const file = new Blob([JSON.stringify(data)], { type: 'json' })
+  let a = document.createElement('a')
+  const url = URL.createObjectURL(file)
+  a.href = url
+  a.download = `${filename}.world.json`
+  document.body.appendChild(a)
+  a.click()
+  setTimeout(() => {
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }, 0)
 }
