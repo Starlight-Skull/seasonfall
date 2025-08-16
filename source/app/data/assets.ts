@@ -68,29 +68,18 @@ export default function  initAssets(json: World, name: string): void {
  * @param background - if true, tile will have Collision.none
  */
 function toTile(tile: string, background = false): Tile | undefined {
-  const options: any = {}
-  const split = tile.split(':')
-  options.name = split[0]
-  if (split.includes('m')) options.mirrored = true
-  if (split.includes('r-90')) options.rotation = 90
-  if (split.includes('r-180')) options.rotation = 180
-  if (split.includes('r-270')) options.rotation = 270
-  if (!background) {
-    if (split.includes('c-all')) options.collision = Collision.all
-    if (split.includes('c-top')) options.collision = Collision.top
-    if (split.includes('c-none')) options.collision = Collision.none
-  } else options.collision = Collision.none
-  switch (split[0]) {
+  const [name, options] = Tile.parse(tile, background)
+  switch (name) {
     case 'door':
       return new Door(true, options)
     case 'painting':
-      const painting = new Tile(split[0], { collision: Collision.none, height: 2 })
+      const painting = new Tile(name, { collision: Collision.none, height: 2 })
       painting.animation.height = 32
       return painting
     case 'link':
       return undefined
     default:
-      return new Tile(split[0], options)
+      return new Tile(name, options)
   }
 }
 

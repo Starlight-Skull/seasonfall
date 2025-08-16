@@ -85,7 +85,7 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
       `MOVE: [${tracked.movement.left ? ' ←' : ''}${tracked.movement.attack ? ' $' : ''}${tracked.movement.use ? ' #' : ''}${tracked.movement.jump ? ' ▲' : ''}${tracked.movement.down ? ' ↓' : ''}${tracked.movement.right ? ' →' : ''}] ${tracked.stats.jumpTime}`
     ])
     const selected = (tile: Tile) => draw('lime', [
-      `TILE: ${tile.name}${tile.mirrored ? ' m' : ''} c-${tile.collision.toString()} r-${tile.rotation}`,
+      `TILE: ${tile.toString()}`,
       `POS: [${editor.selectedX},${editor.selectedY}] SIZE: ${tile.width}x${tile.height}`,
       `FRAME: ${tile.animationFrame} ${tile.activator ? '(activator)' : ''}`
     ])

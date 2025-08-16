@@ -18,7 +18,7 @@ export default class Tile extends Animatable {
   rotation: number
   activator: boolean
 
-  constructor (name: string, options?: Options) {
+  constructor(name: string, options?: Options) {
     const { collision = Collision.all, rotation = 0, width, height, mirrored } = options ?? {}
     super(name, { width, height, mirrored })
     this.collision = collision
@@ -26,5 +26,29 @@ export default class Tile extends Animatable {
     this.activator = false
   }
 
-  activate (): void {}
+  activate(): void {}
+
+  toString(background = false): string {
+    let name = this.name
+    if (this.mirrored) name += ':m'
+    if (this.rotation !== 0) name += `:r-${this.rotation}`
+    if (!background && this.collision !== Collision.all) name += `:c-${this.collision.toString()}`
+    return name
+  }
+
+  static parse(tile: string, background = false): [string, Options] {
+    const options: Options = {}
+    const split = tile.split(':')
+    if (split.includes('m')) options.mirrored = true
+    if (split.includes('r-90')) options.rotation = 90
+    if (split.includes('r-180')) options.rotation = 180
+    if (split.includes('r-270')) options.rotation = 270
+    if (!background) {
+      if (split.includes('c-all')) options.collision = Collision.all
+      if (split.includes('c-top')) options.collision = Collision.top
+      if (split.includes('c-part')) options.collision = Collision.partial
+      if (split.includes('c-none')) options.collision = Collision.none
+    } else options.collision = Collision.none
+    return [split[0], options]
+  }
 }
