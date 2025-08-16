@@ -15,6 +15,7 @@ export const $game = {
   showBoxes: false,
   showLiveDebug: false,
   showPlayerStats: false,
+  bootView: 0,
   debug: '',
   get grid() {
     // !!! scale must be a positive number or everything breaks => (x / 0 == Infinity) !!!

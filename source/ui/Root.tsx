@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import EditorView from './EditorView/EditorView'
 import GameView from './GameView/GameView'
 import MainMenu from './MainView/MainMenu'
+import { $game } from '../app/globals/game'
 import './Root.scss'
 
 export enum Views { start, game, editor }
@@ -16,7 +17,7 @@ export default function initUI() {
 }
 
 function Root() {
-  const [view, setView] = useState(Views.start)
+  const [view, setView] = useState($game.bootView)
 
   switch (view) {
     case Views.game:
