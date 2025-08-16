@@ -1,5 +1,5 @@
-import { $game } from '../globals/game'
 import { $weather } from '../globals/weather'
+import { $render } from './common'
 
 /**
  * Constants for the color and shade of the sky.
@@ -38,7 +38,7 @@ export default function drawSky(ctx: CanvasRenderingContext2D): void {
       timeSet = sky.night
       break
   }
-  $game.shade = timeSet.shade
+  $render.shade = timeSet.shade
   ctx.fillStyle = timeSet.color
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 }

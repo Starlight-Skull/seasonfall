@@ -11,7 +11,6 @@ export const $game = {
   frames: 0,
   focusX: 0,
   focusY: 0,
-  shade: 0,
   paused: false,
   showBoxes: false,
   showLiveDebug: false,

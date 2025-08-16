@@ -36,7 +36,6 @@ export default function drawMain(ctx: CanvasRenderingContext2D, editor: boolean)
   // }
 
   saveRestore(ctx, () => {
-    ctx.translate($render.focusX, $render.focusY)
     drawWorld(ctx)
 
     if (editor) {
@@ -51,10 +50,10 @@ export default function drawMain(ctx: CanvasRenderingContext2D, editor: boolean)
     ctx.fillStyle = 'rgba(250,250,250,0.5)'
     ctx.fillRect(toCanvas($render.mouseX), toCanvas($render.mouseY), $game.grid, $game.grid)
     if ($game.showLiveDebug) drawText(ctx, `${$render.mouseX},${$render.mouseY}`, toCanvas($render.mouseX), toCanvas($render.mouseY), { color: 'white' })
-  })
+  }, true)
 
   //* shade overlay *//
-  ctx.fillStyle = `rgba(0,0,0,${$game.shade})`
+  ctx.fillStyle = `rgba(0,0,0,${$render.shade})`
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
   drawUI(ctx)

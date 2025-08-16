@@ -13,7 +13,6 @@ import Tile from '../classes/Tile'
 export default function drawUI(ctx: CanvasRenderingContext2D): void {
   //* entity stats *//
   saveRestore(ctx, () => {
-    ctx.translate($render.focusX, $render.focusY)
     for (let entity of $world.entities) {
       if ($render.isOffScreen(entity.x, entity.y)) continue
       drawStats(ctx, entity)
@@ -28,7 +27,7 @@ export default function drawUI(ctx: CanvasRenderingContext2D): void {
         toCanvas($world.properties.borderH)
       )
     }
-  })
+  }, true)
   //* UI *//
   drawPlayerBars(ctx)
   drawDebug(ctx)
@@ -75,7 +74,7 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
     draw('cyan', [
       `WORLD: root[${$world.properties.rootX},${$world.properties.rootY}] border[${$world.properties.borderX},${$world.properties.borderY},${$world.properties.borderW},${$world.properties.borderH}]`,
       `RENDER: bounds[${$render.minX},${$render.minY},${$render.maxX},${$render.maxY}]`,
-      `SHADE: [${Math.round($game.shade * 100) / 100}]`,
+      `SHADE: ${$render.shade}`,
       `DEBUG: ${$game.debug}`
     ])
     const tracked = $player
@@ -84,15 +83,15 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
       `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collision.left ? ' ←' : ''}${tracked.collision.up ? ' ↑' : ''}${tracked.collision.down ? ' ↓' : ''}${tracked.collision.right ? ' →' : ''}]`,
       `MOVE: [${tracked.movement.left ? ' ←' : ''}${tracked.movement.attack ? ' $' : ''}${tracked.movement.use ? ' #' : ''}${tracked.movement.jump ? ' ▲' : ''}${tracked.movement.down ? ' ↓' : ''}${tracked.movement.right ? ' →' : ''}] ${tracked.stats.jumpTime}`
     ])
-    const selected = (tile: Tile) => draw('lime', [
-      `TILE: ${tile.toString()}`,
+    const selected = (tile: Tile, title: string) => draw('lime', [
+      `${title}: ${tile.toString()}`,
       `POS: [${$editor.selectedX},${$editor.selectedY}] SIZE: ${tile.width}x${tile.height}`,
       `FRAME: ${tile.animationFrame} ${tile.activator ? '(activator)' : ''}`
     ])
     const fore = $world.foreground[$editor.selectedY][$editor.selectedX]
-    if (fore !== undefined) selected(fore)
+    if (fore !== undefined) selected(fore, 'FORE')
     const back = $world.background[$editor.selectedY][$editor.selectedX]
-    if (back !== undefined) selected(back)
+    if (back !== undefined) selected(back, 'BACK')
   }
   if ($game.showPlayerStats) {
     draw('magenta', [
