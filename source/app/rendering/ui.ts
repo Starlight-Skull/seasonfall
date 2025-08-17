@@ -10,14 +10,14 @@ import Tile from '../classes/Tile'
 /**
  * Draws UI overlay and floating entity stats.
  */
-export default function drawUI(ctx: CanvasRenderingContext2D): void {
+export default function drawUI(ctx: CanvasRenderingContext2D, editor = false): void {
   //* entity stats *//
   saveRestore(ctx, () => {
     for (let entity of $world.entities) {
       if ($render.isOffScreen(entity.x, entity.y)) continue
-      drawStats(ctx, entity)
+      if (!editor) drawStats(ctx, entity)
     }
-    drawStats(ctx, $player)
+    if (!editor) drawStats(ctx, $player)
     if ($game.showBoxes) {
       ctx.strokeStyle = 'red'
       ctx.strokeRect(
@@ -29,7 +29,7 @@ export default function drawUI(ctx: CanvasRenderingContext2D): void {
     }
   }, true)
   //* UI *//
-  drawPlayerBars(ctx)
+  if (!editor) drawPlayerBars(ctx)
   drawDebug(ctx)
 }
 

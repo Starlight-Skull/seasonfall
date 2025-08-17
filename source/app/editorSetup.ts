@@ -12,10 +12,10 @@ export default function setupEditor() {
   let handle: number
   window.addEventListener('mousedown', setWorldFocus)
 
-  let scale = $settings.scale
+  const scale = $settings.scale
   $settings.scale = $editor.scale
-  $game.showLiveDebug = true
-  $game.showBoxes = true
+  $game.showLiveDebug = $editor.showLiveDebug
+  $game.showBoxes = $editor.showBoxes
 
   function loop (): void {
     if (ctx !== undefined) {
@@ -41,7 +41,11 @@ function setWorldFocus (e: MouseEvent) {
     $editor.selectedX = $render.mouseX
     $editor.selectedY = $render.mouseY
   } else if (e.button === 1) {
-    $world.foreground[$render.mouseY][$render.mouseX] = $world.foreground[$editor.selectedY][$editor.selectedX]
+    if ($editor.foreground) {
+      $world.foreground[$render.mouseY][$render.mouseX] = $editor.selectedTile
+    } else {
+      $world.background[$render.mouseY][$render.mouseX] = $editor.selectedTile
+    }
   } else if (e.button === 2) {
     $game.focusX = $render.mouseX
     $game.focusY = $render.mouseY

@@ -56,5 +56,5 @@ export default function drawMain(ctx: CanvasRenderingContext2D, editor: boolean)
   ctx.fillStyle = `rgba(0,0,0,${$render.shade})`
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
-  drawUI(ctx)
+  drawUI(ctx, editor)
 }
