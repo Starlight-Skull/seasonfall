@@ -69,7 +69,17 @@ export default function  loadWorld(json: WorldFile, name: string): void {
   json.entities.forEach(entity => {
     $world.entities.push(toEntity(entity.class, entity.x, entity.y))
   })
-
+  // $world.links.forEach(tile => {
+  //   // todo make into new class
+  //   const split = tile.name.split(':')
+  //   if (split.length < 3) return
+  //   const x = parseInt(split[1])
+  //   const y = parseInt(split[2])
+  //   tile.name = split[0]
+  //   tile.activator = true
+  //   tile.collision = Collision.none
+  //   tile.activate = () => $world.foreground[y]?.[x]?.activate()
+  // })
 }
 
 /**
@@ -87,8 +97,12 @@ function toTile(tile: string, background = false): Tile | undefined {
       painting.animation.height = 32
       return painting
     case 'link':
-      // todo link type
+      // const link = new Tile(tile)
+      // $world.links.push(link)
+      // return link
       return undefined
+    case 'plank':
+      return new Tile(name, { ...options, height: 0.5 })
     default:
       return new Tile(name, options)
   }
