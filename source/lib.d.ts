@@ -5,5 +5,10 @@ declare module '*.jpg'
 declare module '*.jpeg'
 declare module '*.gif' {
   const value: string
-  export = value
+  export default value
+}
+
+declare module "*.json" {
+  const value: any
+  export default value
 }
