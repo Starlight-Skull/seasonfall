@@ -36,8 +36,7 @@ export default function drawStats(ctx: CanvasRenderingContext2D, entity: Entity)
     }
     //* debug *//
     if ($game.showLiveDebug) {
-      const val = `${entity.movement.left ? '←' : ''}${entity.movement.down ? '↓' : ''}${entity.movement.attack ? '#' : ''}${entity.movement.jump ? '▲' : ''}${entity.movement.right ? '→' : ''}`
-      drawText(ctx, val, x, y - 95, { color: 'rgb(255,255,255)', center: true })
+      drawText(ctx, entity.movementToString(), x, y - 95, { color: 'rgb(255,255,255)', center: true })
     }
   }
 }

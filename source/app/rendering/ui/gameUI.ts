@@ -71,9 +71,9 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
     ], start, { color: 'cyan' })
     const tracked = $player
     start = drawDebugBlock(ctx, [
-      `ANIM: ${tracked.name}::${tracked.animation.name} - ${Math.round(tracked.animationFrame * 100) / 100 + 1}/${tracked.animation.frames}`,
-      `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collision.left ? ' ←' : ''}${tracked.collision.up ? ' ↑' : ''}${tracked.collision.down ? ' ↓' : ''}${tracked.collision.right ? ' →' : ''}]`,
-      `MOVE: [${tracked.movement.left ? ' ←' : ''}${tracked.movement.attack ? ' $' : ''}${tracked.movement.use ? ' #' : ''}${tracked.movement.jump ? ' ▲' : ''}${tracked.movement.down ? ' ↓' : ''}${tracked.movement.right ? ' →' : ''}] ${tracked.stats.jumpTime}`
+      `ANIM: ${tracked.animToString()}`,
+      `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collisionToString()}]`,
+      `MOVE: [${tracked.movementToString()}]`
     ], start, { color: 'cyan' })
   }
   if ($game.showPlayerStats) {
