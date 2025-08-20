@@ -4,15 +4,19 @@ import { $game } from '../globals/game'
  * Saves render context and restores after executing script.
  * @param script - function callback
  */
-export function saveRestore(ctx: CanvasRenderingContext2D, script: () => void, translate = false): void {
+export function saveRestore(ctx: CanvasRenderingContext2D, script: () => void): void {
   ctx.save()
-  if (translate) {
+  script()
+  ctx.restore()
+}
+
+export function translateContext(ctx: CanvasRenderingContext2D, script: () => void): void {
+  saveRestore(ctx, () => {
     const focusX = window.innerWidth / 2 - toCanvas($game.focusX)
     const focusY = window.innerHeight / 2 - toCanvas($game.focusY)
     ctx.translate(focusX, focusY)
-  }
-  script()
-  ctx.restore()
+    script()
+  })
 }
 
 /**

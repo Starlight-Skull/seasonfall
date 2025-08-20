@@ -13,6 +13,4 @@ export const $editor = {
     }
   },
   scale: 3,
-  showBoxes: false,
-  showLiveDebug: true,
 }

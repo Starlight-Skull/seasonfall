@@ -17,6 +17,11 @@ export default function DebugTools(props: Props) {
         onChange={(val) => ($game.showBoxes = val)}
       />
       <InputBoolean
+        label="Show Coordinates"
+        value={$game.showCoords}
+        onChange={(val) => ($game.showCoords = val)}
+      />
+      <InputBoolean
         label="Show Live Debug"
         value={$game.showLiveDebug}
         onChange={(val) => ($game.showLiveDebug = val)}

@@ -10,6 +10,7 @@ export default function GameCanvas() {
 
   useEffect(() => {
     if (canvasRef.current) ctx = canvasRef.current.getContext('2d') ?? undefined
+    if (ctx !== undefined) ctx.imageSmoothingEnabled = false
     return () => ctx = undefined
   })
 
@@ -17,6 +18,7 @@ export default function GameCanvas() {
     const handleResize = () => {
       setWidth(window.innerWidth)
       setHeight(window.innerHeight)
+      if (ctx !== undefined) ctx.imageSmoothingEnabled = false
     }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)

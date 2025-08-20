@@ -1,11 +1,12 @@
-import Tile, { Collision } from '../classes/Tile'
-import { $game } from '../globals/game'
-import { $settings } from '../globals/settings'
-import { toCanvas, saveRestore } from './common'
-import drawText from './text'
+import Tile, { Collision } from '../../classes/Tile'
+import { $game } from '../../globals/game'
+import { $settings } from '../../globals/settings'
+import { toCanvas, saveRestore } from '../common'
+import drawText from '../ui/text'
 
 /**
  * Draws a given tile according to its properties.
+ * Use in translated context.
  * @param gridY - Relative X coordinate.
  * @param gridX - Relative Y coordinate.
  * @param tile - The tile to draw.
@@ -60,8 +61,8 @@ export default function drawTile(ctx: CanvasRenderingContext2D, gridY: number, g
       ctx.strokeRect(animX, animY, animW, animH)
     }
   })
-  // if (world.showLiveDebug) {
-  //   drawText(ctx, `${gridX},${gridY}`, grid(gridX), grid(gridY), { color: 'rgb(0,200,0)' })
-  // }
+  if ($game.showCoords) {
+    drawText(ctx, `${gridX},${gridY}`, toCanvas(gridX), toCanvas(gridY), { color: 'rgb(0,200,0)' })
+  }
   if (tile.animation.frames > 1) tile.nextFrame(true)
 }

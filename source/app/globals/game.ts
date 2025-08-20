@@ -14,6 +14,7 @@ export const $game = {
   paused: false,
   showBoxes: false,
   showLiveDebug: false,
+  showCoords: false,
   showPlayerStats: false,
   bootView: 0,
   debug: '',

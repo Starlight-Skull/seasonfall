@@ -1,23 +1,20 @@
-import { $world, $player } from '../globals/world'
-import { $playerStats } from '../globals/playerStats'
-import { $game } from '../globals/game'
+import { $world, $player } from '../../globals/world'
+import { $playerStats } from '../../globals/playerStats'
+import { $game } from '../../globals/game'
 import drawStats from './entityStats'
-import drawText from './text'
-import { toCanvas, $render, saveRestore } from './common'
-import { $editor } from '../globals/editor'
-import Tile from '../classes/Tile'
+import { drawDebugBlock } from './text'
+import { toCanvas, $render, translateContext } from '../common'
 
 /**
  * Draws UI overlay and floating entity stats.
  */
-export default function drawUI(ctx: CanvasRenderingContext2D, editor = false): void {
-  //* entity stats *//
-  saveRestore(ctx, () => {
+export default function drawGameUI(ctx: CanvasRenderingContext2D): void {
+  translateContext(ctx, () => {
     for (let entity of $world.entities) {
       if ($render.isOffScreen(entity.x, entity.y)) continue
-      if (!editor) drawStats(ctx, entity)
+      drawStats(ctx, entity)
     }
-    if (!editor) drawStats(ctx, $player)
+    drawStats(ctx, $player)
     if ($game.showBoxes) {
       ctx.strokeStyle = 'red'
       ctx.strokeRect(
@@ -27,9 +24,8 @@ export default function drawUI(ctx: CanvasRenderingContext2D, editor = false): v
         toCanvas($world.properties.borderH)
       )
     }
-  }, true)
-  //* UI *//
-  if (!editor) drawPlayerBars(ctx)
+  })
+  drawPlayerBars(ctx)
   drawDebug(ctx)
 }
 
@@ -66,41 +62,28 @@ function drawPlayerBars(ctx: CanvasRenderingContext2D): void {
  */
 function drawDebug(ctx: CanvasRenderingContext2D): void {
   let start = 100
-  const draw = (color: string, info: string[]) => {
-    info.forEach((value, index) => drawText(ctx, value, 5, start + index * 30, { color }))
-    start += info.length * 30 + 10
-  }
   if ($game.showLiveDebug) {
-    draw('cyan', [
+    start = drawDebugBlock(ctx, [
       `WORLD: root[${$world.properties.rootX},${$world.properties.rootY}] border[${$world.properties.borderX},${$world.properties.borderY},${$world.properties.borderW},${$world.properties.borderH}]`,
       `RENDER: bounds[${$render.minX},${$render.minY},${$render.maxX},${$render.maxY}]`,
       `SHADE: ${$render.shade}`,
       `DEBUG: ${$game.debug}`
-    ])
+    ], start, { color: 'cyan' })
     const tracked = $player
-    draw('cyan', [
+    start = drawDebugBlock(ctx, [
       `ANIM: ${tracked.name}::${tracked.animation.name} - ${Math.round(tracked.animationFrame * 100) / 100 + 1}/${tracked.animation.frames}`,
       `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collision.left ? ' ←' : ''}${tracked.collision.up ? ' ↑' : ''}${tracked.collision.down ? ' ↓' : ''}${tracked.collision.right ? ' →' : ''}]`,
       `MOVE: [${tracked.movement.left ? ' ←' : ''}${tracked.movement.attack ? ' $' : ''}${tracked.movement.use ? ' #' : ''}${tracked.movement.jump ? ' ▲' : ''}${tracked.movement.down ? ' ↓' : ''}${tracked.movement.right ? ' →' : ''}] ${tracked.stats.jumpTime}`
-    ])
-    const selected = (tile: Tile, title: string) => draw('lime', [
-      `${title}: ${tile.toString()}`,
-      `POS: [${$editor.selectedX},${$editor.selectedY}] SIZE: ${tile.width}x${tile.height}`,
-      `FRAME: ${tile.animationFrame} ${tile.activator ? '(activator)' : ''}`
-    ])
-    const fore = $world.foreground[$editor.selectedY]?.[$editor.selectedX]
-    if (fore !== undefined) selected(fore, 'FORE')
-    const back = $world.background[$editor.selectedY]?.[$editor.selectedX]
-    if (back !== undefined) selected(back, 'BACK')
+    ], start, { color: 'cyan' })
   }
   if ($game.showPlayerStats) {
-    draw('magenta', [
+    start = drawDebugBlock(ctx, [
       `Attacks: ${$playerStats.attacks}`,
       `Attacks Hit: ${$playerStats.attacksHit}`,
       `Damage Taken: ${$playerStats.damageTaken}`,
       `Damage Dealt: ${$playerStats.damageDealt}`,
       `Kills: ${$playerStats.kills}`,
       `Time Taken: ${$playerStats.timeTaken}`
-    ])
+    ], start, { color: 'magenta' })
   }
 }

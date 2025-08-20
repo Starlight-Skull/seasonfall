@@ -5,6 +5,7 @@ import InputSelect from '../Components/InputSelect'
 import { saveWorld } from '../../app/data/world'
 import InputBoolean from '../Components/InputBoolean'
 import { $editor } from '../../app/globals/editor'
+import { $game } from '../../app/globals/game'
 
 interface Props {
   exit: () => void
@@ -38,14 +39,9 @@ export function EditorBar(props: Props) {
           value={$editor.foreground}
         />
         <InputBoolean
-          label="showBoxes"
-          onChange={val => ($editor.showBoxes = val)}
-          value={$editor.showBoxes}
-        />
-        <InputBoolean
-          label="showLiveDebug"
-          onChange={val => ($editor.showLiveDebug = val)}
-          value={$editor.showLiveDebug}
+          label="Show Hit Boxes"
+          onChange={val => ($game.showBoxes = val)}
+          value={$game.showBoxes}
         />
       </div>
     </div>

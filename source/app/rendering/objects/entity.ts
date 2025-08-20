@@ -1,11 +1,12 @@
-import Entity from '../classes/Entity'
-import { $game } from '../globals/game'
-import { $settings } from '../globals/settings'
-import drawText from './text'
-import { toCanvas, saveRestore } from './common'
+import Entity from '../../classes/Entity'
+import { $game } from '../../globals/game'
+import { $settings } from '../../globals/settings'
+import drawText from '../ui/text'
+import { toCanvas, saveRestore } from '../common'
 
 /**
  * Draws a given entity according to its properties.
+ * Use in translated context.
  */
 export default function drawEntity(ctx: CanvasRenderingContext2D, entity: Entity): void {
   let w = toCanvas(entity.width)
@@ -38,9 +39,7 @@ export default function drawEntity(ctx: CanvasRenderingContext2D, entity: Entity
       ctx.strokeRect(animX, animY, animW, animH)
     }
   })
-  if ($game.showLiveDebug) {
+  if ($game.showCoords) {
     drawText(ctx, `${(entity.x.toFixed(1))},${entity.y.toFixed(1)}`, toCanvas(entity.x), toCanvas(entity.y), { size: 15, color: 'rgb(250,0,250)' })
   }
 }
-
-
