@@ -2,6 +2,7 @@ import React, { createRef, useEffect, useState, type RefObject } from 'react'
 import { getFrameCount } from '../../app/helpers'
 
 export let ctx: CanvasRenderingContext2D | undefined
+export let canvas: HTMLCanvasElement
 
 export default function GameCanvas() {
   const canvasRef: RefObject<HTMLCanvasElement> = createRef()
@@ -9,7 +10,11 @@ export default function GameCanvas() {
   const [height, setHeight] = useState(window.innerHeight)
 
   useEffect(() => {
-    if (canvasRef.current) ctx = canvasRef.current.getContext('2d') ?? undefined
+    if (canvasRef.current) {
+      ctx = canvasRef.current.getContext('2d') ?? undefined
+      canvas = canvasRef.current
+    }
+
     if (ctx !== undefined) ctx.imageSmoothingEnabled = false
     return () => ctx = undefined
   })

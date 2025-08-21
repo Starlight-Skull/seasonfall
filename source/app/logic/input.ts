@@ -1,8 +1,8 @@
-import { $player, $world } from '../globals/world'
+import { $player } from '../globals/world'
 import { $game } from '../globals/game'
 import { $settings } from '../globals/settings'
 import { $render, toCanvas } from '../rendering/common'
-import { $editor } from '../globals/editor'
+import { canvas } from '../../ui/GameView/GameCanvas'
 
 /**
  * Receives the code of a mouse or key event and acts accordingly.
@@ -46,8 +46,8 @@ export default function handleGameInput(event: MouseEvent | KeyboardEvent): void
  */
 export function handleMouseMove(event: MouseEvent) {
   if ($game.paused) return
-  $render.mouseX = Math.floor(Math.round(toCanvas($game.focusX) - window.innerWidth / 2 + event.clientX) / $game.grid)
-  $render.mouseY = Math.floor(Math.round(toCanvas($game.focusY) - window.innerHeight / 2 + event.clientY) / $game.grid)
+  $render.mouseX = Math.floor(Math.round(toCanvas($game.focusX) - canvas.width / 2 + event.offsetX) / $game.grid)
+  $render.mouseY = Math.floor(Math.round(toCanvas($game.focusY) - canvas.height / 2 + event.offsetY) / $game.grid)
 }
 
 /**
@@ -55,17 +55,4 @@ export function handleMouseMove(event: MouseEvent) {
  */
 export function setWorldFocus(event: MouseEvent) {
   // todo
-  if (event.button === 0) {
-    $editor.selectedX = $render.mouseX
-    $editor.selectedY = $render.mouseY
-  } else if (event.button === 1) {
-    if ($editor.foreground) {
-      $world.foreground[$render.mouseY][$render.mouseX] = $editor.selectedTile
-    } else {
-      $world.background[$render.mouseY][$render.mouseX] = $editor.selectedTile
-    }
-  } else if (event.button === 2) {
-    $game.focusX = $render.mouseX
-    $game.focusY = $render.mouseY
-  }
 }
