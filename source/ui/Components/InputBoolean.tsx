@@ -1,4 +1,4 @@
-import React, { useState, type FormEvent } from 'react'
+import React, { useState } from 'react'
 
 interface Props {
   label: string
@@ -8,19 +8,28 @@ interface Props {
 
 export default function InputBoolean(props: Props) {
   const [value, setValue] = useState(props.value)
+  return (
+    <InputBooleanStateLess
+      label={props.label}
+      value={value}
+      onChange={(val) => {
+        setValue(val)
+        props.onChange?.(val)
+      }}
+    />
+  )
+}
 
-  function handleChange(event: FormEvent) {
-    const element = event.target as HTMLInputElement
-    setValue(element.checked)
-    if (props.onChange) {
-      props.onChange(element.checked)
-    }
-  }
-
+export function InputBooleanStateLess(props: Props) {
   return (
     <label>
       {props.label}
-      <input onChange={handleChange} value={`${value}`} checked={value} type="checkbox" />
+      <input
+        type="checkbox"
+        value={props.value.toString()}
+        checked={props.value}
+        onChange={(e) => props.onChange?.(e.target.checked)}
+      />
     </label>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState, type FormEvent } from 'react'
+import React, { useState } from 'react'
 
 interface Props {
   label: string
@@ -11,23 +11,28 @@ interface Props {
 
 export default function InputNumber(props: Props) {
   const [value, setValue] = useState(props.value)
+  return (
+    <InputNumberStateLess
+      label={props.label}
+      value={value}
+      min={props.min}
+      max={props.max}
+      step={props.step}
+      onChange={(val) => {
+        setValue(val)
+        props.onChange?.(val)
+      }}
+    />
+  )
+}
 
-  function handleChange(event: FormEvent) {
-    const element = event.target as HTMLInputElement
-    const reset = props.min ?? 0
-    const value = parseFloat(element.value ?? reset)
-    setValue(value)
-    if (props.onChange) {
-      props.onChange(value)
-    }
-  }
-
+export function InputNumberStateLess(props: Props) {
   return (
     <label>
       {props.label}
       <input
-        onChange={handleChange}
-        value={value}
+        onChange={(e) => props.onChange?.(parseFloat(e.target.value) || (props.min ?? 0))}
+        value={props.value}
         min={props.min}
         max={props.max}
         step={props.step}

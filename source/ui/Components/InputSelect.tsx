@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { useState } from 'react'
 
 interface Props {
   label: string
@@ -9,17 +9,27 @@ interface Props {
 
 export default function InputSelect(props: Props) {
   const [value, setValue] = useState(props.value)
+  return (
+    <InputSelectStateLess
+      label={props.label}
+      value={value}
+      options={props.options}
+      onChange={(val) => {
+        setValue(val)
+        props.onChange?.(val)
+      }}
+    />
+  )
+}
 
-  function handleChange(event: ChangeEvent) {
-    const element = event.target as HTMLSelectElement
-    setValue(element.value)
-    if (props.onChange) props?.onChange(element.value)
-  }
-
+export function InputSelectStateLess(props: Props) {
   return (
     <label>
       {props.label}
-      <select onChange={handleChange} value={value}>
+      <select
+        value={props.value}
+        onChange={(e) => props.onChange?.(e.target.value)}
+      >
         {props.options.map((option, index) => (
           <option key={index} value={option}>
             {option}
