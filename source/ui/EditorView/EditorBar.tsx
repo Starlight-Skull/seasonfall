@@ -5,6 +5,8 @@ import InputSelect from '../Components/InputSelect'
 import { saveWorld } from '../../app/data/world'
 import InputBoolean from '../Components/InputBoolean'
 import { $game } from '../../app/globals/game'
+import { $tiles } from '../../app/data/textures'
+import { $editor } from '../../app/globals/editor'
 
 interface Props {
   exit: () => void
@@ -12,6 +14,8 @@ interface Props {
 
 export function EditorBar(props: Props) {
   const worlds = Object.keys($worlds)
+  const tiles = ['none']
+  tiles.push(...Object.keys($tiles))
 
   return (
     <div id="EditorBar">
@@ -27,6 +31,12 @@ export function EditorBar(props: Props) {
         label="Show Hit Boxes"
         onChange={(val) => ($game.showBoxes = val)}
         value={$game.showBoxes}
+      />
+      <InputSelect
+        label="Tile"
+        options={tiles}
+        onChange={name => $editor.fill = name}
+        value={tiles[0]}
       />
     </div>
   )

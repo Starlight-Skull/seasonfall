@@ -30,25 +30,19 @@ export default function EditorView(props: Props) {
     if (event.button === 0) {
       $editor.selectedX = $render.mouseX
       $editor.selectedY = $render.mouseY
-      if ($editor.foreground) {
-        setSelected(
-          $world.foreground[$render.mouseY][$render.mouseX] ?? new Tile()
-        )
-      } else {
-        setSelected(
-          $world.background[$render.mouseY][$render.mouseX] ?? new Tile()
-        )
-      }
+      let tile = $editor.foreground
+        ? $world.foreground[$render.mouseY][$render.mouseX]
+        : $world.background[$render.mouseY][$render.mouseX]
+      setSelected(tile ?? new Tile())
+
     } else if (event.button === 1) {
+      let tile = $editor.fill === 'none' ? undefined : new Tile($editor.fill)
       if ($editor.foreground) {
-        $world.foreground[$render.mouseY][$render.mouseX] = new Tile(
-          selected.name
-        )
+        $world.foreground[$render.mouseY][$render.mouseX] = tile
       } else {
-        $world.background[$render.mouseY][$render.mouseX] = new Tile(
-          selected.name
-        )
+        $world.background[$render.mouseY][$render.mouseX] = tile
       }
+
     } else if (event.button === 2) {
       $game.focusX = $render.mouseX
       $game.focusY = $render.mouseY

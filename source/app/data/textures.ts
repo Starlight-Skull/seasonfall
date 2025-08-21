@@ -20,6 +20,10 @@ export const $textures: Record<string, string> = {
   missing_entity, hero, skeleton, stick, door, rain, snow, missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, painting, plank
 }
 
+export const $tiles: Record<string, string> = {
+  missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, plank
+}
+
 const imageCache: Record<string, HTMLImageElement> = {}
 
 /**
