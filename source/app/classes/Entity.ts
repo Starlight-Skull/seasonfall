@@ -43,7 +43,7 @@ export default class Entity extends Animatable {
     right: boolean
   }
 
-  constructor(x: number, y: number, name = '', options?: Options) {
+  constructor(x: number, y: number, name?: string, options?: Options) {
     const {
       maxHP = 50,
       maxMP = 0,

@@ -20,14 +20,14 @@ export default class Animatable {
   get width (): number { return this.animation.hitboxWidth ?? this.defaultWidth }
   get height (): number { return this.animation.hitboxHeight ?? this.defaultHeight }
 
-  constructor (name: string, options?: Options) {
+  constructor (name?: string, options?: Options) {
     const { width = 1, height = 1, mirrored = false } = options ?? {}
-    this.name = name
+    this.name = name ?? 'unknown'
     this.defaultWidth = width
     this.defaultHeight = height
     this.mirrored = mirrored
     this.animationFrame = 0
-    this.animation = new SpriteSet(name)
+    this.animation = new SpriteSet(this.name)
     this.animations = {}
   }
 
