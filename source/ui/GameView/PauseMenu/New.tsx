@@ -1,4 +1,3 @@
-import React from 'react'
 import { Menus } from './PauseMenu'
 import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'

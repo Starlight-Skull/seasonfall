@@ -1,7 +1,5 @@
-import React from 'react'
-import NavButton from './NavButton'
-
 import './MenuFooter.scss'
+import NavButton from './NavButton'
 
 interface Props {
   nav: Record<string, () => void>

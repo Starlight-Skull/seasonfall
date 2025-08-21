@@ -1,4 +1,4 @@
-import React from 'react'
+import './Settings.scss'
 import { $settings } from '../../../app/globals/settings'
 import InputBoolean from '../../Components/InputBoolean'
 import InputNumber from '../../Components/InputNumber'
@@ -7,8 +7,6 @@ import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'
 import MenuContainer from '../../Components/MenuContainer'
 import MenuFooter from '../../Components/MenuFooter'
-
-import './Settings.scss'
 
 interface Props {
   setMenu: (menu: Menus) => void

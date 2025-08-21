@@ -1,5 +1,4 @@
 import './EditorBar.scss'
-import React from 'react'
 import loadWorld, { $worlds } from '../../app/data/world'
 import InputSelect from '../Components/InputSelect'
 import { saveWorld } from '../../app/data/world'

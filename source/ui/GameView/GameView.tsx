@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import './GameView.scss'
+import { useEffect, useState } from 'react'
 import DebugMenu from './DebugMenu/DebugMenu'
 import PauseMenu from './PauseMenu/PauseMenu'
 import GameCanvas from './GameCanvas'
@@ -6,8 +7,6 @@ import { $game } from '../../app/globals/game'
 import NavButton from '../Components/NavButton'
 import setupGameLoop from '../../app/gameSetup'
 import icon from '../../textures/icon.png'
-
-import './GameView.scss'
 
 interface Props {
   exit: () => void

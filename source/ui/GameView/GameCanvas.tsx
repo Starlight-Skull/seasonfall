@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState, type RefObject } from 'react'
+import { createRef, useEffect, useState, type RefObject } from 'react'
 import { getFrameCount } from '../../app/helpers'
 
 export let ctx: CanvasRenderingContext2D | undefined
@@ -16,7 +16,7 @@ export default function GameCanvas() {
     }
 
     if (ctx !== undefined) ctx.imageSmoothingEnabled = false
-    return () => ctx = undefined
+    return () => (ctx = undefined)
   })
 
   useEffect(() => {

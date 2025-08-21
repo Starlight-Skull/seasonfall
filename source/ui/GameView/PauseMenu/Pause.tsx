@@ -1,4 +1,4 @@
-import React from 'react'
+import './Pause.scss'
 import { VERSION } from '../../../app/globals/game'
 import { $settings } from '../../../app/globals/settings'
 import { toStorage } from '../../../app/helpers'
@@ -7,8 +7,6 @@ import MenuHeader from '../../Components/MenuHeader'
 import NavButton from '../../Components/NavButton'
 import MenuContent from '../../Components/MenuContent'
 import MenuContainer from '../../Components/MenuContainer'
-
-import './Pause.scss'
 
 interface Props {
   setMenu: (menu: Menus) => void

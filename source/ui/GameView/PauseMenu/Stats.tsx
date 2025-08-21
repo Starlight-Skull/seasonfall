@@ -1,4 +1,4 @@
-import React from 'react'
+import './Stats.scss'
 import { Menus } from './PauseMenu'
 import { $player } from '../../../app/globals/world'
 import { $playerStats } from '../../../app/globals/playerStats'
@@ -6,8 +6,6 @@ import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'
 import MenuContainer from '../../Components/MenuContainer'
 import MenuFooter from '../../Components/MenuFooter'
-
-import './Stats.scss'
 
 interface Props {
   setMenu: (menu: Menus) => void

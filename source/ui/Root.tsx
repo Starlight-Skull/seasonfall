@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { StrictMode, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import EditorView from './EditorView/EditorView'
 import GameView from './GameView/GameView'
@@ -10,9 +10,9 @@ export enum Views { start, game, editor }
 
 export default function initUI() {
   ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
+    <StrictMode>
       <Root />
-    </React.StrictMode>
+    </StrictMode>
   )
 }
 

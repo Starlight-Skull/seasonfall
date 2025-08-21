@@ -1,5 +1,3 @@
-import React from 'react'
-
 import './MenuContainer.scss'
 
 interface Props {
@@ -7,7 +5,7 @@ interface Props {
   id?: string
 }
 
-export default function MenuContainer (props: Props) {
+export default function MenuContainer(props: Props) {
   return (
     <section id={props.id} className="MenuContainer">
       {props.children}

@@ -1,8 +1,6 @@
-import React from 'react'
+import './DebugMenu.scss'
 import DebugTools from './DebugTools'
 import DebugWeather from './DebugWeather'
-
-import './DebugMenu.scss'
 
 interface Props {}
 

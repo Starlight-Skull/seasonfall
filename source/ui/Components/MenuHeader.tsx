@@ -1,7 +1,5 @@
-import React from 'react'
-import { Menus } from '../PauseMenu'
-
 import './MenuHeader.scss'
+import { Menus } from '../GameView/PauseMenu/PauseMenu'
 import NavButton from './NavButton'
 
 interface Props {
@@ -18,7 +16,9 @@ export default function MenuHeader(props: Props) {
       {props.nav &&
         Object.entries(props.nav).map((element, i) => {
           return i === props.active ? (
-            <NavButton key={i} disabled>{element[0]}</NavButton>
+            <NavButton key={i} disabled>
+              {element[0]}
+            </NavButton>
           ) : (
             <NavButton key={i} onClick={() => props.setMenu?.(element[1])}>
               {element[0]}

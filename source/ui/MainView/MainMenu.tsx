@@ -1,12 +1,10 @@
-import React from 'react'
+import './MainMenu.scss'
 import MenuContainer from '../Components/MenuContainer'
 import MenuContent from '../Components/MenuContent'
 import MenuHeader from '../Components/MenuHeader'
 import NavButton from '../Components/NavButton'
 import { Views } from '../Root'
 import { VERSION } from '../../app/globals/game'
-
-import './MainMenu.scss'
 
 interface Props {
   setView: (view: Views) => void

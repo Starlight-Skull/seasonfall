@@ -1,5 +1,3 @@
-import React from 'react'
-
 import './NavButton.scss'
 
 interface Props {
@@ -9,9 +7,14 @@ interface Props {
   disabled?: boolean
 }
 
-export default function NavButton (props: Props) {
+export default function NavButton(props: Props) {
   return (
-    <button id={props.id} onClick={props.onClick} disabled={props.disabled} className="NavButton">
+    <button
+      id={props.id}
+      onClick={props.onClick}
+      disabled={props.disabled}
+      className="NavButton"
+    >
       {props.children}
     </button>
   )

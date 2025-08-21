@@ -1,5 +1,5 @@
 import './EditorProperties.scss'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Tile, { Collision } from '../../app/classes/Tile'
 import InputBoolean, { InputBooleanStateLess } from '../Components/InputBoolean'
 import { $editor } from '../../app/globals/editor'

@@ -1,4 +1,6 @@
-import React, { type ChangeEvent, useEffect, useState } from 'react'
+import './Settings.scss'
+import { type ChangeEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { $settings } from '../../../app/globals/settings'
 import { geoCoderAPI, type GeoCoderModel } from '../../../app/data/data'
 import { Menus } from './PauseMenu'
@@ -9,8 +11,6 @@ import MenuFooter from '../../Components/MenuFooter'
 import InputString from '../../Components/InputString'
 import InputNumber from '../../Components/InputNumber'
 import InputBoolean from '../../Components/InputBoolean'
-
-import './Settings.scss'
 
 interface Props {
   setMenu: (menu: Menus) => void

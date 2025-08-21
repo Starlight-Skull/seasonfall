@@ -1,5 +1,5 @@
 import './EditorView.scss'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import GameCanvas, { canvas } from '../GameView/GameCanvas'
 import setupEditor from '../../app/editorSetup'
 import { EditorBar } from './EditorBar'

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import './PauseMenu.scss'
+import { useState } from 'react'
 import Pause from './Pause'
 import Load from './Load'
 import New from './New'
@@ -6,8 +7,6 @@ import SettingsGeneral from './SettingsGeneral'
 import SettingsApi from './SettingsApi'
 import SettingsKeybindings from './SettingsKeybindings'
 import Stats from './Stats'
-
-import './PauseMenu.scss'
 
 export enum Menus {
   pause,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 interface Props {
   label: string
@@ -31,7 +31,9 @@ export function InputNumberStateLess(props: Props) {
     <label>
       {props.label}
       <input
-        onChange={(e) => props.onChange?.(parseFloat(e.target.value) || (props.min ?? 0))}
+        onChange={(e) =>
+          props.onChange?.(parseFloat(e.target.value) || (props.min ?? 0))
+        }
         value={props.value}
         min={props.min}
         max={props.max}

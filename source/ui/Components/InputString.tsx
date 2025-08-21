@@ -1,4 +1,4 @@
-import React, { useState, HTMLInputTypeAttribute } from 'react'
+import { useState, HTMLInputTypeAttribute } from 'react'
 
 interface Props {
   label: string
