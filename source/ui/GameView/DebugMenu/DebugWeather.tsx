@@ -1,34 +1,34 @@
 import InputString from '../../Components/InputString'
 import InputNumber from '../../Components/InputNumber'
+import InputSelect from '../../Components/InputSelect'
 import { $weather } from '../../../app/globals/weather'
 
-interface Props {}
-
-export default function DebugWeather(props: Props) {
+export default function DebugWeather() {
   return (
     <section>
       <h3>Weather</h3>
-      {/* <div> // todo select component
-        <label htmlFor="main">Name</label>
-        <select name="main" id="main">
-          <option value="Thunderstorm">Thunderstorm</option>
-          <option value="Drizzle">Drizzle</option>
-          <option value="Rain">Rain</option>
-          <option value="Snow">Snow</option>
-          <option value="Mist">Mist</option>
-          <option value="Smoke">Smoke</option>
-          <option value="Haze">Haze</option>
-          <option value="Dust">Dust</option>
-          <option value="Fog">Fog</option>
-          <option value="Sand">Sand</option>
-          <option value="Ash">Ash</option>
-          <option value="Squall">Squall</option>
-          <option value="Tornado">Tornado</option>
-          <option value="Clear">Clear</option>
-          <option value="Clouds">Clouds</option>
-        </select>
-      </div> */}
-      <InputString label="Name" value={$weather.main} />
+      <InputSelect
+        label="Name"
+        value={$weather.main}
+        onChange={(val) => ($weather.main = val)}
+        options={[
+          'Thunderstorm',
+          'Drizzle',
+          'Rain',
+          'Snow',
+          'Mist',
+          'Smoke',
+          'Haze',
+          'Dust',
+          'Fog',
+          'Sand',
+          'Ash',
+          'Squall',
+          'Tornado',
+          'Clear',
+          'Clouds'
+        ]}
+      />
       <InputString
         label="Description"
         value={$weather.description}
@@ -101,24 +101,22 @@ export default function DebugWeather(props: Props) {
         min={0}
       />
       <InputNumber
+        label="Wind Gust (m/s)"
+        value={$weather.windGust}
+        onChange={(val) => ($weather.windGust = val)}
+        min={0}
+      />
+      <InputNumber
         label="Wind Speed (m/s)"
         value={$weather.windSpeed}
         onChange={(val) => ($weather.windSpeed = val)}
         min={0}
       />
-      {/* <div> // todo
-        <label htmlFor="windDeg">Wind Degrees</label>
-        <select id="windDeg" name="windDeg">
-          <option value="East">East</option>
-          <option value="West">West</option>
-        </select>
-      </div> */}
-      <InputString label="Wind Degrees" value={$weather.windDeg} />
-      <InputNumber
-        label="Wind Gust (m/s)"
-        value={$weather.windGust}
-        onChange={(val) => ($weather.windGust = val)}
-        min={0}
+      <InputSelect
+        label="Wind Direction"
+        options={['East', 'West']}
+        value={$weather.windDeg}
+        onChange={(val) => ($weather.windDeg = val)}
       />
       <InputNumber
         label="Rain (mm/h)"

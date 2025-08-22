@@ -26,5 +26,9 @@ initData()
 //* temporary debug stuff *//
 Object.defineProperty(window, 'g', { value: exposedGlobals, writable: false })
 $weather.time = formatUnixTime(Date.now() / 1000, 2 * 60 * 60)
+// $weather.rain = Math.round(Math.random())
+// $weather.snow = Math.round(Math.random())
+// $weather.windDeg = Math.round(Math.random()) > 0 ? 'East' : 'West'
+// $weather.windSpeed = Math.random() * 10
 // $game.showLiveDebug = true
-// $game.bootView = 2
+// $game.bootView = 1
