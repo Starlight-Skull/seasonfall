@@ -1,5 +1,3 @@
-import { $tiles } from "../data/textures"
-
 export const $editor = {
   foreground: true,
   selectedX: 0,
