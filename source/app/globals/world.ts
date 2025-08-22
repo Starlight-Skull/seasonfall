@@ -1,6 +1,7 @@
 import type Entity from '../classes/Entity'
 import type Tile from '../classes/Tile'
 import Hero from '../classes/Entity/Hero'
+import Rain from '../classes/Weather/Rain'
 
 export const $player = new Hero()
 
@@ -15,6 +16,7 @@ export const $world = {
     borderH: 1
   },
   // links: new Array<Tile>(),
+  rain: new Rain(),
   foreground: new Array<Array<Tile | undefined>>(),
   background: new Array<Array<Tile | undefined>>(),
   entities: new Array<Entity>()

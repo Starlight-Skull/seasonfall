@@ -3,9 +3,9 @@ import drawWorld from './objects/world'
 import drawText from './ui/text'
 import drawGameUI from './ui/gameUI'
 import { drawEditorUIParts, drawEditorUIText } from './ui/editorUI'
-import drawSky, { drawOverlay } from './weather'
+import drawWeather, { drawSky, drawOverlay } from './weather'
 import { $render, translateContext } from './common'
-import { $player } from '../globals/world'
+import { $player, $world } from '../globals/world'
 import { FONTS } from '../globals/fonts'
 
 /**
@@ -16,9 +16,10 @@ export default function renderGame(ctx: CanvasRenderingContext2D): void {
   $game.focusX = $player.x
   $game.focusY = $player.y
 
-  // todo reimplement weather
-
-  translateContext(ctx, () => drawWorld(ctx))
+  translateContext(ctx, () => {
+    drawWeather(ctx, $world.rain)
+    drawWorld(ctx)
+  })
   drawOverlay(ctx, $render.shade)
   drawGameUI(ctx)
   drawFpsCounter(ctx)
@@ -39,5 +40,9 @@ export function renderEditor(ctx: CanvasRenderingContext2D): void {
 
 function drawFpsCounter(ctx: CanvasRenderingContext2D) {
   $game.frames++
-  drawText(ctx, `${$game.fps}`, 0, 0, { color: 'rgb(0,255,0)', size: 15, style: FONTS.PixeloidMono })
+  drawText(ctx, `${$game.fps}`, 0, 0, {
+    color: 'rgb(0,255,0)',
+    size: 15,
+    style: FONTS.PixeloidMono
+  })
 }
