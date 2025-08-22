@@ -1,0 +1,14 @@
+@use '../Vars.scss';
+
+#EditorProperties {
+  color: Vars.$col-text-editor;
+  background-color: Vars.$col-bg-editor;
+  border-right: 2px solid Vars.$col-border-editor;
+  padding: 1rem;
+  min-width: 15rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: start;
+  flex-direction: column;
+  overflow-y: scroll;
+}

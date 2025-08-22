@@ -1,5 +1,5 @@
 import Entity from '../classes/Entity'
-import { weather } from '../globals/weather'
+import { $weather } from '../globals/weather'
 import collision from './collision'
 
 function tick (entity: Entity): void {
@@ -8,7 +8,7 @@ function tick (entity: Entity): void {
     entity.stats.hp += 0.02
     entity.stats.mp -= 0.02
   } else if (entity.stats.mp < entity.stats.maxMP) {
-    entity.stats.mp += Math.abs(weather.temp / 1000)
+    entity.stats.mp += Math.abs($weather.temp / 1000)
   }
   //* AI pathing *//
   // if (entity !== player) {

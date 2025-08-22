@@ -20,7 +20,7 @@ interface Weather {
   snow: number
 }
 
-export const weather: Weather = {
+export const $weather: Weather = {
   main: 'Clear',
   description: 'clear sky',
   time: 1200, // h:mm

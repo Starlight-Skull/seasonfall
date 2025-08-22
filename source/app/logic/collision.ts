@@ -1,6 +1,6 @@
-import Entity from '../classes/Entity';
-import { Collision } from '../classes/Tile';
-import { level } from '../globals';
+import Entity from '../classes/Entity'
+import { Collision } from '../classes/Tile'
+import { $world } from '../globals/world'
 
 // unused for now
 function hasCollision(entity: Entity, x: number, y: number, w: number, h: number): boolean {
@@ -27,7 +27,7 @@ function getCollisions(entity: Entity, dx: number, dy: number): void {
   if (entity.collision.enabled) {
     for (let i = Math.floor(dx); i < Math.ceil(dx + entity.width); i++) {
       for (let j = Math.floor(dy); j < Math.ceil(dy + entity.height); j++) {
-        let tile = level.foreground[j]?.[i]
+        let tile = $world.foreground[j]?.[i]
         if (tile !== undefined && tile.collision !== Collision.none) {
           const xRange = i >= Math.floor(entity.x) && (i < Math.ceil(entity.x + entity.width))
           const yRange = j >= Math.floor(entity.y) && j < Math.ceil(entity.y + entity.height)
@@ -90,8 +90,8 @@ function handleCollisions(entity: Entity, dx: number, dy: number): void {
  */
 function borderControl(entity: Entity): void {
   if (!entity.collision.enabled) return
-  if (entity.x + entity.width > level.properties.borderX + level.properties.borderW) entity.x = level.properties.borderX + level.properties.borderW - entity.width
-  if (entity.x < level.properties.borderX) entity.x = level.properties.borderX
-  if (entity.y + entity.height > level.properties.borderY + level.properties.borderH) entity.y = level.properties.borderY + level.properties.borderH - entity.height
-  if (entity.y < level.properties.borderY) entity.y = level.properties.borderY
+  if (entity.x + entity.width > $world.properties.borderX + $world.properties.borderW) entity.x = $world.properties.borderX + $world.properties.borderW - entity.width
+  if (entity.x < $world.properties.borderX) entity.x = $world.properties.borderX
+  if (entity.y + entity.height > $world.properties.borderY + $world.properties.borderH) entity.y = $world.properties.borderY + $world.properties.borderH - entity.height
+  if (entity.y < $world.properties.borderY) entity.y = $world.properties.borderY
 }

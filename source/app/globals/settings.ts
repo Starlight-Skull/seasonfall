@@ -10,7 +10,7 @@ interface Settings {
     interval: number
   }
   keybindings: {
-    [key: string]: string;
+    [key: string]: string
     attack: string
     jump: string
     down: string
@@ -20,7 +20,10 @@ interface Settings {
   }
 }
 
-export const settings: Settings = {
+/**
+ * User settings that will be saved.
+ */
+export const $settings: Settings = {
   scale: 5,
   showFPS: false,
   api: {

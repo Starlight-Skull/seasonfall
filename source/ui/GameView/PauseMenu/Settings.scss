@@ -1,0 +1,61 @@
+@use '../../Vars.scss';
+
+#Settings {
+  .MenuContent {
+    a {
+      color: Vars.$col-text-active;
+
+      &:hover {
+        color: Vars.$col-text-hover;
+      }
+    }
+
+    button, input[type='text'], input[type='number'], select {
+      min-width: 5rem;
+    }
+
+    b {
+      color: Vars.$col-text-hover;
+    }
+
+    i {
+      color: Vars.$col-text-disabled;
+    }
+
+    label, .row {
+      padding: 0.5rem 2rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 1rem;
+
+      label {
+        padding: 0;
+      }
+
+      select {
+        width: 100%;
+      }
+    }
+
+    .left {
+      align-self: flex-end;
+    }
+
+    .Blackout {
+      background-color: Vars.$col-bg-pause;
+      color: Vars.$col-text;
+      font-family: Vars.$font-bold;
+      font-size: x-large;
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 300;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

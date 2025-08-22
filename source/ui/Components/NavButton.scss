@@ -1,0 +1,16 @@
+@use '../Vars.scss';
+
+.NavButton {
+  color: Vars.$col-text;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover, &:focus {
+    color: Vars.$col-text-hover;
+  }
+
+  &:disabled {
+    color: Vars.$col-text-disabled;
+  }
+}

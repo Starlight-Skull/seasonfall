@@ -1,5 +1,5 @@
-import { playerStats } from './globals/playerStats'
-import { world } from './globals/world'
+import { $playerStats } from './globals/playerStats'
+import { $game } from './globals/game'
 
 /**
  * Shorthand for document.getElementById().
@@ -8,26 +8,6 @@ import { world } from './globals/world'
  */
 export function element (id: string): HTMLElement | null {
   return document.getElementById(id)
-}
-
-/**
- * Function to download data to a file
- * @param data
- * @param filename
- * @param type
- */
-export function download (data: any, filename: string, type: string): void {
-  let file = new Blob([data], { type })
-  let a = document.createElement('a')
-  let url = URL.createObjectURL(file)
-  a.href = url
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  setTimeout(() => {
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url)
-  }, 0)
 }
 
 /**
@@ -59,9 +39,9 @@ export function toStorage (key: string, value: any): void {
  * Updates the FPS counter.
  */
 export function getFrameCount (): void {
-  if (!world.paused) playerStats.timeTaken++
-  world.fps = world.frames
-  world.frames = 0
+  if (!$game.paused) $playerStats.timeTaken++
+  $game.fps = $game.frames
+  $game.frames = 0
 }
 
 /**

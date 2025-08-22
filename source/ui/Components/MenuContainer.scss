@@ -1,0 +1,22 @@
+@use '../Vars.scss';
+
+.MenuContainer {
+  background-color: Vars.$col-bg-pause-sub;
+  color: Vars.$col-text-pause;
+  border: 5px solid Vars.$col-border-pause;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 500px;
+  max-width: 80vw;
+  max-height: 80vh;
+
+  .Version {
+    align-self: flex-end;
+    font-size: 80%;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+  }
+}

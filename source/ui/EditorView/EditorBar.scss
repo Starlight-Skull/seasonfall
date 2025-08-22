@@ -1,0 +1,25 @@
+@use '../Vars.scss';
+
+#EditorBar {
+  width: 100%;
+  color: Vars.$col-text-editor;
+  background-color: Vars.$col-bg-editor;
+  border-bottom: 2px solid Vars.$col-border-editor;
+  height: 5rem;
+  padding: 1rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: start;
+  align-items: center;
+
+  label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    select {
+      width: 100%;
+    }
+  }
+}

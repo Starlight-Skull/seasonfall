@@ -1,21 +1,21 @@
-import { settings } from './settings';
+import type Entity from '../classes/Entity'
+import type Tile from '../classes/Tile'
+import Hero from '../classes/Entity/Hero'
 
-export const PIXELS_PER_TILE = 16
+export const $player = new Hero()
 
-export const world = {
-  fps: 0,
-  frames: 0,
-  focusX: 0,
-  focusY: 0,
-  shade: 0,
-  paused: true,
-  showBoxes: false,
-  showLiveDebug: false,
-  showPlayerStats: false,
-  debug: '',
-  get grid() {
-    // !!! scale must be a positive number or everything breaks => (x / 0 == Infinity) !!!
-    if (settings.scale === null || settings.scale === undefined || settings.scale <= 0 || typeof settings.scale !== 'number') settings.scale = 5
-    return settings.scale * PIXELS_PER_TILE
-  }
+export const $world = {
+  name: '',
+  properties: {
+    rootX: 0,
+    rootY: 0,
+    borderX: 0,
+    borderY: 0,
+    borderW: 1,
+    borderH: 1
+  },
+  // links: new Array<Tile>(),
+  foreground: new Array<Array<Tile | undefined>>(),
+  background: new Array<Array<Tile | undefined>>(),
+  entities: new Array<Entity>()
 }
