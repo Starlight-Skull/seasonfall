@@ -2,4 +2,15 @@
 
 #EditorView {
   display: flex;
+
+  label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+
+    select {
+      width: 100%;
+    }
+  }
 }

@@ -13,13 +13,12 @@ interface Props {
 
 export function EditorBar(props: Props) {
   const worlds = Object.keys($worlds)
-  const tiles = ['none']
-  tiles.push(...Object.keys($tiles))
+  const tiles = ['none', ...Object.keys($tiles)]
 
   return (
     <div id="EditorBar">
       <button onClick={props.exit}>Exit</button>
-      <button onClick={() => saveWorld}>Download</button>
+      <button onClick={() => saveWorld()}>Download</button>
       <InputSelect
         label="World"
         options={worlds}
