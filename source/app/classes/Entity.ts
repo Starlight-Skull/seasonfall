@@ -9,7 +9,7 @@ interface Options {
   jumpHeight?: number
   width?: number
   height?: number
-   mirrored?: boolean
+  mirrored?: boolean
 }
 
 export default class Entity extends Animatable {

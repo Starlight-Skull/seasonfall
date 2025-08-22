@@ -14,14 +14,16 @@ import dirt_wall from '../../textures/tile/dirt_wall.png'
 import grass from '../../textures/tile/grass.png'
 import painting from '../../textures/tile/painting.png'
 import plank from '../../textures/tile/plank.png'
+import wood from '../../textures/tile/wood.png'
+import platform from '../../textures/tile/platform.png'
 
 
 export const $textures: Record<string, string> = {
-  missing_entity, hero, skeleton, stick, door, rain, snow, missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, painting, plank
+  missing_entity, hero, skeleton, stick, door, rain, snow, missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, painting, plank, wood, platform
 }
 
 export const $tiles: Record<string, string> = {
-  missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, plank
+  missing_tile, beam, brick, brick_wall, dirt, dirt_wall, grass, plank, wood, platform
 }
 
 const imageCache: Record<string, HTMLImageElement> = {}

@@ -9,9 +9,9 @@ interface Options {
 }
 
 /**
- * @enum values all, top, partial, none
+ * @enum values all, top, none
  */
-export enum Collision { all = 'all', top = 'top', partial = 'part', none = 'none' }
+export enum Collision { all = 'all', top = 'top', none = 'none' }
 
 export default class Tile extends Animatable {
   collision: Collision
@@ -43,10 +43,9 @@ export default class Tile extends Animatable {
     if (split.includes('r-90')) options.rotation = 90
     if (split.includes('r-180')) options.rotation = 180
     if (split.includes('r-270')) options.rotation = 270
-    if (!background) {
+    if (background === false) {
       if (split.includes('c-all')) options.collision = Collision.all
       if (split.includes('c-top')) options.collision = Collision.top
-      if (split.includes('c-part')) options.collision = Collision.partial
       if (split.includes('c-none')) options.collision = Collision.none
     } else options.collision = Collision.none
     return [split[0], options]

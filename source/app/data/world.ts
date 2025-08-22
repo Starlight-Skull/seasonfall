@@ -101,8 +101,8 @@ function toTile(tile: string, background = false): Tile | undefined {
       // $world.links.push(link)
       // return link
       return undefined
-    case 'plank':
-      return new Tile(name, { ...options, height: 0.5 })
+    case 'platform':
+      return new Tile('platform', { collision: Collision.top })
     default:
       return new Tile(name, options)
   }
