@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "prop-types": "^15.8.1",
-    "react": "^18.3.1",
+    "react": "^19.1.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
@@ -28,7 +28,7 @@
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.26.0",
-    "@types/react": "^18.3.11",
+    "@types/react": "^19.1.12",
     "@types/react-dom": "^18.3.1",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
