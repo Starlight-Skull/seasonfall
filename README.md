@@ -6,6 +6,7 @@
 [![Seasonfall](./assets/Banner.png)](https://github.com/Starlight-Skull/seasonfall#readme)
 
 > [Play current stable version: v1.2.0](https://starlight-skull.github.io/seasonfall/)
+> 
 > Development for native releases is on hold for the time being.
 
 ## Project Status
