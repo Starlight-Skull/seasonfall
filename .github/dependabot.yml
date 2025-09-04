@@ -6,7 +6,13 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/" # Location of package manifests
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    target-branch: "dependabot_target"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
       interval: "monthly"
     target-branch: "dependabot_target"
