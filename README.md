@@ -3,42 +3,47 @@
 [![Webpack](https://github.com/Starlight-Skull/seasonfall/actions/workflows/webpack.yml/badge.svg)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/webpack.yml)
 [![CodeQL](https://github.com/Starlight-Skull/seasonfall/actions/workflows/codeql-analysis.yml/badge.svg?branch=development)](https://github.com/Starlight-Skull/seasonfall/actions/workflows/codeql-analysis.yml)
 
-[![Seasonfall](./Misc/Banner.png)](https://starlight-skull.github.io/seasonfall/)
+[![Seasonfall](./assets/Banner.png)](https://github.com/Starlight-Skull/seasonfall#readme)
+
+> [Play current stable version: v1.2.0](https://starlight-skull.github.io/seasonfall/)
+> Development for native releases is on hold for the time being.
 
 ## Project Status
 
 Major rewrites to make code more accessible, reusable and efficient.
 
-## For the player
+v2.0.0 changes:
 
-Now hosted right here on [GitHub Pages](https://starlight-skull.github.io/seasonfall/).
+- [x] define world as a 2d grid
+- [x] rebuild ui using React
+- [x] implement world editor
+- [ ] controller support
+- [ ] mobile support
+- [ ] improved collision system
+- [ ] improved weather system
+- [x] improved render system
 
-~~Download the [latest](https://github.com/starlight-skull/seasonfall/releases/latest) release and run the appropriate executable.~~
+## Local development
 
-> Development for native releases is removed for the time being.
+### Install
 
-## For the developer
+_Requirements: [git](https://git-scm.com/downloads), [npm](https://nodejs.org/en/download/)_
 
-Clone the source and build your own.
-
-In your preferred shell and location.
-
-_(Note that you also need to have [git](https://git-scm.com/downloads) and [npm](https://nodejs.org/en/download/) installed)_
-
-```bash
+```sh
 git clone https://github.com/starlight-skull/seasonfall.git
 cd seasonfall
 npm ci
 ```
 
-Start the dev server.
+### Dev server
 
-```bash
+```sh
 npm run start
 ```
 
-Or make a build.
+### Build
 
-```bash
-npm run build
+```sh
+npm run build:dev
+npm run build:prod
 ```
