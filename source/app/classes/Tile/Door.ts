@@ -1,16 +1,15 @@
 import SpriteSet from '../SpiteSet'
 import Tile, { Collision } from '../Tile'
 
-
 export default class Door extends Tile {
   isClosed: boolean
 
-  constructor (isClosed = true, options?: { mirrored?: boolean }) {
+  constructor(isClosed = true, options?: { mirrored?: boolean }) {
     const door = 'door'
     super(door, { height: 2, ...options })
     this.animations = {
-      closed: new SpriteSet(door, { animName: 'closed', w: 16, h: 32, hitboxWidth: 0.25 }),
-      open: new SpriteSet(door, { animName: 'open', x: 16, w: 16, h: 32 })
+      closed: new SpriteSet(door, { name: 'closed', w: 16, h: 32, hitboxW: 0.25 }),
+      open: new SpriteSet(door, { name: 'open', x: 16, w: 16, h: 32 })
     }
     this.activator = true
     this.isClosed = !isClosed

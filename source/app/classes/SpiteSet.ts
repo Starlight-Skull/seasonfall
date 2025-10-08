@@ -2,15 +2,15 @@ import { PIXELS_PER_TILE } from '../globals/game'
 import { $textures, loadImage } from '../data/textures'
 
 interface Options {
-  animName?: string
+  name?: string
   x?: number
   y?: number
   w?: number
   h?: number
   frames?: number
   speed?: number
-  hitboxWidth?: number
-  hitboxHeight?: number
+  hitboxW?: number
+  hitboxH?: number
   offsetX?: number
   offsetY?: number
 }
@@ -20,12 +20,12 @@ export default class SpriteSet {
   imagePath: string
   x: number
   y: number
-  width: number
-  height: number
+  imageW: number
+  imageH: number
   frames: number
   speed: number
-  hitboxWidth?: number
-  hitboxHeight?: number
+  hitboxW?: number
+  hitboxH?: number
   offsetX: number
   offsetY: number
 
@@ -35,29 +35,29 @@ export default class SpriteSet {
 
   constructor(imageName: string, options?: Options) {
     const {
-      animName = 'default',
+      name = 'default',
       x = 0,
       y = 0,
       w = PIXELS_PER_TILE,
       h = PIXELS_PER_TILE,
       frames = 1,
       speed = 0,
-      hitboxWidth,
-      hitboxHeight,
+      hitboxW,
+      hitboxH,
       offsetX = 0,
       offsetY = 0
     } = options ?? {}
     this.x = x
     this.y = y
     this.imagePath = $textures[imageName]
-    this.width = w
-    this.height = h
+    this.imageW = w
+    this.imageH = h
     this.frames = frames
     this.speed = speed
-    this.hitboxWidth = hitboxWidth
-    this.hitboxHeight = hitboxHeight
+    this.hitboxW = hitboxW
+    this.hitboxH = hitboxH
     this.offsetX = offsetX
     this.offsetY = offsetY
-    this.name = animName
+    this.name = name
   }
 }

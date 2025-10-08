@@ -1,4 +1,4 @@
-import Animatable from "./Animatable"
+import Animatable from './Animatable'
 
 interface Options {
   collision?: Collision
@@ -9,9 +9,13 @@ interface Options {
 }
 
 /**
- * @enum values all, top, partial, none
+ * @enum values all, top, none
  */
-export enum Collision { all = 'all', top = 'top', partial = 'part', none = 'none' }
+export enum Collision {
+  all = 'all',
+  top = 'top',
+  none = 'none'
+}
 
 export default class Tile extends Animatable {
   collision: Collision
@@ -19,7 +23,13 @@ export default class Tile extends Animatable {
   activator: boolean
 
   constructor(name?: string, options?: Options) {
-    const { collision = Collision.all, rotation = 0, width, height, mirrored } = options ?? {}
+    const {
+      collision = Collision.all,
+      rotation = 0,
+      width,
+      height,
+      mirrored
+    } = options ?? {}
     super(name, { width, height, mirrored })
     this.collision = collision
     this.rotation = rotation
@@ -32,7 +42,8 @@ export default class Tile extends Animatable {
     let name = this.name
     if (this.mirrored) name += ':m'
     if (this.rotation !== 0) name += `:r-${this.rotation}`
-    if (!background && this.collision !== Collision.all) name += `:c-${this.collision.toString()}`
+    if (!background && this.collision !== Collision.all)
+      name += `:c-${this.collision.toString()}`
     return name
   }
 
@@ -43,10 +54,9 @@ export default class Tile extends Animatable {
     if (split.includes('r-90')) options.rotation = 90
     if (split.includes('r-180')) options.rotation = 180
     if (split.includes('r-270')) options.rotation = 270
-    if (!background) {
+    if (background === false) {
       if (split.includes('c-all')) options.collision = Collision.all
       if (split.includes('c-top')) options.collision = Collision.top
-      if (split.includes('c-part')) options.collision = Collision.partial
       if (split.includes('c-none')) options.collision = Collision.none
     } else options.collision = Collision.none
     return [split[0], options]

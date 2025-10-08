@@ -13,8 +13,8 @@ export default function drawEntity(ctx: CanvasRenderingContext2D, entity: Entity
   let h = toCanvas(entity.height)
   let x = toCanvas(entity.x)
   let y = toCanvas(entity.y)
-  let animW = entity.animation.width * $settings.scale
-  let animH = entity.animation.height * $settings.scale
+  let animW = entity.animation.imageW * $settings.scale
+  let animH = entity.animation.imageH * $settings.scale
   let animX = x - Math.abs(animW - w) / 2
   let animY = y - Math.abs(animH - h)
   saveRestore(ctx, () => {
@@ -27,10 +27,10 @@ export default function drawEntity(ctx: CanvasRenderingContext2D, entity: Entity
     }
     // not-so-great fix for canvas2D inaccuracy
     ctx.drawImage(entity.animation.image,
-      entity.animation.x + entity.animation.width * Math.floor(entity.animationFrame) + 0.01,
+      entity.animation.x + entity.animation.imageW * Math.floor(entity.animationFrame) + 0.01,
       entity.animation.y + 0.01,
-      entity.animation.width - 0.02,
-      entity.animation.height - 0.02,
+      entity.animation.imageW - 0.02,
+      entity.animation.imageH - 0.02,
       animX, animY, animW + 1, animH + 1)
     if ($game.showBoxes) {
       ctx.fillStyle = 'rgba(250,0,250,0.5)'

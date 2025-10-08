@@ -4,8 +4,6 @@ interface Options {
   width?: number
   height?: number
   mirrored?: boolean
-  animWidth?: number
-  animHeight?: number
 }
 
 export default class Animatable {
@@ -17,8 +15,8 @@ export default class Animatable {
   animation: SpriteSet
   animations: Record<string, SpriteSet>
 
-  get width (): number { return this.animation.hitboxWidth ?? this.defaultWidth }
-  get height (): number { return this.animation.hitboxHeight ?? this.defaultHeight }
+  get width (): number { return this.animation.hitboxW ?? this.defaultWidth }
+  get height (): number { return this.animation.hitboxH ?? this.defaultHeight }
 
   constructor (name?: string, options?: Options) {
     const { width = 1, height = 1, mirrored = false } = options ?? {}

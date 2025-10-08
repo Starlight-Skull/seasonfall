@@ -16,8 +16,8 @@ export default function drawTile(ctx: CanvasRenderingContext2D, gridY: number, g
   let y = toCanvas(gridY)
   let w = toCanvas(tile.width)
   let h = toCanvas(tile.height)
-  let animW = tile.animation.width * $settings.scale
-  let animH = tile.animation.height * $settings.scale
+  let animW = tile.animation.imageW * $settings.scale
+  let animH = tile.animation.imageH * $settings.scale
   let animX = x
   let animY = y
   saveRestore(ctx, () => {
@@ -37,10 +37,10 @@ export default function drawTile(ctx: CanvasRenderingContext2D, gridY: number, g
     // not-so-great fix for canvas2D inaccuracy
     ctx.drawImage(
       tile.animation.image,
-      tile.animation.x + tile.animation.width * Math.floor(tile.animationFrame) + 0.01,
+      tile.animation.x + tile.animation.imageW * Math.floor(tile.animationFrame) + 0.01,
       tile.animation.y + 0.01,
-      tile.animation.width - 0.01,
-      tile.animation.height - 0.01,
+      tile.animation.imageW - 0.01,
+      tile.animation.imageH - 0.01,
       animX, animY, animW + 1, animH + 1)
     if ($game.showBoxes) {
       switch (tile.collision) {

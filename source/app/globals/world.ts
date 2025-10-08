@@ -12,7 +12,8 @@ export const $world = {
     borderX: 0,
     borderY: 0,
     borderW: 1,
-    borderH: 1
+    borderH: 1,
+    solidBorder: false
   },
   // links: new Array<Tile>(),
   foreground: new Array<Array<Tile | undefined>>(),
