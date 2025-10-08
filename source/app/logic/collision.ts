@@ -2,43 +2,54 @@ import Entity from '../classes/Entity'
 import { Collision } from '../classes/Tile'
 import { $world } from '../globals/world'
 
-export default function collision(entity: Entity, dx: number, dy: number): void {
-  getCollisions(entity, dx, dy)
-  moveEntity(entity, dx, dy)
-  borderControl(entity)
-}
-
-function getCollisions(entity: Entity, dx: number, dy: number): void {
+export default function checkCollisionsAndMove(entity: Entity, dx: number, dy: number): void {
   entity.collision.left = false
   entity.collision.right = false
   entity.collision.up = false
   entity.collision.down = false
-  if (entity.collision.enabled) {
-    for (let i = Math.floor(dx); i < Math.ceil(dx + entity.width); i++) {
-      for (let j = Math.floor(dy); j < Math.ceil(dy + entity.height); j++) {
-        let tile = $world.foreground[j]?.[i]
-        if (tile !== undefined && tile.collision !== Collision.none) {
-          const xRange = i >= Math.floor(entity.x) && (i < Math.ceil(entity.x + entity.width))
-          const yRange = j >= Math.floor(entity.y) && j < Math.ceil(entity.y + entity.height)
-          if (yRange && !xRange) {
-            if (i < entity.x && tile.collision === Collision.all) {
-              entity.collision.left = true
-            } else if (i > entity.x && tile.collision === Collision.all) {
-              entity.collision.right = true
-            }
-          }
-          if (xRange && !yRange) {
-            if (j < entity.y && tile.collision === Collision.all) {
-              entity.collision.up = true
-            } else if (j > entity.y && (tile.collision === Collision.all || (!entity.movement.down && tile.collision === Collision.top))) {
-              entity.collision.down = true
-            }
-          }
-        }
-        if (entity.movement.use && (tile?.activator ?? false)) {
-          tile?.activate()
-        }
+  checkGridBounds(entity, dx, dy)
+  moveEntity(entity, dx, dy)
+  borderControl(entity)
+}
+
+function checkGridBounds(entity: Entity, dx: number, dy: number) {
+  if (entity.collision.enabled === false) return
+  for (let x = Math.floor(dx); x < Math.ceil(dx + entity.width); x++) {
+    for (let y = Math.floor(dy); y < Math.ceil(dy + entity.height); y++) {
+      const tile = $world.foreground[y]?.[x]
+      if (tile === undefined) continue
+      checkGrid(entity, { x, y, collision: tile.collision })
+
+      // todo split up + bigger interaction box
+      if (entity.movement.use && tile.activator) {
+        tile.activate()
       }
+    }
+  }
+}
+
+/***
+ * Checks for horizontal & vertical collision between a tile and an entity
+ */
+function checkGrid(entity: Entity, tile: { x: number; y: number; collision: Collision }): void {
+  if (tile.collision === Collision.none) return
+
+  const inXBounds = tile.x >= Math.floor(entity.x) && tile.x < Math.ceil(entity.x + entity.width)
+  const inYBounds = tile.y >= Math.floor(entity.y) && tile.y < Math.ceil(entity.y + entity.height)
+
+  if (!inXBounds && inYBounds) {
+    if (tile.x < entity.x) {
+      entity.collision.left ||= tile.collision === Collision.all
+    } else if (tile.x >= entity.x + entity.width) {
+      entity.collision.right ||= tile.collision === Collision.all
+    }
+  }
+  if (inXBounds && !inYBounds) {
+    if (tile.y < entity.y) {
+      entity.collision.up ||= tile.collision === Collision.all
+    } else if (tile.y > entity.y) {
+      let fallThrough = entity.movement.down && tile.collision === Collision.top
+      entity.collision.down ||= tile.collision === Collision.all || !fallThrough
     }
   }
 }

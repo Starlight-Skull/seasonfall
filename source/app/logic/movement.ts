@@ -1,6 +1,6 @@
 import Entity from '../classes/Entity'
 import { $weather } from '../globals/weather'
-import collision from './collision'
+import checkCollisionsAndMove from './collision'
 
 function tick (entity: Entity): void {
   //* healing *//
@@ -98,6 +98,6 @@ export default function entityMovement (entity: Entity): void {
       loop = false
     }
   }
-  collision(entity, dx, dy)
+  checkCollisionsAndMove(entity, dx, dy)
   entity.nextFrame(loop)
 }
