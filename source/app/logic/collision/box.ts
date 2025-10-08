@@ -1,4 +1,4 @@
-import Entity from '../classes/Entity'
+import Entity from '../../classes/Entity'
 
 export function boxToBoxCollision(
   x: number, y: number, w: number, h: number,
