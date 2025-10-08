@@ -51,12 +51,6 @@ function getCollisions(entity: Entity, dx: number, dy: number): void {
         }
       }
     }
-  } else {
-    //* no collision *//
-    entity.stats.jumpTime = 0
-    if (entity.movement.down) {
-      dy += entity.stats.speed
-    }
   }
 }
 

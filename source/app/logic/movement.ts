@@ -86,6 +86,12 @@ export default function entityMovement (entity: Entity): void {
       //* fall *//
       dy += GRAVITY
       if (entity.movement.down) dy += GRAVITY
+    } else {
+      //* no collision *//
+      entity.stats.jumpTime = 0
+      if (entity.movement.down) {
+        dy += entity.stats.speed
+      }
     }
     if (entity.movement.attack) {
       entity.changeAnimation(entity.animations.attack)
