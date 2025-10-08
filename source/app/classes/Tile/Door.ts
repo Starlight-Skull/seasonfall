@@ -1,11 +1,10 @@
 import SpriteSet from '../SpiteSet'
 import Tile, { Collision } from '../Tile'
 
-
 export default class Door extends Tile {
   isClosed: boolean
 
-  constructor (isClosed = true, options?: { mirrored?: boolean }) {
+  constructor(isClosed = true, options?: { mirrored?: boolean }) {
     const door = 'door'
     super(door, { height: 2, ...options })
     this.animations = {

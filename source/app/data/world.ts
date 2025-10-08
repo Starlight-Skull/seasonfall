@@ -1,14 +1,15 @@
-import Entity from "../classes/Entity"
-import Hero from "../classes/Entity/Hero"
-import Skeleton from "../classes/Entity/Skeleton"
-import Tile, { Collision } from "../classes/Tile"
-import Door from "../classes/Tile/Door"
-import { $world, $player } from "../globals/world"
-import { $game, PIXELS_PER_TILE } from '../globals/game'
-import { isNotEmpty } from "../helpers"
-
 import tower from '../../worlds/tower.world.json'
 import test from '../../worlds/test.world.json'
+
+import Tile, { Collision } from '../classes/Tile'
+import Entity from '../classes/Entity'
+import Hero from '../classes/Entity/Hero'
+import Skeleton from '../classes/Entity/Skeleton'
+import Painting from '../classes/Tile/Painting'
+import Door from '../classes/Tile/Door'
+import { $world, $player } from '../globals/world'
+import { $game } from '../globals/game'
+import { isNotEmpty } from '../helpers'
 
 export const $worlds: Record<string, WorldFile> = {
   tower, test
@@ -38,7 +39,7 @@ interface WorldFile {
  * Parses data in the world file into Tile objects.
  * @param json - World data file.
  */
-export default function  loadWorld(json: WorldFile, name: string): void {
+export default function loadWorld(json: WorldFile, name: string): void {
   if ($world.name === name) return
   $world.name = name
   $world.properties = json.properties
@@ -67,9 +68,10 @@ export default function  loadWorld(json: WorldFile, name: string): void {
       }
     }
   }
-  json.entities.forEach(entity => {
+  json.entities.forEach((entity) => {
     $world.entities.push(toEntity(entity.class, entity.x, entity.y))
   })
+  // todo link tiles
   // $world.links.forEach(tile => {
   //   // todo make into new class
   //   const split = tile.name.split(':')
@@ -94,9 +96,7 @@ function toTile(tile: string, background = false): Tile | undefined {
     case 'door':
       return new Door(true, options)
     case 'painting':
-      const painting = new Tile(name, { collision: Collision.none, height: 2 })
-      painting.animation.imageH = 2 * PIXELS_PER_TILE
-      return painting
+      return new Painting(options)
     case 'link':
       // const link = new Tile(tile)
       // $world.links.push(link)
@@ -128,7 +128,7 @@ function toEntity(entity: string, x: number, y: number): Entity {
  */
 export function saveWorld(): void {
   const world: WorldFile = {
-    $schema: "./_schema.json",
+    $schema: './_schema.json',
     properties: $world.properties,
     entities: [],
     foreground: [],
@@ -138,16 +138,17 @@ export function saveWorld(): void {
     world.foreground[i] = []
     for (let j = 0; j < row.length; j++) {
       const tile = row[j]
-      world.foreground[i][j] = (tile !== undefined ? tile.toString() : '')
+      world.foreground[i][j] = tile !== undefined ? tile.toString() : ''
     }
   })
   $world.background.forEach((row, i) => {
     world.background[i] = []
     for (let j = 0; j < row.length; j++) {
       const tile = row[j]
-      world.background[i][j] = (tile !== undefined ? tile.toString(true) : '')
+      world.background[i][j] = tile !== undefined ? tile.toString(true) : ''
     }
   })
+  // todo entity root points
   // world.entities = $world.entities.map(entity => ({ class: entity.name, x: entity.x, y: entity.y }))
   download(world, $world.name)
 }
