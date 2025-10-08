@@ -4,7 +4,7 @@ import Skeleton from "../classes/Entity/Skeleton"
 import Tile, { Collision } from "../classes/Tile"
 import Door from "../classes/Tile/Door"
 import { $world, $player } from "../globals/world"
-import { $game } from '../globals/game'
+import { $game, PIXELS_PER_TILE } from '../globals/game'
 import { isNotEmpty } from "../helpers"
 
 import tower from '../../worlds/tower.world.json'
@@ -23,6 +23,7 @@ interface WorldFile {
     borderY: number
     borderW: number
     borderH: number
+    solidBorder: boolean
   }
   entities: Array<{
     class: string
@@ -94,7 +95,7 @@ function toTile(tile: string, background = false): Tile | undefined {
       return new Door(true, options)
     case 'painting':
       const painting = new Tile(name, { collision: Collision.none, height: 2 })
-      painting.animation.height = 32
+      painting.animation.imageH = 2 * PIXELS_PER_TILE
       return painting
     case 'link':
       // const link = new Tile(tile)
