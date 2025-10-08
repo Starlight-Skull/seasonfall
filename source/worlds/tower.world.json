@@ -6,7 +6,8 @@
     "borderX": 13,
     "borderY": -10,
     "borderW": 66,
-    "borderH": 39
+    "borderH": 39,
+    "solidBorder": true
   },
   "entities": [
     { "class": "skeleton", "x": 34, "y": 16 },

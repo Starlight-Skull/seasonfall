@@ -6,7 +6,8 @@
     "borderX": -10,
     "borderY": -10,
     "borderW": 40,
-    "borderH": 30
+    "borderH": 30,
+    "solidBorder": false
   },
   "entities": [],
   "foreground": [
