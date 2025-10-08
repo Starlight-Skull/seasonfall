@@ -2,20 +2,9 @@ import Entity from '../classes/Entity'
 import { Collision } from '../classes/Tile'
 import { $world } from '../globals/world'
 
-// unused for now
-function hasCollision(entity: Entity, x: number, y: number, w: number, h: number): boolean {
-  return (
-    entity.x < x + w &&
-    entity.x + entity.width > x &&
-    entity.y < y + h &&
-    entity.y + entity.height > y &&
-    entity.collision.enabled
-  )
-}
-
 export default function collision(entity: Entity, dx: number, dy: number): void {
   getCollisions(entity, dx, dy)
-  handleCollisions(entity, dx, dy)
+  moveEntity(entity, dx, dy)
   borderControl(entity)
 }
 
@@ -54,7 +43,8 @@ function getCollisions(entity: Entity, dx: number, dy: number): void {
   }
 }
 
-function handleCollisions(entity: Entity, dx: number, dy: number): void {
+// todo - could be better
+function moveEntity(entity: Entity, dx: number, dy: number): void {
   if (!entity.collision.left && !entity.collision.right) {
     entity.x = dx
   } else {
