@@ -1,15 +1,26 @@
+import Rain from '../classes/Weather/Rain'
 import { $weather } from '../globals/weather'
+import { saveRestore, $render } from './common'
+import drawAnimatable from './objects/animatable'
 
-// todo reimplement weather
-  // if (weather.rain > 0 || weather.snow > 0) {
-  //   for (let i = 0; i < animTileList.length; i++) {
-  //     animTileList[i].activate()
-  //     animTileList[i].frame.mirrored = (weather.windDeg === 'East')
-  //     animTileList[i].animation.speed = weather.windSpeed / 10
-  //     animTileList[i].isSnow = (weather.snow > 0)
-  //     drawTile(animTileList[i])
-  //   }
-  // }
+/**
+ * Draws rain or snow in the background across the visible window.
+ * @param rain - Rain object
+ */
+export default function drawWeather(ctx: CanvasRenderingContext2D, rain: Rain): void {
+  if ($weather.rain <= 0 && $weather.snow <= 0) return
+  rain.setIsSnow($weather.snow > 0)
+  rain.mirrored = ($weather.windDeg === 'East')
+  rain.animation.speed = $weather.windSpeed / 10
+  saveRestore(ctx, () => {
+    for (let x = $render.minX; x < $render.maxX; x++) {
+      for (let y = $render.minY; y < $render.maxY; y++) {
+        drawAnimatable(ctx, y, x, rain)
+      }
+    }
+  })
+  rain.nextFrame(true)
+}
 
 /**
  * Constants for the color and shade of the sky.
@@ -27,7 +38,7 @@ const sky = Object.freeze({
  * Draws the background depending on the time
  * @returns Shade alpha value that should be used with drawOverlay()
  */
-export default function drawSky(ctx: CanvasRenderingContext2D): number {
+export function drawSky(ctx: CanvasRenderingContext2D): number {
   let timeSet
   switch (true) {
     case ($weather.time >= $weather.sunrise - 50 && $weather.time <= $weather.sunrise + 50):

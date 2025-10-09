@@ -2,7 +2,7 @@ import './Input.scss'
 import { useState } from 'react'
 
 interface Props {
-  label: string
+  label?: string
   value: number
   min?: number
   max?: number

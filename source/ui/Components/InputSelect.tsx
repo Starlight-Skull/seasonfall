@@ -2,11 +2,12 @@ import './Input.scss'
 import { useState } from 'react'
 
 interface Props {
-  label: string
+  label?: string
   value: string
   options: string[]
   onChange?: (value: string) => void
   disabled?: boolean
+  indexAsValue?: boolean
 }
 
 export default function InputSelect(props: Props) {
@@ -34,7 +35,7 @@ export function InputSelectStateLess(props: Props) {
         onChange={(e) => props.onChange?.(e.target.value)}
       >
         {props.options.map((option, index) => (
-          <option key={index} value={option}>
+          <option key={index} value={props.indexAsValue ? index : option}>
             {option}
           </option>
         ))}
