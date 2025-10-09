@@ -7,13 +7,13 @@ export default class Rain extends Animatable {
   constructor() {
     super('rain')
     this.animations = {
-      rain: new SpriteSet('rain', { frames: 16 }),
-      snow: new SpriteSet('snow', { frames: 16 })
+      rain: new SpriteSet('rain', { name: 'rain', frames: 16 }),
+      snow: new SpriteSet('snow', { name: 'snow', frames: 16 })
     }
     this.setAnimation()
   }
 
-  updateAnimation(isSnow: boolean) {
+  setIsSnow(isSnow: boolean) {
     if (this.isSnow === isSnow) return
     this.isSnow = isSnow
     this.setAnimation()

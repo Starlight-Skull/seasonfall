@@ -20,8 +20,8 @@ export default function drawAnimatable(
   let y = toCanvas(gridY)
   let w = toCanvas(sprite.width)
   let h = toCanvas(sprite.height)
-  let animW = sprite.animation.width * $settings.scale
-  let animH = sprite.animation.height * $settings.scale
+  let animW = sprite.animation.imageW * $settings.scale
+  let animH = sprite.animation.imageH * $settings.scale
   let animX = x
   let animY = y
   saveRestore(ctx, () => {
@@ -33,10 +33,10 @@ export default function drawAnimatable(
     ctx.drawImage(
       sprite.animation.image,
       sprite.animation.x +
-        sprite.animation.width * Math.floor(sprite.animationFrame),
+        sprite.animation.imageW * Math.floor(sprite.animationFrame),
       sprite.animation.y,
-      sprite.animation.width,
-      sprite.animation.height,
+      sprite.animation.imageW,
+      sprite.animation.imageH,
       animX,
       animY,
       animW,

@@ -9,7 +9,7 @@ import drawAnimatable from './objects/animatable'
  */
 export default function drawWeather(ctx: CanvasRenderingContext2D, rain: Rain): void {
   if ($weather.rain <= 0 && $weather.snow <= 0) return
-  rain.updateAnimation($weather.snow > 0)
+  rain.setIsSnow($weather.snow > 0)
   rain.mirrored = ($weather.windDeg === 'East')
   rain.animation.speed = $weather.windSpeed / 10
   saveRestore(ctx, () => {
