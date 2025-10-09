@@ -1,15 +1,18 @@
+import './Input.scss'
 import { useState } from 'react'
 
 interface Props {
   label: string
   value: boolean
   onChange?: (value: boolean) => void
+  disabled?: boolean
 }
 
 export default function InputBoolean(props: Props) {
   const [value, setValue] = useState(props.value)
   return (
     <InputBooleanStateLess
+      disabled={props.disabled}
       label={props.label}
       value={value}
       onChange={(val) => {
@@ -22,7 +25,7 @@ export default function InputBoolean(props: Props) {
 
 export function InputBooleanStateLess(props: Props) {
   return (
-    <label>
+    <label className={`Input ${props.disabled ? 'disabled' : ''}`}>
       {props.label}
       <input
         type="checkbox"

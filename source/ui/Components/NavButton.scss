@@ -9,8 +9,4 @@
   &:hover, &:focus {
     color: Vars.$col-text-hover;
   }
-
-  &:disabled {
-    color: Vars.$col-text-disabled;
-  }
 }

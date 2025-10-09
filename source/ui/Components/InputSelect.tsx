@@ -1,3 +1,4 @@
+import './Input.scss'
 import { useState } from 'react'
 
 interface Props {
@@ -5,12 +6,14 @@ interface Props {
   value: string
   options: string[]
   onChange?: (value: string) => void
+  disabled?: boolean
 }
 
 export default function InputSelect(props: Props) {
   const [value, setValue] = useState(props.value)
   return (
     <InputSelectStateLess
+      disabled={props.disabled}
       label={props.label}
       value={value}
       options={props.options}
@@ -24,7 +27,7 @@ export default function InputSelect(props: Props) {
 
 export function InputSelectStateLess(props: Props) {
   return (
-    <label>
+    <label className={`Input ${props.disabled ? 'disabled' : ''}`}>
       {props.label}
       <select
         value={props.value}
