@@ -5,23 +5,23 @@
 
 [![Seasonfall](./assets/Banner.png)](https://github.com/Starlight-Skull/seasonfall#readme)
 
-> [Play current stable version: v1.2.0](https://starlight-skull.github.io/seasonfall/)
-> 
+> [Play current *stable* version: v1.2.0](https://starlight-skull.github.io/seasonfall/)
+>
 > Development for native releases is on hold for the time being.
 
 ## Project Status
 
-Major rewrites to make code more accessible, reusable and efficient.
+Replacing spaghetti code with noodle code.
 
-v2.0.0 changes:
+v2.0.0 todo list:
 
-- [x] define world as a 2d grid
+- [x] new world data system
 - [x] rebuild ui using React
 - [x] implement world editor
-- [ ] controller support
-- [ ] mobile support
-- [ ] improved collision system
+- [x] mobile support
+- [x] improved collision system
 - [ ] improved weather system
+- [ ] improved combat system
 - [x] improved render system
 
 ## Local development
@@ -44,7 +44,10 @@ npm run start
 
 ### Build
 
+Webpack builds are bundled and target ES2016. Production builds are also minified.
+
 ```sh
 npm run build:dev
 npm run build:prod
+cd dist
 ```
