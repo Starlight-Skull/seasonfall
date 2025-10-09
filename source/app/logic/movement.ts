@@ -1,46 +1,15 @@
 import Entity from '../classes/Entity'
 import { $weather } from '../globals/weather'
 import checkCollisionsAndMove from './collision'
+import { runNpcAI } from './npc/enemyAI'
 
-function tick (entity: Entity): void {
-  //* healing *//
+function heal(entity: Entity) {
   if (entity.stats.hp < entity.stats.maxHP && entity.stats.mp > 0 && entity.stats.mp > entity.stats.maxMP / 3) {
     entity.stats.hp += 0.02
     entity.stats.mp -= 0.02
   } else if (entity.stats.mp < entity.stats.maxMP) {
     entity.stats.mp += Math.abs($weather.temp / 1000)
   }
-  //* AI pathing *//
-  // if (entity !== player) {
-  //   if (entity.cooldown > 0) {
-  //     entity.cooldown--
-  //   } else if (entity.cooldown < 20) {
-  //     if (Math.abs(entity.x - player.x) < window.innerWidth / 2) {
-  //       entity.movement.attack = Math.abs(entity.x - (player.x + player.width)) < 15 || Math.abs(player.x - (entity.x + entity.width)) < 15
-  //       if (player.y - entity.y > 0 && entity.stats.jumpTime !== entity.stats.jumpHeight) {
-  //         entity.movement.jump = true
-  //         entity.movement.down = false
-  //       } else if (entity.y - player.y > 0) {
-  //         entity.movement.jump = false
-  //         entity.movement.down = true
-  //       } else {
-  //         entity.movement.jump = false
-  //         entity.movement.down = false
-  //       }
-  //       if (entity.x - (player.x + player.width) > 5 && (entity.x - (player.x + player.width) < 600)) {
-  //         entity.movement.left = true
-  //         entity.movement.right = false
-  //       } else if (player.x - (entity.x + entity.width) > 5 && (player.x - (entity.x + entity.width) < 600)) {
-  //         entity.movement.left = false
-  //         entity.movement.right = true
-  //       }
-  //       entity.cooldown = 20
-  //     } else {
-  //       entity.movement.left = false
-  //       entity.movement.right = false
-  //     }
-  //   }
-  // }
 }
 
 export default function entityMovement (entity: Entity): void {
@@ -59,7 +28,8 @@ export default function entityMovement (entity: Entity): void {
     entity.movement.right = false
     if (entity.collision.enabled) dy += GRAVITY
   } else {
-    tick(entity)
+    heal(entity)
+    runNpcAI(entity)
     //* idle *//
     if (((entity.movement.left === entity.movement.right)) && !entity.movement.attack && entity.animation !== entity.animations.fall && !entity.movement.jump) {
       entity.changeAnimation(entity.animations.idle)
