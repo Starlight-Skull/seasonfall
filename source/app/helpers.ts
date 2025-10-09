@@ -61,3 +61,10 @@ export function formatUnixTime (timestamp: number, timezone: number): number {
   const date = new Date((timestamp + timezone) * 1000)
   return date.getUTCHours() * 100 + date.getUTCMinutes()
 }
+
+/**
+ * Makes the first letter of a string into Uppercase.
+ */
+export function upperCaseFirst(text: string): string {
+  return text[0].toUpperCase() + text.slice(1)
+}

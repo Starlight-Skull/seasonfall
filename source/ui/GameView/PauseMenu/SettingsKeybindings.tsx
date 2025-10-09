@@ -5,7 +5,9 @@ import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'
 import MenuContainer from '../../Components/MenuContainer'
 import MenuFooter from '../../Components/MenuFooter'
+import InputButton from '../../Components/InputButton'
 import { $settings } from '../../../app/globals/settings'
+import { upperCaseFirst } from '../../../app/helpers'
 
 interface Props {
   setMenu: (menu: Menus) => void
@@ -42,6 +44,7 @@ export default function SettingsKeybindings(props: Props) {
     return () => window.removeEventListener('mousedown', handleMouseEvent)
   })
 
+  // todo add reset
   return (
     <MenuContainer id="Settings">
       <MenuHeader
@@ -56,19 +59,24 @@ export default function SettingsKeybindings(props: Props) {
       <MenuContent>
         {listening && (
           <div className="Blackout">
-            Press any key or button for: (<b>{upperCaseFirst(action)}</b>)
+            Press any key or mouse button for: (<b>{upperCaseFirst(action)}</b>)
           </div>
         )}
-        {Object.entries($settings.keybindings).map((element, i) => {
-          return (
-            <label key={i}>
-              {upperCaseFirst(element[0])}
-              <button onClick={() => changeKey(element[0])}>
+        <div className='Keybindings'>
+          <InputButton disabled={true} label='Pause'>Escape</InputButton>
+          <InputButton disabled={true} label='Debug'>Backquote</InputButton>
+          {Object.entries($settings.keybindings).map((element, i) => {
+            return (
+              <InputButton
+                key={i}
+                label={upperCaseFirst(element[0])}
+                onClick={() => changeKey(element[0])}
+              >
                 {element[1].replace('Key', '').replace('Mouse', 'Mouse ')}
-              </button>
-            </label>
-          )
-        })}
+              </InputButton>
+            )
+          })}
+        </div>
       </MenuContent>
       <MenuFooter
         nav={{
@@ -77,8 +85,4 @@ export default function SettingsKeybindings(props: Props) {
       />
     </MenuContainer>
   )
-}
-
-function upperCaseFirst(text: string): string {
-  return text[0].toUpperCase() + text.slice(1)
 }
