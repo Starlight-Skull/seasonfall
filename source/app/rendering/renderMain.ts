@@ -7,6 +7,7 @@ import drawSky, { drawOverlay } from './weather'
 import { $render, translateContext } from './common'
 import { $player } from '../globals/world'
 import { FONTS } from '../globals/fonts'
+import { $settings } from '../globals/settings'
 
 /**
  * Game render loop.
@@ -21,7 +22,7 @@ export default function renderGame(ctx: CanvasRenderingContext2D): void {
   translateContext(ctx, () => drawWorld(ctx))
   drawOverlay(ctx, $render.shade)
   drawGameUI(ctx)
-  drawFpsCounter(ctx)
+  if ($settings.showFPS) drawFpsCounter(ctx)
 }
 
 /**
@@ -34,7 +35,7 @@ export function renderEditor(ctx: CanvasRenderingContext2D): void {
     drawEditorUIParts(ctx)
   })
   drawEditorUIText(ctx)
-  drawFpsCounter(ctx)
+  if ($settings.showFPS) drawFpsCounter(ctx)
 }
 
 function drawFpsCounter(ctx: CanvasRenderingContext2D) {
