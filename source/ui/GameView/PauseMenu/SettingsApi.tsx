@@ -9,9 +9,11 @@ import MenuHeader from '../../Components/MenuHeader'
 import MenuContent from '../../Components/MenuContent'
 import MenuContainer from '../../Components/MenuContainer'
 import MenuFooter from '../../Components/MenuFooter'
-import InputString from '../../Components/InputString'
-import InputNumber from '../../Components/InputNumber'
+import InputString, { InputStringStateLess } from '../../Components/InputString'
+import InputNumber, { InputNumberStateLess } from '../../Components/InputNumber'
 import InputBoolean from '../../Components/InputBoolean'
+import InputButton from '../../Components/InputButton'
+import { InputSelectStateLess } from '../../Components/InputSelect'
 
 interface Props {
   setMenu: (menu: Menus) => void
@@ -41,24 +43,10 @@ export default function SettingsApi(props: Props) {
       .catch(console.warn)
   }
 
-  function selectLocation(event: ChangeEvent) {
-    const target = event.target as HTMLSelectElement
-    if (target.children.length === 0) return
-    const option = target.children.item(
-      target.selectedIndex
-    ) as HTMLOptionElement
-    setLat(parseFloat(option.dataset?.lat ?? '0'))
-    setLon(parseFloat(option.dataset?.lon ?? '0'))
-  }
-
-  function handleLatChange(event: ChangeEvent) {
-    const target = event?.target as HTMLInputElement
-    setLat(parseFloat(target.value))
-  }
-
-  function handleLonChange(event: ChangeEvent) {
-    const target = event?.target as HTMLInputElement
-    setLon(parseFloat(target.value))
+  function selectLocation(value: string) {
+    const index = parseInt(value)
+    setLat(results[index].lat)
+    setLon(results[index].lon)
   }
 
   useEffect(() => {
@@ -94,48 +82,41 @@ export default function SettingsApi(props: Props) {
             onChange={(val) => ($settings.api.key = val)}
           />
           <InputNumber
-            label="Interval (s)"
+            label="Interval (ms)"
             value={$settings.api.interval}
             onChange={(val) => ($settings.api.interval = val)}
             step={60}
             min={180}
           />
-          <label>
-            Latitude
-            <input value={lat} onChange={handleLatChange} type="number" />
-          </label>
-          <label>
-            Longitude
-            <input value={lon} onChange={handleLonChange} type="number" />
-          </label>
+          <InputNumberStateLess
+            label='Latitude'
+            value={lat}
+            onChange={setLat}
+          />
+          <InputNumberStateLess
+            label='Longitude'
+            value={lon}
+            onChange={setLon}
+          />
         </div>
         <div className="row left">
-          <button onClick={() => navigate()}>Request Current Location</button>
+          <InputButton onClick={navigate}>Request Browser Location</InputButton>
         </div>
-        {$settings.api.key && <i className="row"></i>}
         {$settings.api.key && (
           <div className="row">
-            <button onClick={() => search()}>Search</button>
-            <InputString label="" value={query} onChange={setQuery} />
+            <InputButton onClick={search}>Search</InputButton>
+            <InputStringStateLess value={query} onChange={setQuery} />
           </div>
         )}
         {results.length > 0 && (
           <div className="row">
-            <select onChange={selectLocation}>
-              <option value="-1"></option>
-              {results.map((location, i) => {
-                return (
-                  <option
-                    key={i}
-                    value={i}
-                    data-lat={location.lat}
-                    data-lon={location.lon}
-                  >
-                    {location.name}, {location.state} ({location.country})
-                  </option>
-                )
-              })}
-            </select>
+            <InputSelectStateLess
+              label='Search Results'
+              value='-1'
+              onChange={selectLocation}
+              options={results.map((location) => `${location.name}, ${location.state} (${location.country})`)}
+              indexAsValue={true}
+            />
           </div>
         )}
       </MenuContent>
