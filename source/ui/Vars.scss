@@ -17,21 +17,22 @@ $font: Pixeloid, sans-serif;
 $font-mono: PixeloidMono, monospace;
 $font-bold: PixeloidBold, serif;
 
-$col-text: #d1d1d1;
-$col-text-disabled: #444;
+$col-text: rgb(209, 209, 209);
+$col-text-disabled: rgb(131, 131, 131);
 $col-text-active: rgb(74, 184, 248);
-$col-text-hover: #0ff;
+$col-text-hover: rgb(0, 255, 255);
 $col-text-debug: $col-text;
 $col-text-pause: $col-text;
 $col-text-editor: $col-text;
 
 $col-bg-debug: rgba(105, 105, 105, 0.9);
 $col-bg-pause: rgba(5, 5, 5, 0.5);
-$col-bg-pause-sub: #000;
-$col-bg-input: #575757;
+$col-bg-pause-sub: rgb(0, 0, 0);
+$col-bg-input: rgb(87, 87, 87);
 $col-bg-editor: rgba(5, 5, 5, 0.8);
+$col-bg-disabled: rgb(49, 49, 49);
 
-$col-border-debug: #000;
-$col-border-pause: #a5a4a4;
-$col-border-input: #a5a4a4;
-$col-border-editor: #a5a4a4;
+$col-border-debug: rgb(0, 0, 0);
+$col-border-pause: rgb(165, 164, 164);
+$col-border-input: $col-border-pause;
+$col-border-editor: $col-border-pause;

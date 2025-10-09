@@ -24,11 +24,6 @@ function checkGridBounds(entity: Entity, dx: number, dy: number) {
       const tile = $world.foreground[y]?.[x]
       if (tile === undefined) continue
       checkGridCollision(entity, { x, y, collision: tile.collision })
-
-      // todo split up + bigger interaction box
-      if (entity.movement.use && tile.activator) {
-        tile.activate()
-      }
     }
   }
 }

@@ -1,3 +1,4 @@
+import './Input.scss'
 import { useState } from 'react'
 
 interface Props {
@@ -7,12 +8,14 @@ interface Props {
   max?: number
   step?: number
   onChange?: (value: number) => void
+  disabled?: boolean
 }
 
 export default function InputNumber(props: Props) {
   const [value, setValue] = useState(props.value)
   return (
     <InputNumberStateLess
+      disabled={props.disabled}
       label={props.label}
       value={value}
       min={props.min}
@@ -28,7 +31,7 @@ export default function InputNumber(props: Props) {
 
 export function InputNumberStateLess(props: Props) {
   return (
-    <label>
+    <label className={`Input ${props.disabled ? 'disabled' : ''}`}>
       {props.label}
       <input
         onChange={(e) =>

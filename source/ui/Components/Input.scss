@@ -1,0 +1,23 @@
+@use '../Vars.scss';
+
+.Input {
+  cursor: pointer;
+
+  &.disabled {
+    cursor: unset;
+    color: Vars.$col-text-disabled;
+    font-style: italic;
+
+    button {
+      cursor: unset;
+      color: Vars.$col-text-disabled;
+      background-color: Vars.$col-bg-disabled;
+      font-style: italic;
+    }
+  }
+
+  input[type="checkbox"], select, button {
+    cursor: pointer;
+    accent-color: Vars.$col-text-active;
+  }
+}

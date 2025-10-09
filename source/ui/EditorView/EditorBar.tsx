@@ -5,7 +5,7 @@ import { saveWorld } from '../../app/data/world'
 import InputBoolean from '../Components/InputBoolean'
 import { $game } from '../../app/globals/game'
 import { $tiles } from '../../app/data/textures'
-import { $editor } from '../../app/globals/editor'
+import { $editor, EditorMode } from '../../app/globals/editor'
 
 interface Props {
   exit: () => void
@@ -20,9 +20,15 @@ export function EditorBar(props: Props) {
       <button onClick={props.exit}>Exit</button>
       <button onClick={() => saveWorld()}>Download</button>
       <InputSelect
+        label='Mode'
+        options={Object.values(EditorMode)}
+        onChange={(val) => ($editor.mode = val as EditorMode)}
+        value={$editor.mode}
+      />
+      <InputSelect
         label="World"
         options={worlds}
-        onChange={(val) => loadWorld($worlds[val], val)}
+        onChange={(val) => loadWorld(val)}
         value={worlds[0]}
       />
       <InputBoolean

@@ -28,6 +28,10 @@ button {
   &:hover, &:focus {
     background-color: Vars.$col-border-input;
   }
+
+  &:disabled {
+    color: Vars.$col-text-disabled;
+  }
 }
 
 noscript {
