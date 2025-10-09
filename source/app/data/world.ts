@@ -37,10 +37,11 @@ interface WorldFile {
 
 /**
  * Parses data in the world file into Tile objects.
- * @param json - World data file.
+ * @param name - World name. Loaded from $worlds.
  */
-export default function loadWorld(json: WorldFile, name: string): void {
+export default function loadWorld(name: string): void {
   if ($world.name === name) return
+  const json = $worlds[name]
   $world.name = name
   $world.properties = json.properties
   $game.focusX = $world.properties.rootX

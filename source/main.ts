@@ -20,7 +20,7 @@ const exposedGlobals = {
 window.oncontextmenu = () => { return false }
 window.addEventListener('load', initUI)
 
-loadWorld($worlds['tower'], 'tower')
+loadWorld(Object.keys($worlds)[0])
 initData()
 
 //* temporary debug stuff *//

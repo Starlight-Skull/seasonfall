@@ -28,7 +28,7 @@ export function EditorBar(props: Props) {
       <InputSelect
         label="World"
         options={worlds}
-        onChange={(val) => loadWorld($worlds[val], val)}
+        onChange={(val) => loadWorld(val)}
         value={worlds[0]}
       />
       <InputBoolean
