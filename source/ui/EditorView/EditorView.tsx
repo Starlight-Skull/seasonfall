@@ -3,10 +3,9 @@ import { useEffect, useState } from 'react'
 import GameCanvas, { canvas } from '../GameView/GameCanvas'
 import setupEditor from '../../app/editorSetup'
 import { EditorBar } from './EditorBar'
-import { $editor } from '../../app/globals/editor'
+import { $editor, EditorMode } from '../../app/globals/editor'
 import { $render } from '../../app/rendering/common'
 import { $world } from '../../app/globals/world'
-import { $game } from '../../app/globals/game'
 import Tile from '../../app/classes/Tile'
 import EditorProperties from './EditorProperties'
 
@@ -20,33 +19,24 @@ export default function EditorView(props: Props) {
   useEffect(setupEditor)
 
   useEffect(() => {
-    canvas.addEventListener('mousedown', setWorldFocus)
+    canvas.addEventListener('mousedown', selectTile)
+    canvas.addEventListener('touchstart', selectTile)
     return () => {
-      canvas.removeEventListener('mousedown', setWorldFocus)
+      canvas.removeEventListener('mousedown', selectTile)
+      canvas.removeEventListener('touchstart', selectTile)
     }
   })
 
-  function setWorldFocus(event: MouseEvent) {
-    if (event.button === 0) {
-      $editor.selectedX = $render.mouseX
-      $editor.selectedY = $render.mouseY
-      let tile = $editor.foreground
-        ? $world.foreground[$render.mouseY][$render.mouseX]
-        : $world.background[$render.mouseY][$render.mouseX]
-      setSelected(tile ?? new Tile())
-
-    } else if (event.button === 1) {
-      let tile = $editor.fill === 'none' ? undefined : new Tile($editor.fill)
-      if ($editor.foreground) {
-        $world.foreground[$render.mouseY][$render.mouseX] = tile
-      } else {
-        $world.background[$render.mouseY][$render.mouseX] = tile
-      }
-
-    } else if (event.button === 2) {
-      $game.focusX = $render.mouseX
-      $game.focusY = $render.mouseY
-    }
+  function selectTile(event: MouseEvent | TouchEvent) {
+    // TODO a little buggy in touch mode
+    if ((event.type === 'mousedown') && (event as MouseEvent).button !== 0) return
+    if ($editor.mode !== EditorMode.edit) return
+    $editor.selectedX = $render.mouseX
+    $editor.selectedY = $render.mouseY
+    let tile = $editor.foreground
+      ? $world.foreground[$render.mouseY][$render.mouseX]
+      : $world.background[$render.mouseY][$render.mouseX]
+    setSelected(tile ?? new Tile())
   }
 
   return (

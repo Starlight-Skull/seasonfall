@@ -10,12 +10,13 @@ export default function setupGameLoop(): () => void {
   let handle: number
   window.addEventListener('mousedown', handleGameInput)
   window.addEventListener('mouseup', handleGameInput)
+
   window.addEventListener('keydown', handleGameInput)
   window.addEventListener('keyup', handleGameInput)
 
-  canvas.addEventListener('touchstart', handleTouch, false)
-  canvas.addEventListener('touchmove', handleTouchMove, false)
-  canvas.addEventListener('touchend', handleTouchEnd, false)
+  canvas.addEventListener('touchstart', handleTouch)
+  canvas.addEventListener('touchmove', handleTouchMove)
+  canvas.addEventListener('touchend', handleTouchEnd)
 
   handle = requestAnimationFrame(loop)
   function loop (dt: number): void {
@@ -32,6 +33,7 @@ export default function setupGameLoop(): () => void {
   return () => {
     window.removeEventListener('mousedown', handleGameInput)
     window.removeEventListener('mouseup', handleGameInput)
+
     window.removeEventListener('keydown', handleGameInput)
     window.removeEventListener('keyup', handleGameInput)
 
