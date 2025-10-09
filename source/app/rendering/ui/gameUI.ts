@@ -66,7 +66,7 @@ function drawDebug(ctx: CanvasRenderingContext2D): void {
     start = drawDebugBlock(ctx, [
       `WORLD: root[${$world.properties.rootX},${$world.properties.rootY}] border[${$world.properties.borderX},${$world.properties.borderY},${$world.properties.borderW},${$world.properties.borderH}]`,
       `RENDER: bounds[${$render.minX},${$render.minY},${$render.maxX},${$render.maxY}]`,
-      `SHADE: ${$render.shade}`,
+      `SHADE: ${$render.shade} MOUSE: [${$render.mouseX},${$render.mouseY}]`,
       `DEBUG: ${$game.debug}`
     ], start, { color: 'cyan' })
     const tracked = $player

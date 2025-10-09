@@ -38,13 +38,17 @@ export default function handleGameInput(event: MouseEvent | KeyboardEvent): void
       $player.movement.jump = down
       break
     case $settings.keybindings.use:
-      $player.movement.use = down
+      if (down) break
+      const tile = $world.foreground[$render.mouseY]?.[$render.mouseX]
+      if (tile && tile.activator) {
+        tile.activate()
+      }
       break
   }
 }
 
 /**
- * Tracks current mouse position for editor mode.
+ * Tracks current mouse position.
  */
 export function handleMouseMove(event: MouseEvent) {
   if ($game.paused) return

@@ -39,7 +39,7 @@ export const $settings: Settings = {
     down: 'KeyS',
     left: 'KeyA',
     right: 'KeyD',
-    use: 'KeyE'
+    use: 'Mouse2'
   }
 }
 
