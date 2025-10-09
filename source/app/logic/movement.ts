@@ -1,14 +1,13 @@
 import Entity from '../classes/Entity'
-import { $weather } from '../globals/weather'
 import checkCollisionsAndMove from './collision'
 import { runNpcAI } from './npc/enemyAI'
 
 function heal(entity: Entity) {
-  if (entity.stats.hp < entity.stats.maxHP && entity.stats.mp > 0 && entity.stats.mp > entity.stats.maxMP / 3) {
-    entity.stats.hp += 0.02
-    entity.stats.mp -= 0.02
-  } else if (entity.stats.mp < entity.stats.maxMP) {
-    entity.stats.mp += Math.abs($weather.temp / 1000)
+  if (entity.stats.hp < entity.stats.maxHP) {
+    entity.stats.hp += 0.01
+  }
+  if (entity.stats.mp < entity.stats.maxMP) {
+    entity.stats.mp += 0.01
   }
 }
 
