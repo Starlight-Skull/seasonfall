@@ -2,7 +2,7 @@ import './Input.scss'
 import { useState, HTMLInputTypeAttribute } from 'react'
 
 interface Props {
-  label: string
+  label?: string
   type?: HTMLInputTypeAttribute
   value: string
   onChange?: (value: string) => void

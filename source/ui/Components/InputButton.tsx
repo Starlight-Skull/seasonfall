@@ -1,7 +1,7 @@
 import './Input.scss'
 
 interface Props {
-  label: string
+  label?: string
   children?: any
   onClick?: () => void
   disabled?: boolean
