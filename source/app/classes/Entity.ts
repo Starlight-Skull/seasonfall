@@ -1,4 +1,5 @@
 import Animatable from './Animatable'
+import SpriteSet from './SpiteSet'
 
 interface Options {
   maxHP?: number
@@ -42,6 +43,14 @@ export default class Entity extends Animatable {
     left: boolean
     right: boolean
   }
+  animations: {
+    [key: string]: SpriteSet
+    idle: SpriteSet,
+    move: SpriteSet,
+    attack: SpriteSet,
+    jump: SpriteSet,
+    death: SpriteSet
+  }
 
   constructor(x: number, y: number, name?: string, options?: Options) {
     const {
@@ -59,6 +68,13 @@ export default class Entity extends Animatable {
     this.x = x
     this.y = y
     this.cooldown = -1
+    this.animations = {
+      idle: this.animation,
+      move: this.animation,
+      attack: this.animation,
+      jump: this.animation,
+      death: this.animation
+    }
     this.stats = {
       hp: maxHP,
       maxHP,
@@ -85,6 +101,15 @@ export default class Entity extends Animatable {
       left: false,
       right: false
     }
+  }
+
+  resetMovement(): void {
+    this.movement.left = false
+    this.movement.right = false
+    this.movement.jump = false
+    this.movement.down = false
+    this.movement.attack = false
+    this.movement.use = false
   }
 
   movementToString(): string {

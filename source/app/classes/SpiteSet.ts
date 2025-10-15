@@ -13,6 +13,7 @@ interface Options {
   hitboxH?: number
   offsetX?: number
   offsetY?: number
+  loop?: boolean
 }
 
 export default class SpriteSet {
@@ -28,6 +29,7 @@ export default class SpriteSet {
   hitboxH?: number
   offsetX: number
   offsetY: number
+  loop: boolean
 
   get image(): HTMLImageElement {
     return loadImage(this.imagePath)
@@ -45,7 +47,8 @@ export default class SpriteSet {
       hitboxW,
       hitboxH,
       offsetX = 0,
-      offsetY = 0
+      offsetY = 0,
+      loop = true
     } = options ?? {}
     this.x = x
     this.y = y
@@ -59,5 +62,6 @@ export default class SpriteSet {
     this.offsetX = offsetX
     this.offsetY = offsetY
     this.name = name
+    this.loop = loop
   }
 }

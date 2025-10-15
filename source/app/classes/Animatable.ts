@@ -20,7 +20,7 @@ export default class Animatable {
 
   constructor (name?: string, options?: Options) {
     const { width = 1, height = 1, mirrored = false } = options ?? {}
-    this.name = name ?? 'unknown'
+    this.name = name ?? 'Animatable'
     this.defaultWidth = width
     this.defaultHeight = height
     this.mirrored = mirrored
@@ -29,10 +29,11 @@ export default class Animatable {
     this.animations = {}
   }
 
-  nextFrame(loop: boolean) {
+  nextFrame() {
+    if (this.animation.frames <= 1) return
     if (this.animationFrame < this.animation.frames - 1) {
       this.animationFrame += this.animation.speed
-    } else if (loop) {
+    } else if (this.animation.loop) {
       this.animationFrame = 0
     }
   }
