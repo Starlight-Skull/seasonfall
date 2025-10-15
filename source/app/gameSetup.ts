@@ -2,7 +2,7 @@ import { $game } from './globals/game'
 import handleGameInput, { handleMouseMove } from './logic/input'
 import renderGame from './rendering/renderMain'
 import { canvas, ctx } from '../ui/GameView/GameCanvas'
-import entityMovement from './logic/movement'
+import runEntityController from './logic/entity/controller'
 import { $player, $world } from './globals/world'
 import { $render, toCanvas } from './rendering/common'
 
@@ -24,9 +24,9 @@ export default function setupGameLoop(): () => void {
     if (ctx !== undefined && !$game.paused) {
       renderGame(ctx)
       for (let entity of $world.entities) {
-        entityMovement(entity)
+        runEntityController(entity)
       }
-      entityMovement($player)
+      runEntityController($player, true)
     }
     handle = requestAnimationFrame(loop)
   }

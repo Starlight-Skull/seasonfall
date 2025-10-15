@@ -51,6 +51,7 @@ export default class Entity extends Animatable {
     jump: SpriteSet,
     death: SpriteSet
   }
+  get isAlive() { return this.stats.hp > 0 }
 
   constructor(x: number, y: number, name?: string, options?: Options) {
     const {
