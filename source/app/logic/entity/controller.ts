@@ -3,6 +3,7 @@ import { $playerStats } from '../../globals/playerStats'
 import { $player } from '../../globals/world'
 import { entityToEntityCollision } from '../collision/box'
 import runEntityAnimation from './animation'
+import { heal, knockback } from './effects'
 import runEntityMovement from './movement'
 import { runNpcAI } from './npcAI'
 
@@ -25,13 +26,7 @@ function runEntityHitDetection(entity: Entity, target: Entity, isPlayer: boolean
   if (entity.animation === entity.animations.attack && entity.movement.attack) {
     if (entity.animationFrame >= entity.animation.frames - 1) {
       if (entityToEntityCollision(entity, target)) {
-        if (entity.x < target.x) {
-          target.x += 1.5
-          target.y -= 0.3
-        } else {
-          target.x -= 1.5
-          target.y -= 0.3
-        }
+        knockback(entity, target)
         if (!target.isAlive) return
         if (isPlayer) {
           $playerStats.attacksHit++
@@ -41,22 +36,12 @@ function runEntityHitDetection(entity: Entity, target: Entity, isPlayer: boolean
 
         entity.movement.attack = false
         target.stats.hp -= target.stats.damage
+
         if (!target.isAlive) {
           entity.stats.xp += target.stats.xp
           if (isPlayer) $playerStats.kills++
         }
       }
     }
-  }
-}
-
-// todo expand to tick function
-// needs dt to work
-function heal(entity: Entity) {
-  if (entity.stats.hp < entity.stats.maxHP) {
-    entity.stats.hp += 0.01
-  }
-  if (entity.stats.mp < entity.stats.maxMP) {
-    entity.stats.mp += 0.01
   }
 }
