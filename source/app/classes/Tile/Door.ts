@@ -8,7 +8,7 @@ export default class Door extends Tile {
     const door = 'door'
     super(door, { height: 2, ...options })
     this.animations = {
-      closed: new SpriteSet(door, { name: 'closed', w: 16, h: 32, hitboxW: 0.25 }),
+      closed: new SpriteSet(door, { name: 'closed', w: 16, h: 32 }),
       open: new SpriteSet(door, { name: 'open', x: 16, w: 16, h: 32 })
     }
     this.activator = true

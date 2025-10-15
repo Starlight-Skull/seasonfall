@@ -31,4 +31,5 @@ $weather.time = formatUnixTime(Date.now() / 1000, 2 * 60 * 60)
 // $weather.windDeg = Math.round(Math.random()) > 0 ? 'East' : 'West'
 // $weather.windSpeed = Math.random() * 10
 // $game.showLiveDebug = true
+// $game.showBoxes = true
 // $game.bootView = 1
