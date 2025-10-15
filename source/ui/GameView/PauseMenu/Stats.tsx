@@ -19,7 +19,6 @@ export default function Stats(props: Props) {
         <ul>
           <li>Time Taken: {$playerStats.timeTaken}</li>
           <li>Kills: {$playerStats.kills}</li>
-          <li>Attacks: {$playerStats.attacks}</li>
           <li>Attacks Hit: {$playerStats.attacksHit}</li>
           <li>Damage Taken: {$playerStats.damageTaken}</li>
           <li>Damage Dealt: {$playerStats.damageDealt}</li>

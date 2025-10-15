@@ -12,7 +12,7 @@ export default class Hero extends Entity {
 
     this.animations.idle = new SpriteSet(hero, { name: 'idle', y: 32, w: 16, h: 32 })
     this.animations.move = new SpriteSet(hero, { name: 'move', y: 32, w: 16, h: 32, frames: 6, speed: 0.3 })
-    this.animations.attack = new SpriteSet(hero, { name: 'attack', w: 19, h: 32, frames: 4, speed: 0.3, hitboxW: 1.25, loop: false })
+    this.animations.attack = new SpriteSet(hero, { name: 'attack', x: 19, w: 19, h: 32, frames: 3, speed: 0.3, hitboxW: 1.25, loop: false })
     this.animations.jump = new SpriteSet(hero, { name: 'jump', x: 80, y: 32, w: 16, h: 32 })
     this.animations.death = new SpriteSet('skeleton', { name: 'death', y: 32, w: 16, h: 32 })
 
