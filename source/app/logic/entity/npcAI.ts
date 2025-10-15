@@ -3,7 +3,6 @@ import { $game } from '../../globals/game'
 import { $player } from '../../globals/world'
 
 export function runNpcAI(entity: Entity): void {
-  if (entity === $player) return
   if (entity.cooldown > 0) {
     entity.cooldown--
     return
@@ -22,11 +21,7 @@ function followAndAttack(
   const distY = npc.y - target.y
 
   if (Math.abs(distX) > followRange || Math.abs(distY) > followRange) {
-    npc.movement.left = false
-    npc.movement.right = false
-    npc.movement.jump = false
-    npc.movement.down = false
-    npc.movement.attack = false
+    npc.resetMovement()
   } else {
     npc.movement.left = distX > attackRange
     npc.movement.right = distX < -attackRange
