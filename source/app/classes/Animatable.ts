@@ -45,7 +45,7 @@ export default class Animatable {
     }
   }
 
-  animToString(): string {
+  animationToString(): string {
     return `${this.name}::${this.animation.name} - [${Math.round(this.animationFrame * 100) / 100 + 1}/${this.animation.frames}]`
   }
 }

@@ -20,7 +20,7 @@ function followAndAttack(
   const distX = npc.x - target.x
   const distY = npc.y - target.y
 
-  if (Math.abs(distX) > followRange || Math.abs(distY) > followRange) {
+  if (Math.abs(distX) > followRange || Math.abs(distY) > followRange || !target.isAlive) {
     npc.resetMovement()
   } else {
     npc.movement.left = distX > attackRange
