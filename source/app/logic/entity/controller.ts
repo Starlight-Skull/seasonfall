@@ -8,8 +8,7 @@ import runEntityMovement from './movement'
 import { runNpcAI } from './npcAI'
 
 export default function runEntityController(entity: Entity, isPlayer = false) {
-  if (entity.stats.hp <= 0) {
-  } else {
+  if (entity.stats.hp > 0) {
     heal(entity)
     if (isPlayer === false) runNpcAI(entity)
   }

@@ -6,7 +6,7 @@ export default class Hero extends Entity {
 
   constructor(userName = 'Player', x = 0, y = 0) {
     const hero = 'hero'
-    super(x, y, hero, { maxHP: 100, maxMP: 50, speed: 0.1, damage: 15, height: 1.95, width: 0.75 })
+    super(x, y, hero, { maxHP: 100, speed: 0.1, damage: 15, height: 1.95, width: 0.75 })
 
     this.userName = userName
 
