@@ -1,5 +1,4 @@
 import Entity from '../../classes/Entity'
-import { $game } from '../../globals/game'
 import { $player } from '../../globals/world'
 
 export function runNpcAI(entity: Entity): void {
@@ -7,8 +6,9 @@ export function runNpcAI(entity: Entity): void {
     entity.cooldown--
     return
   }
-  const maxFollowRange = window.innerWidth / $game.grid / 3
-  followAndAttack(entity, $player, maxFollowRange, 1)
+  const followRange = 8 // tiles
+  const attackRange = 1 // tiles
+  followAndAttack(entity, $player, followRange, attackRange)
 }
 
 function followAndAttack(
@@ -19,15 +19,15 @@ function followAndAttack(
 ) {
   const distX = npc.x - target.x
   const distY = npc.y - target.y
+  const isInFollowRange = Math.abs(distX) <= followRange && Math.abs(distY) <= followRange
+  const isInAttackRange = Math.abs(distX) <= attackRange && Math.abs(distY) <= attackRange
 
-  if (Math.abs(distX) > followRange || Math.abs(distY) > followRange || !target.isAlive) {
-    npc.resetMovement()
-  } else {
+  if (target.isAlive && isInFollowRange) {
     npc.movement.left = distX > attackRange
     npc.movement.right = distX < -attackRange
     npc.movement.jump = distY > attackRange
     npc.movement.down = distY < -attackRange
-    npc.movement.attack = Math.abs(distX) <= attackRange && Math.abs(distY) <= attackRange
-    npc.cooldown = 20
-  }
+    npc.movement.attack = isInAttackRange
+    npc.cooldown = 20 // ms
+  } else npc.resetMovement()
 }
