@@ -8,7 +8,7 @@ export default class Skeleton extends Entity {
 
     this.animations.idle = new SpriteSet(skeleton, { name: 'idle', y: 32, w: 16, h: 32 })
     this.animations.move = new SpriteSet(skeleton, { name: 'move', y: 32, w: 16, h: 32, frames: 4, speed: 0.4 })
-    this.animations.attack = new SpriteSet(skeleton, { name: 'attack', w: 16, h: 32, frames: 2, speed: 0.1, hitboxW: 1.3, loop: false })
+    this.animations.attack = new SpriteSet(skeleton, { name: 'attack', w: 16, h: 32, frames: 2, speed: 0.1, loop: false })
     this.animations.jump = new SpriteSet(skeleton, { name: 'jump', x: 16, y: 32, w: 16, h: 32 })
     this.animations.death = new SpriteSet(skeleton, { name: 'death', x: 32, w: 16, h: 32, frames: 2, speed: 0.1, loop: false })
 
