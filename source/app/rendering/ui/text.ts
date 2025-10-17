@@ -1,10 +1,11 @@
-import { getFont, FONT_SIZE } from '../../globals/fonts'
+import { FONT_SIZE, getFont } from '../../globals/fonts'
+import { $settings } from '../../globals/settings'
 
 interface Options {
   color?: string
   size?: number
   style?: string
-  center?: boolean
+  align?: CanvasTextAlign
 }
 
 /**
@@ -19,39 +20,42 @@ export default function drawText(
   text: string,
   x: number,
   y: number,
-  options?: Options
-): void {
-  const { color, center, size, style } = options ?? {}
-  const pad = 5
+  options: Options = {}
+) {
+  const {
+    color = 'white',
+    align = 'left',
+    size = FONT_SIZE,
+    style
+  } = options
+  ctx.strokeStyle = 'rgba(0,0,0,0.5)'
   ctx.textBaseline = 'top'
+  ctx.textAlign = align
   ctx.font = getFont({ size, style })
-  ctx.fillStyle = 'rgba(0,0,0,0.5)'
-  if (center ?? false) x -= ctx.measureText(text).width / 2
-  ctx.fillRect(
-    x,
-    y,
-    ctx.measureText(text).width + pad,
-    (size ?? FONT_SIZE) + pad
-  )
-  ctx.fillStyle = color ?? 'rgb(255,255,255)'
+  const pad = 0 * $settings.uiScale
+  const width = ctx.measureText(text).width
+  ctx.fillStyle = color
   ctx.fillText(text, x + pad / 2, y + pad / 2)
+  return { x: x + width + pad, y: y + size * $settings.uiScale + pad }
 }
 
 /**
  * Draws debug text in top right corner.
  * @param info - Key-value pairs to draw
- * @param start - Starting y value. Default 100.
+ * @param x - x value.
+ * @param y - y value.
  * @param options - Options to pass to drawText()
  * @returns Updated start value.
  */
 export function drawDebugBlock(
   ctx: CanvasRenderingContext2D,
   info: string[],
-  start: number = 100,
-  options?: Options
+  x: number,
+  y: number,
+  options: Options = {}
 ) {
-  info.forEach((value, index) =>
-    drawText(ctx, value, 5, start + index * 30, options)
+  info.forEach((value) =>
+    y = drawText(ctx, value, x, y, options).y
   )
-  return start + info.length * 30 + 10
+  return y + 2 * $settings.uiScale
 }

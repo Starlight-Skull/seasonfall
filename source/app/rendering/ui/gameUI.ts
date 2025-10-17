@@ -2,7 +2,7 @@ import { $world, $player } from '../../globals/world'
 import { $playerStats } from '../../globals/playerStats'
 import { $game } from '../../globals/game'
 import drawStats from './entityStats'
-import { drawDebugBlock } from './text'
+import drawText, { drawDebugBlock } from './text'
 import { toCanvas, $render, translateContext } from '../common'
 import { $settings } from '../../globals/settings'
 import { drawUIBar } from './bar'
@@ -27,12 +27,19 @@ export default function drawGameUI(ctx: CanvasRenderingContext2D): void {
       )
     }
   })
-  let x = 4 * $settings.uiScale
-  let y = 4 * $settings.uiScale
-  y += drawUIBar(ctx, x, y, $player.stats.hp, $player.stats.maxHP, 4, { color: 'red' })
-  y += drawUIBar(ctx, x, y, $player.stats.mp, $player.stats.maxMP, 2, { color: 'blue', attach: true })
+  let x = 10 * $settings.uiScale
+  let y = 5 * $settings.uiScale
+  let x2 = x + $settings.uiScale
+  y = drawUIBar(ctx, x2, y, $player.stats.xp, 10, 1, { color: 'lime', scale: 5 })
+  drawText(ctx, 'XP', x, y - 2 * $settings.uiScale, { color: 'lime', align: 'right', size: 3 })
+  y = drawUIBar(ctx, x2, y, $player.stats.hp, $player.stats.maxHP, 4, { color: 'red' })
+  drawText(ctx, 'HP', x, y - 4 * $settings.uiScale, { color: 'red', align: 'right', size: 3 })
+  if ($player.stats.maxMP > 0) {
+    y = drawUIBar(ctx, x2, y, $player.stats.mp, $player.stats.maxMP, 4, { color: 'cyan' })
+    drawText(ctx, 'MP', x, y - 4 * $settings.uiScale, { color: 'cyan', align: 'right', size: 3 })
+  }
   y += 10 * $settings.uiScale
-  y = drawDebug(ctx, x, y)
+  y = drawDebug(ctx, 4 * $settings.uiScale, y)
 }
 
 /**

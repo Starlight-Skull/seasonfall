@@ -64,5 +64,5 @@ export default function drawTile(ctx: CanvasRenderingContext2D, gridY: number, g
   if ($game.showCoords) {
     drawText(ctx, `${gridX},${gridY}`, toCanvas(gridX), toCanvas(gridY), { color: 'rgb(0,200,0)' })
   }
-  if (tile.animation.frames > 1) tile.nextFrame(true)
+  if (tile.animation.frames > 1) tile.nextFrame()
 }

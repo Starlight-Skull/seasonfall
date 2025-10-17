@@ -42,8 +42,8 @@ export function renderEditor(ctx: CanvasRenderingContext2D): void {
 function drawFpsCounter(ctx: CanvasRenderingContext2D) {
   $game.frames++
   drawText(ctx, `${$game.fps}`, 0, 0, {
-    color: 'rgb(0,255,0)',
-    size: 15,
+    color: 'white',
+    size: 2,
     style: FONTS.PixeloidMono
   })
 }

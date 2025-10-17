@@ -40,6 +40,6 @@ export default function drawEntity(ctx: CanvasRenderingContext2D, entity: Entity
     }
   })
   if ($game.showCoords) {
-    drawText(ctx, `${(entity.x.toFixed(1))},${entity.y.toFixed(1)}`, toCanvas(entity.x), toCanvas(entity.y), { size: 15, color: 'rgb(250,0,250)' })
+    drawText(ctx, `${entity.x.toFixed(1)},${entity.y.toFixed(1)}`, toCanvas(entity.x), toCanvas(entity.y), { size: 3, color: 'rgb(250,0,250)' })
   }
 }

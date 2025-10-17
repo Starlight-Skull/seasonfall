@@ -16,7 +16,7 @@ export function drawUIBar(
   height = 4,
   options: Options = {}
 ) {
-  if (max <= 0) return 0
+  if (max <= 0) return scaledY
   const { color = 'white', center = false, attach = false, scale = 1 } = options
   const pad = 1 * $settings.uiScale
 
@@ -35,6 +35,5 @@ export function drawUIBar(
     ctx.fillStyle = color
     ctx.fillRect(x2, y2, w2, h2)
   }
-
-  return h
+  return y + h
 }

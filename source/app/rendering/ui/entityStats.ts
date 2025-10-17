@@ -15,43 +15,23 @@ export default function drawStats(
   entity: Entity
 ): void {
   let x = toCanvas(entity.x + entity.width / 2)
-  let y = toCanvas(entity.y)
+  let y = toCanvas(entity.y + entity.height)
+  const scale = 0.3
+
   if (entity instanceof Hero) {
-    //* name *//
-    drawText(ctx, entity.userName, x, y - 65, {
-      color: 'white',
-      center: true
-    })
-    //* xp *//
-    if (entity.stats.xp !== 0) {
-      drawText(ctx, `${entity.stats.xp}`, x, y - 95, {
-        color: 'green',
-        center: true
-      })
-    }
-  } else {
-    y -= 60
-    if (entity.stats.hp > 0) {
-      y += drawUIBar(ctx, x, y, entity.stats.hp, entity.stats.maxHP, 2, {
-        scale: 0.3,
-        color: 'red',
-        center: true
-      })
-    }
-    if (entity.stats.mp > 0) {
-      y += drawUIBar(ctx, x, y, entity.stats.mp, entity.stats.maxMP, 2, {
-        scale: 0.3,
-        color: 'blue',
-        center: true,
-        attach: true
-      })
-    }
-    //* debug *//
-    if ($game.showLiveDebug) {
-      drawText(ctx, entity.movementToString(), x, y - 95, {
-        color: 'white',
-        center: true
-      })
-    }
+    // y = drawText(ctx, entity.userName, x, y, { color: 'white', align: 'center' }).y
+    return
+  }
+
+  if (entity.stats.hp > 0) {
+    y = drawUIBar(ctx, x, y, entity.stats.hp, entity.stats.maxHP, 2, { scale, color: 'red', center: true })
+  }
+
+  if (entity.stats.mp > 0) {
+    y = drawUIBar(ctx, x, y, entity.stats.mp, entity.stats.maxMP, 2, { scale, color: 'blue', center: true, attach: true })
+  }
+
+  if ($game.showLiveDebug) {
+    y = drawText(ctx, entity.movementToString(), x, y, { color: 'white', align: 'center' }).y
   }
 }

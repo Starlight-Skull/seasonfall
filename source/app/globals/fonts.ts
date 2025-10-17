@@ -1,3 +1,5 @@
+import { $settings } from "./settings";
+
 /**
  * Enum for fonts. Names are defined in css.
  * @readonly
@@ -9,9 +11,9 @@ export const FONTS = Object.freeze({
   PixeloidBold: 'PixeloidBold, serif'
 })
 
-export const FONT_SIZE = 25
+export const FONT_SIZE = 5
 
 export function getFont(options?: { size?: number; style?: string }) {
   const { size = FONT_SIZE, style = FONTS.Pixeloid } = options ?? {}
-  return `${size}px ${style}`
+  return `${size * $settings.uiScale}px ${style}`
 }
