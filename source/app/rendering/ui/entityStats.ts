@@ -2,6 +2,7 @@ import type Entity from '../../classes/Entity'
 import Hero from '../../classes/Entity/Hero'
 import { $game } from '../../globals/game'
 import { toCanvas } from '../common'
+import { drawUIBar } from './bar'
 import drawText from './text'
 
 /**
@@ -9,34 +10,48 @@ import drawText from './text'
  * Use in translated context.
  * @param entity - Entity to use.
  */
-export default function drawStats(ctx: CanvasRenderingContext2D, entity: Entity): void {
+export default function drawStats(
+  ctx: CanvasRenderingContext2D,
+  entity: Entity
+): void {
   let x = toCanvas(entity.x + entity.width / 2)
   let y = toCanvas(entity.y)
   if (entity instanceof Hero) {
     //* name *//
-    drawText(ctx, entity.userName, x, y - 65, { color: 'rgb(255,255,255)', center: true })
+    drawText(ctx, entity.userName, x, y - 65, {
+      color: 'white',
+      center: true
+    })
     //* xp *//
     if (entity.stats.xp !== 0) {
-      drawText(ctx, `${entity.stats.xp}`, x, y - 95, { color: 'rgb(0,255,0)', center: true })
+      drawText(ctx, `${entity.stats.xp}`, x, y - 95, {
+        color: 'green',
+        center: true
+      })
     }
   } else {
-    //* hp *//
+    y -= 60
     if (entity.stats.hp > 0) {
-      ctx.fillStyle = 'rgba(0,0,0,0.5)'
-      ctx.fillRect(x - entity.stats.maxHP * 1.5 / 2 - 5, y - 60, entity.stats.maxHP * 1.5 + 10, 20)
-      ctx.fillStyle = 'rgba(255,0,0,0.7)'
-      ctx.fillRect(x - entity.stats.hp * 1.5 / 2, y - 55, entity.stats.hp * 1.5, 10)
+      y += drawUIBar(ctx, x, y, entity.stats.hp, entity.stats.maxHP, 2, {
+        scale: 0.3,
+        color: 'red',
+        center: true
+      })
     }
-    //* mp *//
     if (entity.stats.mp > 0) {
-      ctx.fillStyle = 'rgba(0,0,0,0.5)'
-      ctx.fillRect(x - entity.stats.maxMP * 1.5 / 2 - 5, y - 40, entity.stats.maxMP * 1.5 + 10, 15)
-      ctx.fillStyle = 'rgba(0,0,255,0.7)'
-      ctx.fillRect(x - entity.stats.mp * 1.5 / 2, y - 40, entity.stats.mp * 1.5, 10)
+      y += drawUIBar(ctx, x, y, entity.stats.mp, entity.stats.maxMP, 2, {
+        scale: 0.3,
+        color: 'blue',
+        center: true,
+        attach: true
+      })
     }
     //* debug *//
     if ($game.showLiveDebug) {
-      drawText(ctx, entity.movementToString(), x, y - 95, { color: 'rgb(255,255,255)', center: true })
+      drawText(ctx, entity.movementToString(), x, y - 95, {
+        color: 'white',
+        center: true
+      })
     }
   }
 }

@@ -36,6 +36,12 @@ export default function SettingsGeneral(props: Props) {
           onChange={(val) => ($settings.scale = val)}
           min={1}
         />
+        <InputNumber
+          label="UI Scale Factor"
+          value={$settings.uiScale}
+          onChange={(val) => ($settings.uiScale = val)}
+          min={1}
+        />
       </MenuContent>
       <MenuFooter
         nav={{

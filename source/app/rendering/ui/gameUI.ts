@@ -4,6 +4,8 @@ import { $game } from '../../globals/game'
 import drawStats from './entityStats'
 import { drawDebugBlock } from './text'
 import { toCanvas, $render, translateContext } from '../common'
+import { $settings } from '../../globals/settings'
+import { drawUIBar } from './bar'
 
 /**
  * Draws UI overlay and floating entity stats.
@@ -25,64 +27,42 @@ export default function drawGameUI(ctx: CanvasRenderingContext2D): void {
       )
     }
   })
-  drawPlayerBars(ctx)
-  drawDebug(ctx)
-}
-
-/**
- * Draws player HP and MP bars relative to the screen.
- */
-function drawPlayerBars(ctx: CanvasRenderingContext2D): void {
-  //* player hp *//
-  ctx.fillStyle = 'rgba(0,0,0,0.5)'
-  ctx.fillRect(20, 20, $player.stats.maxHP * 5 + 10, 30)
-  const hpGradient = ctx.createLinearGradient(25, 25, $player.stats.maxHP * 5, 20)
-  hpGradient.addColorStop(0, 'red')
-  hpGradient.addColorStop(1, 'magenta')
-  ctx.fillStyle = hpGradient
-  if ($player.stats.hp > 0) {
-    ctx.fillRect(25, 25, $player.stats.hp * 5, 20)
-  }
-  //* player mp *//
-  if ($player.stats.mp !== 0) {
-    ctx.fillStyle = 'rgba(0,0,0,0.5)'
-    ctx.fillRect(20, 50, $player.stats.maxMP * 5 + 10, 15)
-    const mpGradient = ctx.createLinearGradient(25, 50, $player.stats.maxMP * 5, 10)
-    mpGradient.addColorStop(0, 'blue')
-    mpGradient.addColorStop(1, 'cyan')
-    ctx.fillStyle = mpGradient
-    if ($player.stats.mp > 0) {
-      ctx.fillRect(25, 50, $player.stats.mp * 5, 10)
-    }
-  }
+  let x = 4 * $settings.uiScale
+  let y = 4 * $settings.uiScale
+  y += drawUIBar(ctx, x, y, $player.stats.hp, $player.stats.maxHP, 4, { color: 'red' })
+  y += drawUIBar(ctx, x, y, $player.stats.mp, $player.stats.maxMP, 2, { color: 'blue', attach: true })
+  y += 10 * $settings.uiScale
+  y = drawDebug(ctx, x, y)
 }
 
 /**
  * Draws defined debug info.
  */
-function drawDebug(ctx: CanvasRenderingContext2D): void {
-  let start = 100
+function drawDebug(ctx: CanvasRenderingContext2D, x: number, y: number) {
   if ($game.showLiveDebug) {
-    start = drawDebugBlock(ctx, [
-      `WORLD: root[${$world.properties.rootX},${$world.properties.rootY}] border[${$world.properties.borderX},${$world.properties.borderY},${$world.properties.borderW},${$world.properties.borderH}]`,
-      `RENDER: bounds[${$render.minX},${$render.minY},${$render.maxX},${$render.maxY}]`,
+    y = drawDebugBlock(ctx, [
+      `ROOT: [${$world.properties.rootX},${$world.properties.rootY}] BORDER: [${$world.properties.borderX},${$world.properties.borderY},${$world.properties.borderW},${$world.properties.borderH}]`,
+      `SCREEN: [${$render.minX},${$render.minY},${$render.maxX},${$render.maxY}]`,
       `SHADE: ${$render.shade} MOUSE: [${$render.mouseX},${$render.mouseY}]`,
       `DEBUG: ${$game.debug}`
-    ], start, { color: 'cyan' })
+    ], x, y, { color: 'cyan' })
+
     const tracked = $player
-    start = drawDebugBlock(ctx, [
+    y = drawDebugBlock(ctx, [
       `ANIM: ${tracked.animationToString()}`,
       `POS: [${Math.round(tracked.x)}, ${Math.round(tracked.y)}] ${tracked.collision.enabled ? 'COL: ' : ''}[${tracked.collisionToString()}]`,
       `MOVE: [${tracked.movementToString()}]`
-    ], start, { color: 'cyan' })
+    ], x, y, { color: 'cyan' })
   }
+
   if ($game.showPlayerStats) {
-    start = drawDebugBlock(ctx, [
+    y = drawDebugBlock(ctx, [
       `Attacks Hit: ${$playerStats.attacksHit}`,
       `Damage Taken: ${$playerStats.damageTaken}`,
       `Damage Dealt: ${$playerStats.damageDealt}`,
       `Kills: ${$playerStats.kills}`,
       `Time Taken: ${$playerStats.timeTaken}`
-    ], start, { color: 'magenta' })
+    ], x, y, { color: 'magenta' })
   }
+  return y
 }

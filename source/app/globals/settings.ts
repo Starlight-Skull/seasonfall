@@ -1,6 +1,7 @@
 interface Settings {
   [key: string]: string | number | boolean | object
   scale: number
+  uiScale: number
   showFPS: boolean
   api: {
     enabled: boolean
@@ -25,6 +26,7 @@ interface Settings {
  */
 export const $settings: Settings = {
   scale: 5,
+  uiScale: 5,
   showFPS: false,
   api: {
     enabled: false,
